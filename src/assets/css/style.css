@@ -923,6 +923,13 @@ ul {
         color:var(--black);
     }
 
+    @media screen and (max-width:768px) {
+        .testimonials-title{
+            font-size: 32px;
+            line-height: 40px;
+        }
+    }
+
     .testimonial-slide {
         padding: 0 15px;
     }
@@ -1501,7 +1508,7 @@ ul {
         font-size: 15px;
     }
     .hero-section-content h1 {
-      font-size: 23px;
+      font-size: 20px;
       line-height: 37px;
     }
 

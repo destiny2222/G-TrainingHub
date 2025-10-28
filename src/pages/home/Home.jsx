@@ -12,20 +12,30 @@ import ScrollVelocity from '../../components/ScrollVelocity';
 
 const Home = () => {
     const velocity = 100;
+
     const settings = {
-        dots: false,
+       dots: false,
         infinite: true,
         speed: 500,
         margin: 50,
         autoplay: true,
         slidesToShow: 3,
-        arrows: false,
+        arrows:false,
         slidesToScroll: 1,
         responsive: [
             {
                 breakpoint: 1024,
                 settings: {
                     slidesToShow: 2,
+                    slidesToScroll: 1,
+                    infinite: true,
+                    dots: false
+                }
+            },
+            {
+                breakpoint:768,
+                settings: {
+                    slidesToShow: 1,
                     slidesToScroll: 1,
                     infinite: true,
                     dots: false
@@ -121,42 +131,42 @@ const Home = () => {
                             {/* <p className='what-you-get-subtitle'></p> */}
                         </div>
                         <div className="col-md-4 mb-4">
-                            <div className="feature-card js-scroll slide-left">
+                            <div className="feature-card js-scroll slide-left cursor-target">
                                 <i className="lni lni-video"></i>
                                 <h3>Annual Live Training</h3>
                                 <p>Participate in live, interactive training sessions with our expert instructors.</p>
                             </div>
                         </div>
                         <div className="col-md-4 mb-4">
-                            <div className="feature-card js-scroll fade-in">
+                            <div className="feature-card js-scroll fade-in cursor-target">
                                 <i className="lni lni-play"></i>
                                 <h3>Rewatch & Assignment Access</h3>
                                 <p>Access recordings of all sessions and complete assignments at your own pace.</p>
                             </div>
                         </div>
                         <div className="col-md-4 mb-4">
-                            <div className="feature-card js-scroll fade-in-bottom">
+                            <div className="feature-card js-scroll fade-in-bottom cursor-target">
                                 <i className="lni lni-users"></i>
                                 <h3>Human + AI Mentorship</h3>
                                 <p>Receive guidance and support from both human mentors and our AI-powered tutor.</p>
                             </div>
                         </div>
                         <div className="col-md-4 mb-4">
-                            <div className="feature-card js-scroll slide-left">
+                            <div className="feature-card js-scroll slide-left cursor-target">
                                 <i className="lni lni-graduation"></i>
                                 <h3>Organization Training Options</h3>
                                 <p>Equip your team with the latest AI skills through our tailored training programs.</p>
                             </div>
                         </div>
                         <div className="col-md-4 mb-4">
-                            <div className="feature-card js-scroll fade-in-bottom">
+                            <div className="feature-card js-scroll fade-in-bottom cursor-target">
                                 <i className="lni lni-certificate"></i>
                                 <h3>Certificate of Completion</h3>
                                 <p>Earn a professional certificate to showcase your new skills and knowledge.</p>
                             </div>
                         </div>
                         <div className="col-md-4 mb-4">
-                            <div className="feature-card js-scroll slide-left">
+                            <div className="feature-card js-scroll slide-left cursor-target">
                                 <i className="lni lni-graph"></i>
                                 <h3>Performance Tracking</h3>
                                 <p>Monitor your progress and identify areas for improvement with our performance tracking tools.</p>
