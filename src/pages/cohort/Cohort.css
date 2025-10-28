@@ -1,0 +1,57 @@
+/* Styles for Cohort resources section
+.resources-section .resources-wrap{
+  display:flex;
+  gap:24px;
+}
+
+.sidebar{
+  width:260px;
+  background:#0f1720;
+  color:#cbd5e1;
+  padding:20px;
+  border-radius:8px;
+}
+
+.filters h4{margin:0 0 12px 0;color:#fff}
+.filters .filter-group{margin-bottom:12px}
+.filters label{display:block;font-size:13px;margin-bottom:6px;color:#94a3b8}
+.filters ul{list-style:none;padding:0;margin:0}
+.filters li{padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.02)}
+
+.main-content{flex:1}
+.resources-header{display:flex;flex-direction:column;gap:12px;margin-bottom:18px}
+.resources-header h2{margin:0;color:#0b1220}
+.search-row{display:flex}
+.search-input{flex:1;padding:10px 14px;border-radius:8px;border:1px solid #e2e8f0}
+
+.cards-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:18px;
+}
+
+.card{
+  background:#0b1220;
+  color:#e6eef7;
+  border-radius:10px;
+  overflow:hidden;
+  box-shadow:0 6px 18px rgba(2,6,23,0.4);
+  display:flex;
+  flex-direction:column;
+}
+.card-img{height:120px;background-size:cover;background-position:center}
+.card-body{padding:16px;display:flex;flex-direction:column;gap:10px}
+.tags{display:flex;gap:8px}
+.tag{font-size:12px;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,0.04);color:#cfe7ff}
+.tag.level{background:#0ea5a1;color:#012323}
+.tag.level.orange{background:#f59e0b;color:#1a1100}
+.tag.level.red{background:#ef4444;color:#fff}
+.card-title{margin:0;font-size:16px}
+.card-desc{margin:0;font-size:13px;color:#a6b3bf}
+.card-actions{margin-top:6px}
+.ask-btn{background:#06b6d4;color:#042026;padding:10px 12px;border-radius:8px;border:none;cursor:pointer}
+
+@media (max-width:800px){
+  .resources-wrap{flex-direction:column}
+  .sidebar{width:100%}
+} */
