@@ -7,9 +7,11 @@ import testimonialImg1 from '../../assets/image/testimony/testim-3.jpg'
 import testimonialImg2 from '../../assets/image/testimony/testim-3.jpg'
 import testimonialImg3 from '../../assets/image/testimony/testim-3.jpg'
 import BlurText from '../../components/BlurText';
+import ScrollVelocity from '../../components/ScrollVelocity';
 
 
 const Home = () => {
+    const velocity = 100;
     const settings = {
         dots: false,
         infinite: true,
@@ -75,8 +77,8 @@ const Home = () => {
                         className="text-base"
                     />
                     <div className="hero-buttons">
-                        <Link to='/cohort' className="register-btn">Register for Cohort</Link>
-                        <Link className="mentors-btn">Register as Organization</Link>
+                        <Link to='/cohort' className="register-btn cursor-target">Register for Cohort</Link>
+                        <Link className="mentors-btn cursor-target">Register as Organization</Link>
                     </div>
                 </div>
             </section>
@@ -96,7 +98,7 @@ const Home = () => {
                             <p>Weekend Class, Online Class: Nov 01, 2025</p>
                         </div>
                     </div>
-                    <Link to="/register" className="register-now-btn">
+                    <Link to="/register" className="register-now-btn cursor-target">
                         Register Now
                     </Link>
                 </div>
@@ -162,6 +164,14 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
+            </section>
+
+            <section className="scroll-velocity-section">
+                <ScrollVelocity 
+                    texts={['Griting', 'Training', 'Hub']} 
+                    velocity={velocity} 
+                    className="custom-scroll-text"
+                />
             </section>
 
 
