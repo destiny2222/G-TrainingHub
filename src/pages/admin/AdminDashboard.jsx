@@ -1,6 +1,4 @@
 import React from 'react';
-import AdminSidebar from '../../components/admin/AdminSidebar';
-import AdminHeader from '../../components/admin/AdminHeader';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -73,101 +71,95 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="admin-dashboard-container">
-      <AdminSidebar />
-      <div className="main-content">
-        <AdminHeader />
-        <div className="dashboard-body">
-          <h1>Dashboard Overview</h1>
-          <div className="dashboard-cards">
-            <div className="card">
-              <h4>Total Users</h4>
-              <p className="card-value">1,250</p>
-            </div>
-            <div className="card">
-              <h4>New Applications</h4>
-              <p className="card-value">3</p>
-            </div>
-            <div className="card">
-              <h4>Active Courses</h4>
-              <p className="card-value">42</p>
-            </div>
-            <div className="card">
-              <h4>Pending Requests</h4>
-              <p className="card-value">2</p>
-            </div>
-          </div>
+    <div className="dashboard-body">
+      <h1>Dashboard Overview</h1>
+      <div className="dashboard-cards">
+        <div className="card">
+          <h4>Total Users</h4>
+          <p className="card-value">1,250</p>
+        </div>
+        <div className="card">
+          <h4>New Applications</h4>
+          <p className="card-value">3</p>
+        </div>
+        <div className="card">
+          <h4>Active Courses</h4>
+          <p className="card-value">42</p>
+        </div>
+        <div className="card">
+          <h4>Pending Requests</h4>
+          <p className="card-value">2</p>
+        </div>
+      </div>
 
-          <h1>AI Chat Analytics</h1>
-          <div className="ai-chat-analytics">
-            <div className="card">
-              <h4>Chat Volume</h4>
-              <p className="card-value">1,234</p>
-              <p className="card-sub-text">Last 30 days <span className="positive">+10%</span></p>
-              <div className="chart-container">
-                <Line data={chatVolumeData} options={chartOptions} />
-              </div>
-            </div>
-            <div className="card">
-              <h4>User Satisfaction</h4>
-              <p className="card-value">85%</p>
-              <p className="card-sub-text">Last 30 days <span className="positive">+5%</span></p>
-              <div className="chart-container">
-                <Line data={userSatisfactionData} options={chartOptions} />
-              </div>
-            </div>
-          </div>
-
-          <h1>User Management</h1>
-          <div className="user-management-table">
-            <table>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Organization</th>
-                  <th>Role</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>John Doe</td>
-                  <td>john.doe@example.com</td>
-                  <td>ABC Corp</td>
-                  <td>Admin</td>
-                  <td><span className="status active">Active</span></td>
-                  <td><button className="action-button">Edit</button> <button className="action-button delete">Delete</button></td>
-                </tr>
-                <tr>
-                  <td>Jane Smith</td>
-                  <td>jane.smith@example.com</td>
-                  <td>XYZ Inc</td>
-                  <td>User</td>
-                  <td><span className="status inactive">Inactive</span></td>
-                  <td><button className="action-button">Edit</button> <button className="action-button delete">Delete</button></td>
-                </tr>
-                <tr>
-                  <td>Peter Jones</td>
-                  <td>peter.jones@example.com</td>
-                  <td>123 Industries</td>
-                  <td>Mentor</td>
-                  <td><span className="status active">Active</span></td>
-                  <td><button className="action-button">Edit</button> <button className="action-button delete">Delete</button></td>
-                </tr>
-                <tr>
-                  <td>David Williams</td>
-                  <td>david.williams@example.com</td>
-                  <td></td>
-                  <td>Admin</td>
-                  <td><span className="status pending">Pending</span></td>
-                  <td><button className="action-button">Approve</button> <button className="action-button delete">Reject</button></td>
-                </tr>
-              </tbody>
-            </table>
+      <h1>AI Chat Analytics</h1>
+      <div className="ai-chat-analytics">
+        <div className="card">
+          <h4>Chat Volume</h4>
+          <p className="card-value">1,234</p>
+          <p className="card-sub-text">Last 30 days <span className="positive">+10%</span></p>
+          <div className="chart-container">
+            <Line data={chatVolumeData} options={chartOptions} />
           </div>
         </div>
+        <div className="card">
+          <h4>User Satisfaction</h4>
+          <p className="card-value">85%</p>
+          <p className="card-sub-text">Last 30 days <span className="positive">+5%</span></p>
+          <div className="chart-container">
+            <Line data={userSatisfactionData} options={chartOptions} />
+          </div>
+        </div>
+      </div>
+
+      <h1>User Management</h1>
+      <div className="user-management-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Organization</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>John Doe</td>
+              <td>john.doe@example.com</td>
+              <td>ABC Corp</td>
+              <td>Admin</td>
+              <td><span className="status active">Active</span></td>
+              <td><button className="action-button">Edit</button> <button className="action-button delete">Delete</button></td>
+            </tr>
+            <tr>
+              <td>Jane Smith</td>
+              <td>jane.smith@example.com</td>
+              <td>XYZ Inc</td>
+              <td>User</td>
+              <td><span className="status inactive">Inactive</span></td>
+              <td><button className="action-button">Edit</button> <button className="action-button delete">Delete</button></td>
+            </tr>
+            <tr>
+              <td>Peter Jones</td>
+              <td>peter.jones@example.com</td>
+              <td>123 Industries</td>
+              <td>Mentor</td>
+              <td><span className="status active">Active</span></td>
+              <td><button className="action-button">Edit</button> <button className="action-button delete">Delete</button></td>
+            </tr>
+            <tr>
+              <td>David Williams</td>
+              <td>david.williams@example.com</td>
+              <td></td>
+              <td>Admin</td>
+              <td><span className="status pending">Pending</span></td>
+              <td><button className="action-button">Approve</button> <button className="action-button delete">Reject</button></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   );

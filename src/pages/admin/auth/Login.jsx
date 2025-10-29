@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './Login.css';
 
 const Login = () => {
@@ -15,22 +16,28 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(`${import.meta.env.REACT_APP_BASE_URL}/api/admin/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ field, password }),
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/admin/login`, {
+        field,
+        password
       });
 
-      const data = await response.json();
+      const data = response.data;
 
-      if (response.ok) {
-        localStorage.setItem('adminToken', data.token); // Store the token
-        navigate('/admin/dashboard'); // Redirect to admin dashboard
+      if (response.status === 200) {
+        localStorage.setItem('adminToken', data.token);
+        navigate('/admin/dashboard');
       } else {
         setError(data.message || 'Login failed');
       }
+
+      // const data = await response.json();
+
+      // if (response.ok) {
+      //   localStorage.setItem('adminToken', data.token); // Store the token
+      //   navigate('/admin/dashboard'); // Redirect to admin dashboard
+      // } else {
+      //   setError(data.message || 'Login failed');
+      // }
     } catch (error) {
       setError(error.message || 'Network error or server is unreachable');
     } finally {
@@ -85,7 +92,6 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-              <a href="#" className="forgot-password">Forgot Password?</a>
             </div>
             <button type="submit" className="login-button" disabled={loading}>
               {loading ? 'Logging In...' : 'Log In'}
