@@ -82,6 +82,10 @@ const Home = () => {
         slidesToScroll: 1,
         nextArrow: <NextArrow />,
         prevArrow: <PrevArrow />,
+        touchMove: true,
+        swipe: true,
+        swipeToSlide: true,
+        touchThreshold: 10,
         responsive: [
             {
                 breakpoint: 1024,
@@ -89,7 +93,10 @@ const Home = () => {
                     slidesToShow: 2,
                     slidesToScroll: 1,
                     infinite: true,
-                    dots: false
+                    dots: false,
+                    touchMove: true,
+                    swipe: true,
+                    swipeToSlide: true
                 }
             },
             {
@@ -98,21 +105,43 @@ const Home = () => {
                     slidesToShow: 1,
                     slidesToScroll: 1,
                     infinite: true,
-                    dots: false
+                    dots: true,
+                    arrows: false,
+                    touchMove: true,
+                    swipe: true,
+                    swipeToSlide: true,
+                    autoplay: true,
+                    autoplaySpeed: 3000
                 }
             },
             {
                 breakpoint: 600,
                 settings: {
                     slidesToShow: 1,
-                    slidesToScroll: 1
+                    slidesToScroll: 1,
+                    infinite: true,
+                    dots: true,
+                    arrows: false,
+                    touchMove: true,
+                    swipe: true,
+                    swipeToSlide: true,
+                    autoplay: true,
+                    autoplaySpeed: 3000
                 }
             },
             {
                 breakpoint: 480,
                 settings: {
                     slidesToShow: 1,
-                    slidesToScroll: 1
+                    slidesToScroll: 1,
+                    infinite: true,
+                    dots: true,
+                    arrows: false,
+                    touchMove: true,
+                    swipe: true,
+                    swipeToSlide: true,
+                    autoplay: true,
+                    autoplaySpeed: 3000
                 }
             }
         ]
