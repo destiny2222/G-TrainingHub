@@ -1091,6 +1091,68 @@ ul {
     right: 0;
 }
 
+/* Swiper Custom Styles for Feature Slider */
+.feature-slider-wrapper .swiper {
+    padding-bottom: 50px;
+}
+
+.feature-slider-wrapper .swiper-slide {
+    height: auto;
+    display: flex;
+}
+
+.feature-slider-wrapper .swiper-slide .feature-card {
+    height: 100%;
+    width: 100%;
+}
+
+.swiper-pagination-custom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.swiper-pagination-custom .swiper-pagination-bullet {
+    width: 12px;
+    height: 12px;
+    background: var(--primary-color);
+    opacity: 0.5;
+    margin: 0 5px;
+    transition: all 0.3s ease;
+}
+
+.swiper-pagination-custom .swiper-pagination-bullet-active {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+.swiper-button-prev-custom,
+.swiper-button-next-custom {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    cursor: pointer;
+}
+
+.swiper-button-prev-custom {
+    left: 30px;
+}
+
+.swiper-button-next-custom {
+    right: 30px;
+}
+
+.swiper-button-prev-custom.swiper-button-disabled,
+.swiper-button-next-custom.swiper-button-disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 /* Ensure slick slider works properly */
 .feature-slider-wrapper .slick-slider {
     position: relative;
@@ -1204,6 +1266,7 @@ ul {
     .feature-slider-arrow {
       width: 35px;
       height: 35px;
+      display: none !important; /* Hide arrows on mobile */
     }
 
     .feature-slider-arrow i {
@@ -1212,6 +1275,15 @@ ul {
 
     .feature-slide {
       padding: 0 10px;
+    }
+
+    /* Swiper mobile optimizations */
+    .feature-slider-wrapper .swiper {
+      padding-bottom: 60px;
+    }
+
+    .swiper-pagination-custom {
+      bottom: 10px;
     }
 
     /* Fix for slick slider on mobile */

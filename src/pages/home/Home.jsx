@@ -3,6 +3,11 @@ import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 import testimonialImg1 from '../../assets/image/testimony/testim-3.jpg'
 import testimonialImg2 from '../../assets/image/testimony/testim-3.jpg'
 import testimonialImg3 from '../../assets/image/testimony/testim-3.jpg'
@@ -18,26 +23,8 @@ import medialogo4 from '../../assets/image/background/africa cybersecurity Mag.p
 
 const Home = () => {
 
-    const NextArrow = (props) => {
-        const { onClick } = props;
-        return (
-            <button className="feature-slider-arrow feature-slider-next" onClick={onClick}>
-                <i className="lni lni-chevron-right"></i>
-            </button>
-        );
-    };
-
-    const PrevArrow = (props) => {
-        const { onClick } = props;
-        return (
-            <button className="feature-slider-arrow feature-slider-prev" onClick={onClick}>
-                <i className="lni lni-chevron-left"></i>
-            </button>
-        );
-    };
-
     const settings = {
-       dots: false,
+        dots: false,
         infinite: true,
         speed: 500,
         margin: 50,
@@ -69,79 +56,6 @@ const Home = () => {
                 settings: {
                     slidesToShow: 1,
                     slidesToScroll: 1
-                }
-            }
-        ]
-    };
-
-    const featureSettings = {
-        dots: false,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        nextArrow: <NextArrow />,
-        prevArrow: <PrevArrow />,
-        touchMove: true,
-        swipe: true,
-        swipeToSlide: true,
-        touchThreshold: 10,
-        responsive: [
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
-                    infinite: true,
-                    dots: false,
-                    touchMove: true,
-                    swipe: true,
-                    swipeToSlide: true
-                }
-            },
-            {
-                breakpoint: 768,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    infinite: true,
-                    dots: true,
-                    arrows: false,
-                    touchMove: true,
-                    swipe: true,
-                    swipeToSlide: true,
-                    autoplay: true,
-                    autoplaySpeed: 3000
-                }
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    infinite: true,
-                    dots: true,
-                    arrows: false,
-                    touchMove: true,
-                    swipe: true,
-                    swipeToSlide: true,
-                    autoplay: true,
-                    autoplaySpeed: 3000
-                }
-            },
-            {
-                breakpoint: 480,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    infinite: true,
-                    dots: true,
-                    arrows: false,
-                    touchMove: true,
-                    swipe: true,
-                    swipeToSlide: true,
-                    autoplay: true,
-                    autoplaySpeed: 3000
                 }
             }
         ]
@@ -200,8 +114,57 @@ const Home = () => {
                         </div>
                     </div>
                     <div className="feature-slider-wrapper">
-                        <Slider {...featureSettings}>
-                            <div className="feature-slide">
+                        {/* Custom Navigation Buttons - Must be before Swiper */}
+                        <button className="swiper-button-prev-custom feature-slider-arrow feature-slider-prev">
+                            <i className="lni lni-chevron-left"></i>
+                        </button>
+                        <button className="swiper-button-next-custom feature-slider-arrow feature-slider-next">
+                            <i className="lni lni-chevron-right"></i>
+                        </button>
+                        
+                        <Swiper
+                            modules={[Navigation, Pagination, Autoplay]}
+                            spaceBetween={30}
+                            slidesPerView={3}
+                            navigation={{
+                                nextEl: '.swiper-button-next-custom',
+                                prevEl: '.swiper-button-prev-custom',
+                                enabled: true,
+                            }}
+                            pagination={{ 
+                                clickable: true,
+                                el: '.swiper-pagination-custom',
+                            }}
+                            autoplay={{
+                                delay: 3000,
+                                disableOnInteraction: false,
+                                pauseOnMouseEnter: true,
+                            }}
+                            loop={true}
+                            breakpoints={{
+                                320: {
+                                    slidesPerView: 1,
+                                    spaceBetween: 20,
+                                },
+                                480: {
+                                    slidesPerView: 1,
+                                    spaceBetween: 20,
+                                },
+                                768: {
+                                    slidesPerView: 1,
+                                    spaceBetween: 20,
+                                },
+                                1024: {
+                                    slidesPerView: 2,
+                                    spaceBetween: 30,
+                                },
+                                1280: {
+                                    slidesPerView: 3,
+                                    spaceBetween: 30,
+                                }
+                            }}
+                        >
+                            <SwiperSlide>
                                 <div className="feature-card">
                                     <div className="feature-card-bg">
                                         <div id="" className="fluted-glass-component">
@@ -219,8 +182,8 @@ const Home = () => {
                                         <p>Participate in live, interactive training sessions with our expert instructors.</p>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="feature-slide">
+                            </SwiperSlide>
+                            <SwiperSlide>
                                 <div className="feature-card cursor-target">
                                     <div className="feature-card-bg">
                                         <img src={featureImg2} className='u-img-cover' alt="Rewatch & Assignment Access" />
@@ -232,8 +195,8 @@ const Home = () => {
                                         <p>Access recordings of all sessions and complete assignments at your own pace.</p>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="feature-slide">
+                            </SwiperSlide>
+                            <SwiperSlide>
                                 <div className="feature-card cursor-target">
                                     <div className="feature-card-bg">
                                         <img src={featureImg3} className='u-img-cover' alt="Human + AI Mentorship" />
@@ -245,8 +208,8 @@ const Home = () => {
                                         <p>Receive guidance and support from both human mentors and our AI-powered tutor.</p>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="feature-slide">
+                            </SwiperSlide>
+                            <SwiperSlide>
                                 <div className="feature-card cursor-target">
                                     <div className="feature-card-bg">
                                         <div id="" className="fluted-glass-component">
@@ -264,8 +227,8 @@ const Home = () => {
                                         <p>Equip your team with the latest AI skills through our tailored training programs.</p>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="feature-slide">
+                            </SwiperSlide>
+                            <SwiperSlide>
                                 <div className="feature-card cursor-target">
                                     <div className="feature-card-bg">
                                         <img src={featureImg2} className='u-img-cover' alt="Certificate of Completion" />
@@ -277,8 +240,8 @@ const Home = () => {
                                         <p>Earn a professional certificate to showcase your new skills and knowledge.</p>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="feature-slide">
+                            </SwiperSlide>
+                            <SwiperSlide>
                                 <div className="feature-card cursor-target">
                                     <div className="feature-card-bg">
                                         <img src={featureImg3} className='u-img-cover' alt="Performance Tracking" />
@@ -290,8 +253,11 @@ const Home = () => {
                                         <p>Monitor your progress and identify areas for improvement with our performance tracking tools.</p>
                                     </div>
                                 </div>
-                            </div>
-                        </Slider>
+                            </SwiperSlide>
+                        </Swiper>
+                        
+                        {/* Custom Pagination */}
+                        <div className="swiper-pagination-custom"></div>
                     </div>
                 </div>
             </section>
