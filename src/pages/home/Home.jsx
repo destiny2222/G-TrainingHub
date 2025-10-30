@@ -1,8 +1,5 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
@@ -22,45 +19,6 @@ import medialogo4 from '../../assets/image/background/africa cybersecurity Mag.p
 
 
 const Home = () => {
-
-    const settings = {
-        dots: false,
-        infinite: true,
-        speed: 500,
-        margin: 50,
-        autoplay: true,
-        slidesToShow: 3,
-        arrows:false,
-        slidesToScroll: 1,
-        responsive: [
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
-                    infinite: true,
-                    dots: false
-                }
-            },
-            {
-                breakpoint:768,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    infinite: true,
-                    dots: false
-                }
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                }
-            }
-        ]
-    };
-
 
     useEffect(() => {
         const els = document.querySelectorAll('.what-you-get-subtitle');
@@ -421,8 +379,42 @@ const Home = () => {
                             <h2 className="testimonials-title">Hear from Our Alumni</h2>
                         </div>
                     </div>
-                    <Slider {...settings}>
-                        <div className="testimonial-slide">
+                    <Swiper
+                        modules={[Autoplay, Pagination]}
+                        spaceBetween={50}
+                        slidesPerView={3}
+                        autoplay={{
+                            delay: 3000,
+                            disableOnInteraction: false,
+                        }}
+                        pagination={{ 
+                            clickable: true,
+                        }}
+                        loop={true}
+                        breakpoints={{
+                            320: {
+                                slidesPerView: 1,
+                                spaceBetween: 20,
+                            },
+                            600: {
+                                slidesPerView: 1,
+                                spaceBetween: 20,
+                            },
+                            768: {
+                                slidesPerView: 1,
+                                spaceBetween: 30,
+                            },
+                            1024: {
+                                slidesPerView: 2,
+                                spaceBetween: 40,
+                            },
+                            1280: {
+                                slidesPerView: 3,
+                                spaceBetween: 50,
+                            }
+                        }}
+                    >
+                        <SwiperSlide>
                             <div className="Testimonials-card mb-3">
                                 <div className="Testimonials-card-content">
                                     <p className="Testimonials-card-content-text mt-3">
@@ -437,8 +429,8 @@ const Home = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="testimonial-slide">
+                        </SwiperSlide>
+                        <SwiperSlide>
                             <div className="Testimonials-card mb-3">
                                 <div className="Testimonials-card-content">
                                     <p className="Testimonials-card-content-text mt-3">
@@ -453,8 +445,8 @@ const Home = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="testimonial-slide">
+                        </SwiperSlide>
+                        <SwiperSlide>
                             <div className=" Testimonials-card  mb-3" >
                                 <div className="Testimonials-card-content">
                                     <p className="Testimonials-card-content-text mt-3">
@@ -469,8 +461,8 @@ const Home = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="testimonial-slide">
+                        </SwiperSlide>
+                        <SwiperSlide>
                             <div className="Testimonials-card mb-3">
                                 <div className="Testimonials-card-content">
                                     <p className="Testimonials-card-content-text mt-3">
@@ -485,8 +477,8 @@ const Home = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="testimonial-slide">
+                        </SwiperSlide>
+                        <SwiperSlide>
                             <div className="Testimonials-card mb-3">
                                 <div className="Testimonials-card-content">
                                     <p className="Testimonials-card-content-text mt-3">
@@ -501,8 +493,8 @@ const Home = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="testimonial-slide">
+                        </SwiperSlide>
+                        <SwiperSlide>
                             <div className=" Testimonials-card  mb-3" >
                                 <div className="Testimonials-card-content">
                                     <p className="Testimonials-card-content-text mt-3">
@@ -517,8 +509,8 @@ const Home = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="testimonial-slide">
+                        </SwiperSlide>
+                        <SwiperSlide>
                             <div className="Testimonials-card mb-3">
                                 <div className="Testimonials-card-content">
                                     <p className="Testimonials-card-content-text mt-3">
@@ -533,8 +525,8 @@ const Home = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </Slider>
+                        </SwiperSlide>
+                    </Swiper>
                 </div>
             </section>
         </>
