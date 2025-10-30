@@ -17,7 +17,6 @@ import medialogo4 from '../../assets/image/background/africa cybersecurity Mag.p
 
 
 const Home = () => {
-    const velocity = 100;
 
     const NextArrow = (props) => {
         const { onClick } = props;
@@ -262,7 +261,7 @@ const Home = () => {
             </section>
 
             <section className='what-we-offer'>
-                <div className="container-fluid">
+                <div className="container">
                     <div className="row">
                         <div className="col-lg-12 my-3 text-center">
                             <h2 className="what-we-offer-title js-scroll fade-in-bottom">What We Offer</h2>
