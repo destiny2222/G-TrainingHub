@@ -672,9 +672,8 @@ ul {
   }
 
   .inline-video_video {
-    border-radius: var(--_components---card--border-radius);
     width: 100%;
-    height: auto;
+    height: 100%;
     display: flex;
     position: relative;
 }

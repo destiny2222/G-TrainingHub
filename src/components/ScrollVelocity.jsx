@@ -8,7 +8,7 @@ import {
   useVelocity,
   useAnimationFrame
 } from 'framer-motion';
-import '../assets/css/ScrollVelocity.css';
+// import '../assets/css/ScrollVelocity.css';
 
 function useElementWidth(ref) {
   const [width, setWidth] = useState(0);

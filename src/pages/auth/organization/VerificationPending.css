@@ -1,0 +1,155 @@
+.verification-pending-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e8edf2;
+  padding: 2rem;
+}
+
+.verification-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  max-width: 500px;
+  width: 100%;
+  padding: 3rem 2.5rem;
+  text-align: center;
+}
+
+.verification-icon {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.verification-card h1 {
+  font-size: 1.75rem;
+  color: #1a202c;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.subtitle {
+  color: #667085;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.email-address {
+  color: #003d82;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  word-break: break-all;
+}
+
+.info-box {
+  background: #f0f4f8;
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+  border: 1px solid #d0d5dd;
+}
+
+.info-box p {
+  color: #344054;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.actions {
+  margin-bottom: 1.5rem;
+}
+
+.resend-text {
+  color: #667085;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.btn-secondary {
+  background: white;
+  color: #003d82;
+  border: 2px solid #003d82;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #003d82;
+  color: white;
+}
+
+.btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.message {
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  margin-top: 1rem;
+}
+
+.message.success {
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #6ee7b7;
+}
+
+.message.error {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+.footer-links {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e9ecef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  color: #003d82;
+  font-size: 0.875rem;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 0;
+  font-weight: 500;
+}
+
+.link-button:hover {
+  text-decoration: underline;
+}
+
+.separator {
+  color: #cbd5e0;
+}
+
+@media (max-width: 768px) {
+  .verification-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .verification-card h1 {
+    font-size: 1.5rem;
+  }
+}

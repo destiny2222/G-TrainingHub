@@ -19,27 +19,6 @@ import medialogo4 from '../../assets/image/background/africa cybersecurity Mag.p
 
 
 const Home = () => {
-
-    useEffect(() => {
-        const els = document.querySelectorAll('.what-you-get-subtitle');
-        if (!els || els.length === 0) return;
-
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('reveal');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            },
-            { threshold: 0.2 }
-        );
-
-        els.forEach((el) => observer.observe(el));
-
-        return () => observer.disconnect();
-    }, []);
     return (
         <>
             <section className="hero-section-wrapper">
@@ -54,6 +33,7 @@ const Home = () => {
             </section>
             <section className='home-hero-video-section'>
                 <div className="home-hero_visual">
+                    
                     <video muted loop autoPlay className='inline-video_video'>
                         <source src={videoSection} type="video/mp4" />
                         Your browser does not support the video tag.
