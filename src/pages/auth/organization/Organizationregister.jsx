@@ -9,6 +9,8 @@ const Organizationregister = () => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [logoPreview, setLogoPreview] = useState(null);
+  const [currentStep, setCurrentStep] = useState(1);
+  const totalSteps = 3;
 
   // Form data state
   const [formData, setFormData] = useState({
@@ -67,7 +69,7 @@ const Organizationregister = () => {
     }
   };
 
-  // Validate Step 1
+  // Validate Step 1 - Basic Organization Info
   const validateStep1 = () => {
     const newErrors = {};
 
@@ -75,6 +77,15 @@ const Organizationregister = () => {
     if (!formData.rc_number.trim()) newErrors.rc_number = 'RC number is required';
     if (!formData.sector.trim()) newErrors.sector = 'Sector is required';
     if (!formData.employee_count) newErrors.employee_count = 'Employee count is required';
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // Validate Step 2 - Contact & Training Details
+  const validateStep2 = () => {
+    const newErrors = {};
+
     if (!formData.training_focus_area.trim()) newErrors.training_focus_area = 'Training focus area is required';
     if (!formData.contact_person_name.trim()) newErrors.contact_person_name = 'Contact person name is required';
     if (!formData.official_email.trim()) {
@@ -89,9 +100,8 @@ const Organizationregister = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Validate Step 2 (only for admin_user method)
-  const validateStep2 = () => {
-    // Admin fields are now always required based on backend
+  // Validate Step 3 - Admin Account
+  const validateStep3 = () => {
     const newErrors = {};
 
     if (!formData.admin_name.trim()) newErrors.admin_name = 'Admin name is required';
@@ -116,13 +126,46 @@ const Organizationregister = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  // Handle next step
+  const handleNext = () => {
+    let isValid = false;
+    
+    if (currentStep === 1) {
+      isValid = validateStep1();
+    } else if (currentStep === 2) {
+      isValid = validateStep2();
+    }
+
+    if (isValid && currentStep < totalSteps) {
+      setCurrentStep(currentStep + 1);
+      setErrors({});
+    }
+  };
+
+  // Handle previous step
+  const handlePrevious = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+      setErrors({});
+    }
+  };
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate all fields
-    if (!validateStep1()) return;
-    if (!validateStep2()) return; // Admin fields are always required now
+    // Validate current step first
+    if (currentStep === 1) {
+      if (!validateStep1()) return;
+      handleNext();
+      return;
+    } else if (currentStep === 2) {
+      if (!validateStep2()) return;
+      handleNext();
+      return;
+    } else if (currentStep === 3) {
+      if (!validateStep3()) return;
+    }
 
     setLoading(true);
     setErrors({});
@@ -218,271 +261,369 @@ const Organizationregister = () => {
   return (
     <div className="organization-register-container">
       <div className="register-wrapper">
-        {/* Left Side - Illustration */}
-        <div className="register-illustration">
-          <div className="illustration-content">
-            <h2>Start Your Journey</h2>
-            <p>Join thousands of organizations transforming their training programs</p>
+        {/* Left Side - Illustration/Info */}
+        <div className="register-left-panel">
+          <div className="left-panel-content">
+            <div className="brand-section">
+              <div className="brand-logo">
+                <span className="logo-icon">🎓</span>
+                <span className="brand-name">Gritinai</span>
+              </div>
+            </div>
+            
+            <div className="illustration-section">
+              <div className="illustration-card sessions-card">
+                <h4>Sessions</h4>
+                <p className="subtitle">This Month</p>
+                <div className="stats-bars">
+                  <div className="stat-bar purple" style={{ height: '40px' }}></div>
+                  <div className="stat-bar blue" style={{ height: '50px' }}></div>
+                  <div className="stat-bar purple" style={{ height: '60px' }}></div>
+                  <div className="stat-bar blue" style={{ height: '45px' }}></div>
+                  <div className="stat-bar green" style={{ height: '55px' }}></div>
+                  <div className="stat-bar green" style={{ height: '40px' }}></div>
+                  <div className="stat-bar purple" style={{ height: '65px' }}></div>
+                  <div className="stat-bar blue" style={{ height: '50px' }}></div>
+                </div>
+                <div className="stats-number">
+                  <span className="big-number">45.1k</span>
+                  <span className="percentage">+16.4%</span>
+                </div>
+              </div>
+
+              <div className="main-illustration">
+                <div className="person-illustration">👩‍💼</div>
+              </div>
+
+              <div className="illustration-card sales-card">
+                <h4>Sales</h4>
+                <p className="subtitle">Last Year</p>
+                <div className="chart-line">
+                  <svg viewBox="0 0 100 40" width="100%" height="60">
+                    <path d="M 0,30 Q 25,20 50,25 T 100,15" fill="none" stroke="#10b981" strokeWidth="2"/>
+                  </svg>
+                </div>
+                <div className="stats-number">
+                  <span className="big-number">175k</span>
+                  <span className="percentage negative">-16.2%</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Right Side - Form */}
-        <div className="register-form-container">
-          <div className="register-form-header">
-            <h1>Welcome! 👋</h1>
-            <p>Please sign up to create your organization account</p>
-          </div>
+        <div className="register-right-panel">
+          <div className="form-scroll-container">
+            <div className="register-form-header">
+              <h1>Adventure starts here 🚀</h1>
+              <p>Make your organization management easy and fun!</p>
+            </div>
 
-          <form onSubmit={handleSubmit} className="register-form">
-            <div className="form-section">
-              <h3>Organization Details</h3>
-              
-              <div className="form-group">
-                <label htmlFor="name">Organization Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Enter your organization's name"
-                  className={errors.name ? 'error' : ''}
-                />
-                {errors.name && <span className="error-message">{errors.name}</span>}
+            {/* Step Progress Indicator */}
+            <div className="step-progress">
+              <div className={`step ${currentStep >= 1 ? 'active' : ''}`}>
+                <div className="step-number">1</div>
+                <div className="step-label">Organization</div>
               </div>
-
-              <div className="form-group">
-                <label htmlFor="rc_number">RC Number</label>
-                <input
-                  type="text"
-                  id="rc_number"
-                  name="rc_number"
-                  value={formData.rc_number}
-                  onChange={handleChange}
-                  placeholder="Enter your RC number"
-                  className={errors.rc_number ? 'error' : ''}
-                />
-                {errors.rc_number && <span className="error-message">{errors.rc_number}</span>}
+              <div className={`step-line ${currentStep >= 2 ? 'active' : ''}`}></div>
+              <div className={`step ${currentStep >= 2 ? 'active' : ''}`}>
+                <div className="step-number">2</div>
+                <div className="step-label">Details</div>
               </div>
-
-              <div className="form-row-2">
-                <div className="form-group">
-                  <label htmlFor="sector">Sector</label>
-                  <select
-                    id="sector"
-                    name="sector"
-                    value={formData.sector}
-                    onChange={handleChange}
-                    className={errors.sector ? 'error' : ''}
-                  >
-                    <option value="">Select sector</option>
-                    {sectorOptions.map(sector => (
-                      <option key={sector} value={sector}>{sector}</option>
-                    ))}
-                  </select>
-                  {errors.sector && <span className="error-message">{errors.sector}</span>}
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="employee_count">Employees</label>
-                  <select
-                    id="employee_count"
-                    name="employee_count"
-                    value={formData.employee_count}
-                    onChange={handleChange}
-                    className={errors.employee_count ? 'error' : ''}
-                  >
-                    <option value="">Select range</option>
-                    {employeeCountOptions.map(count => (
-                      <option key={count} value={count}>{count}</option>
-                    ))}
-                  </select>
-                  {errors.employee_count && <span className="error-message">{errors.employee_count}</span>}
-                </div>
+              <div className={`step-line ${currentStep >= 3 ? 'active' : ''}`}></div>
+              <div className={`step ${currentStep >= 3 ? 'active' : ''}`}>
+                <div className="step-number">3</div>
+                <div className="step-label">Admin Account</div>
               </div>
+            </div>
 
-              <div className="form-group">
-                <label htmlFor="training_focus_area">Training Focus Area</label>
-                <input
-                  type="text"
-                  id="training_focus_area"
-                  name="training_focus_area"
-                  value={formData.training_focus_area}
-                  onChange={handleChange}
-                  placeholder="e.g., AI/ML, Leadership, Sales"
-                  className={errors.training_focus_area ? 'error' : ''}
-                />
-                {errors.training_focus_area && <span className="error-message">{errors.training_focus_area}</span>}
-              </div>
-
-              <div className="form-row-2">
-                <div className="form-group">
-                  <label htmlFor="contact_person_name">Contact Person</label>
-                  <input
-                    type="text"
-                    id="contact_person_name"
-                    name="contact_person_name"
-                    value={formData.contact_person_name}
-                    onChange={handleChange}
-                    placeholder="Full Name"
-                    className={errors.contact_person_name ? 'error' : ''}
-                  />
-                  {errors.contact_person_name && <span className="error-message">{errors.contact_person_name}</span>}
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="official_email">Official Email</label>
-                  <input
-                    type="email"
-                    id="official_email"
-                    name="official_email"
-                    value={formData.official_email}
-                    onChange={handleChange}
-                    placeholder="you@company.com"
-                    className={errors.official_email ? 'error' : ''}
-                  />
-                  {errors.official_email && <span className="error-message">{errors.official_email}</span>}
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="address">Address</label>
-                <textarea
-                  id="address"
-                  name="address"
-                  value={formData.address}
-                  onChange={handleChange}
-                  placeholder="Enter your company's address"
-                  rows="2"
-                  className={errors.address ? 'error' : ''}
-                />
-                {errors.address && <span className="error-message">{errors.address}</span>}
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="training_mode">Training Mode</label>
-                <div className="radio-group-inline">
-                  {trainingModeOptions.map(mode => (
-                    <label key={mode.value} className="radio-label">
-                      <input
-                        type="radio"
-                        name="training_mode"
-                        value={mode.value}
-                        checked={formData.training_mode === mode.value}
-                        onChange={handleChange}
-                      />
-                      <span>{mode.label}</span>
-                    </label>
-                  ))}
-                </div>
-                {errors.training_mode && <span className="error-message">{errors.training_mode}</span>}
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="company_logo">Company Logo</label>
-                <input
-                  type="file"
-                  id="company_logo"
-                  name="company_logo"
-                  onChange={handleChange}
-                  accept="image/*"
-                  className={errors.company_logo ? 'error' : ''}
-                />
-                {logoPreview && (
-                  <div className="logo-preview-small">
-                    <img src={logoPreview} alt="Logo preview" />
+            <form onSubmit={handleSubmit} className="register-form">
+              {/* Step 1 - Basic Organization Info */}
+              {currentStep === 1 && (
+                <div className="form-step">
+                  <h3 className="step-title">Basic Organization Information</h3>
+                  
+                  <div className="form-group">
+                    <label htmlFor="name">Organization Name</label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder="Enter your organization name"
+                      className={errors.name ? 'error' : ''}
+                    />
+                    {errors.name && <span className="error-message">{errors.name}</span>}
                   </div>
+
+                  <div className="form-group">
+                    <label htmlFor="rc_number">RC Number</label>
+                    <input
+                      type="text"
+                      id="rc_number"
+                      name="rc_number"
+                      value={formData.rc_number}
+                      onChange={handleChange}
+                      placeholder="Enter RC number"
+                      className={errors.rc_number ? 'error' : ''}
+                    />
+                    {errors.rc_number && <span className="error-message">{errors.rc_number}</span>}
+                  </div>
+
+                  <div className="form-row-2">
+                    <div className="form-group">
+                      <label htmlFor="sector">Sector</label>
+                      <select
+                        id="sector"
+                        name="sector"
+                        value={formData.sector}
+                        onChange={handleChange}
+                        className={errors.sector ? 'error' : ''}
+                      >
+                        <option value="">Select sector</option>
+                        {sectorOptions.map(sector => (
+                          <option key={sector} value={sector}>{sector}</option>
+                        ))}
+                      </select>
+                      {errors.sector && <span className="error-message">{errors.sector}</span>}
+                    </div>
+
+                    <div className="form-group">
+                      <label htmlFor="employee_count">Employee Count</label>
+                      <select
+                        id="employee_count"
+                        name="employee_count"
+                        value={formData.employee_count}
+                        onChange={handleChange}
+                        className={errors.employee_count ? 'error' : ''}
+                      >
+                        <option value="">Select range</option>
+                        {employeeCountOptions.map(count => (
+                          <option key={count} value={count}>{count}</option>
+                        ))}
+                      </select>
+                      {errors.employee_count && <span className="error-message">{errors.employee_count}</span>}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Step 2 - Contact & Training Details */}
+              {currentStep === 2 && (
+                <div className="form-step">
+                  <h3 className="step-title">Contact & Training Details</h3>
+                  
+                  <div className="form-group">
+                    <label htmlFor="training_focus_area">Training Focus Area</label>
+                    <input
+                      type="text"
+                      id="training_focus_area"
+                      name="training_focus_area"
+                      value={formData.training_focus_area}
+                      onChange={handleChange}
+                      placeholder="e.g., AI/ML, Leadership, Sales"
+                      className={errors.training_focus_area ? 'error' : ''}
+                    />
+                    {errors.training_focus_area && <span className="error-message">{errors.training_focus_area}</span>}
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="contact_person_name">Contact Person</label>
+                    <input
+                      type="text"
+                      id="contact_person_name"
+                      name="contact_person_name"
+                      value={formData.contact_person_name}
+                      onChange={handleChange}
+                      placeholder="Enter contact person name"
+                      className={errors.contact_person_name ? 'error' : ''}
+                    />
+                    {errors.contact_person_name && <span className="error-message">{errors.contact_person_name}</span>}
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="official_email">Official Email</label>
+                    <input
+                      type="email"
+                      id="official_email"
+                      name="official_email"
+                      value={formData.official_email}
+                      onChange={handleChange}
+                      placeholder="Enter your email"
+                      className={errors.official_email ? 'error' : ''}
+                    />
+                    {errors.official_email && <span className="error-message">{errors.official_email}</span>}
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="address">Address</label>
+                    <textarea
+                      id="address"
+                      name="address"
+                      value={formData.address}
+                      onChange={handleChange}
+                      placeholder="Enter company address"
+                      rows="2"
+                      className={errors.address ? 'error' : ''}
+                    />
+                    {errors.address && <span className="error-message">{errors.address}</span>}
+                  </div>
+
+                  <div className="form-group">
+                    <label>Training Mode</label>
+                    <div className="radio-group-inline">
+                      {trainingModeOptions.map(mode => (
+                        <label key={mode.value} className="radio-label">
+                          <input
+                            type="radio"
+                            name="training_mode"
+                            value={mode.value}
+                            checked={formData.training_mode === mode.value}
+                            onChange={handleChange}
+                          />
+                          <span>{mode.label}</span>
+                        </label>
+                      ))}
+                    </div>
+                    {errors.training_mode && <span className="error-message">{errors.training_mode}</span>}
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="company_logo">Company Logo (optional)</label>
+                    <input
+                      type="file"
+                      id="company_logo"
+                      name="company_logo"
+                      onChange={handleChange}
+                      accept="image/*"
+                    />
+                    {logoPreview && (
+                      <div className="logo-preview-small">
+                        <img src={logoPreview} alt="Logo preview" />
+                      </div>
+                    )}
+                    {errors.company_logo && <span className="error-message">{errors.company_logo}</span>}
+                  </div>
+                </div>
+              )}
+
+              {/* Step 3 - Admin Account */}
+              {currentStep === 3 && (
+                <div className="form-step">
+                  <h3 className="step-title">Admin Account Details</h3>
+                  
+                  <div className="form-group">
+                    <label htmlFor="admin_name">Admin Name</label>
+                    <input
+                      type="text"
+                      id="admin_name"
+                      name="admin_name"
+                      value={formData.admin_name}
+                      onChange={handleChange}
+                      placeholder="Enter admin name"
+                      className={errors.admin_name ? 'error' : ''}
+                    />
+                    {errors.admin_name && <span className="error-message">{errors.admin_name}</span>}
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="admin_email">Admin Email</label>
+                    <input
+                      type="email"
+                      id="admin_email"
+                      name="admin_email"
+                      value={formData.admin_email}
+                      onChange={handleChange}
+                      placeholder="Enter admin email"
+                      className={errors.admin_email ? 'error' : ''}
+                    />
+                    {errors.admin_email && <span className="error-message">{errors.admin_email}</span>}
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="admin_phone">Admin Phone</label>
+                    <input
+                      type="tel"
+                      id="admin_phone"
+                      name="admin_phone"
+                      value={formData.admin_phone}
+                      onChange={handleChange}
+                      placeholder="Enter phone number"
+                      className={errors.admin_phone ? 'error' : ''}
+                    />
+                    {errors.admin_phone && <span className="error-message">{errors.admin_phone}</span>}
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="admin_password">Password</label>
+                    <input
+                      type="password"
+                      id="admin_password"
+                      name="admin_password"
+                      value={formData.admin_password}
+                      onChange={handleChange}
+                      placeholder="••••••••"
+                      className={errors.admin_password ? 'error' : ''}
+                    />
+                    {errors.admin_password && <span className="error-message">{errors.admin_password}</span>}
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="admin_password_confirmation">Confirm Password</label>
+                    <input
+                      type="password"
+                      id="admin_password_confirmation"
+                      name="admin_password_confirmation"
+                      value={formData.admin_password_confirmation}
+                      onChange={handleChange}
+                      placeholder="••••••••"
+                      className={errors.admin_password_confirmation ? 'error' : ''}
+                    />
+                    {errors.admin_password_confirmation && <span className="error-message">{errors.admin_password_confirmation}</span>}
+                  </div>
+
+                  <div className="form-group checkbox-group">
+                    <label className="checkbox-label">
+                      <input type="checkbox" required />
+                      <span>I agree to <a href="/privacy">privacy policy & terms</a></span>
+                    </label>
+                  </div>
+                </div>
+              )}
+
+              {/* Navigation Buttons */}
+              <div className="form-navigation">
+                {currentStep > 1 && (
+                  <button type="button" className="btn-secondary" onClick={handlePrevious}>
+                    Previous
+                  </button>
                 )}
-                {errors.company_logo && <span className="error-message">{errors.company_logo}</span>}
-              </div>
-            </div>
-
-            <div className="form-section">
-              <h3>Admin Account</h3>
-              
-              <div className="form-group">
-                <label htmlFor="admin_name">Admin Name</label>
-                <input
-                  type="text"
-                  id="admin_name"
-                  name="admin_name"
-                  value={formData.admin_name}
-                  onChange={handleChange}
-                  placeholder="Enter admin name"
-                  className={errors.admin_name ? 'error' : ''}
-                />
-                {errors.admin_name && <span className="error-message">{errors.admin_name}</span>}
+                {currentStep < totalSteps ? (
+                  <button type="button" className="btn-submit" onClick={handleNext}>
+                    Next
+                  </button>
+                ) : (
+                  <button type="submit" className="btn-submit" disabled={loading}>
+                    {loading ? 'Creating Account...' : 'Sign up'}
+                  </button>
+                )}
               </div>
 
-              <div className="form-row-2">
-                <div className="form-group">
-                  <label htmlFor="admin_email">Admin Email</label>
-                  <input
-                    type="email"
-                    id="admin_email"
-                    name="admin_email"
-                    value={formData.admin_email}
-                    onChange={handleChange}
-                    placeholder="admin@company.com"
-                    className={errors.admin_email ? 'error' : ''}
-                  />
-                  {errors.admin_email && <span className="error-message">{errors.admin_email}</span>}
-                </div>
+              {currentStep === 1 && (
+                <>
+                  <div className="form-footer">
+                    <p>Already have an account? <a href="/login">Sign in instead</a></p>
+                  </div>
 
-                <div className="form-group">
-                  <label htmlFor="admin_phone">Admin Phone</label>
-                  <input
-                    type="tel"
-                    id="admin_phone"
-                    name="admin_phone"
-                    value={formData.admin_phone}
-                    onChange={handleChange}
-                    placeholder="+1234567890"
-                    className={errors.admin_phone ? 'error' : ''}
-                  />
-                  {errors.admin_phone && <span className="error-message">{errors.admin_phone}</span>}
-                </div>
-              </div>
+                 
 
-              <div className="form-row-2">
-                <div className="form-group">
-                  <label htmlFor="admin_password">Password</label>
-                  <input
-                    type="password"
-                    id="admin_password"
-                    name="admin_password"
-                    value={formData.admin_password}
-                    onChange={handleChange}
-                    placeholder="••••••••"
-                    className={errors.admin_password ? 'error' : ''}
-                  />
-                  {errors.admin_password && <span className="error-message">{errors.admin_password}</span>}
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="admin_password_confirmation">Confirm Password</label>
-                  <input
-                    type="password"
-                    id="admin_password_confirmation"
-                    name="admin_password_confirmation"
-                    value={formData.admin_password_confirmation}
-                    onChange={handleChange}
-                    placeholder="••••••••"
-                    className={errors.admin_password_confirmation ? 'error' : ''}
-                  />
-                  {errors.admin_password_confirmation && <span className="error-message">{errors.admin_password_confirmation}</span>}
-                </div>
-              </div>
-            </div>
-
-            <button type="submit" className="btn-submit" disabled={loading}>
-              {loading ? 'Creating Account...' : 'Sign up'}
-            </button>
-
-            <div className="form-footer">
-              <p>Already have an account? <a href="/login">Sign in</a></p>
-            </div>
-          </form>
+                  
+                </>
+              )}
+            </form>
+          </div>
         </div>
       </div>
     </div>
