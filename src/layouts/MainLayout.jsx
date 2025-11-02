@@ -7,7 +7,7 @@ import TargetCursor from '../components/TargetCursor';
 const MainLayout = () => {
   return (
     <>
-      <TargetCursor 
+      {/* <TargetCursor 
         blobType="circle"
         fillColor="#5227FF"
         trailCount={3}
@@ -24,7 +24,7 @@ const MainLayout = () => {
         fastDuration={0.1}
         slowDuration={0.5}
         zIndex={100}
-      />
+      /> */}
       <Header />
       <main>
         <Outlet />

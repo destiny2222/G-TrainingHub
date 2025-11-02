@@ -1,7 +1,11 @@
-import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+
+import { useLayoutEffect, useRef } from 'react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -11,14 +15,33 @@ import testimonialImg3 from '../../assets/image/testimony/testim-3.jpg'
 import featureImg1 from '../../assets/image/feature/feature-1.webp';
 import featureImg2 from '../../assets/image/feature/feature-2.webp';
 import featureImg3 from '../../assets/image/feature/feature-3.webp';
-import videoSection from '../../assets/video/home-hero.mp4';
 import medialogo1 from '../../assets/image/background/ABA logo.png';
 import medialogo2 from '../../assets/image/background/AIPressRoom new.png';
 import medialogo3 from '../../assets/image/background/Bora Agribusiness Afrika light_new.png';
-import medialogo4 from '../../assets/image/background/africa cybersecurity Mag.png' 
+import medialogo4 from '../../assets/image/background/africa cybersecurity Mag.png'
 
+gsap.registerPlugin(ScrollTrigger);
 
 const Home = () => {
+    const heroVideoVisual = useRef(null);
+    useLayoutEffect(() => {
+        const ctx = gsap.context(() => {
+            gsap.fromTo(heroVideoVisual.current, { scale: .85, borderRadius: '1.2rem' }, {
+                scrollTrigger: {
+                    trigger: heroVideoVisual.current,
+                    markers: true,
+                    scrub: true,
+                    start: "top center",
+                    end: "center center",
+                },
+                scale: 1,
+                borderRadius: 0,
+            })
+        })
+        return () => ctx.revert();
+    })
+
+
     return (
         <>
             <section className="hero-section-wrapper">
@@ -30,18 +53,19 @@ const Home = () => {
                         <Link className="mentors-btn ">Register as Organization</Link>
                     </div>
                 </div>
-            </section>
-            <section className='home-hero-video-section'>
-                <div className="home-hero_visual">
-                    
-                    <video muted loop autoPlay className='inline-video_video'>
-                        <source src={videoSection} type="video/mp4" />
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
+                <section className='home-hero-video-section'>
+                    <div className="home-hero_visual">
+                        <video muted loop autoPlay className='inline-video_video' ref={heroVideoVisual}>
+                            <source src='/video/home-hero.mp4' type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </section>
             </section>
 
-            <section  className='what-you-get'>
+
+
+            <section className='what-you-get'>
                 <div className="container-fluid py-5">
                     <div className="row">
                         <div className="col-12 text-center mb-5">
@@ -59,7 +83,7 @@ const Home = () => {
                         <button className="swiper-button-next-custom feature-slider-arrow feature-slider-next">
                             <i className="lni lni-chevron-right"></i>
                         </button>
-                        
+
                         <Swiper
                             modules={[Navigation, Pagination, Autoplay]}
                             spaceBetween={30}
@@ -69,7 +93,7 @@ const Home = () => {
                                 prevEl: '.swiper-button-prev-custom',
                                 enabled: true,
                             }}
-                            pagination={{ 
+                            pagination={{
                                 clickable: true,
                                 el: '.swiper-pagination-custom',
                             }}
@@ -108,7 +132,7 @@ const Home = () => {
                                         <div id="" className="fluted-glass-component">
                                             <div className="fluted-glass-canvas" >
                                                 <img src="https://cdn.prod.website-files.com/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" alt="" className="fluted-glass-image" />
-                                                <canvas width="408" height="544" style={{display: "block", width: "100%", height: "100%", opacity: 1}}></canvas>
+                                                <canvas width="408" height="544" style={{ display: "block", width: "100%", height: "100%", opacity: 1 }}></canvas>
                                             </div>
                                         </div>
                                         <img src={featureImg1} className='u-img-cover' alt="" />
@@ -153,7 +177,7 @@ const Home = () => {
                                         <div id="" className="fluted-glass-component">
                                             <div className="fluted-glass-canvas" >
                                                 <img src="https://cdn.prod.website-files.com/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" alt="" className="fluted-glass-image" />
-                                                <canvas width="408" height="544" style={{display: "block", width: "100%", height: "100%", opacity: 1}}></canvas>
+                                                <canvas width="408" height="544" style={{ display: "block", width: "100%", height: "100%", opacity: 1 }}></canvas>
                                             </div>
                                         </div>
                                         <img src={featureImg1} className='u-img-cover' alt="Organization Training Options" />
@@ -193,7 +217,7 @@ const Home = () => {
                                 </div>
                             </SwiperSlide>
                         </Swiper>
-                        
+
                         {/* Custom Pagination */}
                         <div className="swiper-pagination-custom"></div>
                     </div>
@@ -211,27 +235,27 @@ const Home = () => {
                     <div className="row what-we-offer-content">
                         <div className="col-lg-6 what-we-offer-image-wrapper">
                             <div className="what-we-offer-image-container">
-                                <img 
-                                    src={featureImg1} 
-                                    alt="Build web experiences" 
+                                <img
+                                    src={featureImg1}
+                                    alt="Build web experiences"
                                     className="what-we-offer-image active"
                                     id="offer-image-1"
                                 />
-                                <img 
-                                    src={featureImg2} 
-                                    alt="Create and manage content" 
+                                <img
+                                    src={featureImg2}
+                                    alt="Create and manage content"
                                     className="what-we-offer-image"
                                     id="offer-image-2"
                                 />
-                                <img 
-                                    src={featureImg3} 
-                                    alt="Empower with templates" 
+                                <img
+                                    src={featureImg3}
+                                    alt="Empower with templates"
                                     className="what-we-offer-image"
                                     id="offer-image-3"
                                 />
-                                <img 
-                                    src={featureImg1} 
-                                    alt="Generate with AI" 
+                                <img
+                                    src={featureImg1}
+                                    alt="Generate with AI"
                                     className="what-we-offer-image"
                                     id="offer-image-4"
                                 />
@@ -239,7 +263,7 @@ const Home = () => {
                         </div>
                         <div className="col-lg-6 what-we-offer-text-wrapper">
                             <div className="what-we-offer-items">
-                                <div 
+                                <div
                                     className="what-we-offer-item js-scroll fade-in-bottom "
                                     onMouseEnter={() => {
                                         document.querySelectorAll('.what-we-offer-image').forEach(img => img.classList.remove('active'));
@@ -248,9 +272,9 @@ const Home = () => {
                                 >
                                     <h3>Build web experiences in a visual canvas</h3>
                                     <p>Create stunning AI-powered web applications without extensive coding. Our visual tools make development accessible to everyone.</p>
-                                    
+
                                 </div>
-                                <div 
+                                <div
                                     className="what-we-offer-item js-scroll fade-in-bottom "
                                     onMouseEnter={() => {
                                         document.querySelectorAll('.what-we-offer-image').forEach(img => img.classList.remove('active'));
@@ -259,9 +283,9 @@ const Home = () => {
                                 >
                                     <h3>Create, edit, and manage content in a visual, composable CMS</h3>
                                     <p>Master content management systems enhanced with AI capabilities. Learn to build and manage dynamic content efficiently.</p>
-                                    
+
                                 </div>
-                                <div 
+                                <div
                                     className="what-we-offer-item js-scroll fade-in-bottom "
                                     onMouseEnter={() => {
                                         document.querySelectorAll('.what-we-offer-image').forEach(img => img.classList.remove('active'));
@@ -270,9 +294,9 @@ const Home = () => {
                                 >
                                     <h3>Empower everyone with page building and templates</h3>
                                     <p>Access pre-built templates and learn to customize them for your specific needs. No technical expertise required to get started.</p>
-                                    
+
                                 </div>
-                                <div 
+                                <div
                                     className="what-we-offer-item js-scroll fade-in-bottom "
                                     onMouseEnter={() => {
                                         document.querySelectorAll('.what-we-offer-image').forEach(img => img.classList.remove('active'));
@@ -281,7 +305,7 @@ const Home = () => {
                                 >
                                     <h3>Generate production-ready apps and reusable components with AI</h3>
                                     <p>Harness the power of AI to accelerate your development workflow. Create production-ready applications faster than ever.</p>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -367,7 +391,7 @@ const Home = () => {
                             delay: 3000,
                             disableOnInteraction: false,
                         }}
-                        pagination={{ 
+                        pagination={{
                             clickable: true,
                         }}
                         loop={true}

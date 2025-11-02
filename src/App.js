@@ -32,7 +32,7 @@ import DashboardLayout from './layouts/DashboardLayout';
 function App() {
   const location = useLocation();
   useScrollAnimation(location);
- 
+
   return (
     <div className="App">
       <ToastContainer
@@ -64,7 +64,7 @@ function App() {
         <Route path="/admin" element={
           <AdminAuthGuard>
             <AdminLayout />
-            
+
           </AdminAuthGuard>
         }>
           <Route path="dashboard" element={<AdminDashboard />} />
