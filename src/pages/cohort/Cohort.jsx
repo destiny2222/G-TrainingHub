@@ -1,10 +1,13 @@
-import React from 'react'
-import './Cohort.css'
+import './Cohort.css';
+import { IoIosSearch } from "react-icons/io";
+
 
 function Cohort() {
+
     return (
         <>
-            <section className="breadcrumb-area cohort-hero-section pt-100 pb-100">
+            <section className="breadcrumb-area cohort-hero-section pt-100 pb-100 background">
+
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-12">
@@ -17,10 +20,16 @@ function Cohort() {
                 </div>
             </section>
 
-            <section className="resources-section pt-100 pb-100">
-                <div className="container">
-                    <div className="resources-wrap">
-                        <aside className="sidebar">
+            <section className="cohort-section">
+                <div className="cohort-title">
+                    <h2>Free Curated AI And Data Resources</h2>
+                    <div className="search-row">
+                        <IoIosSearch fontSize={'2rem'} /><input className="search-input" placeholder="Ask AI Tutor about this document" />
+                    </div>
+                </div>
+                <div className="cohort-container">
+                    <div className="">
+                        {/* <aside className="sidebar">
                             <div className="filters">
                                 <h4>Filters</h4>
                                 <div className="filter-group">
@@ -40,20 +49,13 @@ function Cohort() {
                                     </ul>
                                 </div>
                             </div>
-                        </aside>
+                        </aside> */}
 
-                        <main className="main-content">
-                            <div className="resources-header">
-                                <h2>Free Curated AI And Data Resources</h2>
-                                <div className="search-row">
-                                    <input className="search-input" placeholder="Ask AI Tutor about this document" />
-                                </div>
-                            </div>
-
-                            <div className="cards-grid">
-                                <article className="card">
-                                    <div className="card-img" style={{backgroundImage: 'linear-gradient(180deg,#1f2933,#111418)'}} />
-                                    <div className="card-body">
+                        <main className="">
+                            <div className="">
+                                <article className="cohort-card">
+                                    <div className="cohort-card-img" style={{ backgroundImage: 'linear-gradient(180deg,#2a3a48,#0f1720)' }} />
+                                    <div className="cohort-card-body">
                                         <div className="tags">
                                             <span className="tag video">Video</span>
                                             <span className="tag level">Beginner</span>
@@ -66,9 +68,9 @@ function Cohort() {
                                     </div>
                                 </article>
 
-                                <article className="card">
-                                    <div className="card-img" style={{backgroundImage: 'linear-gradient(180deg,#2a3a48,#0f1720)'}} />
-                                    <div className="card-body">
+                                <article className="cohort-card">
+                                    <div className="cohort-card-img" style={{ backgroundImage: 'linear-gradient(180deg,#2a3a48,#0f1720)' }} />
+                                    <div className="cohort-card-body">
                                         <div className="tags">
                                             <span className="tag article">Article</span>
                                             <span className="tag level orange">Intermediate</span>
@@ -81,9 +83,9 @@ function Cohort() {
                                     </div>
                                 </article>
 
-                                <article className="card">
-                                    <div className="card-img" style={{backgroundImage: 'linear-gradient(180deg,#1b3a3a,#071019)'}} />
-                                    <div className="card-body">
+                                <article className="cohort-card">
+                                    <div className="cohort-card-img" style={{ backgroundImage: 'linear-gradient(180deg,#1b3a3a,#071019)' }} />
+                                    <div className="cohort-card-body">
                                         <div className="tags">
                                             <span className="tag dataset">Dataset</span>
                                             <span className="tag level red">Advanced</span>

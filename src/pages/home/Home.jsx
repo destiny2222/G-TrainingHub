@@ -26,16 +26,16 @@ const Home = () => {
     const heroVideoVisual = useRef(null);
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
-            gsap.fromTo(heroVideoVisual.current, { scale: .85, borderRadius: '1.2rem' }, {
+            gsap.fromTo(heroVideoVisual.current, { scale: .85, borderRadius: '1.2rem', y: 100 }, {
                 scrollTrigger: {
                     trigger: heroVideoVisual.current,
-                    markers: true,
                     scrub: true,
-                    start: "top center",
+                    start: "-50% center",
                     end: "center center",
                 },
                 scale: 1,
                 borderRadius: 0,
+                y: 0,
             })
         })
         return () => ctx.revert();
@@ -69,7 +69,7 @@ const Home = () => {
                 <div className="container-fluid py-5">
                     <div className="row">
                         <div className="col-12 text-center mb-5">
-                            <h2 className='what-you-get-title js-scroll slide-left'>What You'll Get</h2>
+                            <h2 className='what-you-get-title js-scroll fade-in-bottom'>What You'll Get</h2>
                             <p className='what-you-get-subtitle js-scroll fade-in-bottom'>
                                 Our program is designed to provide you with a complete learning experience, from live training sessions to personalized mentorship and career support.
                             </p>
