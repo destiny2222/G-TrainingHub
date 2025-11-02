@@ -184,7 +184,7 @@
   max-width: 350px;
 }
 
-.form-group {
+.login-page-wrapper .form-group {
   margin-bottom: 20px;
   position: relative;
 }

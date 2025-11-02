@@ -14,6 +14,7 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [loginType, setLoginType] = useState('user'); // 'user' or 'organization'
 
   // Form data state
   const [formData, setFormData] = useState({
@@ -36,6 +37,14 @@ const Login = () => {
         [name]: ''
       }));
     }
+  };
+
+  // Handle login type change
+  const handleLoginTypeChange = (e) => {
+    const newLoginType = e.target.value;
+    setLoginType(newLoginType);
+    // Clear form errors when switching login types
+    setErrors({});
   };
 
   // Validate form
@@ -68,12 +77,16 @@ const Login = () => {
     setErrors({});
 
     try {
+      // Determine API endpoint based on login type
+      const endpoint = loginType === 'organization' 
+        ? '/api/organization/login'
+        : '/api/user/login';
+
       const response = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000'}/api/auth/login`,
+        `${process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000'}${endpoint}`,
         {
           email: formData.email,
-          password: formData.password,
-          remember_me: rememberMe
+          password: formData.password
         },
         {
           headers: {
@@ -153,21 +166,37 @@ const Login = () => {
     )
   };
 
-  // Slider content data
-  const slides = [
+  // Slider content data - Dynamic based on login type
+  const slides = loginType === 'organization' ? [
     {
-      title: "Welcome Back to Gritinai",
-      description: "Continue your journey in transforming your organization with cutting-edge training programs and comprehensive learning management.",
+      title: "Welcome Back to Your Organization Hub",
+      description: "Access your comprehensive training management dashboard and continue building your team's capabilities with data-driven insights.",
       image: slideOne
     },
     {
-      title: "Access Your Dashboard",
-      description: "Manage your courses, track progress, and analyze performance metrics all in one centralized platform designed for efficiency.",
+      title: "Manage Your Training Programs", 
+      description: "Oversee courses, track team progress, and analyze performance metrics all in one centralized platform designed for organizational efficiency.",
+      image: slideOne
+    },
+    {
+      title: "Scale Your Organization's Growth",
+      description: "Resume managing your organization's learning initiatives with personalized training paths and comprehensive analytics.",
+      image: slideOne
+    }
+  ] : [
+    {
+      title: "Welcome Back to Gritinai",
+      description: "Continue your personal learning journey and access cutting-edge training programs designed to enhance your professional skills.",
+      image: slideOne
+    },
+    {
+      title: "Access Your Learning Dashboard",
+      description: "Track your progress, manage your courses, and continue building your skills with our personalized learning platform.",
       image: slideOne
     },
     {
       title: "Resume Your Training",
-      description: "Pick up where you left off and continue building your team's skills with our personalized learning paths and data-driven insights.",
+      description: "Pick up where you left off and continue developing your skills with our comprehensive learning paths and progress tracking.",
       image: slideOne
     }
   ];
@@ -179,8 +208,44 @@ const Login = () => {
         <div className="user-login-left-panel">
           <div className="form-scroll-container">
             <div className="user-login-form-header">
-              <h1>Log In to Explore</h1>
-              <p>Navigate your organization's training journey with comprehensive learning</p>
+              <h1>{loginType === 'organization' ? 'Welcome Back!' : 'Welcome Back!'}</h1>
+              {/* <h1>{loginType === 'organization' ? 'Organization Login' : 'Log In to Explore'}</h1> */}
+              <p>
+                {loginType === 'organization' 
+                  ? 'Please login to your account.'
+                  // ? 'Access your organization\'s training management dashboard and oversee your team\'s learning journey'
+                  : 'Please login to your account'
+                  // : 'Navigate your learning journey with comprehensive training programs and skill development'
+                }
+              </p>
+              
+              {/* Login Type Selector */}
+              <div className="login-type-selector">
+                <div className="login-type-options">
+                  <label className={`login-type-option ${loginType === 'user' ? 'active' : ''}`}>
+                    <input
+                      type="radio"
+                      name="loginType"
+                      value="user"
+                      checked={loginType === 'user'}
+                      onChange={handleLoginTypeChange}
+                    />
+                    <span className="option-icon">👤</span>
+                    <span className="option-text">Individual User</span>
+                  </label>
+                  <label className={`login-type-option ${loginType === 'organization' ? 'active' : ''}`}>
+                    <input
+                      type="radio"
+                      name="loginType"
+                      value="organization"
+                      checked={loginType === 'organization'}
+                      onChange={handleLoginTypeChange}
+                    />
+                    <span className="option-icon">🏢</span>
+                    <span className="option-text">Organization</span>
+                  </label>
+                </div>
+              </div>
             </div>
 
             <form onSubmit={handleSubmit} className="user-login-form">
@@ -256,21 +321,26 @@ const Login = () => {
 
                 {/* Submit Button */}
                 <button type="submit" className="btn-submit" disabled={loading}>
-                  {loading ? 'Signing In...' : 'Login'}
+                  {loading ? 'Signing In...' : `Login as ${loginType === 'organization' ? 'Organization' : 'User'}`}
                 </button>
 
                 {/* Sign Up Link */}
                 <div className="form-footer">
-                  <p>Register as an organization? <Link to="/organization/register">Sign Up</Link></p>
+                  {loginType === 'organization' ? (
+                    <p>Don't have an organization account? <Link to="/organization/register">Register Organization</Link></p>
+                  ) : (
+                    // <p>Don't have an account? <Link to="/register">Sign Up</Link></p>
+                    <></>
+                  )}
                 </div>
 
                 {/* Divider */}
-                <div className="divider">
+                {/* <div className="divider">
                   <span>OR CONTINUE WITH</span>
-                </div>
+                </div> */}
 
                 {/* Social Login (Optional) */}
-                <div className="auth-social-login">
+                {/* <div className="auth-social-login">
                   <button type="button" className="btn-social google">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                       <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -280,7 +350,7 @@ const Login = () => {
                     </svg>
                     Sign in with Google
                   </button>
-                </div>
+                </div> */}
               </div>
             </form>
           </div>
