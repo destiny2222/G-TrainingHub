@@ -1,8 +1,8 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from '../components/Header';
+import '../assets/css/style.css';
 import Footer from '../components/Footer';
-import TargetCursor from '../components/TargetCursor';
 
 const MainLayout = () => {
   return (
