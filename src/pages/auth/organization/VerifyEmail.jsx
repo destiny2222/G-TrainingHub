@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import './VerifyEmail.css';
@@ -8,11 +8,19 @@ const VerifyEmail = () => {
   const [searchParams] = useSearchParams();
   const [status, setStatus] = useState('verifying'); // verifying, success, error
   const [message, setMessage] = useState('');
+  const hasVerifiedRef = useRef(false);
 
   useEffect(() => {
     const verifyEmail = async () => {
+      // Prevent multiple calls using ref
+      if (hasVerifiedRef.current) return;
+      hasVerifiedRef.current = true;
+
+      // Get token and email from URL params (from email verification link)
       const token = searchParams.get('token');
       const email = searchParams.get('email');
+
+      console.log('Verification attempt:', { token, email, hasVerified: hasVerifiedRef.current });
 
       if (!token || !email) {
         setStatus('error');
@@ -31,27 +39,41 @@ const VerifyEmail = () => {
           }
         );
 
+        console.log('Verification response:', response.data);
+
         if (response.data) {
           setStatus('success');
           setMessage(response.data.message || 'Your email has been verified successfully!');
 
-          // remove the access token if provided
+          // Store access token if provided
           if (response.data.access_token) {
-            localStorage.removeItem('authToken');
+            localStorage.setItem('authToken', response.data.access_token);
           }
           
-          // Redirect to login after 3 seconds
+          // Redirect to login/dashboard after 3 seconds
           setTimeout(() => {
             navigate('/login');
           }, 5000);
         }
       } catch (error) {
         console.error('Verification error:', error);
-        setStatus('error');
-        setMessage(
-          error.response?.data?.message || 
-          'Verification failed. The link may be expired or invalid.'
-        );
+        console.error('Error response:', error.response?.data);
+        
+        // Check if it's already verified
+        if (error.response?.status === 200 || 
+            (error.response?.data?.message && error.response.data.message.includes('already been verified'))) {
+          setStatus('success');
+          setMessage('Email has already been verified successfully!');
+          setTimeout(() => {
+            navigate('/login');
+          }, 3000);
+        } else {
+          setStatus('error');
+          setMessage(
+            error.response?.data?.message || 
+            'Verification failed. The link may be expired or invalid.'
+          );
+        }
       }
     };
 

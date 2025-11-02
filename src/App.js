@@ -1,4 +1,3 @@
-import './assets/css/style.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { Routes, Route, useLocation } from "react-router-dom";
@@ -9,7 +8,7 @@ import Cohort from './pages/cohort/Cohort';
 import Dashboard from './pages/user_dash/dashboard/Dashboard';
 import OrganizationDashboard from './pages/user_dash/dashboard/OrganizationDashboard';
 import AdminDashboard from './pages/admin/AdminDashboard';
-import Login from './pages/admin/auth/Login';
+import AdminLogin from './pages/admin/auth/Login';
 import CourseList from './pages/admin/course/List';
 import CourseCreate from './pages/admin/course/Create';
 import CourseEdit from './pages/admin/course/Edit';
@@ -28,6 +27,7 @@ import MainLayout from './layouts/MainLayout';
 import AuthLayout from './layouts/AuthLayout';
 import AdminLayout from './layouts/AdminLayout';
 import DashboardLayout from './layouts/DashboardLayout';
+import Login from "./pages/auth/Login";
 
 function App() {
   const location = useLocation();
@@ -81,10 +81,11 @@ function App() {
 
         {/* Auth routes (login, register, etc.) */}
         <Route element={<AuthLayout />}>
-          <Route path="/admin/login" element={<Login />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/organization/register" element={<Organizationregister />} />
           <Route path="/verification" element={<VerificationPending />} />
           <Route path="/verify-organization" element={<VerifyEmail />} />
+          <Route path="/login" element={<Login />} />
         </Route>
 
         {/* 404 Page - standalone without layout */}
