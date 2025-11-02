@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import './Organizationregister.css';
+import slideOne from '../../../assets/image/auth/auth-register-illustration-light.png';
 
 const Organizationregister = () => {
   const navigate = useNavigate();
@@ -10,6 +14,8 @@ const Organizationregister = () => {
   const [errors, setErrors] = useState({});
   const [logoPreview, setLogoPreview] = useState(null);
   const [currentStep, setCurrentStep] = useState(1);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const totalSteps = 3;
 
   // Form data state
@@ -25,7 +31,7 @@ const Organizationregister = () => {
     company_logo: null,
     address: '',
     training_mode: '',
-    
+
     // Step 2 - Admin User Details (only for admin_user method)
     admin_name: '',
     admin_email: '',
@@ -37,14 +43,14 @@ const Organizationregister = () => {
   // Handle input changes
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
-    
+
     if (type === 'file') {
       const file = files[0];
       setFormData(prev => ({
         ...prev,
         [name]: file
       }));
-      
+
       // Create preview for logo
       if (file) {
         const reader = new FileReader();
@@ -59,7 +65,7 @@ const Organizationregister = () => {
         [name]: value
       }));
     }
-    
+
     // Clear error for this field
     if (errors[name]) {
       setErrors(prev => ({
@@ -129,7 +135,7 @@ const Organizationregister = () => {
   // Handle next step
   const handleNext = () => {
     let isValid = false;
-    
+
     if (currentStep === 1) {
       isValid = validateStep1();
     } else if (currentStep === 2) {
@@ -185,7 +191,7 @@ const Organizationregister = () => {
       submitData.append('training_mode', formData.training_mode);
 
       if (formData.company_logo) {
-        submitData.append('company_logo', formData.company_logo);
+        submitData.append('company_logo_path_thumbnail', formData.company_logo);
       }
 
       // Add admin details - now required for both methods
@@ -210,12 +216,12 @@ const Organizationregister = () => {
         toast.success(`Registration successful! A verification email has been sent to ${formData.admin_email}. Please check your email to complete registration.`, {
           autoClose: 5000
         });
-        // Redirect to a verification pending page
-        navigate('/verification-pending', { state: { email: formData.admin_email } });
+        // Redirect to verification pending page (waiting for email click)
+        navigate('/verification', { state: { email: formData.admin_email } });
       }
     } catch (error) {
       console.error('Registration error:', error);
-      
+
       if (error.response?.data?.errors) {
         setErrors(error.response.data.errors);
         toast.error('Please fix the errors in the form.');
@@ -258,62 +264,52 @@ const Organizationregister = () => {
     { value: 'hybrid', label: 'Hybrid' }
   ];
 
+  // Slider settings
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    fade: true,
+    arrows: false,
+    pauseOnHover: true,
+    appendDots: dots => (
+      <div className="slider-dots">
+        <ul style={{ margin: "0px" }}> {dots} </ul>
+      </div>
+    ),
+    customPaging: () => (
+      <div className="dot"></div>
+    )
+  };
+
+  // Slider content data
+  const slides = [
+    {
+      title: "Transform Your Organization",
+      description: "Empower your team with cutting-edge training programs and comprehensive learning management. Join thousands of organizations revolutionizing their workforce development.",
+      image: slideOne
+    },
+    {
+      title: "Streamline Training Operations",
+      description: "Manage courses, track progress, and measure success all in one place. Our platform simplifies complex training workflows for maximum efficiency.",
+      image: slideOne
+    },
+    {
+      title: "Grow Your Team's Skills",
+      description: "Create personalized learning paths and upskill your workforce with data-driven insights. Build a culture of continuous learning and development.",
+      image: slideOne
+    }
+  ];
+
   return (
     <div className="organization-register-container">
       <div className="register-wrapper">
-        {/* Left Side - Illustration/Info */}
+        {/* Left Side - Form */}
         <div className="register-left-panel">
-          <div className="left-panel-content">
-            <div className="brand-section">
-              <div className="brand-logo">
-                <span className="logo-icon">🎓</span>
-                <span className="brand-name">Gritinai</span>
-              </div>
-            </div>
-            
-            <div className="illustration-section">
-              <div className="illustration-card sessions-card">
-                <h4>Sessions</h4>
-                <p className="subtitle">This Month</p>
-                <div className="stats-bars">
-                  <div className="stat-bar purple" style={{ height: '40px' }}></div>
-                  <div className="stat-bar blue" style={{ height: '50px' }}></div>
-                  <div className="stat-bar purple" style={{ height: '60px' }}></div>
-                  <div className="stat-bar blue" style={{ height: '45px' }}></div>
-                  <div className="stat-bar green" style={{ height: '55px' }}></div>
-                  <div className="stat-bar green" style={{ height: '40px' }}></div>
-                  <div className="stat-bar purple" style={{ height: '65px' }}></div>
-                  <div className="stat-bar blue" style={{ height: '50px' }}></div>
-                </div>
-                <div className="stats-number">
-                  <span className="big-number">45.1k</span>
-                  <span className="percentage">+16.4%</span>
-                </div>
-              </div>
-
-              <div className="main-illustration">
-                <div className="person-illustration">👩‍💼</div>
-              </div>
-
-              <div className="illustration-card sales-card">
-                <h4>Sales</h4>
-                <p className="subtitle">Last Year</p>
-                <div className="chart-line">
-                  <svg viewBox="0 0 100 40" width="100%" height="60">
-                    <path d="M 0,30 Q 25,20 50,25 T 100,15" fill="none" stroke="#10b981" strokeWidth="2"/>
-                  </svg>
-                </div>
-                <div className="stats-number">
-                  <span className="big-number">175k</span>
-                  <span className="percentage negative">-16.2%</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Side - Form */}
-        <div className="register-right-panel">
           <div className="form-scroll-container">
             <div className="register-form-header">
               <h1>Adventure starts here 🚀</h1>
@@ -343,33 +339,34 @@ const Organizationregister = () => {
               {currentStep === 1 && (
                 <div className="form-step">
                   <h3 className="step-title">Basic Organization Information</h3>
-                  
-                  <div className="form-group">
-                    <label htmlFor="name">Organization Name</label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      placeholder="Enter your organization name"
-                      className={errors.name ? 'error' : ''}
-                    />
-                    {errors.name && <span className="error-message">{errors.name}</span>}
-                  </div>
+                  <div className='form-row-2'>
+                    <div className="form-group">
+                      <label htmlFor="name">Organization Name</label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        placeholder="Enter your organization name"
+                        className={errors.name ? 'error' : ''}
+                      />
+                      {errors.name && <span className="error-message">{errors.name}</span>}
+                    </div>
 
-                  <div className="form-group">
-                    <label htmlFor="rc_number">RC Number</label>
-                    <input
-                      type="text"
-                      id="rc_number"
-                      name="rc_number"
-                      value={formData.rc_number}
-                      onChange={handleChange}
-                      placeholder="Enter RC number"
-                      className={errors.rc_number ? 'error' : ''}
-                    />
-                    {errors.rc_number && <span className="error-message">{errors.rc_number}</span>}
+                    <div className="form-group">
+                      <label htmlFor="rc_number">RC Number</label>
+                      <input
+                        type="text"
+                        id="rc_number"
+                        name="rc_number"
+                        value={formData.rc_number}
+                        onChange={handleChange}
+                        placeholder="Enter RC number"
+                        className={errors.rc_number ? 'error' : ''}
+                      />
+                      {errors.rc_number && <span className="error-message">{errors.rc_number}</span>}
+                    </div>
                   </div>
 
                   <div className="form-row-2">
@@ -414,33 +411,33 @@ const Organizationregister = () => {
               {currentStep === 2 && (
                 <div className="form-step">
                   <h3 className="step-title">Contact & Training Details</h3>
-                  
-                  <div className="form-group">
-                    <label htmlFor="training_focus_area">Training Focus Area</label>
-                    <input
-                      type="text"
-                      id="training_focus_area"
-                      name="training_focus_area"
-                      value={formData.training_focus_area}
-                      onChange={handleChange}
-                      placeholder="e.g., AI/ML, Leadership, Sales"
-                      className={errors.training_focus_area ? 'error' : ''}
-                    />
-                    {errors.training_focus_area && <span className="error-message">{errors.training_focus_area}</span>}
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="contact_person_name">Contact Person</label>
-                    <input
-                      type="text"
-                      id="contact_person_name"
-                      name="contact_person_name"
-                      value={formData.contact_person_name}
-                      onChange={handleChange}
-                      placeholder="Enter contact person name"
-                      className={errors.contact_person_name ? 'error' : ''}
-                    />
-                    {errors.contact_person_name && <span className="error-message">{errors.contact_person_name}</span>}
+                  <div className='form-row-2'>
+                    <div className="form-group">
+                      <label htmlFor="contact_person_name">Contact Person</label>
+                      <input
+                        type="text"
+                        id="contact_person_name"
+                        name="contact_person_name"
+                        value={formData.contact_person_name}
+                        onChange={handleChange}
+                        placeholder="Enter contact person name"
+                        className={errors.contact_person_name ? 'error' : ''}
+                      />
+                      {errors.contact_person_name && <span className="error-message">{errors.contact_person_name}</span>}
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="training_focus_area">Training Focus Area</label>
+                      <input
+                        type="text"
+                        id="training_focus_area"
+                        name="training_focus_area"
+                        value={formData.training_focus_area}
+                        onChange={handleChange}
+                        placeholder="e.g., AI/ML, Leadership, Sales"
+                        className={errors.training_focus_area ? 'error' : ''}
+                      />
+                      {errors.training_focus_area && <span className="error-message">{errors.training_focus_area}</span>}
+                    </div>
                   </div>
 
                   <div className="form-group">
@@ -513,35 +510,35 @@ const Organizationregister = () => {
               {currentStep === 3 && (
                 <div className="form-step">
                   <h3 className="step-title">Admin Account Details</h3>
-                  
-                  <div className="form-group">
-                    <label htmlFor="admin_name">Admin Name</label>
-                    <input
-                      type="text"
-                      id="admin_name"
-                      name="admin_name"
-                      value={formData.admin_name}
-                      onChange={handleChange}
-                      placeholder="Enter admin name"
-                      className={errors.admin_name ? 'error' : ''}
-                    />
-                    {errors.admin_name && <span className="error-message">{errors.admin_name}</span>}
-                  </div>
+                  <div className='form-row-2'>
+                    <div className="form-group">
+                      <label htmlFor="admin_name">Admin Name</label>
+                      <input
+                        type="text"
+                        id="admin_name"
+                        name="admin_name"
+                        value={formData.admin_name}
+                        onChange={handleChange}
+                        placeholder="Enter admin name"
+                        className={errors.admin_name ? 'error' : ''}
+                      />
+                      {errors.admin_name && <span className="error-message">{errors.admin_name}</span>}
+                    </div>
 
-                  <div className="form-group">
-                    <label htmlFor="admin_email">Admin Email</label>
-                    <input
-                      type="email"
-                      id="admin_email"
-                      name="admin_email"
-                      value={formData.admin_email}
-                      onChange={handleChange}
-                      placeholder="Enter admin email"
-                      className={errors.admin_email ? 'error' : ''}
-                    />
-                    {errors.admin_email && <span className="error-message">{errors.admin_email}</span>}
+                    <div className="form-group">
+                      <label htmlFor="admin_email">Admin Email</label>
+                      <input
+                        type="email"
+                        id="admin_email"
+                        name="admin_email"
+                        value={formData.admin_email}
+                        onChange={handleChange}
+                        placeholder="Enter admin email"
+                        className={errors.admin_email ? 'error' : ''}
+                      />
+                      {errors.admin_email && <span className="error-message">{errors.admin_email}</span>}
+                    </div>
                   </div>
-
                   <div className="form-group">
                     <label htmlFor="admin_phone">Admin Phone</label>
                     <input
@@ -558,29 +555,69 @@ const Organizationregister = () => {
 
                   <div className="form-group">
                     <label htmlFor="admin_password">Password</label>
-                    <input
-                      type="password"
-                      id="admin_password"
-                      name="admin_password"
-                      value={formData.admin_password}
-                      onChange={handleChange}
-                      placeholder="••••••••"
-                      className={errors.admin_password ? 'error' : ''}
-                    />
+                    <div className="password-input-wrapper">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        id="admin_password"
+                        name="admin_password"
+                        value={formData.admin_password}
+                        onChange={handleChange}
+                        placeholder="••••••••"
+                        className={errors.admin_password ? 'error' : ''}
+                      />
+                      <button
+                        type="button"
+                        className="password-toggle"
+                        onClick={() => setShowPassword(!showPassword)}
+                        aria-label={showPassword ? "Hide password" : "Show password"}
+                      >
+                        {showPassword ? (
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                            <line x1="1" y1="1" x2="23" y2="23"></line>
+                          </svg>
+                        ) : (
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                          </svg>
+                        )}
+                      </button>
+                    </div>
                     {errors.admin_password && <span className="error-message">{errors.admin_password}</span>}
                   </div>
 
                   <div className="form-group">
                     <label htmlFor="admin_password_confirmation">Confirm Password</label>
-                    <input
-                      type="password"
-                      id="admin_password_confirmation"
-                      name="admin_password_confirmation"
-                      value={formData.admin_password_confirmation}
-                      onChange={handleChange}
-                      placeholder="••••••••"
-                      className={errors.admin_password_confirmation ? 'error' : ''}
-                    />
+                    <div className="password-input-wrapper">
+                      <input
+                        type={showConfirmPassword ? "text" : "password"}
+                        id="admin_password_confirmation"
+                        name="admin_password_confirmation"
+                        value={formData.admin_password_confirmation}
+                        onChange={handleChange}
+                        placeholder="••••••••"
+                        className={errors.admin_password_confirmation ? 'error' : ''}
+                      />
+                      <button
+                        type="button"
+                        className="password-toggle"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                      >
+                        {showConfirmPassword ? (
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                            <line x1="1" y1="1" x2="23" y2="23"></line>
+                          </svg>
+                        ) : (
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                          </svg>
+                        )}
+                      </button>
+                    </div>
                     {errors.admin_password_confirmation && <span className="error-message">{errors.admin_password_confirmation}</span>}
                   </div>
 
@@ -616,13 +653,37 @@ const Organizationregister = () => {
                   <div className="form-footer">
                     <p>Already have an account? <a href="/login">Sign in instead</a></p>
                   </div>
-
-                 
-
-                  
                 </>
               )}
             </form>
+          </div>
+        </div>
+
+        {/* Right Side - Slider/Carousel */}
+        <div className="register-right-panel">
+          <div className="slider-overlay"></div>
+          <div className="slider-content">
+            <div className="brand-section">
+              <div className="brand-logo">
+                <span className="logo-icon">🎓</span>
+                <span className="brand-name">Gritinai</span>
+              </div>
+            </div>
+
+            <div className="slider-main">
+              <Slider {...sliderSettings}>
+                {slides.map((slide, index) => (
+                  <div key={index} className="slide-item">
+                    <div className="slide-content">
+                      <div className="slide-text">
+                        <h2>{slide.title}</h2>
+                        <p>{slide.description}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </Slider>
+            </div>
           </div>
         </div>
       </div>

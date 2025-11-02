@@ -2,7 +2,7 @@ import React from 'react';
 import DashboardHeader from '../../../components/dashboard/DashboardHeader';
 import Sidebar from '../../../components/dashboard/Sidebar';
 import cohortImage from '../../../assets/image/background/background.jpeg';
-import { Award, Profile, Book, PlayCircle } from 'iconsax-reactjs';
+import { Award, Profile, Book } from 'iconsax-reactjs';
 
 function Dashboard() {
     return (
