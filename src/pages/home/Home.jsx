@@ -26,7 +26,7 @@ const Home = () => {
     const heroVideoVisual = useRef(null);
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
-            gsap.fromTo(heroVideoVisual.current, { scale: .85, borderRadius: '1.2rem', y: 100 }, {
+            gsap.fromTo(heroVideoVisual.current, { scale: .7, borderRadius: '1.2rem', y: -100 }, {
                 scrollTrigger: {
                     trigger: heroVideoVisual.current,
                     scrub: true,
@@ -53,6 +53,15 @@ const Home = () => {
                         <Link className="mentors-btn ">Register as Organization</Link>
                     </div>
                 </div>
+                <section className='info-section'>
+                    <div className='info'>
+                        <p>Starting at 10am blah blah blah</p>
+                        <p>Starting at 10am blah blah blah</p>
+                        <p>Starting at 10am blah blah blah</p>
+                        <p>Starting at 10am blah blah blah</p>
+                    </div>
+                    <div className='info'><p>Starting at 10am blah blah blah</p> <p>Starting at 10am blah blah blah</p><p>Starting at 10am blah blah blah</p> <p>Starting at 10am blah blah blah</p></div></section>
+
                 <section className='home-hero-video-section'>
                     <div className="home-hero_visual">
                         <video muted loop autoPlay className='inline-video_video' ref={heroVideoVisual}>

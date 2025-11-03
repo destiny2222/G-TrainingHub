@@ -675,12 +675,30 @@ ul {
     color: var(--black);
 }
 
-/* .home-hero_visual {} */
+.home-hero_visual {
+    padding-top: 0;
+}
 
-/* .home-hero-video-section {
-    position: absolute;
-    bottom: 0;
-} */
+.info-section {
+    display: flex;
+    gap: 4rem;
+    justify-content: space-evenly;
+    width: 200%;
+    animation: slide 20s linear infinite;
+}
+
+@keyframes slide {
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 2rem;
+}
 
 .inline-video_video {
     display: flex;

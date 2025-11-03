@@ -90,7 +90,7 @@
 
 .cohort-card-img {
   width: 50%;
-  height: 200px;
+  height: inherit;
   padding: 1rem;
   border-radius: 12px;
 }
@@ -101,7 +101,6 @@
   width: 100%;
   gap: 2rem;
   background-color: #fafafa;
-  padding: 3rem;
   margin-bottom: 2rem;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   border-radius: .7rem;
@@ -110,6 +109,7 @@
 .cohort-card-body {
   display: flex;
   flex-direction: column;
+  padding: 2rem;
   gap: 1rem;
 }
 
