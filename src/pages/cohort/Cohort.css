@@ -55,3 +55,138 @@
   .resources-wrap{flex-direction:column}
   .sidebar{width:100%}
 } */
+
+.cohort-section {
+    width: 100%;
+    padding: 2.4rem;
+}
+
+.cohort-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.cohort-title {
+    margin-bottom: 4rem;
+}
+
+.cohort-title h2 {
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: #0b1220;
+}
+
+.search-row {
+    display: flex;
+    gap: 1.2rem;
+    border-radius: 9999px;
+    border: 2px solid #babfc5;
+    width: 100%;
+    padding: 0.7rem 1.2rem;
+}
+
+.cohort-card-img {
+    width: 30%;
+    height: inherit;
+    padding: 1rem;
+    border-radius: 12px;
+}
+
+.cohort-card {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 2rem;
+    background-color: #fafafa;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 0.7rem;
+}
+
+.cohort-card-body {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    gap: 1rem;
+}
+
+.card-title {
+    color: var(--black-dark);
+}
+
+.card-desc {
+    font-weight: normal !important;
+}
+
+.cohort-card-body .tags {
+    display: flex;
+    gap: 1rem;
+    color: var(--dark-primary-color);
+}
+
+.cohort-card-body .tags span {
+    cursor: pointer;
+    transition-property: color;
+    transition-duration: 0.15s;
+}
+
+.cohort-card-body .tags span:hover {
+    color: var(--primary-color);
+}
+
+.cohort-card-body .tags span:active {
+    color: var(--black-50);
+}
+
+.ask-btn {
+    background-color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    border-radius: 10px;
+    color: white;
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+    transition-property: color background-color border;
+    transition-duration: 0.1s;
+}
+
+.ask-btn:hover {
+    background-color: var(--dark-primary-color);
+    border: 2px solid var(--dark-primary-color);
+}
+
+.ask-btn:active {
+    background-color: white;
+    color: var(--dark-primary-color);
+    border: 2px solid var(--dark-primary-color);
+}
+.filter-topics,
+.filter-format {
+    margin-left: 1.5rem;
+}
+
+.options {
+    display: flex;
+    gap: 3rem;
+    margin-left: 2rem;
+    padding: 0.8rem;
+}
+
+.options div {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+/*media queries*/
+/* For tablets and smaller devices */
+@media (max-width: 768px) {
+    .cohort-card {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cohort-card-img {
+        width: 100%;
+        height: 150px;
+    }
+}

@@ -34,7 +34,7 @@ import Login from "./pages/auth/Login";
 function App() {
   const location = useLocation();
   useScrollAnimation(location);
- 
+
   return (
     <AuthProvider>
       <div className="App">
@@ -76,6 +76,24 @@ function App() {
             />
           </Route>
 
+        {/* Admin routes with auth guard */}
+        <Route path="/admin" element={
+          <AdminAuthGuard>
+            <AdminLayout />
+
+          </AdminAuthGuard>
+        }>
+          <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="courses" element={<CourseList />} />
+          <Route path="courses/create" element={<CourseCreate />} />
+          <Route path="courses/edit/:slug" element={<CourseEdit />} />
+          <Route path="courses/:slug" element={<CourseDetails />} />
+          <Route path="courses/:courseSlug/cohorts/create" element={<CohortCreate />} />
+          <Route path="cohorts" element={<CohortList />} />
+          <Route path="cohorts/create" element={<CohortCreate />} />
+          <Route path="cohorts/edit/:slug" element={<CohortEdit />} />
+          <Route path="cohorts/:slug" element={<CohortDetails />} />
+        </Route>
           {/* Auth routes (login, register, etc.) */}
           <Route element={<AuthLayout />}>
             <Route path="/admin/login" element={<AdminLogin />} />
