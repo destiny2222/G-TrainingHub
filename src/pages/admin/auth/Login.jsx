@@ -1,49 +1,27 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useLogin } from '../../../hooks/useLogin';
 import './Login.css';
 
 const Login = () => {
-  const [field, setField] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    field: '',
+    password: '',
+  });
 
+  const { login, isLoading, error } = useLogin();
+  
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-    setLoading(true);
-
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/admin/login`, {
-        field,
-        password
-      });
-
-      const data = response.data;
-
-      if (response.status === 200) {
-        localStorage.setItem('adminToken', data.token);
-        navigate('/admin/dashboard');
-      } else {
-        setError(data.message || 'Login failed');
-      }
-
-      // const data = await response.json();
-
-      // if (response.ok) {
-      //   localStorage.setItem('adminToken', data.token); // Store the token
-      //   navigate('/admin/dashboard'); // Redirect to admin dashboard
-      // } else {
-      //   setError(data.message || 'Login failed');
-      // }
-    } catch (error) {
-      setError(error.message || 'Network error or server is unreachable');
-    } finally {
-      setLoading(false);
-    }
+    await login(formData, 'admin', '/admin/dashboard');
   };
+
   return (
     <div className="login-page-wrapper"> 
       <div className="login-container">
@@ -70,15 +48,20 @@ const Login = () => {
             <p>Log in to your account.</p>
           </div>
           <form className="login-form" onSubmit={handleSubmit}>
-            {error && <p className="error-message">{error}</p>}
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
+                {error}
+              </div>
+            )}
             <div className="form-group">
-              <label htmlFor="email">Email/Username</label>
+              <label htmlFor="field">Email/Username</label>
               <input
                 type="text"
-                id="email"
+                id="field"
+                name="field"
                 placeholder="Enter your email or username"
-                value={field}
-                onChange={(e) => setField(e.target.value)}
+                value={formData.field}
+                onChange={handleChange}
                 required
               />
             </div>
@@ -87,32 +70,17 @@ const Login = () => {
               <input
                 type="password"
                 id="password"
+                name="password"
                 placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={formData.password}
+                onChange={handleChange}
                 required
               />
             </div>
-            <button type="submit" className="login-button" disabled={loading}>
-              {loading ? 'Logging In...' : 'Log In'}
+            <button type="submit" className="login-button" disabled={isLoading}>
+              {isLoading ? 'Logging In...' : 'Log In'}
             </button>
           </form>
-          {/* <div className="or-continue-with">
-            <hr />
-            <span>Or continue with</span>
-            <hr />
-          </div>
-          <div className="social-login">
-            <button className="social-button google">
-              <i className="fab fa-google"></i> Google 
-            </button>
-            <button className="social-button linkedin">
-              <i className="fab fa-linkedin-in"></i> LinkedIn 
-            </button>
-          </div> */}
-          {/* <p className="terms-privacy">
-            By continuing, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
-          </p> */}
         </div>
       </div>
     </div>

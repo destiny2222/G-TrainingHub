@@ -1,19 +1,36 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './Login.css';
 import slideOne from '../../assets/image/auth/auth-register-illustration-light.png';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Login = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  const { loginIndividual, loginOrganization, isLoading: authLoading, error: authError } = useAuth();
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  
+  // Determine initial login type based on current route
+  const getInitialLoginType = () => {
+    if (location.pathname === '/organization/login') {
+      return 'organization';
+    }
+    return 'user';
+  };
+  
+  const [loginType, setLoginType] = useState(getInitialLoginType());
+
+  // Update login type when route changes
+  useEffect(() => {
+    const newLoginType = location.pathname === '/organization/login' ? 'organization' : 'user';
+    setLoginType(newLoginType);
+  }, [location.pathname]);
 
   // Form data state
   const [formData, setFormData] = useState({
@@ -36,6 +53,14 @@ const Login = () => {
         [name]: ''
       }));
     }
+  };
+
+  // Handle login type change
+  const handleLoginTypeChange = (e) => {
+    const newLoginType = e.target.value;
+    setLoginType(newLoginType);
+    // Clear form errors when switching login types
+    setErrors({});
   };
 
   // Validate form
@@ -64,65 +89,40 @@ const Login = () => {
 
     if (!validateForm()) return;
 
-    setLoading(true);
     setErrors({});
 
     try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000'}/api/auth/login`,
-        {
-          email: formData.email,
-          password: formData.password,
-          remember_me: rememberMe
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      let result;
+      
+      if (loginType === 'organization') {
+        result = await loginOrganization(formData);
+      } else {
+        result = await loginIndividual(formData);
+      }
 
-      // Handle success
-      if (response.data) {
+      if (result.success) {
         toast.success('Login successful! Welcome back.', {
           autoClose: 3000
         });
 
-        // Store authentication data
-        if (response.data.token) {
-          localStorage.setItem('auth_token', response.data.token);
-        }
-        if (response.data.user) {
-          localStorage.setItem('user_data', JSON.stringify(response.data.user));
-        }
-
-        // Redirect based on user role
-        const userRole = response.data.user?.role;
-        if (userRole === 'admin') {
-          navigate('/admin/dashboard');
-        } else if (userRole === 'organization') {
+        // Redirect based on login type and user data
+        if (loginType === 'organization') {
+          navigate('/organization/dashboard');
+        } else if (loginType === 'user') {
           navigate('/dashboard');
         } else {
+          // Fallback to dashboard based on account type
           navigate('/dashboard');
+        }
+      } else {
+        // Handle specific error messages
+        if (result.error) {
+          toast.error(result.error);
         }
       }
     } catch (error) {
       console.error('Login error:', error);
-
-      if (error.response?.data?.errors) {
-        setErrors(error.response.data.errors);
-        toast.error('Please fix the errors in the form.');
-      } else if (error.response?.data?.message) {
-        toast.error(error.response.data.message);
-      } else if (error.response?.status === 401) {
-        toast.error('Invalid email or password. Please try again.');
-      } else if (error.response?.status === 422) {
-        toast.error('Please verify your email before logging in.');
-      } else {
-        toast.error('Login failed. Please try again.');
-      }
-    } finally {
-      setLoading(false);
+      toast.error('An unexpected error occurred. Please try again.');
     }
   };
 
@@ -153,21 +153,37 @@ const Login = () => {
     )
   };
 
-  // Slider content data
-  const slides = [
+  // Slider content data - Dynamic based on login type
+  const slides = loginType === 'organization' ? [
     {
-      title: "Welcome Back to Gritinai",
-      description: "Continue your journey in transforming your organization with cutting-edge training programs and comprehensive learning management.",
+      title: "Welcome Back to Your Organization Hub",
+      description: "Access your comprehensive training management dashboard and continue building your team's capabilities with data-driven insights.",
       image: slideOne
     },
     {
-      title: "Access Your Dashboard",
-      description: "Manage your courses, track progress, and analyze performance metrics all in one centralized platform designed for efficiency.",
+      title: "Manage Your Training Programs", 
+      description: "Oversee courses, track team progress, and analyze performance metrics all in one centralized platform designed for organizational efficiency.",
+      image: slideOne
+    },
+    {
+      title: "Scale Your Organization's Growth",
+      description: "Resume managing your organization's learning initiatives with personalized training paths and comprehensive analytics.",
+      image: slideOne
+    }
+  ] : [
+    {
+      title: "Welcome Back to Gritinai",
+      description: "Continue your personal learning journey and access cutting-edge training programs designed to enhance your professional skills.",
+      image: slideOne
+    },
+    {
+      title: "Access Your Learning Dashboard",
+      description: "Track your progress, manage your courses, and continue building your skills with our personalized learning platform.",
       image: slideOne
     },
     {
       title: "Resume Your Training",
-      description: "Pick up where you left off and continue building your team's skills with our personalized learning paths and data-driven insights.",
+      description: "Pick up where you left off and continue developing your skills with our comprehensive learning paths and progress tracking.",
       image: slideOne
     }
   ];
@@ -179,11 +195,55 @@ const Login = () => {
         <div className="user-login-left-panel">
           <div className="form-scroll-container">
             <div className="user-login-form-header">
-              <h1>Log In to Explore</h1>
-              <p>Navigate your organization's training journey with comprehensive learning</p>
+              <h1>{loginType === 'organization' ? 'Welcome Back!' : 'Welcome Back!'}</h1>
+              {/* <h1>{loginType === 'organization' ? 'Organization Login' : 'Log In to Explore'}</h1> */}
+              <p>
+                {loginType === 'organization' 
+                  ? 'Please login to your account.'
+                  // ? 'Access your organization\'s training management dashboard and oversee your team\'s learning journey'
+                  : 'Please login to your account'
+                  // : 'Navigate your learning journey with comprehensive training programs and skill development'
+                }
+              </p>
+              
+              {/* Login Type Selector */}
+              <div className="login-type-selector">
+                <div className="login-type-options">
+                  <label className={`login-type-option ${loginType === 'user' ? 'active' : ''}`}>
+                    <input
+                      type="radio"
+                      name="loginType"
+                      value="user"
+                      checked={loginType === 'user'}
+                      onChange={handleLoginTypeChange}
+                    />
+                    <span className="option-icon">👤</span>
+                    <span className="option-text">Individual User</span>
+                  </label>
+                  <label className={`login-type-option ${loginType === 'organization' ? 'active' : ''}`}>
+                    <input
+                      type="radio"
+                      name="loginType"
+                      value="organization"
+                      checked={loginType === 'organization'}
+                      onChange={handleLoginTypeChange}
+                    />
+                    <span className="option-icon">🏢</span>
+                    <span className="option-text">Organization</span>
+                  </label>
+                </div>
+              </div>
             </div>
 
             <form onSubmit={handleSubmit} className="user-login-form">
+              {authError && (
+                <div className="form-group">
+                  <div className="error-message" style={{ padding: '10px', backgroundColor: '#fee', border: '1px solid #fcc', borderRadius: '4px', color: '#c33' }}>
+                    {authError}
+                  </div>
+                </div>
+              )}
+              
               <div className="form-step">
                 <div className="form-group">
                   <label htmlFor="email">Email</label>
@@ -255,22 +315,30 @@ const Login = () => {
                 </div>
 
                 {/* Submit Button */}
-                <button type="submit" className="btn-submit" disabled={loading}>
-                  {loading ? 'Signing In...' : 'Login'}
+                <button type="submit" className="btn-submit" disabled={authLoading}>
+                  {authLoading ? 'Signing In...' : `Login as ${loginType === 'organization' ? 'Organization' : 'User'}`}
                 </button>
 
                 {/* Sign Up Link */}
                 <div className="form-footer">
-                  <p>Register as an organization? <Link to="/organization/register">Sign Up</Link></p>
+                  {loginType === 'organization' ? (
+                    <>
+                      <p>Don't have an organization account? <Link to="/organization/register">Register Organization</Link></p>
+                    </>
+                  ) : (
+                    <>
+                      
+                    </>
+                  )}
                 </div>
 
                 {/* Divider */}
-                <div className="divider">
+                {/* <div className="divider">
                   <span>OR CONTINUE WITH</span>
-                </div>
+                </div> */}
 
                 {/* Social Login (Optional) */}
-                <div className="auth-social-login">
+                {/* <div className="auth-social-login">
                   <button type="button" className="btn-social google">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                       <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -280,7 +348,7 @@ const Login = () => {
                     </svg>
                     Sign in with Google
                   </button>
-                </div>
+                </div> */}
               </div>
             </form>
           </div>
@@ -293,7 +361,7 @@ const Login = () => {
             <div className="brand-section">
               <div className="brand-logo">
                 <span className="logo-icon">🎓</span>
-                <span className="brand-name">Gritinai</span>
+                <span className="brand-name">GritinAI</span>
               </div>
             </div>
 
