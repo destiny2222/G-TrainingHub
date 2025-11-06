@@ -50,7 +50,7 @@ const Home = () => {
                     <p>Unlock your potential in AI and Machine Learning with our comprehensive training program. Gain hands-on experience and mentorship from industry experts.</p>
                     <div className="hero-buttons">
                         <Link to='/cohort' className="register-btn ">Register for Cohort</Link>
-                        <Link className="mentors-btn ">Register as Organization</Link>
+                        <Link to='/organization/register' className="mentors-btn ">Register as Organization</Link>
                     </div>
                 </div>
                 <section className='info-section'>

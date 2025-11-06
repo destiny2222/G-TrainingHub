@@ -23,6 +23,9 @@ import CohortDetails from './pages/admin/cohort/CohortDetails';
 import Organizationregister from './pages/auth/organization/Organizationregister';
 import VerificationPending from './pages/auth/organization/VerificationPending';
 import VerifyEmail from './pages/auth/organization/VerifyEmail';
+import MemberList from './pages/user_dash/organization/MemberList';
+import MemberCreate from './pages/user_dash/organization/MemberCreate';
+import MemberEdit from './pages/user_dash/organization/MemberEdit';
 import NotFound from './pages/NotFound';
 import useScrollAnimation from './hooks/useScrollAnimation';
 import MainLayout from './layouts/MainLayout';
@@ -74,26 +77,29 @@ function App() {
                 </ProtectedRoute>
               } 
             />
+            <Route path="/organization/members" 
+              element={
+                <ProtectedRoute requiredAccountType="organization">
+                  <MemberList />
+                </ProtectedRoute>
+              } 
+            />
+            <Route path="/organization/members/create" 
+              element={
+                <ProtectedRoute requiredAccountType="organization">
+                  <MemberCreate />
+                </ProtectedRoute>
+              } 
+            />
+            <Route path="/organization/members/:memberId/edit" 
+              element={
+                <ProtectedRoute requiredAccountType="organization">
+                  <MemberEdit />
+                </ProtectedRoute>
+              } 
+            />
           </Route>
 
-        {/* Admin routes with auth guard */}
-        <Route path="/admin" element={
-          <AdminAuthGuard>
-            <AdminLayout />
-
-          </AdminAuthGuard>
-        }>
-          <Route path="dashboard" element={<AdminDashboard />} />
-          <Route path="courses" element={<CourseList />} />
-          <Route path="courses/create" element={<CourseCreate />} />
-          <Route path="courses/edit/:slug" element={<CourseEdit />} />
-          <Route path="courses/:slug" element={<CourseDetails />} />
-          <Route path="courses/:courseSlug/cohorts/create" element={<CohortCreate />} />
-          <Route path="cohorts" element={<CohortList />} />
-          <Route path="cohorts/create" element={<CohortCreate />} />
-          <Route path="cohorts/edit/:slug" element={<CohortEdit />} />
-          <Route path="cohorts/:slug" element={<CohortDetails />} />
-        </Route>
           {/* Auth routes (login, register, etc.) */}
           <Route element={<AuthLayout />}>
             <Route path="/admin/login" element={<AdminLogin />} />
@@ -120,6 +126,7 @@ function App() {
             <Route path="cohorts/create" element={<CohortCreate />} />
             <Route path="cohorts/edit/:slug" element={<CohortEdit />} />
             <Route path="cohorts/:slug" element={<CohortDetails />} />
+            
           </Route>
 
           {/* Unauthorized page */}

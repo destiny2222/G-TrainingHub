@@ -31,6 +31,29 @@ function Sidebar() {
   
   console.log('Sidebar Rendered - Account Type:', accountType, 'Is Admin:', isOrganizationAdmin);
 
+
+  
+  // Determine which menu to render
+  const renderMenu = () => {
+    if (isOrganizationAdmin) {
+      return renderOrganizationAdminMenu();
+    } else if (isOrganizationUser) {
+      return renderOrganizationUserMenu();
+    } else if (isIndividualUser) {
+      return renderIndividualUserMenu();
+    } else {
+      return renderIndividualUserMenu(); // Default fallback
+    }
+  };
+
+  // Get user type badge
+  const getUserTypeBadge = () => {
+    if (isOrganizationAdmin) return "Organization Admin";
+    if (isOrganizationUser) return "Organization User";
+    if (isIndividualUser) return "Individual User";
+    return "User";
+  };
+
   // Organization Admin Menu
   const renderOrganizationAdminMenu = () => (
     <nav className="sidebar-navigation">
@@ -218,26 +241,6 @@ function Sidebar() {
   );
 
 
-  // Determine which menu to render
-  const renderMenu = () => {
-    if (isOrganizationAdmin) {
-      return renderOrganizationAdminMenu();
-    } else if (isOrganizationUser) {
-      return renderOrganizationUserMenu();
-    } else if (isIndividualUser) {
-      return renderIndividualUserMenu();
-    } else {
-      return renderIndividualUserMenu(); // Default fallback
-    }
-  };
-
-  // Get user type badge
-  const getUserTypeBadge = () => {
-    if (isOrganizationAdmin) return "Organization Admin";
-    if (isOrganizationUser) return "Organization User";
-    if (isIndividualUser) return "Individual User";
-    return "User";
-  };
 
   return (
     <aside className="sidebar-dashboard">

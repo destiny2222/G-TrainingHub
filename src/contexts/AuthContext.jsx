@@ -156,9 +156,9 @@ export const AuthProvider = ({ children }) => {
 
     try {
       const response = await api.post('/api/admin/login', credentials);
-      const { user, access_token } = response.data;
+      const { admin, token } = response.data;
 
-      setAuth(user, access_token, 'admin');
+      setAuth(admin, token, 'admin');
 
       return { success: true, data: response.data };
     } catch (error) {

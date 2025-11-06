@@ -84,10 +84,11 @@ function Header() {
                     <li><Link to="/pricing">How it works</Link></li>
                     <li><Link to="/faqs">FAQs</Link></li>
                 </ul>
-                <ul className="btn">
-                    <Link to="/auth/signup" className='btn-process-button--primary signup-btn'>Enroll Now</Link>
-                </ul>
-            </div>    
+            </div>   
+            <div className="header_buttons">
+                {/* <Link to="/auth/login" className='btn-process-button--primary  btn-process-link'>Log in</Link> */}
+                <Link to="/auth/login" className='btn-process-button--primary signup-btn'>Get Started</Link>
+            </div> 
         </div>
       </header>
 

@@ -220,11 +220,11 @@ const Organizationregister = () => {
         navigate('/verification', { state: { email: formData.admin_email } });
       }
     } catch (error) {
-      console.error('Registration error:', error);
+      // console.error('Registration error:', error);
 
       if (error.response?.data?.errors) {
         setErrors(error.response.data.errors);
-        toast.error('Please fix the errors in the form.');
+        toast.error(error.response.data.message || 'Please fix the errors in the form.');
       } else if (error.response?.data?.message) {
         toast.error(error.response.data.message);
       } else {

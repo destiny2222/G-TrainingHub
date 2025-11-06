@@ -300,7 +300,7 @@ ul {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10px 0 10px;
+    padding: 30px 0 10px;
     gap: 10rem;
 }
 
@@ -363,6 +363,11 @@ ul {
 .header .header_section .header_menu .btn .btn-theme:last-child:hover {
     background-color: var(--primary-color);
     color: var(--white)
+}
+
+.header .header_buttons{
+    display: flex;
+    gap: 20px;
 }
 
 /* Mobile Header Styles */
@@ -1798,7 +1803,7 @@ ul {
     padding: 20px;
 }
 
-.welcome-text-title {
+
 /* Organization Dashboard Main Section */
 .organization-dashboard-main-section {
     padding: 20px;
