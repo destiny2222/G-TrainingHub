@@ -666,7 +666,7 @@ const Organizationregister = () => {
             <div className="brand-section">
               <div className="brand-logo">
                 <span className="logo-icon">🎓</span>
-                <span className="brand-name">Gritinai</span>
+                <span className="brand-name">GritinAI</span>
               </div>
             </div>
 

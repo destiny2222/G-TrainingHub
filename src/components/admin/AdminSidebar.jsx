@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom'; 
 import { Category, Building4, UserSquare, Book, Calendar, Award, Chart1, ClipboardText } from 'iconsax-reactjs';
 import '../../assets/css/style.css'; 
+import LogoutButton from '../auth/LogoutButton';
 
 const AdminSidebar = ({ isOpen, onClose }) => {
   return (
@@ -58,7 +59,8 @@ const AdminSidebar = ({ isOpen, onClose }) => {
         </li>
       </ul>
       <div className="sidebar-footer">
-        <button className="logout-button">Logout</button>
+        <LogoutButton  className="logout-button"/>
+        {/* <button className="logout-button">Logout</button> */}
       </div>
     </div>
   );

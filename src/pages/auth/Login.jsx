@@ -1,20 +1,36 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './Login.css';
 import slideOne from '../../assets/image/auth/auth-register-illustration-light.png';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Login = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  const { loginIndividual, loginOrganization, isLoading: authLoading, error: authError } = useAuth();
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
-  const [loginType, setLoginType] = useState('user'); // 'user' or 'organization'
+  
+  // Determine initial login type based on current route
+  const getInitialLoginType = () => {
+    if (location.pathname === '/organization/login') {
+      return 'organization';
+    }
+    return 'user';
+  };
+  
+  const [loginType, setLoginType] = useState(getInitialLoginType());
+
+  // Update login type when route changes
+  useEffect(() => {
+    const newLoginType = location.pathname === '/organization/login' ? 'organization' : 'user';
+    setLoginType(newLoginType);
+  }, [location.pathname]);
 
   // Form data state
   const [formData, setFormData] = useState({
@@ -73,69 +89,40 @@ const Login = () => {
 
     if (!validateForm()) return;
 
-    setLoading(true);
     setErrors({});
 
     try {
-      // Determine API endpoint based on login type
-      const endpoint = loginType === 'organization' 
-        ? '/api/organization/login'
-        : '/api/user/login';
+      let result;
+      
+      if (loginType === 'organization') {
+        result = await loginOrganization(formData);
+      } else {
+        result = await loginIndividual(formData);
+      }
 
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000'}${endpoint}`,
-        {
-          email: formData.email,
-          password: formData.password
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-
-      // Handle success
-      if (response.data) {
+      if (result.success) {
         toast.success('Login successful! Welcome back.', {
           autoClose: 3000
         });
 
-        // Store authentication data
-        if (response.data.token) {
-          localStorage.setItem('auth_token', response.data.token);
-        }
-        if (response.data.user) {
-          localStorage.setItem('user_data', JSON.stringify(response.data.user));
-        }
-
-        // Redirect based on user role
-        const userRole = response.data.user?.role;
-        if (userRole === 'admin') {
-          navigate('/admin/dashboard');
-        } else if (userRole === 'organization') {
+        // Redirect based on login type and user data
+        if (loginType === 'organization') {
+          navigate('/organization/dashboard');
+        } else if (loginType === 'user') {
           navigate('/dashboard');
         } else {
+          // Fallback to dashboard based on account type
           navigate('/dashboard');
+        }
+      } else {
+        // Handle specific error messages
+        if (result.error) {
+          toast.error(result.error);
         }
       }
     } catch (error) {
       console.error('Login error:', error);
-
-      if (error.response?.data?.errors) {
-        setErrors(error.response.data.errors);
-        toast.error('Please fix the errors in the form.');
-      } else if (error.response?.data?.message) {
-        toast.error(error.response.data.message);
-      } else if (error.response?.status === 401) {
-        toast.error('Invalid email or password. Please try again.');
-      } else if (error.response?.status === 422) {
-        toast.error('Please verify your email before logging in.');
-      } else {
-        toast.error('Login failed. Please try again.');
-      }
-    } finally {
-      setLoading(false);
+      toast.error('An unexpected error occurred. Please try again.');
     }
   };
 
@@ -249,6 +236,14 @@ const Login = () => {
             </div>
 
             <form onSubmit={handleSubmit} className="user-login-form">
+              {authError && (
+                <div className="form-group">
+                  <div className="error-message" style={{ padding: '10px', backgroundColor: '#fee', border: '1px solid #fcc', borderRadius: '4px', color: '#c33' }}>
+                    {authError}
+                  </div>
+                </div>
+              )}
+              
               <div className="form-step">
                 <div className="form-group">
                   <label htmlFor="email">Email</label>
@@ -320,17 +315,20 @@ const Login = () => {
                 </div>
 
                 {/* Submit Button */}
-                <button type="submit" className="btn-submit" disabled={loading}>
-                  {loading ? 'Signing In...' : `Login as ${loginType === 'organization' ? 'Organization' : 'User'}`}
+                <button type="submit" className="btn-submit" disabled={authLoading}>
+                  {authLoading ? 'Signing In...' : `Login as ${loginType === 'organization' ? 'Organization' : 'User'}`}
                 </button>
 
                 {/* Sign Up Link */}
                 <div className="form-footer">
                   {loginType === 'organization' ? (
-                    <p>Don't have an organization account? <Link to="/organization/register">Register Organization</Link></p>
+                    <>
+                      <p>Don't have an organization account? <Link to="/organization/register">Register Organization</Link></p>
+                    </>
                   ) : (
-                    // <p>Don't have an account? <Link to="/register">Sign Up</Link></p>
-                    <></>
+                    <>
+                      
+                    </>
                   )}
                 </div>
 
@@ -363,7 +361,7 @@ const Login = () => {
             <div className="brand-section">
               <div className="brand-logo">
                 <span className="logo-icon">🎓</span>
-                <span className="brand-name">Gritinai</span>
+                <span className="brand-name">GritinAI</span>
               </div>
             </div>
 

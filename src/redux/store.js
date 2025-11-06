@@ -7,13 +7,6 @@ export const store = configureStore({
     courses: courseReducer,
     cohorts: cohortReducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        // Ignore these action types for FormData serialization
-        ignoredActions: ['courses/createCourse/pending', 'courses/updateCourse/pending'],
-      },
-    }),
 });
 
 export default store;
