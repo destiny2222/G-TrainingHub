@@ -21,6 +21,7 @@ import {
   clearSuccess
 } from '../../../redux/slices/organisationUserSlice';
 import { useAuth } from '../../../contexts/AuthContext';
+import './MemberCreate.css';
 
 const MemberCreate = () => {
   const dispatch = useDispatch();
@@ -121,11 +122,6 @@ const MemberCreate = () => {
           organization: organizationSlug,
           membersData: { members: bulkMembers }
         }));
-      } else if (creationMethod === 'existing') {
-        await dispatch(addExistingUsersAsMembers({
-          organization: organizationSlug,
-          userData: { emails: existingUserEmails.filter(email => email.trim()) }
-        }));
       }
     } finally {
       setIsSubmitting(false);
@@ -190,65 +186,54 @@ const MemberCreate = () => {
   };
 
   return (
-    <div className="container-fluid p-4">
+    <div className="member-create-container">
       {/* Header */}
-      <div className="d-flex align-items-center mb-4">
+      <div className="member-create-header d-flex align-items-center mb-4 fade-in-up">
         <Link 
           to="/organization/members" 
-          className="btn btn-outline-secondary me-3 d-flex align-items-center"
+          className="back-btn me-3"
         >
-          <ArrowLeft size="20" className="me-2" />
+          <ArrowLeft size="20" />
           Back to Members
         </Link>
         <div>
-          <h1 className="h3 mb-1">Add New Members</h1>
-          <p className="text-muted mb-0">Invite new team members to your organization</p>
+          <h1>Add New Members</h1>
+          <p>Invite new team members to your organization</p>
         </div>
       </div>
 
       {/* Creation Method Tabs */}
-      <div className="card mb-4">
-        <div className="card-body">
-          <div className="row">
-            <div className="col-12">
-              <div className="nav nav-pills nav-fill" role="tablist">
-                <button
-                  className={`nav-link ${creationMethod === 'single' ? 'active' : ''}`}
-                  onClick={() => setCreationMethod('single')}
-                >
-                  <User size="20" className="me-2" />
-                  Single Member
-                </button>
-                <button
-                  className={`nav-link ${creationMethod === 'bulk' ? 'active' : ''}`}
-                  onClick={() => setCreationMethod('bulk')}
-                >
-                  <Add size="20" className="me-2" />
-                  Multiple Members
-                </button>
-                <button
-                  className={`nav-link ${creationMethod === 'existing' ? 'active' : ''}`}
-                  onClick={() => setCreationMethod('existing')}
-                >
-                  <Sms size="20" className="me-2" />
-                  Existing Users
-                </button>
-              </div>
-            </div>
-          </div>
+      <div className="method-tabs-card fade-in-up">
+        <div className="method-tabs">
+          <button
+            type="button"
+            className={`method-tab ${creationMethod === 'single' ? 'active' : ''}`}
+            onClick={() => setCreationMethod('single')}
+          >
+            <User size="20" />
+            Single Member
+          </button>
+          <button
+            type="button"
+            className={`method-tab ${creationMethod === 'bulk' ? 'active' : ''}`}
+            onClick={() => setCreationMethod('bulk')}
+          >
+            <Add size="20" />
+            Multiple Members
+          </button>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="fade-in-up">
         {/* Single Member Form */}
         {creationMethod === 'single' && (
-          <div className="card">
-            <div className="card-header">
-              <h5 className="mb-0">Member Information</h5>
+          <div className="form-card">
+            <div className="form-card-header">
+              <h5>Member Information</h5>
             </div>
-            <div className="card-body">
+            <div className="form-card-body">
               <div className="row">
-                <div className="col-md-6 mb-3">
+                <div className="col-md-12 mb-3">
                   <label className="form-label">
                     Full Name <span className="text-danger">*</span>
                   </label>
@@ -263,12 +248,13 @@ const MemberCreate = () => {
                       placeholder="Enter full name"
                       value={formData.name}
                       onChange={handleInputChange}
+                      aria-label="Full Name"
                     />
                     {errors.name && <div className="invalid-feedback">{errors.name}</div>}
                   </div>
                 </div>
 
-                <div className="col-md-6 mb-3">
+                <div className="col-md-12 mb-3">
                   <label className="form-label">
                     Email Address <span className="text-danger">*</span>
                   </label>
@@ -283,35 +269,13 @@ const MemberCreate = () => {
                       placeholder="Enter email address"
                       value={formData.email}
                       onChange={handleInputChange}
+                      aria-label="Email Address"
                     />
                     {errors.email && <div className="invalid-feedback">{errors.email}</div>}
                   </div>
                 </div>
 
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">
-                    Password <span className="text-danger">*</span>
-                  </label>
-                  <div className="input-group">
-                    <span className="input-group-text">
-                      <Lock size="20" />
-                    </span>
-                    <input
-                      type="password"
-                      name="password"
-                      className={`form-control ${errors.password ? 'is-invalid' : ''}`}
-                      placeholder="Enter password"
-                      value={formData.password}
-                      onChange={handleInputChange}
-                    />
-                    {errors.password && <div className="invalid-feedback">{errors.password}</div>}
-                  </div>
-                  <small className="form-text text-muted">
-                    Password must be at least 6 characters long
-                  </small>
-                </div>
-
-                <div className="col-md-6 mb-3">
+                <div className="col-md-12 mb-3">
                   <label className="form-label">
                     Role <span className="text-danger">*</span>
                   </label>
@@ -324,6 +288,7 @@ const MemberCreate = () => {
                       className="form-select"
                       value={formData.role}
                       onChange={handleInputChange}
+                      aria-label="Role"
                     >
                       <option value="member">Member</option>
                       <option value="manager">Manager</option>
@@ -354,22 +319,23 @@ const MemberCreate = () => {
 
         {/* Bulk Members Form */}
         {creationMethod === 'bulk' && (
-          <div className="card">
-            <div className="card-header d-flex justify-content-between align-items-center">
-              <h5 className="mb-0">Multiple Members</h5>
+          <div className="form-card">
+            <div className="form-card-header d-flex justify-content-between align-items-center">
+              <h5>Multiple Members</h5>
               <button
                 type="button"
-                className="btn btn-sm btn-outline-primary"
+                className="add-row-btn"
                 onClick={addBulkMemberRow}
+                aria-label="Add Bulk Member Row"
               >
-                <Add size="16" className="me-1" />
+                <Add size="16" />
                 Add Row
               </button>
             </div>
-            <div className="card-body">
+            <div className="form-card-body">
               {bulkMembers.map((member, index) => (
-                <div key={index} className="row mb-3 align-items-end">
-                  <div className="col-md-4">
+                <div key={index} className="bulk-member-row">
+                  <div className="form-group">
                     <label className="form-label">Full Name</label>
                     <input
                       type="text"
@@ -377,12 +343,13 @@ const MemberCreate = () => {
                       placeholder="Enter full name"
                       value={member.name}
                       onChange={(e) => handleBulkMemberChange(index, 'name', e.target.value)}
+                      aria-label={`Bulk Member ${index + 1} Full Name`}
                     />
                     {errors[`bulk_name_${index}`] && (
                       <div className="invalid-feedback">{errors[`bulk_name_${index}`]}</div>
                     )}
                   </div>
-                  <div className="col-md-4">
+                  <div className="form-group">
                     <label className="form-label">Email Address</label>
                     <input
                       type="email"
@@ -390,39 +357,40 @@ const MemberCreate = () => {
                       placeholder="Enter email address"
                       value={member.email}
                       onChange={(e) => handleBulkMemberChange(index, 'email', e.target.value)}
+                      aria-label={`Bulk Member ${index + 1} Email Address`}
                     />
                     {errors[`bulk_email_${index}`] && (
                       <div className="invalid-feedback">{errors[`bulk_email_${index}`]}</div>
                     )}
                   </div>
-                  <div className="col-md-3">
+                  <div className="form-group">
                     <label className="form-label">Role</label>
                     <select
                       className="form-select"
                       value={member.role}
                       onChange={(e) => handleBulkMemberChange(index, 'role', e.target.value)}
+                      aria-label={`Bulk Member ${index + 1} Role`}
                     >
                       <option value="member">Member</option>
                       <option value="manager">Manager</option>
                       <option value="admin">Admin</option>
                     </select>
                   </div>
-                  <div className="col-md-1">
-                    {bulkMembers.length > 1 && (
-                      <button
-                        type="button"
-                        className="btn btn-outline-danger btn-sm"
-                        onClick={() => removeBulkMemberRow(index)}
-                      >
-                        <CloseCircle size="16" />
-                      </button>
-                    )}
-                  </div>
+                  {bulkMembers.length > 1 && (
+                    <button
+                      type="button"
+                      className="remove-btn"
+                      onClick={() => removeBulkMemberRow(index)}
+                      aria-label={`Remove Bulk Member ${index + 1}`}
+                    >
+                      <CloseCircle size="16" />
+                    </button>
+                  )}
                 </div>
               ))}
 
               <div className="alert alert-info">
-                <InfoCircle size="20" className="me-2" />
+                <InfoCircle size="20" />
                 <strong>Note:</strong> Temporary passwords will be generated for bulk-created members. 
                 They will receive invitation emails to set their own passwords.
               </div>
@@ -430,96 +398,39 @@ const MemberCreate = () => {
           </div>
         )}
 
-        {/* Existing Users Form */}
-        {creationMethod === 'existing' && (
-          <div className="card">
-            <div className="card-header d-flex justify-content-between align-items-center">
-              <h5 className="mb-0">Add Existing Users</h5>
-              <button
-                type="button"
-                className="btn btn-sm btn-outline-primary"
-                onClick={addExistingUserRow}
-              >
-                <Add size="16" className="me-1" />
-                Add Email
-              </button>
-            </div>
-            <div className="card-body">
-              {existingUserEmails.map((email, index) => (
-                <div key={index} className="row mb-3 align-items-end">
-                  <div className="col-md-11">
-                    <label className="form-label">Email Address</label>
-                    <input
-                      type="email"
-                      className={`form-control ${errors[`existing_email_${index}`] ? 'is-invalid' : ''}`}
-                      placeholder="Enter existing user's email address"
-                      value={email}
-                      onChange={(e) => handleExistingUserChange(index, e.target.value)}
-                    />
-                    {errors[`existing_email_${index}`] && (
-                      <div className="invalid-feedback">{errors[`existing_email_${index}`]}</div>
-                    )}
-                  </div>
-                  <div className="col-md-1">
-                    {existingUserEmails.length > 1 && (
-                      <button
-                        type="button"
-                        className="btn btn-outline-danger btn-sm"
-                        onClick={() => removeExistingUserRow(index)}
-                      >
-                        <CloseCircle size="16" />
-                      </button>
-                    )}
-                  </div>
-                </div>
-              ))}
 
-              <div className="alert alert-warning">
-                <InfoCircle size="20" className="me-2" />
-                <strong>Note:</strong> These users must already have accounts in the system. 
-                They will be invited to join your organization and can accept or decline the invitation.
-              </div>
-            </div>
+        {/* Form Actions */}
+        <div className="form-actions">
+          <div className="text-muted">
+            {creationMethod === 'single' && 'Ready to add 1 member'}
+            {creationMethod === 'bulk' && `Ready to add ${bulkMembers.length} members`}
           </div>
-        )}
-
-        {/* Submit Button */}
-        <div className="card mt-4">
-          <div className="card-body">
-            <div className="d-flex justify-content-between align-items-center">
-              <div className="text-muted">
-                {creationMethod === 'single' && 'Ready to add 1 member'}
-                {creationMethod === 'bulk' && `Ready to add ${bulkMembers.length} members`}
-                {creationMethod === 'existing' && `Ready to invite ${existingUserEmails.filter(e => e.trim()).length} existing users`}
-              </div>
-              <div className="d-flex gap-2">
-                <Link 
-                  to="/organization/members" 
-                  className="btn btn-outline-secondary"
-                >
-                  Cancel
-                </Link>
-                <button
-                  type="submit"
-                  className="btn btn-primary d-flex align-items-center"
-                  disabled={isSubmitting || loading}
-                >
-                  {isSubmitting || loading ? (
-                    <>
-                      <div className="spinner-border spinner-border-sm me-2" role="status">
-                        <span className="visually-hidden">Loading...</span>
-                      </div>
-                      Processing...
-                    </>
-                  ) : (
-                    <>
-                      <TickCircle size="20" className="me-2" />
-                      {creationMethod === 'existing' ? 'Send Invitations' : 'Create Members'}
-                    </>
-                  )}
-                </button>
-              </div>
-            </div>
+          <div className="d-flex gap-2">
+            <Link 
+              to="/organization/members" 
+              className="btn-secondary"
+            >
+              Cancel
+            </Link>
+            <button
+              type="submit"
+              className="btn-primary"
+              disabled={isSubmitting || loading}
+            >
+              {isSubmitting || loading ? (
+                <>
+                  <div className="spinner-border spinner-border-sm" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                  Processing...
+                </>
+              ) : (
+                <>
+                  <TickCircle size="20" />
+                  {creationMethod === 'existing' ? 'Send Invitations' : 'Create Members'}
+                </>
+              )}
+            </button>
           </div>
         </div>
       </form>

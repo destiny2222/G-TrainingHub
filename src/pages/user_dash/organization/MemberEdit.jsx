@@ -23,6 +23,7 @@ import {
   clearSuccess
 } from '../../../redux/slices/organisationUserSlice';
 import { useAuth } from '../../../contexts/AuthContext';
+import './MemberEdit.css';
 
 const MemberEdit = () => {
   const dispatch = useDispatch();
@@ -172,26 +173,6 @@ const MemberEdit = () => {
     setErrors({});
   };
 
-  // Get role badge color
-  const getRoleBadgeColor = (role) => {
-    switch (role?.toLowerCase()) {
-      case 'admin': return 'bg-danger';
-      case 'manager': return 'bg-warning';
-      case 'member': return 'bg-primary';
-      default: return 'bg-secondary';
-    }
-  };
-
-  // Get status badge color
-  const getStatusBadgeColor = (status) => {
-    switch (status?.toLowerCase()) {
-      case 'active': return 'bg-success';
-      case 'inactive': return 'bg-secondary';
-      case 'pending': return 'bg-warning';
-      default: return 'bg-secondary';
-    }
-  };
-
   if (loading) {
     return (
       <div className="container-fluid p-4">
@@ -219,38 +200,38 @@ const MemberEdit = () => {
   }
 
   return (
-    <div className="container-fluid p-4">
+    <div className="member-edit-container">
       {/* Header */}
-      <div className="d-flex align-items-center justify-content-between mb-4">
+      <div className="member-edit-header d-flex align-items-center justify-content-between mb-4 fade-in-up">
         <div className="d-flex align-items-center">
           <Link 
             to="/organization/members" 
-            className="btn btn-outline-secondary me-3 d-flex align-items-center"
+            className="back-btn me-3"
           >
-            <ArrowLeft size="20" className="me-2" />
+            <ArrowLeft size="20" />
             Back to Members
           </Link>
           <div>
-            <h1 className="h3 mb-1">Member Details</h1>
-            <p className="text-muted mb-0">View and manage member information</p>
+            <h1>Member Details</h1>
+            <p>View and manage member information</p>
           </div>
         </div>
         
-        <div className="d-flex gap-2">
+        <div className="action-buttons">
           {!isEditing ? (
             <>
               <button
-                className="btn btn-outline-primary d-flex align-items-center"
+                className="btn-primary"
                 onClick={() => setIsEditing(true)}
               >
-                <Edit2 size="20" className="me-2" />
+                <Edit2 size="20" />
                 Edit Member
               </button>
               <button
-                className="btn btn-outline-danger d-flex align-items-center"
+                className="btn-danger"
                 onClick={() => setShowDeleteModal(true)}
               >
-                <Trash size="20" className="me-2" />
+                <Trash size="20" />
                 Remove Member
               </button>
             </>
@@ -258,7 +239,7 @@ const MemberEdit = () => {
             <>
               <button
                 type="button"
-                className="btn btn-outline-secondary"
+                className="btn-secondary"
                 onClick={handleCancelEdit}
               >
                 Cancel
@@ -266,19 +247,19 @@ const MemberEdit = () => {
               <button
                 type="submit"
                 form="editMemberForm"
-                className="btn btn-primary d-flex align-items-center"
+                className="btn-primary"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
                   <>
-                    <div className="spinner-border spinner-border-sm me-2" role="status">
+                    <div className="spinner-border spinner-border-sm" role="status">
                       <span className="visually-hidden">Loading...</span>
                     </div>
                     Saving...
                   </>
                 ) : (
                   <>
-                    <Save2 size="20" className="me-2" />
+                    <Save2 size="20" />
                     Save Changes
                   </>
                 )}
@@ -288,14 +269,14 @@ const MemberEdit = () => {
         </div>
       </div>
 
-      <div className="row">
+      <div className="row fade-in-up">
         {/* Member Information Card */}
         <div className="col-lg-8 mb-4">
-          <div className="card">
-            <div className="card-header">
-              <h5 className="mb-0">Member Information</h5>
+          <div className="member-info-card">
+            <div className="member-info-header">
+              <h5>Member Information</h5>
             </div>
-            <div className="card-body">
+            <div className="member-info-body">
               {isEditing ? (
                 <form id="editMemberForm" onSubmit={handleSubmit}>
                   <div className="row">
@@ -314,8 +295,12 @@ const MemberEdit = () => {
                           placeholder="Enter full name"
                           value={formData.name}
                           onChange={handleInputChange}
+                          aria-label="Full Name"
                         />
                         {errors.name && <div className="invalid-feedback">{errors.name}</div>}
+                      </div>
+                      <div className="form-text">
+                        Please enter the member's full name as it should appear in the organization.
                       </div>
                     </div>
 
@@ -334,8 +319,12 @@ const MemberEdit = () => {
                           placeholder="Enter email address"
                           value={formData.email}
                           onChange={handleInputChange}
+                          aria-label="Email Address"
                         />
                         {errors.email && <div className="invalid-feedback">{errors.email}</div>}
+                      </div>
+                      <div className="form-text">
+                        We'll use this email to send notifications and updates to the member.
                       </div>
                     </div>
 
@@ -352,11 +341,15 @@ const MemberEdit = () => {
                           className="form-select"
                           value={formData.role}
                           onChange={handleInputChange}
+                          aria-label="Role"
                         >
                           <option value="member">Member</option>
                           <option value="manager">Manager</option>
                           <option value="admin">Admin</option>
                         </select>
+                      </div>
+                      <div className="form-text">
+                        Assign a role to the member that defines their permissions in the organization.
                       </div>
                     </div>
 
@@ -369,11 +362,15 @@ const MemberEdit = () => {
                         className="form-select"
                         value={formData.status}
                         onChange={handleInputChange}
+                        aria-label="Status"
                       >
                         <option value="active">Active</option>
                         <option value="inactive">Inactive</option>
                         <option value="pending">Pending</option>
                       </select>
+                      <div className="form-text">
+                        Set the member's status to control their access to organization resources.
+                      </div>
                     </div>
                   </div>
                 </form>
@@ -399,7 +396,7 @@ const MemberEdit = () => {
                     <label className="form-label text-muted">Role</label>
                     <div className="d-flex align-items-center">
                       <Crown size="20" className="text-muted me-2" />
-                      <span className={`badge ${getRoleBadgeColor(member.role)} text-white`}>
+                      <span className={`member-role-badge ${member.role?.toLowerCase() || 'member'}`}>
                         {member.role || 'Member'}
                       </span>
                     </div>
@@ -408,7 +405,7 @@ const MemberEdit = () => {
                   <div className="col-md-6 mb-3">
                     <label className="form-label text-muted">Status</label>
                     <div className="d-flex align-items-center">
-                      <span className={`badge ${getStatusBadgeColor(member.status)} text-white`}>
+                      <span className={`member-status-badge ${member.status?.toLowerCase() || 'active'}`}>
                         {member.status || 'Active'}
                       </span>
                     </div>
@@ -421,44 +418,44 @@ const MemberEdit = () => {
 
         {/* Member Statistics Card */}
         <div className="col-lg-4 mb-4">
-          <div className="card">
-            <div className="card-header">
-              <h5 className="mb-0">Member Statistics</h5>
+          <div className="member-stats-card">
+            <div className="member-stats-header">
+              <h5>Member Statistics</h5>
             </div>
-            <div className="card-body">
+            <div className="member-stats-body">
               <div className="row text-center">
                 <div className="col-6 mb-3">
-                  <div className="border rounded p-3">
-                    <Calendar size="24" className="text-primary mb-2" />
-                    <h6 className="mb-1">Joined Date</h6>
-                    <small className="text-muted">
+                  <div className="stat-item">
+                    <Calendar size="24" className="stat-icon text-primary" />
+                    <h6 className="stat-label">Joined Date</h6>
+                    <small className="stat-value">
                       {member.created_at ? new Date(member.created_at).toLocaleDateString() : 'N/A'}
                     </small>
                   </div>
                 </div>
                 <div className="col-6 mb-3">
-                  <div className="border rounded p-3">
-                    <RefreshCircle size="24" className="text-success mb-2" />
-                    <h6 className="mb-1">Last Updated</h6>
-                    <small className="text-muted">
+                  <div className="stat-item">
+                    <RefreshCircle size="24" className="stat-icon text-success" />
+                    <h6 className="stat-label">Last Updated</h6>
+                    <small className="stat-value">
                       {member.updated_at ? new Date(member.updated_at).toLocaleDateString() : 'N/A'}
                     </small>
                   </div>
                 </div>
                 <div className="col-6 mb-3">
-                  <div className="border rounded p-3">
-                    <Award size="24" className="text-warning mb-2" />
-                    <h6 className="mb-1">Courses</h6>
-                    <small className="text-muted">
+                  <div className="stat-item">
+                    <Award size="24" className="stat-icon text-warning" />
+                    <h6 className="stat-label">Courses</h6>
+                    <small className="stat-value">
                       {member.courses_count || 0}
                     </small>
                   </div>
                 </div>
                 <div className="col-6 mb-3">
-                  <div className="border rounded p-3">
-                    <Crown size="24" className="text-info mb-2" />
-                    <h6 className="mb-1">Certifications</h6>
-                    <small className="text-muted">
+                  <div className="stat-item">
+                    <Crown size="24" className="stat-icon text-info" />
+                    <h6 className="stat-label">Certifications</h6>
+                    <small className="stat-value">
                       {member.certifications_count || 0}
                     </small>
                   </div>
@@ -466,6 +463,7 @@ const MemberEdit = () => {
               </div>
             </div>
           </div>
+        </div>
 
           {/* Additional Information Card */}
           <div className="card mt-4">
@@ -480,48 +478,35 @@ const MemberEdit = () => {
               </div>
             </div>
           </div>
-        </div>
       </div>
 
       {/* Delete Confirmation Modal */}
       {showDeleteModal && (
-        <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Confirm Removal</h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  onClick={() => setShowDeleteModal(false)}
-                ></button>
-              </div>
-              <div className="modal-body">
-                <div className="text-center">
-                  <Trash size="48" className="text-danger mb-3" />
-                  <h6>Remove {member.name} from organization?</h6>
-                  <p className="text-muted">
-                    This action cannot be undone. The member will lose access to all organization resources 
-                    and will need to be re-invited if you want to add them back.
-                  </p>
-                </div>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={() => setShowDeleteModal(false)}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-danger"
-                  onClick={handleDeleteMember}
-                >
-                  Remove Member
-                </button>
-              </div>
+        <div className="delete-modal-overlay">
+          <div className="delete-modal">
+            <div className="delete-modal-icon">
+              <Trash size="48" />
+            </div>
+            <h6>Remove {member.name} from organization?</h6>
+            <p>
+              This action cannot be undone. The member will lose access to all organization resources 
+              and will need to be re-invited if you want to add them back.
+            </p>
+            <div className="delete-modal-actions">
+              <button
+                type="button"
+                className="btn-secondary"
+                onClick={() => setShowDeleteModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="btn-danger"
+                onClick={handleDeleteMember}
+              >
+                Remove Member
+              </button>
             </div>
           </div>
         </div>

@@ -11,10 +11,7 @@ import {
   People,
   ArrowLeft2,
   ArrowRight2,
-  User,
-  Sms,
-  Crown,
-  Calendar
+  Sms
 } from 'iconsax-reactjs';
 import { toast } from 'react-toastify';
 import {
@@ -24,6 +21,7 @@ import {
   clearSuccess
 } from '../../../redux/slices/organisationUserSlice';
 import { useAuth } from '../../../contexts/AuthContext';
+import './MemberList.css';
 
 const MemberList = () => {
   const dispatch = useDispatch();
@@ -108,30 +106,10 @@ const MemberList = () => {
     setCurrentPage(1);
   };
 
-  // Get role badge color
-  const getRoleBadgeColor = (role) => {
-    switch (role?.toLowerCase()) {
-      case 'admin': return 'badge-danger';
-      case 'manager': return 'badge-warning';
-      case 'member': return 'badge-primary';
-      default: return 'badge-secondary';
-    }
-  };
-
-  // Get status badge color
-  const getStatusBadgeColor = (status) => {
-    switch (status?.toLowerCase()) {
-      case 'active': return 'badge-success';
-      case 'inactive': return 'badge-secondary';
-      case 'pending': return 'badge-warning';
-      default: return 'badge-secondary';
-    }
-  };
-
   if (loading) {
     return (
-      <div className="container-fluid p-4">
-        <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '400px' }}>
+      <div className="member-list-container">
+        <div className="loading-container">
           <div className="spinner-border text-primary" role="status">
             <span className="visually-hidden">Loading...</span>
           </div>
@@ -141,137 +119,71 @@ const MemberList = () => {
   }
 
   return (
-    <div className="container-fluid p-4">
+    <div className="member-list-container">
       {/* Header Section */}
-      <div className="d-flex justify-content-between align-items-center mb-4">
+      <div className="member-header d-flex justify-content-between align-items-center mb-4 fade-in-up">
         <div>
-          <h1 className="h3 mb-1">Organization Members</h1>
-          <p className="text-muted mb-0">
-            Manage and monitor your organization's team members
-          </p>
+          <h1>Organization Members</h1>
+          <p>Manage and monitor your organization's team members</p>
         </div>
-        <Link 
-          to="/organization/members/create" 
-          className="btn btn-primary d-flex align-items-center"
-        >
-          <Add size="20" className="me-2" />
+        <Link to="/organization/members/create" className="add-member-btn">
+          <Add size="20" />
           Add Member
         </Link>
       </div>
 
-      {/* Stats Cards */}
-      <div className="row mb-4">
-        <div className="col-md-3 mb-3">
-          <div className="card bg-primary text-white">
-            <div className="card-body">
-              <div className="d-flex justify-content-between align-items-center">
-                <div>
-                  <h5 className="card-title mb-0">Total Members</h5>
-                  <h2 className="mb-0">{members.length}</h2>
-                </div>
-                <People size="40" variant="Bulk" />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-3 mb-3">
-          <div className="card bg-success text-white">
-            <div className="card-body">
-              <div className="d-flex justify-content-between align-items-center">
-                <div>
-                  <h5 className="card-title mb-0">Active Members</h5>
-                  <h2 className="mb-0">
-                    {members.filter(m => m.status?.toLowerCase() === 'active').length}
-                  </h2>
-                </div>
-                <User size="40" variant="Bulk" />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-3 mb-3">
-          <div className="card bg-warning text-white">
-            <div className="card-body">
-              <div className="d-flex justify-content-between align-items-center">
-                <div>
-                  <h5 className="card-title mb-0">Pending</h5>
-                  <h2 className="mb-0">
-                    {members.filter(m => m.status?.toLowerCase() === 'pending').length}
-                  </h2>
-                </div>
-                <Calendar size="40" variant="Bulk" />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-3 mb-3">
-          <div className="card bg-danger text-white">
-            <div className="card-body">
-              <div className="d-flex justify-content-between align-items-center">
-                <div>
-                  <h5 className="card-title mb-0">Admins</h5>
-                  <h2 className="mb-0">
-                    {members.filter(m => m.role?.toLowerCase() === 'admin').length}
-                  </h2>
-                </div>
-                <Crown size="40" variant="Bulk" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Search and Filters */}
-      <div className="card mb-4">
-        <div className="card-body">
-          <div className="row align-items-center">
-            <div className="col-md-4 mb-3 mb-md-0">
-              <div className="position-relative">
-                <SearchNormal1 
-                  size="20" 
-                  className="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted" 
-                />
-                <input
-                  type="text"
-                  className="form-control ps-5"
-                  placeholder="Search members..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </div>
-            </div>
-            <div className="col-md-6 mb-3 mb-md-0">
-              <div className="d-flex gap-2">
-                <button
-                  className={`btn ${showFilters ? 'btn-primary' : 'btn-outline-primary'} d-flex align-items-center`}
-                  onClick={() => setShowFilters(!showFilters)}
-                >
-                  <Filter size="20" className="me-2" />
-                  Filters
-                </button>
-                {(searchTerm || roleFilter || statusFilter) && (
-                  <button className="btn btn-outline-secondary" onClick={clearFilters}>
-                    Clear Filters
-                  </button>
-                )}
-              </div>
-            </div>
-            <div className="col-md-2">
-              <div className="text-muted text-end">
-                {filteredMembers.length} of {members.length} members
-              </div>
+      <div className="search-filter-card fade-in-up">
+        <div className="row align-items-center">
+          <div className="col-md-6 mb-3 mb-md-0">
+            <div className="search-input-wrapper">
+              <SearchNormal1 size="20" className="search-icon" />
+              <input
+                type="text"
+                className="search-input"
+                placeholder="Search members..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                aria-label="Search members"
+              />
             </div>
           </div>
+          <div className="col-md-4 mb-3 mb-md-0">
+            <div className="d-flex gap-2">
+              <button
+                className={`filter-btn ${showFilters ? 'active' : ''}`}
+                onClick={() => setShowFilters(!showFilters)}
+                aria-expanded={showFilters}
+                aria-controls="filter-dropdowns"
+              >
+                <Filter size="20" />
+                Filters
+              </button>
+              {(searchTerm || roleFilter || statusFilter) && (
+                <button className="clear-filters-btn" onClick={clearFilters}>
+                  Clear
+                </button>
+              )}
+            </div>
+          </div>
+          <div className="col-md-2">
+            <div className="text-muted text-end">
+              {filteredMembers.length} of {members.length} members
+            </div>
+          </div>
+        </div>
 
-          {/* Filter Dropdowns */}
-          {showFilters && (
-            <div className="row mt-3 pt-3 border-top">
+        {/* Filter Dropdowns */}
+        {showFilters && (
+          <div className="filter-row" id="filter-dropdowns">
+            <div className="row">
               <div className="col-md-6 mb-3">
                 <label className="form-label">Filter by Role</label>
                 <select
-                  className="form-select"
+                  className="filter-select"
                   value={roleFilter}
                   onChange={(e) => setRoleFilter(e.target.value)}
+                  aria-label="Filter by Role"
                 >
                   <option value="">All Roles</option>
                   <option value="admin">Admin</option>
@@ -282,9 +194,10 @@ const MemberList = () => {
               <div className="col-md-6 mb-3">
                 <label className="form-label">Filter by Status</label>
                 <select
-                  className="form-select"
+                  className="filter-select"
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
+                  aria-label="Filter by Status"
                 >
                   <option value="">All Status</option>
                   <option value="active">Active</option>
@@ -293,123 +206,125 @@ const MemberList = () => {
                 </select>
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
       {/* Members Table */}
-      <div className="card">
-        <div className="card-body p-0">
-          {currentMembers.length > 0 ? (
-            <div className="table-responsive">
-              <table className="table table-hover mb-0">
-                <thead className="table-light">
-                  <tr>
-                    <th scope="col" className="px-4 py-3">Member</th>
-                    <th scope="col" className="px-4 py-3">Role</th>
-                    <th scope="col" className="px-4 py-3">Status</th>
-                    <th scope="col" className="px-4 py-3">Joined Date</th>
-                    <th scope="col" className="px-4 py-3 text-center">Actions</th>
+      <div className="members-table-card fade-in-up">
+        {currentMembers.length > 0 ? (
+          <div className="table-responsive">
+            <table className="members-table table table-hover mb-0">
+              <thead>
+                <tr>
+                  <th scope="col">Member</th>
+                  <th scope="col">Role</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Joined Date</th>
+                  <th scope="col" className="text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentMembers.map((member) => (
+                  <tr key={member.id}>
+                    <td>
+                      <div className="d-flex align-items-center">
+                        <div className="member-avatar">
+                          {member.name?.charAt(0)?.toUpperCase() || 'U'}
+                        </div>
+                        <div className="member-info">
+                          <h6>{member.name || 'N/A'}</h6>
+                          <div className="member-email">
+                            <Sms size="14" />
+                            {member.email || 'N/A'}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <span className={`role-badge ${member.role?.toLowerCase() || 'member'}`}>
+                        {member.role || 'Member'}
+                      </span>
+                    </td>
+                    <td>
+                      <span className={`status-badge ${member.status?.toLowerCase() || 'active'}`}>
+                        {member.status || 'Active'}
+                      </span>
+                    </td>
+                    <td className="text-muted">
+                      {member.created_at ? new Date(member.created_at).toLocaleDateString() : 'N/A'}
+                    </td>
+                    <td>
+                      <div className="action-buttons">
+                        <button
+                          className="action-btn view"
+                          onClick={() => navigate(`/organization/members/${member.id}`)}
+                          title="View Details"
+                          aria-label={`View details of ${member.name}`}
+                        >
+                          <Eye size="16" />
+                        </button>
+                        <button
+                          className="action-btn edit"
+                          onClick={() => navigate(`/organization/members/${member.id}/edit`)}
+                          title="Edit Member"
+                          aria-label={`Edit ${member.name}`}
+                        >
+                          <Edit2 size="16" />
+                        </button>
+                        <button
+                          className="action-btn delete"
+                          onClick={() => handleDeleteMember(member.id, member.name)}
+                          title="Remove Member"
+                          aria-label={`Remove ${member.name} from organization`}
+                        >
+                          <Trash size="16" />
+                        </button>
+                      </div>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {currentMembers.map((member) => (
-                    <tr key={member.id}>
-                      <td className="px-4 py-3">
-                        <div className="d-flex align-items-center">
-                          <div className="avatar-sm bg-primary rounded-circle d-flex align-items-center justify-content-center me-3">
-                            <span className="text-white fw-bold">
-                              {member.name?.charAt(0)?.toUpperCase() || 'U'}
-                            </span>
-                          </div>
-                          <div>
-                            <h6 className="mb-1">{member.name || 'N/A'}</h6>
-                            <div className="d-flex align-items-center text-muted small">
-                              <Sms size="14" className="me-1" />
-                              {member.email || 'N/A'}
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-4 py-3">
-                        <span className={`badge ${getRoleBadgeColor(member.role)}`}>
-                          {member.role || 'Member'}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3">
-                        <span className={`badge ${getStatusBadgeColor(member.status)}`}>
-                          {member.status || 'Active'}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-muted">
-                        {member.created_at ? new Date(member.created_at).toLocaleDateString() : 'N/A'}
-                      </td>
-                      <td className="px-4 py-3">
-                        <div className="d-flex justify-content-center gap-2">
-                          <button
-                            className="btn btn-sm btn-outline-primary d-flex align-items-center"
-                            onClick={() => navigate(`/organization/members/${member.id}`)}
-                            title="View Details"
-                          >
-                            <Eye size="16" />
-                          </button>
-                          <button
-                            className="btn btn-sm btn-outline-warning d-flex align-items-center"
-                            onClick={() => navigate(`/organization/members/${member.id}/edit`)}
-                            title="Edit Member"
-                          >
-                            <Edit2 size="16" />
-                          </button>
-                          <button
-                            className="btn btn-sm btn-outline-danger d-flex align-items-center"
-                            onClick={() => handleDeleteMember(member.id, member.name)}
-                            title="Remove Member"
-                          >
-                            <Trash size="16" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="empty-state">
+            <div className="empty-state-icon">
+              <People size="64" />
             </div>
-          ) : (
-            <div className="text-center py-5">
-              <People size="64" className="text-muted mb-3" />
-              <h5 className="text-muted mb-2">No members found</h5>
-              <p className="text-muted mb-4">
-                {searchTerm || roleFilter || statusFilter 
-                  ? 'Try adjusting your search criteria or filters.'
-                  : 'Start by adding your first organization member.'
-                }
-              </p>
-              {!searchTerm && !roleFilter && !statusFilter && (
-                <Link to="/organization/members/create" className="btn btn-primary">
-                  <Add size="20" className="me-2" />
-                  Add First Member
-                </Link>
-              )}
-            </div>
-          )}
-        </div>
+            <h5>No members found</h5>
+            <p>
+              {searchTerm || roleFilter || statusFilter 
+                ? 'Try adjusting your search criteria or filters.'
+                : 'Start by adding your first organization member.'
+              }
+            </p>
+            {!searchTerm && !roleFilter && !statusFilter && (
+              <Link to="/organization/members/create" className="empty-state-btn">
+                <Add size="20" />
+                Add First Member
+              </Link>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="d-flex justify-content-between align-items-center mt-4">
-          <div className="text-muted">
+        <div className="pagination-wrapper">
+          <div className="pagination-info">
             Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, filteredMembers.length)} of {filteredMembers.length} entries
           </div>
           <nav>
-            <ul className="pagination mb-0">
+            <ul className="pagination">
               <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
                 <button
-                  className="page-link d-flex align-items-center"
+                  className="page-link"
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 1}
+                  aria-label="Previous page"
                 >
-                  <ArrowLeft2 size="16" className="me-1" />
+                  <ArrowLeft2 size="16" />
                   Previous
                 </button>
               </li>
@@ -421,6 +336,7 @@ const MemberList = () => {
                     <button
                       className="page-link"
                       onClick={() => handlePageChange(pageNum)}
+                      aria-label={`Page ${pageNum}`}
                     >
                       {pageNum}
                     </button>
@@ -429,12 +345,13 @@ const MemberList = () => {
               })}
               <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
                 <button
-                  className="page-link d-flex align-items-center"
+                  className="page-link"
                   onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage === totalPages}
+                  aria-label="Next page"
                 >
                   Next
-                  <ArrowRight2 size="16" className="ms-1" />
+                  <ArrowRight2 size="16" />
                 </button>
               </li>
             </ul>
