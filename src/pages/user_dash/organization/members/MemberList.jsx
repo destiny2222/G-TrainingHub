@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { 
   Add, 
   SearchNormal1, 
-  Filter, 
   Edit2, 
   Trash, 
   Eye,
@@ -16,64 +15,35 @@ import {
 import { toast } from 'react-toastify';
 import {
   getOrganizationMembers,
-  deleteOrganizationMember,
-  clearError,
-  clearSuccess
-} from '../../../redux/slices/organisationUserSlice';
-import { useAuth } from '../../../contexts/AuthContext';
-import './MemberList.css';
+  deleteOrganizationMember
+} from '../../../../redux/slices/organisationUserSlice';
+import './member.css';
+
 
 const MemberList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user } = useAuth();
-  
-  // Redux state
-  const { 
-    members, 
-    loading, 
-    error, 
-    success 
-  } = useSelector(state => state.organizationUser);
-
-  // Local state
+  const { members, loading, error } = useSelector(state => state.organizationUser);
   const [searchTerm, setSearchTerm] = useState('');
   const [roleFilter, setRoleFilter] = useState('');
-  const [statusFilter, setStatusFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [showFilters, setShowFilters] = useState(false);
   const [itemsPerPage] = useState(10);
-
-  // Get organization slug from user data
-  const organizationSlug = user?.organization?.slug;
 
   // Fetch members on component mount
   useEffect(() => {
-    if (organizationSlug) {
-      dispatch(getOrganizationMembers(organizationSlug));
-    }
-  }, [dispatch, organizationSlug]);
+    dispatch(getOrganizationMembers());
+  }, [dispatch]);
 
-  // Handle success/error messages
-  useEffect(() => {
-    if (success) {
-      toast.success('Action completed successfully!');
-      dispatch(clearSuccess());
-    }
-    if (error) {
-      toast.error(error);
-      dispatch(clearError());
-    }
-  }, [success, error, dispatch]);
+  // Ensure members is always an array
+  const membersList = Array.isArray(members) ? members : [];
 
   // Filter members based on search and filters
-  const filteredMembers = members.filter(member => {
+  const filteredMembers = membersList.filter(member => {
     const matchesSearch = member.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          member.email?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesRole = !roleFilter || member.role === roleFilter;
-    const matchesStatus = !statusFilter || member.status === statusFilter;
     
-    return matchesSearch && matchesRole && matchesStatus;
+    return matchesSearch && matchesRole;
   });
 
   // Pagination
@@ -91,18 +61,23 @@ const MemberList = () => {
   // Handle delete member
   const handleDeleteMember = (memberId, memberName) => {
     if (window.confirm(`Are you sure you want to remove ${memberName} from the organization?`)) {
-      dispatch(deleteOrganizationMember({
-        organization: organizationSlug,
-        organizationUser: memberId
-      }));
+      dispatch(deleteOrganizationMember(memberId));
+      toast.success(`${memberName} has been removed from the organization.`);
     }
   };
+
+  const handleShowMember = (memberId) => {
+    navigate(`/organization/members/${memberId}`);
+  }
+
+  const handleEditMember = (memberId) => {
+    navigate(`/organization/members/${memberId}/edit`);
+  }
 
   // Clear filters
   const clearFilters = () => {
     setSearchTerm('');
     setRoleFilter('');
-    setStatusFilter('');
     setCurrentPage(1);
   };
 
@@ -113,6 +88,23 @@ const MemberList = () => {
           <div className="spinner-border text-primary" role="status">
             <span className="visually-hidden">Loading...</span>
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="member-list-container">
+        <div className="alert alert-danger" role="alert">
+          <h4>Error Loading Members</h4>
+          <p>{error}</p>
+          <button 
+            className="btn btn-primary" 
+            onClick={() => dispatch(getOrganizationMembers())}
+          >
+            Try Again
+          </button>
         </div>
       </div>
     );
@@ -131,83 +123,80 @@ const MemberList = () => {
           Add Member
         </Link>
       </div>
-
-      {/* Search and Filters */}
-      <div className="search-filter-card fade-in-up">
+{/* Search and Filters */}
+      <div className="search-filter-section fade-in-up">
         <div className="row align-items-center">
-          <div className="col-md-6 mb-3 mb-md-0">
+          <div className="col-md-8 mb-3 mb-md-0">
             <div className="search-input-wrapper">
               <SearchNormal1 size="20" className="search-icon" />
               <input
                 type="text"
                 className="search-input"
-                placeholder="Search members..."
+                placeholder="Search by name ..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 aria-label="Search members"
               />
             </div>
           </div>
-          <div className="col-md-4 mb-3 mb-md-0">
-            <div className="d-flex gap-2">
-              <button
-                className={`filter-btn ${showFilters ? 'active' : ''}`}
-                onClick={() => setShowFilters(!showFilters)}
-                aria-expanded={showFilters}
-                aria-controls="filter-dropdowns"
-              >
-                <Filter size="20" />
-                Filters
-              </button>
-              {(searchTerm || roleFilter || statusFilter) && (
+          <div className="col-md-4">
+            <div className="d-flex align-items-center justify-content-end gap-3">
+              <div className="filter-group d-flex align-items-center gap-2">
+                <label className="filter-label">Status:</label>
+                <select
+                  className="filter-select-inline"
+                  value={roleFilter}
+                  onChange={(e) => setRoleFilter(e.target.value)}
+                  aria-label="Filter by Role"
+                >
+                  <option value="">All Role</option>
+                  <option value="admin">Admin</option>
+                  <option value="member">Member</option>
+                </select>
+              </div>
+              {(searchTerm || roleFilter) && (
                 <button className="clear-filters-btn" onClick={clearFilters}>
                   Clear
                 </button>
               )}
             </div>
           </div>
-          <div className="col-md-2">
-            <div className="text-muted text-end">
-              {filteredMembers.length} of {members.length} members
+        </div>
+      </div>
+      {/* Statistics Cards */}
+      <div className="statistics-section mb-4 fade-in-up">
+        <div className="row g-3">
+          <div className="col-md-3">
+            <div className="stat-card">
+              <h6 className="stat-title">Total Members</h6>
+              <div className="stat-number">{membersList.length}</div>
+            </div>
+          </div>
+          <div className="col-md-3">
+            <div className="stat-card active">
+              <h6 className="stat-title">Active Members</h6>
+              <div className="stat-number">
+                {membersList.filter(member => member.status?.toLowerCase() === 'active').length}
+              </div>
+            </div>
+          </div>
+          <div className="col-md-3">
+            <div className="stat-card">
+              <h6 className="stat-title">Inactive Members</h6>
+              <div className="stat-number">
+                {membersList.filter(member => member.status?.toLowerCase() === 'inactive').length}
+              </div>
+            </div>
+          </div>
+          <div className="col-md-3">
+            <div className="stat-card">
+              <h6 className="stat-title">Roles</h6>
+              <div className="stat-number">
+                {new Set(membersList.map(member => member.role)).size}
+              </div>
             </div>
           </div>
         </div>
-
-        {/* Filter Dropdowns */}
-        {showFilters && (
-          <div className="filter-row" id="filter-dropdowns">
-            <div className="row">
-              <div className="col-md-6 mb-3">
-                <label className="form-label">Filter by Role</label>
-                <select
-                  className="filter-select"
-                  value={roleFilter}
-                  onChange={(e) => setRoleFilter(e.target.value)}
-                  aria-label="Filter by Role"
-                >
-                  <option value="">All Roles</option>
-                  <option value="admin">Admin</option>
-                  <option value="manager">Manager</option>
-                  <option value="member">Member</option>
-                </select>
-              </div>
-              <div className="col-md-6 mb-3">
-                <label className="form-label">Filter by Status</label>
-                <select
-                  className="filter-select"
-                  value={statusFilter}
-                  onChange={(e) => setStatusFilter(e.target.value)}
-                  aria-label="Filter by Status"
-                >
-                  <option value="">All Status</option>
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
-                  <option value="pending">Pending</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Members Table */}
@@ -219,6 +208,7 @@ const MemberList = () => {
                 <tr>
                   <th scope="col">Member</th>
                   <th scope="col">Role</th>
+                  <th scope="col">Phone</th>
                   <th scope="col">Status</th>
                   <th scope="col">Joined Date</th>
                   <th scope="col" className="text-center">Actions</th>
@@ -247,6 +237,9 @@ const MemberList = () => {
                       </span>
                     </td>
                     <td>
+                      <span className={`phone-badge ${member.phone ? 'has-phone' : 'no-phone'}`}>{member.phone || 'N/A'}</span>
+                    </td>
+                    <td>
                       <span className={`status-badge ${member.status?.toLowerCase() || 'active'}`}>
                         {member.status || 'Active'}
                       </span>
@@ -256,17 +249,13 @@ const MemberList = () => {
                     </td>
                     <td>
                       <div className="action-buttons">
-                        <button
-                          className="action-btn view"
-                          onClick={() => navigate(`/organization/members/${member.id}`)}
-                          title="View Details"
-                          aria-label={`View details of ${member.name}`}
-                        >
+                        <button  className="action-btn view" onClick={() => handleShowMember(member.id)}
+                          title="View Details"  aria-label={`View details of ${member.name}`}  >
                           <Eye size="16" />
                         </button>
                         <button
                           className="action-btn edit"
-                          onClick={() => navigate(`/organization/members/${member.id}/edit`)}
+                          onClick={() => handleEditMember(member.id)}
                           title="Edit Member"
                           aria-label={`Edit ${member.name}`}
                         >
@@ -294,12 +283,12 @@ const MemberList = () => {
             </div>
             <h5>No members found</h5>
             <p>
-              {searchTerm || roleFilter || statusFilter 
+              {searchTerm || roleFilter 
                 ? 'Try adjusting your search criteria or filters.'
                 : 'Start by adding your first organization member.'
               }
             </p>
-            {!searchTerm && !roleFilter && !statusFilter && (
+            {!searchTerm && !roleFilter && (
               <Link to="/organization/members/create" className="empty-state-btn">
                 <Add size="20" />
                 Add First Member

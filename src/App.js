@@ -23,9 +23,10 @@ import CohortDetails from './pages/admin/cohort/CohortDetails';
 import Organizationregister from './pages/auth/organization/Organizationregister';
 import VerificationPending from './pages/auth/organization/VerificationPending';
 import VerifyEmail from './pages/auth/organization/VerifyEmail';
-import MemberList from './pages/user_dash/organization/MemberList';
-import MemberCreate from './pages/user_dash/organization/MemberCreate';
-import MemberEdit from './pages/user_dash/organization/MemberEdit';
+import MemberList from './pages/user_dash/organization/members/MemberList';
+import MemberCreate from './pages/user_dash/organization/members/MemberCreate';
+import MemberEdit from './pages/user_dash/organization/members/MemberEdit';
+import MemberShow from './pages/user_dash/organization/members/MemberShow';
 import NotFound from './pages/NotFound';
 import useScrollAnimation from './hooks/useScrollAnimation';
 import MainLayout from './layouts/MainLayout';
@@ -88,6 +89,13 @@ function App() {
               element={
                 <ProtectedRoute requiredAccountType="organization">
                   <MemberCreate />
+                </ProtectedRoute>
+              } 
+            />
+            <Route path="/organization/members/:id" 
+              element={
+                <ProtectedRoute requiredAccountType="organization">
+                  <MemberShow />
                 </ProtectedRoute>
               } 
             />

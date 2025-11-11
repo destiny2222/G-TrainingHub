@@ -15,58 +15,39 @@ import {
 import { toast } from 'react-toastify';
 import {
   createOrganizationMember,
-  bulkCreateOrganizationMembers,
-  addExistingUsersAsMembers,
-  clearError,
-  clearSuccess
-} from '../../../redux/slices/organisationUserSlice';
-import { useAuth } from '../../../contexts/AuthContext';
-import './MemberCreate.css';
+  bulkCreateOrganizationMembers
+} from '../../../../redux/slices/organisationUserSlice';
+import './member.css';
 
 const MemberCreate = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user } = useAuth();
-  
-  // Redux state
-  const { loading, error, success } = useSelector(state => state.organizationUser);
+  const { loading } = useSelector(state => state.organizationUser);
 
   // Form state
-  const [creationMethod, setCreationMethod] = useState('single'); // 'single', 'bulk', 'existing'
+  const [creationMethod, setCreationMethod] = useState('single');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    password: '',
     role: 'member',
-    send_invitation: true
+    phone: '',
+    send_invitation: true,
+    // organization_id:  userDetails?.organization_id ||  ''
   });
   
   // Bulk creation state
   const [bulkMembers, setBulkMembers] = useState([
-    { name: '', email: '', role: 'member' }
+    { name: '', email: '', role: 'member', phone: '' }
   ]);
   
-  // Existing users state
-  const [existingUserEmails, setExistingUserEmails] = useState(['']);
+  // Existing users state (for future feature)
+  const [existingUserEmails] = useState(['']);
   
   // Validation state
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const organizationSlug = user?.organization?.slug;
 
-  // Handle success/error messages
-  useEffect(() => {
-    if (success) {
-      toast.success('Member(s) created successfully!');
-      dispatch(clearSuccess());
-      navigate('/organization/members');
-    }
-    if (error) {
-      toast.error(error);
-      dispatch(clearError());
-    }
-  }, [success, error, dispatch, navigate]);
 
   // Form validation
   const validateForm = () => {
@@ -78,16 +59,19 @@ const MemberCreate = () => {
       else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
         newErrors.email = 'Please enter a valid email address';
       }
-      if (!formData.password.trim()) newErrors.password = 'Password is required';
-      else if (formData.password.length < 6) {
-        newErrors.password = 'Password must be at least 6 characters';
+      if (!['member', 'admin'].includes(formData.role)) {
+        newErrors.role = 'Please select a valid role';
       }
+    
     } else if (creationMethod === 'bulk') {
       bulkMembers.forEach((member, index) => {
         if (!member.name.trim()) newErrors[`bulk_name_${index}`] = 'Name is required';
         if (!member.email.trim()) newErrors[`bulk_email_${index}`] = 'Email is required';
         else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(member.email)) {
           newErrors[`bulk_email_${index}`] = 'Please enter a valid email address';
+        }
+        if (!['member', 'admin'].includes(member.role)) {
+          newErrors[`bulk_role_${index}`] = 'Please select a valid role';
         }
       });
     } else if (creationMethod === 'existing') {
@@ -113,16 +97,26 @@ const MemberCreate = () => {
 
     try {
       if (creationMethod === 'single') {
-        await dispatch(createOrganizationMember({
-          organization: organizationSlug,
-          memberData: formData
-        }));
+        // Send the data directly, not wrapped in memberData
+       const res = await dispatch(createOrganizationMember(formData)).unwrap();
+        toast.success(res.data.message || 'Member created successfully!');
+        setTimeout(() => {
+          navigate('/organization/members');
+        }, 1500);
+        
       } else if (creationMethod === 'bulk') {
         await dispatch(bulkCreateOrganizationMembers({
-          organization: organizationSlug,
           membersData: { members: bulkMembers }
-        }));
+        })).unwrap();
+        toast.success('Members created successfully!');
+        setTimeout(() => {
+          navigate('/organization/members');
+        }, 1500);
       }
+    } catch (error) {
+      // Error is already handled by Redux slice, just show it
+      toast.error(error || 'An error occurred while creating members.');
+      console.error('Member creation error:', error);
     } finally {
       setIsSubmitting(false);
     }
@@ -143,7 +137,7 @@ const MemberCreate = () => {
 
   // Add bulk member row
   const addBulkMemberRow = () => {
-    setBulkMembers(prev => [...prev, { name: '', email: '', role: 'member' }]);
+    setBulkMembers(prev => [...prev, { name: '', email: '', phone: '', role: 'member' }]);
   };
 
   // Remove bulk member row
@@ -163,32 +157,12 @@ const MemberCreate = () => {
     }
   };
 
-  // Add existing user email row
-  const addExistingUserRow = () => {
-    setExistingUserEmails(prev => [...prev, '']);
-  };
 
-  // Remove existing user email row
-  const removeExistingUserRow = (index) => {
-    setExistingUserEmails(prev => prev.filter((_, i) => i !== index));
-  };
-
-  // Handle existing user email change
-  const handleExistingUserChange = (index, value) => {
-    setExistingUserEmails(prev => prev.map((email, i) => 
-      i === index ? value : email
-    ));
-    // Clear error
-    const errorKey = `existing_email_${index}`;
-    if (errors[errorKey]) {
-      setErrors(prev => ({ ...prev, [errorKey]: '' }));
-    }
-  };
 
   return (
     <div className="member-create-container">
       {/* Header */}
-      <div className="member-create-header d-flex align-items-center mb-4 fade-in-up">
+      <div className="member-create-header d-flex justify-content-between align-items-center mb-4 fade-in-up">
         <Link 
           to="/organization/members" 
           className="back-btn me-3"
@@ -274,6 +248,26 @@ const MemberCreate = () => {
                     {errors.email && <div className="invalid-feedback">{errors.email}</div>}
                   </div>
                 </div>
+                <div className="col-md-12 mb-3">
+                  <label className="form-label">
+                    Phone Number <span className="text-danger">*</span>
+                  </label>
+                  <div className="input-group">
+                    <span className="input-group-text">
+                      <Sms size="20" />
+                    </span>
+                    <input
+                      type="text"
+                      name="phone"
+                      className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
+                      placeholder="Enter phone number"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      aria-label="Phone Number"
+                    />
+                    {errors.phone && <div className="invalid-feedback">{errors.phone}</div>}
+                  </div>
+                </div>
 
                 <div className="col-md-12 mb-3">
                   <label className="form-label">
@@ -291,7 +285,6 @@ const MemberCreate = () => {
                       aria-label="Role"
                     >
                       <option value="member">Member</option>
-                      <option value="manager">Manager</option>
                       <option value="admin">Admin</option>
                     </select>
                   </div>
@@ -372,7 +365,6 @@ const MemberCreate = () => {
                       aria-label={`Bulk Member ${index + 1} Role`}
                     >
                       <option value="member">Member</option>
-                      <option value="manager">Manager</option>
                       <option value="admin">Admin</option>
                     </select>
                   </div>

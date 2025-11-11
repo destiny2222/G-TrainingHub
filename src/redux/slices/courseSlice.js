@@ -8,7 +8,7 @@ export const fetchCourses = createAsyncThunk(
   'courses/fetchCourses',
   async (params = {}, { rejectWithValue }) => {
     try {
-      const response = await api.get('/api/admin/courses', { params });
+      const response = await api.get('/admin/courses', { params });
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
@@ -21,7 +21,7 @@ export const fetchCourseById = createAsyncThunk(
   'courses/fetchCourseById',
   async (slug, { rejectWithValue }) => {
     try {
-      const response = await api.get(`/api/admin/courses/${slug}/edit`);
+      const response = await api.get(`/admin/courses/${slug}/edit`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
@@ -34,7 +34,7 @@ export const createCourse = createAsyncThunk(
   'courses/createCourse',
   async (formData, { rejectWithValue }) => {
     try {
-      const response = await api.post('/api/admin/courses/create', formData, {
+      const response = await api.post('/admin/courses/create', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -51,7 +51,7 @@ export const updateCourse = createAsyncThunk(
   'courses/updateCourse',
   async ({ slug, formData }, { rejectWithValue }) => {
     try {
-        const response = await api.put(`/api/admin/courses/${slug}/update`, formData);
+        const response = await api.put(`/admin/courses/${slug}/update`, formData);
         return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
@@ -64,7 +64,7 @@ export const deleteCourse = createAsyncThunk(
   'courses/deleteCourse',
   async (slug, { rejectWithValue }) => {
     try {
-      const response = await api.delete(`/api/admin/courses/${slug}/delete`);
+      const response = await api.delete(`/admin/courses/${slug}/delete`);
       return { slug, ...response.data };
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);

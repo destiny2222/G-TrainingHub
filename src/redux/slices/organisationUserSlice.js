@@ -10,14 +10,13 @@ const initialState = {
   success: false,
 };
 
-// Async thunks for API calls
 
-// GET /api/organization/{organization}/members - List all organization members
+// GET /organization/members - List all organization members (uses authenticated user's organization)
 export const getOrganizationMembers = createAsyncThunk(
   'organizationUser/getOrganizationMembers',
-  async (organization, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const response = await api.get(`/api/organization/${organization}/members`);
+      const response = await api.get('/organization/members');
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -27,13 +26,13 @@ export const getOrganizationMembers = createAsyncThunk(
   }
 );
 
-// GET /api/organization/{organization}/members/{organizationUser} - Show specific member details
+// GET /organization/members/{organizationUser} - Show specific member details (uses authenticated user's organization)
 export const getOrganizationMember = createAsyncThunk(
-  'organizationUser/getOrganizationMember',
-  async ({ organization, organizationUser }, { rejectWithValue }) => {
+  'organizationUser/"getOrganizationMember"',
+  async (organizationUser, { rejectWithValue }) => {
     try {
-      const response = await api.get(`/api/organization/${organization}/members/${organizationUser}`);
-      return response.data;
+      const response = await api.get(`/organization/members/${organizationUser}`);
+      return response.data.data;
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || 'Failed to fetch member details'
@@ -42,27 +41,46 @@ export const getOrganizationMember = createAsyncThunk(
   }
 );
 
-// POST /api/organization/{organization}/members - Create new member
+// POST /organization/members - Create new member (uses authenticated user's organization)
 export const createOrganizationMember = createAsyncThunk(
   'organizationUser/createOrganizationMember',
-  async ({ organization, memberData }, { rejectWithValue }) => {
+  async (memberData, { rejectWithValue }) => {
     try {
-      const response = await api.post(`/api/organization/${organization}/members`, memberData);
+      const response = await api.post(`/organization/members/create`, memberData);
       return response.data;
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || 'Failed to create member'
-      );
+      // Handle different error response structures
+      let errorMessage = 'Failed to create member';
+      if (error.response?.status === 422) {
+        // Validation errors - extract field-specific errors
+        const validationErrors = error.response?.data?.errors;
+        if (validationErrors && typeof validationErrors === 'object') {
+          // Convert validation errors to a readable format
+          const errorMessages = Object.entries(validationErrors)
+            .map(([field, messages]) => `${field}: ${Array.isArray(messages) ? messages.join(', ') : messages}`)
+            .join('; ');
+          errorMessage = `Validation error: ${errorMessages}`;
+        } else {
+          errorMessage = error.response?.data?.message || 'Validation failed';
+        }
+      } else {
+        errorMessage = error.response?.data?.message || 
+                      error.response?.data?.error || 
+                      error.message || 
+                      'Failed to create member';
+      }
+      
+      return rejectWithValue(errorMessage);
     }
   }
 );
 
-// POST /api/organization/{organization}/members/bulk - Bulk create members
+// POST /organization/{organization}/members/bulk - Bulk create members
 export const bulkCreateOrganizationMembers = createAsyncThunk(
   'organizationUser/bulkCreateOrganizationMembers',
   async ({ organization, membersData }, { rejectWithValue }) => {
     try {
-      const response = await api.post(`/api/organization/${organization}/members/bulk`, membersData);
+      const response = await api.post(`/organization/${organization}/members/bulk`, membersData);
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -72,43 +90,46 @@ export const bulkCreateOrganizationMembers = createAsyncThunk(
   }
 );
 
-// POST /api/organization/{organization}/members/existing - Add existing users as members
-export const addExistingUsersAsMembers = createAsyncThunk(
-  'organizationUser/addExistingUsersAsMembers',
-  async ({ organization, userData }, { rejectWithValue }) => {
+
+// GET /organization/members/{organizationUser}/edit - Get organization member for edit
+export const editOrganizationMember = createAsyncThunk(
+  'organizationUser/editOrganizationMember',
+  async ({ organizationUserId, memberData }, { rejectWithValue }) => {
     try {
-      const response = await api.post(`/api/organization/${organization}/members/existing`, userData);
-      return response.data;
+      const response = await api.get(`/organization/members/${organizationUserId}/edit`, memberData);
+      return response.data.data;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || 'Failed to add existing users as members'
+        error.response?.data?.message || 'Failed to fetch member for edit'
       );
     }
   }
 );
 
-// PUT /api/organization/{organization}/members/{organizationUser} - Update member
+// PUT /organization/members/{organizationUser} - Update member (uses authenticated user's organization)
 export const updateOrganizationMember = createAsyncThunk(
-  'organizationUser/updateOrganizationMember',
-  async ({ organization, organizationUser, memberData }, { rejectWithValue }) => {
+  'organizationUser/updateOrganizationMember', async ({ organizationUserId, memberData }, { rejectWithValue }) => {
     try {
-      const response = await api.put(`/api/organization/${organization}/members/${organizationUser}`, memberData);
+      const response = await api.put(`/organization/members/${organizationUserId}/update`, memberData);
       return response.data;
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || 'Failed to update member'
-      );
+      // Extract the actual error message from the response
+      const errorMessage = error.response?.data?.message || 
+                          error.response?.data?.error || 
+                          error.message || 
+                          'Failed to update member';
+      return rejectWithValue(errorMessage);
     }
   }
 );
 
-// DELETE /api/organization/{organization}/members/{organizationUser} - Remove member
+// DELETE /organization/members/{organizationUser} - Remove member (uses authenticated user's organization)
 export const deleteOrganizationMember = createAsyncThunk(
   'organizationUser/deleteOrganizationMember',
-  async ({ organization, organizationUser }, { rejectWithValue }) => {
+  async (organizationUserId, { rejectWithValue }) => {
     try {
-      await api.delete(`/api/organization/${organization}/members/${organizationUser}`);
-      return organizationUser;
+      await api.delete(`/organization/members/${organizationUserId}/delete`);
+      return organizationUserId;
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || 'Failed to delete member'
@@ -141,12 +162,17 @@ const organizationUserSlice = createSlice({
       })
       .addCase(getOrganizationMembers.fulfilled, (state, action) => {
         state.loading = false;
-        state.members = action.payload.data || action.payload;
+        const payload = action.payload?.data?.members || action.payload?.data || action.payload;
+        state.members = Array.isArray(payload) ? payload : [];
         state.error = null;
       })
       .addCase(getOrganizationMembers.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        // Ensure members is still an array even on error
+        if (!Array.isArray(state.members)) {
+          state.members = [];
+        }
       })
       
       // Get organization member
@@ -172,7 +198,13 @@ const organizationUserSlice = createSlice({
       })
       .addCase(createOrganizationMember.fulfilled, (state, action) => {
         state.loading = false;
-        state.members.push(action.payload);
+        // Ensure members is an array before pushing
+        if (!Array.isArray(state.members)) {
+          state.members = [];
+        }
+        // Handle different response structures
+        const newMember = action.payload?.data || action.payload;
+        state.members.push(newMember);
         state.success = true;
         state.error = null;
       })
@@ -191,6 +223,10 @@ const organizationUserSlice = createSlice({
       .addCase(bulkCreateOrganizationMembers.fulfilled, (state, action) => {
         state.loading = false;
         if (action.payload.data && Array.isArray(action.payload.data)) {
+          // Ensure members is an array before spreading
+          if (!Array.isArray(state.members)) {
+            state.members = [];
+          }
           state.members = [...state.members, ...action.payload.data];
         }
         state.success = true;
@@ -201,22 +237,20 @@ const organizationUserSlice = createSlice({
         state.error = action.payload;
         state.success = false;
       })
-      
-      // Add existing users as members
-      .addCase(addExistingUsersAsMembers.pending, (state) => {
+
+      // Get organization member for edit
+      .addCase(editOrganizationMember.pending, (state) => {
         state.loading = true;
         state.error = null;
         state.success = false;
       })
-      .addCase(addExistingUsersAsMembers.fulfilled, (state, action) => {
+      .addCase(editOrganizationMember.fulfilled, (state, action) => {
         state.loading = false;
-        if (action.payload.data && Array.isArray(action.payload.data)) {
-          state.members = [...state.members, ...action.payload.data];
-        }
-        state.success = true;
+        state.member = action.payload;
         state.error = null;
+        state.success = true;
       })
-      .addCase(addExistingUsersAsMembers.rejected, (state, action) => {
+      .addCase(editOrganizationMember.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
         state.success = false;
@@ -230,6 +264,10 @@ const organizationUserSlice = createSlice({
       })
       .addCase(updateOrganizationMember.fulfilled, (state, action) => {
         state.loading = false;
+        // Ensure members is an array before using findIndex
+        if (!Array.isArray(state.members)) {
+          state.members = [];
+        }
         const index = state.members.findIndex(member => member.id === action.payload.id);
         if (index !== -1) {
           state.members[index] = action.payload;
@@ -254,6 +292,10 @@ const organizationUserSlice = createSlice({
       })
       .addCase(deleteOrganizationMember.fulfilled, (state, action) => {
         state.loading = false;
+        // Ensure members is an array before filtering
+        if (!Array.isArray(state.members)) {
+          state.members = [];
+        }
         state.members = state.members.filter(member => member.id !== action.payload);
         if (state.member && state.member.id === action.payload) {
           state.member = null;

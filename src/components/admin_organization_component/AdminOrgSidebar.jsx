@@ -43,12 +43,6 @@ function AdminOrgSidebar() {
             </Link>
           </li>
           <li>
-            <Link to="/organization/courses" className={isActive('/organization/courses')}>
-              <Category size="20" variant="Bulk" />
-              <span>Manage Courses</span>
-            </Link>
-          </li>
-          <li>
             <Link to="/organization/training-programs" className={isActive('/organization/training-programs')}>
               <Teacher size="20" variant="Bulk" />
               <span>Training Programs</span>
@@ -69,7 +63,7 @@ function AdminOrgSidebar() {
           <li>
             <Link to="/organization/schedule" className={isActive('/organization/schedule')}>
               <Calendar size="20" variant="Bulk" />
-              <span>Schedule Management</span>
+              <span>Calendar</span>
             </Link>
           </li>
           <li>

@@ -16,7 +16,8 @@ export const getOrganization = createAsyncThunk(
   'organization/getOrganization',
   async (slug, { rejectWithValue }) => {
     try {
-      const response = await api.get(`/api/organization/${slug}`);
+      const response = await api.get(`/organization/${slug}`);
+      console.log('Fetched organization details:', response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -31,7 +32,7 @@ export const updateOrganization = createAsyncThunk(
   'organization/updateOrganization',
   async ({ slug, organizationData }, { rejectWithValue }) => {
     try {
-      const response = await api.put(`/api/organization/${slug}`, organizationData);
+      const response = await api.put(`/organization/${slug}`, organizationData);
       return response.data;
     } catch (error) {
       return rejectWithValue(

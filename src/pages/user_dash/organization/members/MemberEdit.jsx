@@ -6,94 +6,68 @@ import {
   User, 
   Sms, 
   Crown,
-  Edit2,
   Save2,
   RefreshCircle,
-  InfoCircle,
   Trash,
   Calendar,
   Award
 } from 'iconsax-reactjs';
 import { toast } from 'react-toastify';
 import {
-  getOrganizationMember,
+  editOrganizationMember,
   updateOrganizationMember,
   deleteOrganizationMember,
   clearError,
   clearSuccess
-} from '../../../redux/slices/organisationUserSlice';
-import { useAuth } from '../../../contexts/AuthContext';
-import './MemberEdit.css';
+} from '../../../../redux/slices/organisationUserSlice';
+import './member.css';
 
 const MemberEdit = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { memberId } = useParams();
-  const { user } = useAuth();
+  const { member, loading, error,  success } = useSelector(state => state.organizationUser);
+  // const [isEditing, setIsEditing] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+ 
+  // Fetch member data on component mount
+  useEffect(() => {
+    if (memberId) {
+      dispatch(editOrganizationMember({ organizationUserId: memberId }));
+    }
+  }, [dispatch,  memberId]);
+
+
+  useEffect(() => {
+    // if member exists (i.e., data has loaded)
+    if (member) {
+      setFormData({
+        name: member.name || '',
+        email: member.email || '',
+        role: member.role || 'member',
+        phone: member.phone || '',
+        is_admin: member.is_admin || false,
+        status: member.status || 'active'
+      });
+    }
+  }, [member]);
   
-  // Redux state
-  const { 
-    member, 
-    loading, 
-    error, 
-    success 
-  } = useSelector(state => state.organizationUser);
 
   // Form state
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     role: 'member',
+    phone: '',
+    is_admin: false,
     status: 'active'
   });
   
-  // UI state
-  const [isEditing, setIsEditing] = useState(false);
-  const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const organizationSlug = user?.organization?.slug;
 
-  // Fetch member data on component mount
-  useEffect(() => {
-    if (organizationSlug && memberId) {
-      dispatch(getOrganizationMember({
-        organization: organizationSlug,
-        organizationUser: memberId
-      }));
-    }
-  }, [dispatch, organizationSlug, memberId]);
 
-  // Update form data when member data is loaded
-  useEffect(() => {
-    if (member) {
-      setFormData({
-        name: member.name || '',
-        email: member.email || '',
-        role: member.role || 'member',
-        status: member.status || 'active'
-      });
-    }
-  }, [member]);
-
-  // Handle success/error messages
-  useEffect(() => {
-    if (success) {
-      toast.success('Member updated successfully!');
-      dispatch(clearSuccess());
-      setIsEditing(false);
-      // Refresh member data
-      dispatch(getOrganizationMember({
-        organization: organizationSlug,
-        organizationUser: memberId
-      }));
-    }
-    if (error) {
-      toast.error(error);
-      dispatch(clearError());
-    }
-  }, [success, error, dispatch, organizationSlug, memberId]);
 
   // Form validation
   const validateForm = () => {
@@ -108,6 +82,16 @@ const MemberEdit = () => {
       newErrors.email = 'Please enter a valid email address';
     }
 
+    if (!formData.role) {
+      newErrors.role = 'Role is required';
+    } else if (!['member', 'admin'].includes(formData.role)) {
+      newErrors.role = 'Please select a valid role';
+    }
+
+    // if (formData.phone && !/^\+?[1-9]\d{1,14}$/.test(formData.phone)) {
+    //   newErrors.phone = 'Please enter a valid phone number';
+    // }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -121,11 +105,27 @@ const MemberEdit = () => {
     setIsSubmitting(true);
 
     try {
-      await dispatch(updateOrganizationMember({
-        organization: organizationSlug,
-        organizationUser: memberId,
+      const result = await dispatch(updateOrganizationMember({
+        organizationUserId: memberId,
         memberData: formData
       }));
+
+      // Check if the action was rejected
+      if (updateOrganizationMember.rejected.match(result)) {
+        toast.error(result.payload || 'Failed to update member');
+        return;
+      }
+
+      // Check if the action was fulfilled
+      if (updateOrganizationMember.fulfilled.match(result)) {
+        toast.success('Member updated successfully!');
+        // navigate back to member list page
+        setTimeout(() => {
+          navigate('/organization/members');
+        }, 1500);
+      }
+    } catch (error) {
+      toast.error(error?.message || 'Failed to update member');
     } finally {
       setIsSubmitting(false);
     }
@@ -148,7 +148,6 @@ const MemberEdit = () => {
   const handleDeleteMember = async () => {
     try {
       await dispatch(deleteOrganizationMember({
-        organization: organizationSlug,
         organizationUser: memberId
       }));
       toast.success('Member removed successfully!');
@@ -161,17 +160,8 @@ const MemberEdit = () => {
 
   // Cancel editing
   const handleCancelEdit = () => {
-    if (member) {
-      setFormData({
-        name: member.name || '',
-        email: member.email || '',
-        role: member.role || 'member',
-        status: member.status || 'active'
-      });
-    }
-    setIsEditing(false);
-    setErrors({});
-  };
+    // return to member details page
+  }
 
   if (loading) {
     return (
@@ -203,10 +193,10 @@ const MemberEdit = () => {
     <div className="member-edit-container">
       {/* Header */}
       <div className="member-edit-header d-flex align-items-center justify-content-between mb-4 fade-in-up">
-        <div className="d-flex align-items-center">
+        <div className="d-flex flex-column align-items-start">
           <Link 
             to="/organization/members" 
-            className="back-btn me-3"
+            className="back-btn mb-4"
           >
             <ArrowLeft size="20" />
             Back to Members
@@ -218,24 +208,7 @@ const MemberEdit = () => {
         </div>
         
         <div className="action-buttons">
-          {!isEditing ? (
-            <>
-              <button
-                className="btn-primary"
-                onClick={() => setIsEditing(true)}
-              >
-                <Edit2 size="20" />
-                Edit Member
-              </button>
-              <button
-                className="btn-danger"
-                onClick={() => setShowDeleteModal(true)}
-              >
-                <Trash size="20" />
-                Remove Member
-              </button>
-            </>
-          ) : (
+          
             <>
               <button
                 type="button"
@@ -265,19 +238,17 @@ const MemberEdit = () => {
                 )}
               </button>
             </>
-          )}
         </div>
       </div>
 
       <div className="row fade-in-up">
         {/* Member Information Card */}
         <div className="col-lg-8 mb-4">
-          <div className="member-info-card">
+          <div className="member-info-card shadow-sm">
             <div className="member-info-header">
               <h5>Member Information</h5>
             </div>
             <div className="member-info-body">
-              {isEditing ? (
                 <form id="editMemberForm" onSubmit={handleSubmit}>
                   <div className="row">
                     <div className="col-md-6 mb-3">
@@ -328,6 +299,20 @@ const MemberEdit = () => {
                       </div>
                     </div>
 
+                    <div className="col-md-12 mb-3">
+                      <label className="form-label">Phone Number</label>
+                        <input
+                          type="tel"
+                          name="phone"
+                          className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
+                          placeholder="Enter phone number"
+                          value={formData.phone}
+                          onChange={handleInputChange}
+                          aria-label="Phone Number"
+                        />
+                        {errors.phone && <div className="invalid-feedback">{errors.phone}</div>}
+                    </div>
+
                     <div className="col-md-6 mb-3">
                       <label className="form-label">
                         Role <span className="text-danger">*</span>
@@ -338,15 +323,15 @@ const MemberEdit = () => {
                         </span>
                         <select
                           name="role"
-                          className="form-select"
+                          className={`form-select ${errors.role ? 'is-invalid' : ''}`}
                           value={formData.role}
                           onChange={handleInputChange}
                           aria-label="Role"
                         >
                           <option value="member">Member</option>
-                          <option value="manager">Manager</option>
                           <option value="admin">Admin</option>
                         </select>
+                        {errors.role && <div className="invalid-feedback">{errors.role}</div>}
                       </div>
                       <div className="form-text">
                         Assign a role to the member that defines their permissions in the organization.
@@ -374,51 +359,13 @@ const MemberEdit = () => {
                     </div>
                   </div>
                 </form>
-              ) : (
-                <div className="row">
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label text-muted">Full Name</label>
-                    <div className="d-flex align-items-center">
-                      <User size="20" className="text-muted me-2" />
-                      <span className="h6 mb-0">{member.name || 'N/A'}</span>
-                    </div>
-                  </div>
-
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label text-muted">Email Address</label>
-                    <div className="d-flex align-items-center">
-                      <Sms size="20" className="text-muted me-2" />
-                      <span className="h6 mb-0">{member.email || 'N/A'}</span>
-                    </div>
-                  </div>
-
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label text-muted">Role</label>
-                    <div className="d-flex align-items-center">
-                      <Crown size="20" className="text-muted me-2" />
-                      <span className={`member-role-badge ${member.role?.toLowerCase() || 'member'}`}>
-                        {member.role || 'Member'}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label text-muted">Status</label>
-                    <div className="d-flex align-items-center">
-                      <span className={`member-status-badge ${member.status?.toLowerCase() || 'active'}`}>
-                        {member.status || 'Active'}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              )}
             </div>
           </div>
         </div>
 
         {/* Member Statistics Card */}
         <div className="col-lg-4 mb-4">
-          <div className="member-stats-card">
+          <div className="member-stats-card shadow-sm">
             <div className="member-stats-header">
               <h5>Member Statistics</h5>
             </div>
@@ -464,20 +411,6 @@ const MemberEdit = () => {
             </div>
           </div>
         </div>
-
-          {/* Additional Information Card */}
-          <div className="card mt-4">
-            <div className="card-header">
-              <h5 className="mb-0">Additional Information</h5>
-            </div>
-            <div className="card-body">
-              <div className="alert alert-info">
-                <InfoCircle size="20" className="me-2" />
-                <strong>Note:</strong> Changes to member roles and status take effect immediately. 
-                Members will be notified of any role changes via email.
-              </div>
-            </div>
-          </div>
       </div>
 
       {/* Delete Confirmation Modal */}

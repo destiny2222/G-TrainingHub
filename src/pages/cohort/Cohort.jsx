@@ -1,8 +1,20 @@
+import React from "react";
 import "./Cohort.css";
 import { IoIosSearch } from "react-icons/io";
 import { CiFilter } from "react-icons/ci";
+import { fetchCourses } from "../../redux/slices/frontend/courseSlice";
+import { useDispatch, useSelector } from "react-redux";
+
 
 function Cohort() {
+  const dispatch = useDispatch();
+  const courses = useSelector((state) => state.courses.courses);
+
+  React.useEffect(() => {
+    dispatch(fetchCourses());
+  }, [dispatch]);
+
+  console.log(courses);
   return (
     <>
       <section className="breadcrumb-area cohort-hero-section pt-100 pb-100 background">
