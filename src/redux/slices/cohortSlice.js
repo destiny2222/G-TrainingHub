@@ -8,7 +8,7 @@ export const fetchCohorts = createAsyncThunk(
   'cohorts/fetchCohorts',
   async (params = {}, { rejectWithValue }) => {
     try {
-      const response = await api.get('/api/admin/cohorts', { params });
+      const response = await api.get('/admin/cohorts', { params });
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
@@ -21,7 +21,7 @@ export const fetchCohortById = createAsyncThunk(
   'cohorts/fetchCohortById',
   async (slug, { rejectWithValue }) => {
     try {
-      const response = await api.get(`/api/admin/cohorts/${slug}`);
+      const response = await api.get(`/admin/cohorts/${slug}`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
@@ -34,7 +34,7 @@ export const createCohort = createAsyncThunk(
   'cohorts/createCohort',
   async (cohortData, { rejectWithValue }) => {
     try {
-      const response = await api.post('/api/admin/cohorts/create', cohortData);
+      const response = await api.post('/admin/cohorts/create', cohortData);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
@@ -47,7 +47,7 @@ export const updateCohort = createAsyncThunk(
   'cohorts/updateCohort',
   async ({ slug, cohortData }, { rejectWithValue }) => {
     try {
-      const response = await api.put(`/api/admin/cohorts/${slug}/update`, cohortData);
+      const response = await api.put(`/admin/cohorts/${slug}/update`, cohortData);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
@@ -60,7 +60,7 @@ export const deleteCohort = createAsyncThunk(
   'cohorts/deleteCohort',
   async (slug, { rejectWithValue }) => {
     try {
-      const response = await api.delete(`/api/admin/cohorts/${slug}/delete`);
+      const response = await api.delete(`/admin/cohorts/${slug}/delete`);
       return { slug, ...response.data };
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
@@ -73,7 +73,7 @@ export const fetchCohortUsers = createAsyncThunk(
   'cohorts/fetchCohortUsers',
   async (id, { rejectWithValue }) => {
     try {
-      const response = await api.get(`/api/admin/cohorts/${id}/users`);
+      const response = await api.get(`/admin/cohorts/${id}/users`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create axios instance with base configuration 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000',
+  baseURL: process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000/api',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -12,7 +12,8 @@ const api = axios.create({
 // Request interceptor to add auth token
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('adminToken');
+    // Try different token keys for backward compatibility
+    const token = localStorage.getItem('authToken') || localStorage.getItem('adminToken');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -29,12 +30,24 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response) {
+    if (error.response) {  
       // Handle specific error status codes
       switch (error.response.status) {
         case 401:
+          // Clear all possible auth tokens
+          localStorage.removeItem('authToken');
           localStorage.removeItem('adminToken');
-          window.location.href = '/admin/login';
+          localStorage.removeItem('accountType');
+          
+          // Determine redirect based on current path
+          const currentPath = window.location.pathname;
+          if (currentPath.startsWith('/admin')) {
+            window.location.href = '/admin/login';
+          } else if (currentPath.startsWith('/organization')) {
+            window.location.href = '/organization/login';
+          } else {
+            window.location.href = '/login';
+          }
           break;
         case 403:
           // Forbidden

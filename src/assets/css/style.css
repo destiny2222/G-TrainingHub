@@ -301,7 +301,7 @@ ul {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10px 0 10px;
+
     gap: 10rem;
 }
 
@@ -367,6 +367,11 @@ ul {
 .header .header_section .header_menu .btn .btn-theme:last-child:hover {
     background-color: var(--primary-color);
     color: var(--white);
+}
+
+.header .header_buttons {
+    display: flex;
+    gap: 20px;
 }
 
 /* Mobile Header Styles */
@@ -1644,6 +1649,18 @@ ul {
     min-height: 100vh;
 }
 
+.dashboard-content {
+    flex: 1;
+    margin-left: 280px; /* Account for fixed sidebar width */
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-main {
+    flex: 1;
+    overflow-y: auto;
+}
+
 .sidebar-dashboard {
     width: 280px;
     background-color: var(--dark-primary-color);
@@ -1664,7 +1681,7 @@ ul {
 
 .sidebar-logo .logo-text {
     font-family: var(--font-family);
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 700;
     color: var(--white-color);
     margin: 0;
@@ -1673,7 +1690,7 @@ ul {
 
 .sidebar-logo .logo-subtext {
     font-family: var(--font-family);
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     color: var(--white-color);
 }
@@ -1805,6 +1822,22 @@ ul {
 
 .dashboard-main-section {
     padding: 20px;
+}
+
+/* Organization Dashboard Main Section */
+.organization-dashboard-main-section {
+    padding: 20px;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+/* Organization Dashboard specific styling */
+.organization-dashboard-main-section .welcome-text-title {
+    color: var(--primary-color);
+}
+
+.organization-dashboard-main-section .card {
+    border-left: 4px solid var(--primary-color);
 }
 
 .welcome-text-title {
@@ -1969,8 +2002,41 @@ ul {
 
 @media (max-width: 991px) {
 }
+@media (max-width: 1024px) {
+    .sidebar-dashboard {
+        width: 250px;
+    }
+
+    .dashboard-content {
+        margin-left: 250px;
+    }
+}
+
+@media (max-width: 991px) {
+    .sidebar-dashboard {
+        width: 200px;
+    }
+
+    .dashboard-content {
+        margin-left: 200px;
+    }
+}
 
 @media (max-width: 767px) {
+    .sidebar-dashboard {
+        position: relative;
+        width: 100%;
+        height: auto;
+    }
+
+    .dashboard-content {
+        margin-left: 0;
+    }
+
+    .dashboard-layout {
+        flex-direction: column;
+    }
+
     .footer::before {
         bottom: -80px;
         font-size: 200px;

@@ -1,15 +1,15 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import DashboardHeader from '../components/dashboard/DashboardHeader';
-import Sidebar from '../components/dashboard/Sidebar';
+import DynamicHeader from '../components/DynamicHeader';
+import DynamicSidebar from '../components/DynamicSidebar';
 import '../assets/css/style.css'
 
 const DashboardLayout = () => {
   return (
     <div className="dashboard-layout">
-      <Sidebar />
+      <DynamicSidebar />
       <div className="dashboard-content">
-        <DashboardHeader />
+        <DynamicHeader />
         <main className="dashboard-main">
           <Outlet />
         </main>
