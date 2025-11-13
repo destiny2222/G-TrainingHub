@@ -35,82 +35,81 @@ function Cohort() {
           </div>
         </div>
 
-        <div className="cohort-filters">
-          <div className="">
-            <h3>
-              Filters <CiFilter fontSize={"1.5rem"} />
-            </h3>
-
-            <div className="filter-topics">
-              <h5>Topics</h5>
-              <div className="options">
-                <div>
-                  <input
-                    type="checkbox"
-                    name="machine-learning"
-                    value="machine-learning"
-                    className="checkbox"
-                  />
-                  <p>Machine Learning</p>
-                </div>
-                <div>
-                  <input
-                    type="checkbox"
-                    className="checkbox"
-                    name="data-visualization"
-                    value="data-visualization"
-                  />
-                  <p>Data Visualization</p>
-                </div>
-                <div>
-                  <input
-                    type="checkbox"
-                    className="checkbox"
-                    name="natural-language"
-                    value="natural-language"
-                  />
-                  <p>Natural Language</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="filter-format">
-              <h5>Format</h5>
-              <div className="options">
-                <div>
-                  <input
-                    type="checkbox"
-                    name="video"
-                    value="video"
-                    className="checkbox"
-                  />
-                  <p>Video</p>
-                </div>
-                <div>
-                  <input
-                    type="checkbox"
-                    className="checkbox"
-                    name="article"
-                    value="article"
-                  />
-                  <p>Article</p>
-                </div>
-                <div>
-                  <input
-                    type="checkbox"
-                    className="checkbox"
-                    name="dataset"
-                    value="dataset"
-                  />
-                  <p>Dataset</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <div className="cohort-container">
-          <div className="">
+          <div className="cohort-container-inner">
+            <div className="cohort-filters">
+              <div className="">
+                <h3>
+                  Filters <CiFilter fontSize={"1.5rem"} />
+                </h3>
+
+                <div className="filter-topics">
+                  <h5>Topics</h5>
+                  <div className="options">
+                    <div>
+                      <input
+                        type="checkbox"
+                        name="machine-learning"
+                        value="machine-learning"
+                        className="checkbox"
+                      />
+                      <p>Machine Learning</p>
+                    </div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        name="data-visualization"
+                        value="data-visualization"
+                      />
+                      <p>Data Visualization</p>
+                    </div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        name="natural-language"
+                        value="natural-language"
+                      />
+                      <p>Natural Language</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="filter-format">
+                  <h5>Format</h5>
+                  <div className="options">
+                    <div>
+                      <input
+                        type="checkbox"
+                        name="video"
+                        value="video"
+                        className="checkbox"
+                      />
+                      <p>Video</p>
+                    </div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        name="article"
+                        value="article"
+                      />
+                      <p>Article</p>
+                    </div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        name="dataset"
+                        value="dataset"
+                      />
+                      <p>Dataset</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <main className="">
               <div className="">
                 <article className="cohort-card">
@@ -132,7 +131,7 @@ function Cohort() {
                       networks and deep learning.
                     </p>
                     <div className="card-actions">
-                      <button className="ask-btn">Ask AI Tutor</button>
+                      <button className="ask-btn">Register</button>
                     </div>
                   </div>
                 </article>
@@ -158,7 +157,7 @@ function Cohort() {
                       for the web using D3.js.
                     </p>
                     <div className="card-actions">
-                      <button className="ask-btn">Ask AI Tutor</button>
+                      <button className="ask-btn">Register</button>
                     </div>
                   </div>
                 </article>
@@ -184,7 +183,7 @@ function Cohort() {
                       analysis and NLP tasks.
                     </p>
                     <div className="card-actions">
-                      <button className="ask-btn">Ask AI Tutor</button>
+                      <button className="ask-btn">Register</button>
                     </div>
                   </div>
                 </article>

@@ -61,9 +61,12 @@
     padding: 2.4rem;
 }
 
-.cohort-container {
+.cohort-container-inner {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+}
+.cohort-container-inner main {
+    width: 70%;
 }
 
 .cohort-title {
@@ -159,16 +162,19 @@
     color: var(--dark-primary-color);
     border: 2px solid var(--dark-primary-color);
 }
-.filter-topics,
-.filter-format {
-    margin-left: 1.5rem;
-}
+
+/*Filter*/
 
 .options {
-    display: flex;
     gap: 3rem;
     margin-left: 2rem;
     padding: 0.8rem;
+}
+
+.cohort-filters {
+    width: fit-content;
+    height: fit-content;
+    padding: 2rem 2rem 0.2rem;
 }
 
 .options div {
@@ -188,5 +194,14 @@
     .cohort-card-img {
         width: 100%;
         height: 150px;
+    }
+
+    .cohort-container-inner {
+        flex-direction: column;
+    }
+
+    .cohort-container-inner main {
+        width: 100%;
+        margin-bottom: 1.2rem;
     }
 }
