@@ -295,14 +295,14 @@ ul {
 .header {
     position: relative;
     background-color: var(--Primary-50);
+    padding-block: 0.6rem;
 }
 
 .header .header_section {
     display: flex;
     justify-content: center;
     align-items: center;
-
-    gap: 10rem;
+    gap: 6rem;
 }
 
 .header .header_section .logo {
@@ -314,24 +314,27 @@ ul {
     width: 120px;
 }
 
-.header .header_section .header_menu {
+/*.header .header_section .header_menu {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10rem;
     z-index: 2;
-}
+}*/
 
 .header .header_section .header_menu ul {
     display: flex;
+    gap: 2rem;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    width: fit-content;
+    width: 100%;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
-.header .header_section .header_menu ul li {
+/*.header .header_section .header_menu ul li {
     padding: 0 20px 0 20px;
-}
+}*/
 
 .header .header_section .header_menu ul li a {
     font-family: var(--font-family);
@@ -341,6 +344,7 @@ ul {
     letter-spacing: -1px;
     color: var(--black-50);
     text-decoration: none;
+    padding: 10px;
 }
 
 .header .header_section .header_menu ul li a:hover {

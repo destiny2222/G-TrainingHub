@@ -23,6 +23,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Home = () => {
   const heroVideoVisual = useRef(null);
+
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -42,14 +43,14 @@ const Home = () => {
       );
     });
     return () => ctx.revert();
-  });
+  }, []);
 
   return (
     <>
       <section className="hero-section-wrapper">
         <div className="hero-section-content">
           <h1 className="js-scroll fade-in">
-            Your Journey To Tech Confidence Starts Here{" "}
+            Your Journey To Tech Confidence Starts Here
           </h1>
           <p>
             Unlock your potential in AI and Machine Learning with our
@@ -57,12 +58,15 @@ const Home = () => {
             mentorship from industry experts.
           </p>
           <div className="hero-buttons">
-            <Link to="/cohort" className="register-btn ">
+            <Link to="/cohort" className="register-btn">
               Register for Cohort
             </Link>
-            <Link className="mentors-btn ">Register as Organization</Link>
+            <Link to="/organization/register" className="mentors-btn">
+              Register as Organization
+            </Link>
           </div>
         </div>
+
         <section className="info-section">
           <div className="info">
             <p>Starting at 10am blah blah blah</p>
@@ -71,9 +75,9 @@ const Home = () => {
             <p>Starting at 10am blah blah blah</p>
           </div>
           <div className="info">
-            <p>Starting at 10am blah blah blah</p>{" "}
             <p>Starting at 10am blah blah blah</p>
-            <p>Starting at 10am blah blah blah</p>{" "}
+            <p>Starting at 10am blah blah blah</p>
+            <p>Starting at 10am blah blah blah</p>
             <p>Starting at 10am blah blah blah</p>
           </div>
         </section>
@@ -109,7 +113,6 @@ const Home = () => {
             </div>
           </div>
           <div className="feature-slider-wrapper">
-            {/* Custom Navigation Buttons - Must be before Swiper */}
             <button className="swiper-button-prev-custom feature-slider-arrow feature-slider-prev">
               <i className="lni lni-chevron-left"></i>
             </button>
@@ -137,73 +140,20 @@ const Home = () => {
               }}
               loop={true}
               breakpoints={{
-                320: {
-                  slidesPerView: 1,
-                  spaceBetween: 20,
-                },
-                480: {
-                  slidesPerView: 1,
-                  spaceBetween: 20,
-                },
-                768: {
-                  slidesPerView: 1,
-                  spaceBetween: 20,
-                },
-                1024: {
-                  slidesPerView: 2,
-                  spaceBetween: 30,
-                },
-                1280: {
-                  slidesPerView: 3,
-                  spaceBetween: 30,
-                },
+                320: { slidesPerView: 1, spaceBetween: 20 },
+                480: { slidesPerView: 1, spaceBetween: 20 },
+                768: { slidesPerView: 1, spaceBetween: 20 },
+                1024: { slidesPerView: 2, spaceBetween: 30 },
+                1280: { slidesPerView: 3, spaceBetween: 30 },
               }}
             >
               <SwiperSlide>
                 <div className="feature-card">
                   <div className="feature-card-bg">
-                    <div id="" className="fluted-glass-component">
-                      <div className="fluted-glass-canvas">
-                        <img
-                          src="https://cdn.prod.website-files.com/plugins/Basic/assets/placeholder.60f9b1840c.svg"
-                          loading="lazy"
-                          alt=""
-                          className="fluted-glass-image"
-                        />
-                        <canvas
-                          width="408"
-                          height="544"
-                          style={{
-                            display: "block",
-                            width: "100%",
-                            height: "100%",
-                            opacity: 1,
-                          }}
-                        ></canvas>
-                      </div>
-                scale: 1,
-                borderRadius: 0,
-                y: 0,
-            })
-        })
-        return () => ctx.revert();
-    })
-
-
-    return (
-        <>
-            <section className="hero-section-wrapper">
-                <div className="hero-section-content">
-                    <h1 className="js-scroll fade-in">Join the GritinAI Annual AI Training — <span className='primary-color'>August Cohort</span></h1>
-                    <p>Unlock your potential in AI and Machine Learning with our comprehensive training program. Gain hands-on experience and mentorship from industry experts.</p>
-                    <div className="hero-buttons">
-                        <Link to='/cohort' className="register-btn ">Register for Cohort</Link>
-                        <Link to='/organization/register' className="mentors-btn ">Register as Organization</Link>
-                    </div>
                     <img src={featureImg1} className="u-img-cover" alt="" />
                   </div>
                   <div className="u-bg-blur cc-accordion-card"></div>
-                  <div className="feature-card-content ">
+                  <div className="feature-card-content">
                     <i className="lni lni-video"></i>
                     <h3>Annual Live Training</h3>
                     <p>
@@ -213,6 +163,7 @@ const Home = () => {
                   </div>
                 </div>
               </SwiperSlide>
+
               <SwiperSlide>
                 <div className="feature-card cursor-target">
                   <div className="feature-card-bg">
@@ -233,6 +184,7 @@ const Home = () => {
                   </div>
                 </div>
               </SwiperSlide>
+
               <SwiperSlide>
                 <div className="feature-card cursor-target">
                   <div className="feature-card-bg">
@@ -253,29 +205,10 @@ const Home = () => {
                   </div>
                 </div>
               </SwiperSlide>
+
               <SwiperSlide>
                 <div className="feature-card cursor-target">
                   <div className="feature-card-bg">
-                    <div id="" className="fluted-glass-component">
-                      <div className="fluted-glass-canvas">
-                        <img
-                          src="https://cdn.prod.website-files.com/plugins/Basic/assets/placeholder.60f9b1840c.svg"
-                          loading="lazy"
-                          alt=""
-                          className="fluted-glass-image"
-                        />
-                        <canvas
-                          width="408"
-                          height="544"
-                          style={{
-                            display: "block",
-                            width: "100%",
-                            height: "100%",
-                            opacity: 1,
-                          }}
-                        ></canvas>
-                      </div>
-                    </div>
                     <img
                       src={featureImg1}
                       className="u-img-cover"
@@ -293,6 +226,7 @@ const Home = () => {
                   </div>
                 </div>
               </SwiperSlide>
+
               <SwiperSlide>
                 <div className="feature-card cursor-target">
                   <div className="feature-card-bg">
@@ -313,6 +247,7 @@ const Home = () => {
                   </div>
                 </div>
               </SwiperSlide>
+
               <SwiperSlide>
                 <div className="feature-card cursor-target">
                   <div className="feature-card-bg">
@@ -335,7 +270,6 @@ const Home = () => {
               </SwiperSlide>
             </Swiper>
 
-            {/* Custom Pagination */}
             <div className="swiper-pagination-custom"></div>
           </div>
         </div>
@@ -386,7 +320,7 @@ const Home = () => {
             <div className="col-lg-6 how-it-works-text-wrapper">
               <div className="how-it-works-items">
                 <div
-                  className="how-it-works-item js-scroll fade-in-bottom "
+                  className="how-it-works-item js-scroll fade-in-bottom"
                   onMouseEnter={() => {
                     document
                       .querySelectorAll(".how-it-works-image")
@@ -403,7 +337,7 @@ const Home = () => {
                   </p>
                 </div>
                 <div
-                  className="how-it-works-item js-scroll fade-in-bottom "
+                  className="how-it-works-item js-scroll fade-in-bottom"
                   onMouseEnter={() => {
                     document
                       .querySelectorAll(".how-it-works-image")
@@ -421,7 +355,7 @@ const Home = () => {
                   </p>
                 </div>
                 <div
-                  className="how-it-works-item js-scroll fade-in-bottom "
+                  className="how-it-works-item js-scroll fade-in-bottom"
                   onMouseEnter={() => {
                     document
                       .querySelectorAll(".how-it-works-image")
@@ -438,7 +372,7 @@ const Home = () => {
                   </p>
                 </div>
                 <div
-                  className="how-it-works-item js-scroll fade-in-bottom "
+                  className="how-it-works-item js-scroll fade-in-bottom"
                   onMouseEnter={() => {
                     document
                       .querySelectorAll(".how-it-works-image")
@@ -551,26 +485,11 @@ const Home = () => {
             }}
             loop={true}
             breakpoints={{
-              320: {
-                slidesPerView: 1,
-                spaceBetween: 20,
-              },
-              600: {
-                slidesPerView: 1,
-                spaceBetween: 20,
-              },
-              768: {
-                slidesPerView: 1,
-                spaceBetween: 30,
-              },
-              1024: {
-                slidesPerView: 2,
-                spaceBetween: 40,
-              },
-              1280: {
-                slidesPerView: 3,
-                spaceBetween: 50,
-              },
+              320: { slidesPerView: 1, spaceBetween: 20 },
+              600: { slidesPerView: 1, spaceBetween: 20 },
+              768: { slidesPerView: 1, spaceBetween: 30 },
+              1024: { slidesPerView: 2, spaceBetween: 40 },
+              1280: { slidesPerView: 3, spaceBetween: 50 },
             }}
           >
             <SwiperSlide>
@@ -624,7 +543,7 @@ const Home = () => {
               </div>
             </SwiperSlide>
             <SwiperSlide>
-              <div className=" Testimonials-card  mb-3">
+              <div className="Testimonials-card mb-3">
                 <div className="Testimonials-card-content">
                   <p className="Testimonials-card-content-text mt-3">
                     I highly recommend GritinAI for anyone looking to excel in
@@ -643,107 +562,6 @@ const Home = () => {
                       </p>
                       <span className="Testimonials-card-content-position">
                         Entrepreneur
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className="Testimonials-card mb-3">
-                <div className="Testimonials-card-content">
-                  <p className="Testimonials-card-content-text mt-3">
-                    GritinAI's training transformed my career. The hands-on
-                    experience and expert mentorship were invaluable.
-                  </p>
-                  <div className="d-flex align-items-center mt-4">
-                    <img
-                      src={testimonialImg1}
-                      className="img_profile"
-                      alt="Avatar"
-                    />
-                    <div className="ms-3">
-                      <p className="Testimonials-card-content-name mb-0">
-                        Nina R
-                      </p>
-                      <span className="Testimonials-card-content-position">
-                        Business Owner
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className="Testimonials-card mb-3">
-                <div className="Testimonials-card-content">
-                  <p className="Testimonials-card-content-text mt-3">
-                    The comprehensive curriculum and personalized support at
-                    GritinAI helped me master complex AI concepts with ease.
-                  </p>
-                  <div className="d-flex align-items-center mt-4">
-                    <img
-                      src={testimonialImg2}
-                      className="img_profile"
-                      alt="Avatar"
-                    />
-                    <div className="ms-3">
-                      <p className="Testimonials-card-content-name mb-0">
-                        Alex J
-                      </p>
-                      <span className="Testimonials-card-content-position">
-                        Free Lancer
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className=" Testimonials-card  mb-3">
-                <div className="Testimonials-card-content">
-                  <p className="Testimonials-card-content-text mt-3">
-                    I highly recommend GritinAI for anyone looking to excel in
-                    AI. The practical skills I gained are directly applicable to
-                    my work.
-                  </p>
-                  <div className="d-flex align-items-center mt-4">
-                    <img
-                      src={testimonialImg3}
-                      className="img_profile"
-                      alt="Avatar"
-                    />
-                    <div className="ms-3">
-                      <p className="Testimonials-card-content-name mb-0">
-                        Emily S
-                      </p>
-                      <span className="Testimonials-card-content-position">
-                        Entrepreneur
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className="Testimonials-card mb-3">
-                <div className="Testimonials-card-content">
-                  <p className="Testimonials-card-content-text mt-3">
-                    GritinAI's training transformed my career. The hands-on
-                    experience and expert mentorship were invaluable.
-                  </p>
-                  <div className="d-flex align-items-center mt-4">
-                    <img
-                      src={testimonialImg1}
-                      className="img_profile"
-                      alt="Avatar"
-                    />
-                    <div className="ms-3">
-                      <p className="Testimonials-card-content-name mb-0">
-                        Nina R
-                      </p>
-                      <span className="Testimonials-card-content-position">
-                        Business Owner
                       </span>
                     </div>
                   </div>

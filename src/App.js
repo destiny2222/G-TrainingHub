@@ -6,8 +6,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 import Home from "./pages/home/Home";
 import Cohort from "./pages/cohort/Cohort";
-import Dashboard from "./pages/user_dash/dashboard/Dashboard";
-import OrganizationDashboard from "./pages/user_dash/dashboard/OrganizationDashboard";
+import Dashboard from "./pages/user_dash/Dashboard";
+import OrganizationDashboard from "./pages/user_dash/OrganizationDashboard";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminLogin from "./pages/admin/auth/Login";
 import CourseList from "./pages/admin/course/List";
@@ -25,7 +25,6 @@ import VerificationPending from "./pages/auth/organization/VerificationPending";
 import VerifyEmail from "./pages/auth/organization/VerifyEmail";
 import NotFound from "./pages/NotFound";
 import useScrollAnimation from "./hooks/useScrollAnimation";
-import AdminAuthGuard from "./components/admin/AdminAuthGuard";
 import MainLayout from "./layouts/MainLayout";
 import AuthLayout from "./layouts/AuthLayout";
 import AdminLayout from "./layouts/AdminLayout";
@@ -48,193 +47,128 @@ function App() {
   return (
     <>
       <div className="App">
-        {/* <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />*/}
-        <Routes>
-          {/* Main public routes with header and footer */}
-          <Route element={<MainLayout />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/cohort" element={<Cohort />} />
-            <Route path="/cohort/:id" element={<CohortDetails />} />
-          </Route>
-
-          {/* User Dashboard routes */}
-          <Route element={<DashboardLayout />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route
-              path="/organization-dashboard"
-              element={<OrganizationDashboard />}
+        <AuthProvider>
+          <div className="App">
+            <ToastContainer
+              position="top-right"
+              autoClose={3000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
             />
-          </Route>
+            <Routes>
+              <Route element={<MainLayout />}>
+                <Route path="/" element={<Home />} />
+                <Route path="/cohort" element={<Cohort />} />
+                <Route path="/cohort/:id" element={<CohortDetails />} />
+              </Route>
 
-          {/* Admin routes with auth guard */}
-          <Route
-            path="/admin"
-            element={
-              <AdminAuthGuard>
-                <AdminLayout />
-              </AdminAuthGuard>
-            }
-          >
-            <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="courses" element={<CourseList />} />
-            <Route path="courses/create" element={<CourseCreate />} />
-            <Route path="courses/edit/:slug" element={<CourseEdit />} />
-            <Route path="courses/:slug" element={<CourseDetails />} />
-            <Route
-              path="courses/:courseSlug/cohorts/create"
-              element={<CohortCreate />}
-            />
-            <Route path="cohorts" element={<CohortList />} />
-            <Route path="cohorts/create" element={<CohortCreate />} />
-            <Route path="cohorts/edit/:slug" element={<CohortEdit />} />
-            <Route path="cohorts/:slug" element={<CohortsDetails />} />
-          </Route>
+              {/* Protected User Dashboard routes */}
+              <Route element={<DashboardLayout />}>
+                <Route
+                  path="/dashboard"
+                  element={
+                    <ProtectedRoute requiredAccountType="individual">
+                      <Dashboard />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/organization/dashboard"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      <OrganizationDashboard />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/organization/members"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      <MemberList />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/organization/members/create"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      <MemberCreate />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/organization/members/:id"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      <MemberShow />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/organization/members/:memberId/edit"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      <MemberEdit />
+                    </ProtectedRoute>
+                  }
+                />
+              </Route>
 
-          {/* Auth routes (login, register, etc.) */}
-          <Route element={<AuthLayout />}>
-            <Route path="/admin/login" element={<AdminLogin />} />
-            <Route
-              path="/organization/register"
-              element={<Organizationregister />}
-            />
-            <Route path="/verification" element={<VerificationPending />} />
-            <Route path="/verify-organization" element={<VerifyEmail />} />
-            <Route path="/login" element={<Login />} />
-          </Route>
-        </Routes>
+              {/* Auth routes (login, register, etc.) */}
+              <Route element={<AuthLayout />}>
+                <Route path="/admin/login" element={<AdminLogin />} />
+                <Route
+                  path="/organization/register"
+                  element={<Organizationregister />}
+                />
+                <Route path="/verification" element={<VerificationPending />} />
+                <Route path="/verify-organization" element={<VerifyEmail />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/organization/login" element={<Login />} />
+              </Route>
+
+              {/* Protected Admin routes */}
+              <Route
+                path="/admin"
+                element={
+                  <ProtectedRoute
+                    requiredAccountType="admin"
+                    redirectTo="/admin/login"
+                  >
+                    <AdminLayout />
+                  </ProtectedRoute>
+                }
+              >
+                <Route path="dashboard" element={<AdminDashboard />} />
+                <Route path="courses" element={<CourseList />} />
+                <Route path="courses/create" element={<CourseCreate />} />
+                <Route path="courses/edit/:slug" element={<CourseEdit />} />
+                <Route path="courses/:slug" element={<CourseDetails />} />
+                <Route
+                  path="courses/:courseSlug/cohorts/create"
+                  element={<CohortCreate />}
+                />
+                <Route path="cohorts" element={<CohortList />} />
+                <Route path="cohorts/create" element={<CohortCreate />} />
+                <Route path="cohorts/edit/:slug" element={<CohortEdit />} />
+                <Route path="cohorts/:slug" element={<CohortsDetails />} />
+              </Route>
+
+              {/* Unauthorized page */}
+              <Route path="/unauthorized" element={<Unauthorized />} />
+
+              {/* 404 Page - standalone without layout */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
+        </AuthProvider>
       </div>
-      <AuthProvider>
-        <div className="App">
-          <ToastContainer
-            position="top-right"
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-          />
-          <Routes>
-            {/* Main public routes with header and footer */}
-            <Route element={<MainLayout />}>
-              <Route path="/" element={<Home />} />
-              <Route path="/cohort" element={<Cohort />} />
-            </Route>
-
-            {/* Protected User Dashboard routes */}
-            <Route element={<DashboardLayout />}>
-              <Route
-                path="/dashboard"
-                element={
-                  <ProtectedRoute requiredAccountType="individual">
-                    <Dashboard />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/organization/dashboard"
-                element={
-                  <ProtectedRoute requiredAccountType="organization">
-                    <OrganizationDashboard />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/organization/members"
-                element={
-                  <ProtectedRoute requiredAccountType="organization">
-                    <MemberList />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/organization/members/create"
-                element={
-                  <ProtectedRoute requiredAccountType="organization">
-                    <MemberCreate />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/organization/members/:id"
-                element={
-                  <ProtectedRoute requiredAccountType="organization">
-                    <MemberShow />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/organization/members/:memberId/edit"
-                element={
-                  <ProtectedRoute requiredAccountType="organization">
-                    <MemberEdit />
-                  </ProtectedRoute>
-                }
-              />
-            </Route>
-
-            {/* Auth routes (login, register, etc.) */}
-            <Route element={<AuthLayout />}>
-              <Route path="/admin/login" element={<AdminLogin />} />
-              <Route
-                path="/organization/register"
-                element={<Organizationregister />}
-              />
-              <Route path="/verification" element={<VerificationPending />} />
-              <Route path="/verify-organization" element={<VerifyEmail />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/organization/login" element={<Login />} />
-            </Route>
-
-            {/* Protected Admin routes */}
-            <Route
-              path="/admin"
-              element={
-                <ProtectedRoute
-                  requiredAccountType="admin"
-                  redirectTo="/admin/login"
-                >
-                  <AdminLayout />
-                </ProtectedRoute>
-              }
-            >
-              <Route path="dashboard" element={<AdminDashboard />} />
-              <Route path="courses" element={<CourseList />} />
-              <Route path="courses/create" element={<CourseCreate />} />
-              <Route path="courses/edit/:slug" element={<CourseEdit />} />
-              <Route path="courses/:slug" element={<CourseDetails />} />
-              <Route
-                path="courses/:courseSlug/cohorts/create"
-                element={<CohortCreate />}
-              />
-              <Route path="cohorts" element={<CohortList />} />
-              <Route path="cohorts/create" element={<CohortCreate />} />
-              <Route path="cohorts/edit/:slug" element={<CohortEdit />} />
-              <Route path="cohorts/:slug" element={<CohortDetails />} />
-            </Route>
-
-            {/* Unauthorized page */}
-            <Route path="/unauthorized" element={<Unauthorized />} />
-
-            {/* 404 Page - standalone without layout */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </div>
-      </AuthProvider>
     </>
   );
 }
