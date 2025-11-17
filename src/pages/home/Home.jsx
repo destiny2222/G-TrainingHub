@@ -185,22 +185,39 @@ const Home = () => {
                 }}
             />
             <section className="hero-section-wrapper">
-                <div className="hero-section-content">
-                    <h1 className="js-scroll fade-in">Join the GritinAI Annual AI Training — <span className='primary-color'>August Cohort</span></h1>
-                    <p>Unlock your potential in AI and Machine Learning with our comprehensive training program. Gain hands-on experience and mentorship from industry experts.</p>
-                    <div className="hero-buttons">
-                        <Link to='/cohort' className="register-btn text-white">Register for Cohort</Link>
-                        <Link to='/organization/register' className="mentors-btn text-white">Register as Organization</Link>
-                    </div>
-                </div>
-                <section className='info-section'>
-                    <div className='info '>
-                        <p className='text-white'>Starting at 10am blah blah blah</p>
-                        <p className='text-white'>Starting at 10am blah blah blah</p>
-                        <p className='text-white'>Starting at 10am blah blah blah</p>
-                        <p className='text-white'>Starting at 10am blah blah blah</p>
-                    </div>
-                    <div className='info'><p>Starting at 10am blah blah blah</p> <p>Starting at 10am blah blah blah</p><p>Starting at 10am blah blah blah</p> <p>Starting at 10am blah blah blah</p></div></section>
+        <div className="hero-section-content">
+          <h1 className="js-scroll fade-in">
+            Your Journey To Tech Confidence Starts Here
+          </h1>
+          <p>
+            Unlock your potential in AI and Machine Learning with our
+            comprehensive training program. Gain hands-on experience and
+            mentorship from industry experts.
+          </p>
+          <div className="hero-buttons">
+            <Link to="/cohort" className="register-btn">
+              Register for Cohort
+            </Link>
+            <Link to="/organization/register" className="mentors-btn">
+              Register as Organization
+            </Link>
+          </div>
+        </div>
+
+        <section className="info-section">
+          <div className="info">
+            <p>Starting at 10am blah blah blah</p>
+            <p>Starting at 10am blah blah blah</p>
+            <p>Starting at 10am blah blah blah</p>
+            <p>Starting at 10am blah blah blah</p>
+          </div>
+          <div className="info">
+            <p>Starting at 10am blah blah blah</p>
+            <p>Starting at 10am blah blah blah</p>
+            <p>Starting at 10am blah blah blah</p>
+            <p>Starting at 10am blah blah blah</p>
+          </div>
+        </section>
 
         <section className="home-hero-video-section">
           <div className="home-hero_visual">
