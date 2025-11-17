@@ -3,9 +3,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, useCallback  } from 'react';
+import Particles from "react-tsparticles";
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -44,21 +43,158 @@ const Home = () => {
 
     return (
         <>
+            <Particles
+                options={{
+                fullScreen: {
+                    enable: true,
+                    zIndex: 0
+                },
+                particles: {
+                    number: {
+                    value: 200,
+                    limit: 300,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                    },
+                    color: {
+                    value: "#ffffff"
+                    },
+                    shape: {
+                    type: "circle",
+                    stroke: {
+                        width: 0,
+                        color: "#000000"
+                    },
+                    polygon: {
+                        nb_sides: 5
+                    },
+                    image: {
+                        src: "images/github.svg",
+                        width: 100,
+                        height: 100
+                    }
+                    },
+                    opacity: {
+                    value: 0.5,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 1,
+                        opacity_min: 0.5,
+                        sync: false
+                    }
+                    },
+                    size: {
+                    value: 6,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 10,
+                        size_min: 2,
+                        sync: false
+                    }
+                    },
+                    line_linked: {
+                    enable: true,
+                    distance: 100,
+                    color: "#ffffff",
+                    opacity: 1,
+                    width: 1
+                    },
+                    move: {
+                    enable: true,
+                    speed: 3,
+                    direction: "none",
+                    random: false,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                    attract: {
+                        enable: false,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                    onHover: {
+                        enable: true,
+                        mode: "bubble",
+                        parallax: {
+                        enable: false,
+                        force: 60,
+                        smooth: 10
+                        }
+                    },
+                    onClick: {
+                        enable: true,
+                        mode: "push"
+                    },
+                    resize: true
+                    },
+                    modes: {
+                    grab: {
+                        distance: 400,
+                        lineLinked: {
+                        opacity: 1
+                        }
+                    },
+                    bubble: {
+                        distance: 400,
+                        size: 10,
+                        duration: 2,
+                        opacity: 1,
+                        speed: 2
+                    },
+                    repulse: {
+                        distance: 200
+                    },
+                    push: {
+                        particles_nb: 4
+                    },
+                    remove: {
+                        particles_nb: 2
+                    }
+                    }
+                },
+                backgroundMask: {
+                    enable: true,
+                    cover: {
+                    color: {
+                        value: {
+                        r: 0,
+                        g: 0,
+                        b: 0
+                        }
+                    }
+                    }
+                },
+                retina_detect: true,
+                fps_limit: 60,
+                background: {
+                    image: "url('https://particles.js.org/images/background3.jpg')"
+                }
+                }}
+            />
             <section className="hero-section-wrapper">
                 <div className="hero-section-content">
                     <h1 className="js-scroll fade-in">Join the GritinAI Annual AI Training — <span className='primary-color'>August Cohort</span></h1>
                     <p>Unlock your potential in AI and Machine Learning with our comprehensive training program. Gain hands-on experience and mentorship from industry experts.</p>
                     <div className="hero-buttons">
-                        <Link to='/cohort' className="register-btn ">Register for Cohort</Link>
-                        <Link to='/organization/register' className="mentors-btn ">Register as Organization</Link>
+                        <Link to='/cohort' className="register-btn text-white">Register for Cohort</Link>
+                        <Link to='/organization/register' className="mentors-btn text-white">Register as Organization</Link>
                     </div>
                 </div>
                 <section className='info-section'>
-                    <div className='info'>
-                        <p>Starting at 10am blah blah blah</p>
-                        <p>Starting at 10am blah blah blah</p>
-                        <p>Starting at 10am blah blah blah</p>
-                        <p>Starting at 10am blah blah blah</p>
+                    <div className='info '>
+                        <p className='text-white'>Starting at 10am blah blah blah</p>
+                        <p className='text-white'>Starting at 10am blah blah blah</p>
+                        <p className='text-white'>Starting at 10am blah blah blah</p>
+                        <p className='text-white'>Starting at 10am blah blah blah</p>
                     </div>
                     <div className='info'><p>Starting at 10am blah blah blah</p> <p>Starting at 10am blah blah blah</p><p>Starting at 10am blah blah blah</p> <p>Starting at 10am blah blah blah</p></div></section>
 

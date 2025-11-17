@@ -208,7 +208,7 @@ function Cohort() {
                         <button 
                           className="details-btn secondary-btn"
                           onClick={() => openModal(course)}
-                          onMouseEnter={() => openModal(course)}
+                          // onMouseEnter={() => openModal(course)}
                         >
                           View Details
                         </button>

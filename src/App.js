@@ -34,6 +34,7 @@ import AuthLayout from './layouts/AuthLayout';
 import AdminLayout from './layouts/AdminLayout';
 import DashboardLayout from './layouts/DashboardLayout';
 import Login from "./pages/auth/Login";
+// import Part from "./pages/home/part.jsx";
 
 function App() {
   const location = useLocation();
@@ -59,6 +60,7 @@ function App() {
           <Route element={<MainLayout />}>
             <Route path="/" element={<Home />} />
             <Route path="/cohort" element={<Cohort />} />
+            {/* <Route path="/part" element={<Part />} /> */}
           </Route>
 
           {/* Protected User Dashboard routes */}
