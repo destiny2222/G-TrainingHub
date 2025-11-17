@@ -1,0 +1,328 @@
+.container {
+    padding-block: 4rem;
+}
+
+.btn-primary {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.3s;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: #efefef;
+    border: 1px solid #efefef;
+    padding: 0.6rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+}
+
+.btn-secondary:hover {
+    background: #eff6ff;
+}
+
+.buttons {
+    display: flex;
+    justify-content: start;
+    gap: 1.2rem;
+}
+
+.hero {
+    background: linear-gradient(-135deg, #667eea 0%, #764ba2 100%);
+    padding: 3rem 2rem;
+    color: white;
+    border-radius: 0.8rem;
+    position: relative;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    max-width: 800px;
+    opacity: 0.95;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.curriculum-section h2,
+.calendar-section h2,
+.instructors-section h2,
+.testimonials-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #1a1a2e;
+}
+
+.curriculum-item {
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+}
+
+.curriculum-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-weight: 500;
+}
+
+.curriculum-header:hover {
+    background: #f8f9fa;
+}
+
+.curriculum-header svg {
+    transition: transform 0.3s;
+}
+
+.curriculum-header svg.rotated {
+    transform: rotate(180deg);
+}
+
+.curriculum-content {
+    padding: 0 1.2rem 1.2rem 1.2rem;
+    color: #4a5568;
+    line-height: 1.6;
+}
+
+.calendar-section {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    height: fit-content;
+}
+
+.calendar {
+    margin-top: 1rem;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.calendar-header button {
+    background: #f0f0f0;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background 0.3s;
+}
+
+.calendar-header button:hover {
+    background: #e0e0e0;
+}
+
+.calendar-header span {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    font-weight: 600;
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.calendar-day:not(.empty):hover {
+    background: #f0f0f0;
+}
+
+.calendar-day.empty {
+    cursor: default;
+}
+
+.calendar-day.highlighted {
+    background: #2563eb;
+    color: white;
+    font-weight: 600;
+}
+
+.calendar-day.highlighted:hover {
+    background: #1d4ed8;
+}
+
+.instructors-section,
+.testimonials-section {
+    padding: 3rem 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.instructors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.instructor-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid #e0e0e0;
+    transition:
+        transform 0.3s,
+        box-shadow 0.3s;
+}
+
+.instructor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.instructor-card img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+}
+
+.instructor-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: #1a1a2e;
+}
+
+.instructor-card .role {
+    color: #2563eb;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    font-size: 0.9rem;
+}
+
+.instructor-card p:not(.role) {
+    color: #4a5568;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+.testimonial-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    transition:
+        transform 0.3s,
+        box-shadow 0.3s;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial-header {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    align-items: center;
+}
+
+.testimonial-header img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.testimonial-header h4 {
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+    color: #1a1a2e;
+}
+
+.testimonial-header p {
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+.testimonial-card > p {
+    color: #4a5568;
+    line-height: 1.6;
+    font-style: italic;
+}
+
+@media (max-width: 1024px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav {
+        display: none;
+    }
+
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    .instructors-grid,
+    .testimonials-grid {
+        grid-template-columns: 1fr;
+    }
+}
