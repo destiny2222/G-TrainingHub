@@ -39,6 +39,7 @@ import MemberCreate from "./pages/user_dash/organization/members/MemberCreate";
 import MemberEdit from "./pages/user_dash/organization/members/MemberEdit";
 import MemberShow from "./pages/user_dash/organization/members/MemberShow";
 import Login from "./pages/auth/Login";
+// import Part from "./pages/home/part.jsx";
 
 function App() {
   const location = useLocation();
