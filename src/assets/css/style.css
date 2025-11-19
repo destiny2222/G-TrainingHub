@@ -294,13 +294,15 @@ ul {
 
 .header {
     position: relative;
-    background-color: var(--Primary-50);
     padding-block: 0.6rem;
+    z-index: 2;
+    background-color: white;
 }
 
 .header .header_section {
     display: flex;
     justify-content: center;
+
     align-items: center;
     gap: 6rem;
 }
@@ -330,7 +332,6 @@ ul {
     width: 100%;
     padding: 0 !important;
     margin: 0 !important;
-    z-index: 22;
 }
 
 .header .header_section .header_menu ul li {
@@ -343,7 +344,7 @@ ul {
     font-weight: 500;
     line-height: 24px;
     letter-spacing: -1px;
-    color: var(--white-color);
+    color: var(--black);
     text-decoration: none;
     padding: 10px;
 }
@@ -661,14 +662,13 @@ ul {
 }
 
 #tsparticles {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  top: 0;
-  left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    left: 0;
 }
-
 
 .hero-section-wrapper {
     /* background-color: var(--Primary-50); */
@@ -710,7 +710,7 @@ ul {
     justify-content: space-evenly;
     width: 200%;
     animation: slide 20s linear infinite;
-    color:white;
+    color: white;
 }
 
 @keyframes slide {

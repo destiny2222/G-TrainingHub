@@ -1,19 +1,16 @@
 import React, { useState, useMemo } from "react";
 import "./Cohort.css";
 import { IoIosSearch } from "react-icons/io";
-import {
-  FaCalendarAlt,
-  FaUsers,
-  FaClock,
-  FaGraduationCap,
-} from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { FaCalendarAlt, FaUsers } from "react-icons/fa";
+import { IoClose } from "react-icons/io5";
 import { BiCategory } from "react-icons/bi";
-import { fetchCourses } from "../../redux/slices/frontend/courseSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { fetchCohorts } from "../../redux/slices/frontend/cohortSlice";
 
 function Cohort() {
   const dispatch = useDispatch();
-  const { courses, loading, error } = useSelector((state) => state.courses);
+  const { cohorts, loading, error } = useSelector((state) => state.cohorts);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFilters, setSelectedFilters] = useState({
     category: "",
@@ -23,35 +20,39 @@ function Cohort() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   React.useEffect(() => {
-    dispatch(fetchCourses());
+    dispatch(fetchCohorts());
   }, [dispatch]);
 
-  // Filter courses based on search term and selected filters
-  const filteredCourses = useMemo(() => {
-    if (!courses) return [];
+  // Filter cohorts based on search term and selected filters
+  const filteredCohorts = useMemo(() => {
+    if (!cohorts) return [];
 
-    return courses.filter((course) => {
+    const result = cohorts.filter((course) => {
       // Search filter
       const matchesSearch =
         searchTerm === "" ||
-        course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        course.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        course.category.toLowerCase().includes(searchTerm.toLowerCase());
+        course.course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        course.course.description
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        course.course.category.toLowerCase().includes(searchTerm.toLowerCase());
 
       // Category filter
       const matchesCategory =
         !selectedFilters.category ||
-        course.category.toLowerCase() ===
+        course.course.category.toLowerCase() ===
           selectedFilters.category.toLowerCase();
 
       // Status filter
       const matchesStatus =
         !selectedFilters.status ||
-        course.status.toLowerCase() === selectedFilters.status.toLowerCase();
+        course.course.status.toLowerCase() ===
+          selectedFilters.status.toLowerCase();
 
       return matchesSearch && matchesCategory && matchesStatus;
     });
-  }, [courses, searchTerm, selectedFilters]);
+    return result;
+  }, [cohorts, searchTerm, selectedFilters]);
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("en-US", {
@@ -92,7 +93,7 @@ function Cohort() {
             <div className="col-lg-12">
               <div className="hero-content">
                 <h1>
-                  Training <span className="primary-color">Courses</span>
+                  Training <span className="primary-color">Cohorts</span>
                 </h1>
                 <p>
                   Explore our comprehensive training programs designed to
@@ -144,7 +145,7 @@ function Cohort() {
                 value={selectedFilters.status || ""}
                 onChange={(e) => handleFilterChange("status", e.target.value)}
               >
-                <option value="">All Courses</option>
+                <option value="">All Cohorts</option>
                 <option value="active">Active</option>
                 <option value="inactive">Inactive</option>
                 <option value="upcoming">Upcoming</option>
@@ -153,69 +154,75 @@ function Cohort() {
           </div>
         </div>
 
-        <div className="cohort-container">
+        <div className="courses-container">
           {loading && (
             <div className="loading-container">
               <div className="loading-spinner"></div>
-              <p>Loading courses...</p>
+              <p>Loading Cohorts...</p>
             </div>
           )}
 
           {error && (
             <div className="error-container">
-              <p className="error-message">Error: {error}</p>
+              <p className="error-message">Error: {error.message}</p>
             </div>
           )}
 
           {!loading && !error && (
             <div className="courses-grid">
-              {filteredCourses.length > 0 ? (
-                filteredCourses.map((course) => (
-                  <article key={course.id} className="course-card">
-                    <div className="course-card-header">
-                      <div
-                        className="course-image"
-                        style={{
-                          backgroundImage: course.image
-                            ? `url(${course.image})`
-                            : "linear-gradient(135deg, #0a74da 0%, #487efc 100%)",
-                        }}
-                      >
-                        <div className="course-overlay">
-                          <span className="category-badge">
-                            <BiCategory />
-                            {course.category}
-                          </span>
-                          <span className={`status-badge ${course.status}`}>
-                            {course.status}
-                          </span>
+              {filteredCohorts.length > 0 ? (
+                filteredCohorts.map((cohortObj) => {
+                  const cohort = cohortObj.course;
+                  return (
+                    <article key={cohort.id} className="course-card">
+                      <div className="course-card-header">
+                        <div
+                          className="course-image"
+                          style={{
+                            backgroundImage: cohort.image
+                              ? `url(${cohort.image})`
+                              : "linear-gradient(135deg, #0a74da 0%, #487efc 100%)",
+                          }}
+                        >
+                          <div className="course-overlay">
+                            <span className="category-badge">
+                              <BiCategory />
+                              {cohort.category}
+                            </span>
+                            <span className={`status-badge ${cohort.status}`}>
+                              {cohort.status}
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="course-card-body">
-                      <h3 className="course-title">{course.title}</h3>
-                      <p className="course-description">
-                        {truncateText(course.description, 120)}
-                      </p>
+                      <div className="course-card-body">
+                        <h3 className="course-title">{cohort.title}</h3>
+                        <p className="course-description">
+                          {truncateText(cohort.description, 120)}
+                        </p>
 
-                      <div className="course-actions">
-                        <button className="enroll-btn primary-btn">
-                          Enroll Now
-                        </button>
-                        <button
-                          className="details-btn secondary-btn"
-                          onClick={() => openModal(course)}
-                        >
-                          View Details
-                        </button>
+                        <div className="course-actions">
+                          <Link to={`./${cohortObj.id}/register`}>
+                            <button className="enroll-btn primary-btn">
+                              Enroll Now
+                            </button>
+                          </Link>
+
+                          <button
+                            className="details-btn secondary-btn"
+                            onClick={() => openModal(cohortObj)}
+                          >
+                            View Details
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  </article>
-                ))
+                    </article>
+                  );
+                })
               ) : (
                 <div className="no-courses">
-                  <h3>No courses found</h3>
+                  <h3>No cohort found</h3>
                   <p>Try adjusting your search or filter criteria.</p>
                 </div>
               )}
@@ -228,9 +235,9 @@ function Cohort() {
           <div className="modal-overlay" onClick={closeModal}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
               <div className="modal-header">
-                <h2 className="modal-title">{selectedCourse.title}</h2>
+                <h2 className="modal-title">{selectedCourse.course.title}</h2>
                 <button className="modal-close" onClick={closeModal}>
-                  ×
+                  <IoClose size={24} />
                 </button>
               </div>
 
@@ -238,10 +245,10 @@ function Cohort() {
                 <div className="modal-image">
                   <img
                     src={
-                      selectedCourse.image ||
+                      selectedCourse.course.image ||
                       "https://via.placeholder.com/400x200?text=Course+Image"
                     }
-                    alt={selectedCourse.title}
+                    alt={selectedCourse.course.title}
                     onError={(e) => {
                       e.target.src =
                         "https://via.placeholder.com/400x200?text=Course+Image";
@@ -250,10 +257,12 @@ function Cohort() {
                   <div className="modal-badges">
                     <span className="category-badge">
                       <BiCategory />
-                      {selectedCourse.category}
+                      {selectedCourse.course.category}
                     </span>
-                    <span className={`status-badge ${selectedCourse.status}`}>
-                      {selectedCourse.status}
+                    <span
+                      className={`status-badge ${selectedCourse.course.status}`}
+                    >
+                      {selectedCourse.course.status}
                     </span>
                   </div>
                 </div>
@@ -261,43 +270,8 @@ function Cohort() {
                 <div className="modal-details">
                   <div className="detail-section">
                     <h3>Description</h3>
-                    <p>{selectedCourse.description}</p>
+                    <p>{selectedCourse.course.description}</p>
                   </div>
-
-                  {selectedCourse.prerequisite &&
-                    selectedCourse.prerequisite.length > 0 && (
-                      <div className="detail-section">
-                        <h3 className="section-title">
-                          <FaGraduationCap />
-                          Prerequisites
-                        </h3>
-                        <div className="prerequisites-grid">
-                          {selectedCourse.prerequisite.map((prereq, index) => (
-                            <div key={index} className="prerequisite-item">
-                              {prereq.title}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                  {selectedCourse.curriculum &&
-                    selectedCourse.curriculum.length > 0 && (
-                      <div className="detail-section">
-                        <h3 className="section-title">
-                          <FaClock />
-                          Curriculum
-                        </h3>
-                        <div className="curriculum-grid">
-                          {selectedCourse.curriculum.map((item, index) => (
-                            <div key={index} className="curriculum-detail-item">
-                              <h4>{item.title}</h4>
-                              <p>{item.description}</p>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
 
                   <div className="detail-section">
                     <h3>Course Information</h3>
@@ -320,7 +294,7 @@ function Cohort() {
                         <BiCategory />
                         <div>
                           <strong>Category:</strong>
-                          <span>{selectedCourse.category}</span>
+                          <span>{selectedCourse.course.category}</span>
                         </div>
                       </div>
                     </div>
