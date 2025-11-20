@@ -32,7 +32,7 @@
 }
 
 /* Card that holds the form */
-.form-card {
+.register-container .form-card {
     background: #ffffff;
     border-radius: 16px;
     opacity: 1 !important;
@@ -43,7 +43,7 @@
 }
 
 /* Title and subtitle */
-.title {
+.register-container .title {
     font-size: 28px;
     font-weight: 700;
     color: #1e293b;
@@ -51,7 +51,7 @@
     text-align: center;
 }
 
-.subtitle {
+.register-container .subtitle {
     font-size: 14px;
     color: #64748b;
     margin: 0 0 32px 0;
@@ -59,27 +59,27 @@
 }
 
 /* Form layout */
-.form {
+.register-container .form {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
 /* Input group (label + input) */
-.input-group {
+.register-container .form .input-group {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.label {
+.register-container .form .label {
     font-size: 14px;
     font-weight: 600;
     color: #334155;
 }
 
 /* Inputs */
-.input {
+    .register-container .form .input {
     padding: 12px 16px;
     font-size: 15px;
     border: 2px solid #e2e8f0;
@@ -93,13 +93,13 @@
     color: #0f172a;
 }
 
-.input:focus {
+.register-container .form .input:focus {
     border-color: #2563eb;
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
 }
 
 /* Button */
-.button {
+.register-container .button {
     margin-top: 8px;
     padding: 14px;
     font-size: 16px;
@@ -118,15 +118,15 @@
     justify-content: center;
 }
 
-.button:hover {
+.register-container .button:hover {
     background: #1e56d1; /* slightly darker */
 }
 
-.button:active {
+.register-container .button:active {
     transform: translateY(1px);
 }
 
-.button-success {
+.register-container .button-success {
     margin-top: 8px;
     padding: 14px;
     font-size: 16px;
@@ -142,7 +142,7 @@
     justify-content: center;
 }
 
-.button-error {
+.register-container .button-error {
     margin-top: 8px;
     padding: 14px;
     font-size: 16px;
@@ -159,31 +159,31 @@
 }
 
 /* Footer & link */
-.footer {
+.register-container .footer {
     margin-top: 24px;
     text-align: center;
     font-size: 14px;
     color: #64748b;
 }
 
-.link {
+.register-container .link {
     color: #2563eb;
     font-weight: 600;
     cursor: pointer;
     text-decoration: none;
 }
 
-.link:hover {
+.register-container .link:hover {
     text-decoration: underline;
 }
 
 /* Responsive adjustments */
 @media (max-width: 480px) {
-    .form-card {
+   .register-container  .form-card {
         padding: 30px 20px;
     }
 
-    .title {
+   .register-container  .title {
         font-size: 24px;
     }
 }
