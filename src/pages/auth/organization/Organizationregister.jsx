@@ -202,7 +202,7 @@ const Organizationregister = () => {
       submitData.append('admin_password_confirmation', formData.admin_password_confirmation);
 
       const response = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000'}/api/organization/register`,
+        `${process.env.REACT_APP_API_BASE_URL}/organization/register`,
         submitData,
         {
           headers: {
