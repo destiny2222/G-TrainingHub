@@ -38,6 +38,13 @@ import MemberList from "./pages/user_dash/organization/members/MemberList";
 import MemberCreate from "./pages/user_dash/organization/members/MemberCreate";
 import MemberEdit from "./pages/user_dash/organization/members/MemberEdit";
 import MemberShow from "./pages/user_dash/organization/members/MemberShow";
+import TrainingProgramList from "./pages/user_dash/organization/traniningProgram/List";
+import TrainingCohortList from "./pages/user_dash/organization/traniningProgram/TrainingCohortList";
+import CohortMemberList from "./pages/user_dash/organization/traniningProgram/CohortMemberList";
+import MemberTrainingList from "./pages/user_dash/organization/traniningProgram/MemberTrainingList";
+import AssignCourse from "./pages/user_dash/organization/traniningProgram/AssignCourse";
+import OrganizationCourseList from "./pages/user_dash/organization/traniningProgram/OrganizationCourseList";
+import PaymentCallback from "./pages/user_dash/organization/traniningProgram/PaymentCallback";
 import Login from "./pages/auth/Login";
 import RegistrationForm from "./pages/register/Register";
 // import Part from "./pages/home/part.jsx";
@@ -122,6 +129,70 @@ function App() {
                   element={
                     <ProtectedRoute requiredAccountType="organization">
                       <MemberEdit />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/organization/trainings/payment/callback"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      <PaymentCallback />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/organization/training-programs"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      <TrainingProgramList />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/organization/trainings/courses"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      <OrganizationCourseList />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/organization/trainings/cohorts"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      <TrainingCohortList />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/organization/trainings/cohorts/:cohortId/members"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      <CohortMemberList />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/organization/trainings/member/:memberId"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      <MemberTrainingList />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/organization/trainings/assign"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      <AssignCourse />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/organization/trainings/assign/:memberId"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      <AssignCourse />
                     </ProtectedRoute>
                   }
                 />

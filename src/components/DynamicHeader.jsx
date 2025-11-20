@@ -7,25 +7,25 @@ import AdminOrgHeader from './admin_organization_component/AdminOrgHeader';
 import MemberOrgHeader from './member_organization_component/MemberOrgHeader';
 import AdminHeader from './admin/AdminHeader';
 
-function DynamicHeader() {
+function DynamicHeader({ onMenuToggle }) {
   const { user, accountType } = useAuth();
   
   // System admin check
   if (user?.role === 'admin' || user?.is_system_admin) {
-    return <AdminHeader />;
+    return <AdminHeader onMenuToggle={onMenuToggle} />;
   }
   
   // Organization users
   if (accountType === 'organization') {
     if (user?.is_admin === true) {
-      return <AdminOrgHeader />;
+      return <AdminOrgHeader onMenuToggle={onMenuToggle} />;
     } else {
-      return <MemberOrgHeader />;
+      return <MemberOrgHeader onMenuToggle={onMenuToggle} />;
     }
   }
   
   // Individual users (default)
-  return <DashboardHeader />;
+  return <DashboardHeader onMenuToggle={onMenuToggle} />;
 }
 
 export default DynamicHeader;

@@ -10,70 +10,72 @@ import {
   Calendar, 
   Buildings, 
   MagicStar,
-  Logout
+  Logout,
+  CloseCircle
 } from 'iconsax-reactjs';
 import LogoutButton from '../auth/LogoutButton';
 
-function AdminOrgSidebar() {
+function AdminOrgSidebar({ isOpen, onClose }) {
   const location = useLocation();
 
   const isActive = (path) => {
     return location.pathname === path ? 'sidebar-ul-link active' : 'sidebar-ul-link';
   };
 
+  const handleLinkClick = () => {
+    if (window.innerWidth <= 768) {
+      onClose();
+    }
+  };
+
   return (
-    <aside className="sidebar-dashboard">
-      <div className="sidebar-logo">
-        <h2 className='logo-text'>GRITINAI TRAINING HUB</h2>
-        <p className='logo-subtext'>Organization Admin</p>
+    <>
+      {isOpen && <div className="sidebar-overlay" onClick={onClose}></div>}
+      <aside className={`sidebar-dashboard ${isOpen ? 'sidebar-open' : ''}`}>
+      <div className="sidebar-header">
+        <div className="sidebar-logo">
+          <h2 className='logo-text'>GRITINAI TRAINING HUB</h2>
+          <p className='logo-subtext'>Organization Admin</p>
+        </div>
+        <button className="sidebar-close-btn" onClick={onClose} aria-label="Close menu">
+          <CloseCircle size="28" variant="Bulk" />
+        </button>
       </div>
       
       <nav className="sidebar-navigation">
         <ul className="sidebar-ul">
           <li>
-            <Link to="/organization/dashboard" className={isActive('/organization/dashboard')}>
+            <Link to="/organization/dashboard" className={isActive('/organization/dashboard')} onClick={handleLinkClick}>
               <Element4 size="20" variant="Bulk" />
-              <span>Admin Dashboard</span>
+              <span>Analytics & Reports</span>
             </Link>
           </li>
           <li>
-            <Link to="/organization/members" className={isActive('/organization/members')}>
+            <Link to="/organization/members" className={isActive('/organization/members')} onClick={handleLinkClick}>
               <People size="20" variant="Bulk" />
               <span>Manage Members</span>
             </Link>
           </li>
           <li>
-            <Link to="/organization/training-programs" className={isActive('/organization/training-programs')}>
+            <Link to="/organization/training-programs" className={isActive('/organization/training-programs')} onClick={handleLinkClick}>
               <Teacher size="20" variant="Bulk" />
               <span>Training Programs</span>
             </Link>
           </li>
           <li>
-            <Link to="/organization/analytics" className={isActive('/organization/analytics')}>
-              <Chart size="20" variant="Bulk" />
-              <span>Analytics & Reports</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/organization/certificates" className={isActive('/organization/certificates')}>
+            <Link to="/organization/certificates" className={isActive('/organization/certificates')} onClick={handleLinkClick}>
               <Award size="20" variant="Bulk" />
               <span>Certificates</span>
             </Link>
           </li>
           <li>
-            <Link to="/organization/schedule" className={isActive('/organization/schedule')}>
-              <Calendar size="20" variant="Bulk" />
-              <span>Calendar</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/organization/settings" className={isActive('/organization/settings')}>
+            <Link to="/organization/settings" className={isActive('/organization/settings')} onClick={handleLinkClick}>
               <Buildings size="20" variant="Bulk" />
               <span>Settings</span>
             </Link>
           </li>
           <li>
-            <Link to="/organization/ai-assistant" className={isActive('/organization/ai-assistant')}>
+            <Link to="/organization/ai-assistant" className={isActive('/organization/ai-assistant')} onClick={handleLinkClick}>
               <MagicStar size="20" variant="Bulk" />
               <span>AI Assistant</span>
             </Link>
@@ -82,12 +84,13 @@ function AdminOrgSidebar() {
       </nav>
       
       <div className="sidebar-bottom-links">
-        <div className="logout-section">
+        <div className="logout-section logout-container">
           <Logout size="20" variant="Bulk" className='logout'/>
           <LogoutButton className="sidebar-ul-link"/>
         </div>
       </div>
     </aside>
+    </>
   );
 }
 

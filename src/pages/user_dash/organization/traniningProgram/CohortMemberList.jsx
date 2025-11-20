@@ -1,79 +1,57 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { getOrganizationCohorts, getCohortMembers } from '../../../../redux/slices/admin_organisation/trainingProgramSlice';
+import { useParams, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCohortMembers } from '../../../../redux/slices/admin_organisation/trainingProgramSlice';
 import { toast } from 'react-toastify';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import './TrainingProgram.css';
 
-const TrainingProgramList = () => {
+const CohortMemberList = () => {
+  const { cohortId } = useParams();
   const dispatch = useDispatch();
-  const [enrolledMembers, setEnrolledMembers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { cohortMembers, currentCohort, loading, error } = useSelector((state) => state.trainingProgram);
   
   const [searchTerm, setSearchTerm] = useState('');
+  const [filterStatus, setFilterStatus] = useState('all');
 
   useEffect(() => {
-    const fetchEnrolledMembers = async () => {
-      try {
-        setLoading(true);
-        // 1. Fetch all cohorts
-        const cohortsAction = await dispatch(getOrganizationCohorts());
-        const cohorts = cohortsAction.payload?.data || [];
+    if (cohortId) {
+      dispatch(getCohortMembers(cohortId));
+    }
+  }, [dispatch, cohortId]);
 
-        // 2. Fetch members for each cohort
-        const membersPromises = cohorts.map(cohort => 
-          dispatch(getCohortMembers(cohort.id)).unwrap()
-        );
-        
-        const membersResponses = await Promise.all(membersPromises);
-        
-        // 3. Aggregate and deduplicate members
-        const allMembers = [];
-        const memberIds = new Set();
+  useEffect(() => {
+    if (error) {
+      toast.error(error, {
+        position: "top-right",
+        autoClose: 5000,
+      });
+    }
+  }, [error]);
 
-        membersResponses.forEach(response => {
-          const members = response.data || [];
-          members.forEach(member => {
-            if (!memberIds.has(member.id)) {
-              memberIds.add(member.id);
-              allMembers.push(member);
-            }
-          });
-        });
-
-        setEnrolledMembers(allMembers);
-      } catch (error) {
-        console.error("Failed to fetch enrolled members", error);
-        toast.error("Failed to load enrolled members");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchEnrolledMembers();
-  }, [dispatch]);
-
-  const filteredMembers = enrolledMembers.filter(member => {
-    return member.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-           member.email?.toLowerCase().includes(searchTerm.toLowerCase());
+  const filteredMembers = cohortMembers.filter(member => {
+    const matchesSearch = member.organization_user_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         member.organization_user_email?.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesFilter = filterStatus === 'all' || member.status === filterStatus;
+    return matchesSearch && matchesFilter;
   });
 
   if (loading) {
     return (
       <div className="training-program-container">
         <div className="training-program-header">
-          <h1>Training Programs</h1>
+          <Skeleton width={300} height={40} />
           <Skeleton width={150} height={40} />
         </div>
         
         <div className="training-program-filters">
           <Skeleton height={45} width={300} />
+          <Skeleton height={45} width={150} />
         </div>
         
         <div className="training-program-stats">
-          {[1, 2].map(i => (
+          {[1, 2, 3].map(i => (
             <div key={i} className="stat-card">
               <Skeleton width={100} height={20} />
               <Skeleton width={40} height={30} style={{ marginTop: '0.5rem' }} />
@@ -86,7 +64,9 @@ const TrainingProgramList = () => {
             <thead>
               <tr>
                 <th>Member</th>
-                <th>Email</th>
+                <th>Progress</th>
+                <th>Status</th>
+                <th>Enrolled Date</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -94,8 +74,10 @@ const TrainingProgramList = () => {
               {[1, 2, 3, 4, 5].map(i => (
                 <tr key={i}>
                   <td><Skeleton width={200} /></td>
-                  <td><Skeleton width={250} /></td>
                   <td><Skeleton width={150} /></td>
+                  <td><Skeleton width={80} /></td>
+                  <td><Skeleton width={100} /></td>
+                  <td><Skeleton width={100} /></td>
                 </tr>
               ))}
             </tbody>
@@ -108,20 +90,16 @@ const TrainingProgramList = () => {
   return (
     <div className="training-program-container">
       <div className="training-program-header">
-        <h1>Enrolled Members</h1>
-        <div style={{ display: 'flex', gap: '1rem' }}>
-          <Link to="/organization/trainings/courses" className="btn-primary">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10 4V16M4 10H16" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
-            Register Cohort
+        <div>
+          <Link to="/organization/trainings/cohorts" style={{ color: '#3b82f6', textDecoration: 'none', fontSize: '0.9rem' }}>
+            ← Back to Cohorts
           </Link>
-          <Link to="/organization/trainings/cohorts" className="btn-secondary">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M3 8L10 3L17 8M4 9V16C4 16.5304 4.21071 17.0391 4.58579 17.4142C4.96086 17.7893 5.46957 18 6 18H14C14.5304 18 15.0391 17.7893 15.4142 17.4142C15.7893 17.0391 16 16.5304 16 16V9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            View Cohorts
-          </Link>
+          <h1>{currentCohort?.name || 'Cohort Members'}</h1>
+          {currentCohort && (
+            <p style={{ color: '#6b7280', margin: '0.5rem 0 0 0' }}>
+              {currentCohort.course_title} • {new Date(currentCohort.start_date).toLocaleDateString()} - {new Date(currentCohort.end_date).toLocaleDateString()}
+            </p>
+          )}
         </div>
       </div>
 
@@ -132,21 +110,43 @@ const TrainingProgramList = () => {
           </svg>
           <input
             type="text"
-            placeholder="Search members by name or email..."
+            placeholder="Search by member name or email..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
+        </div>
+        
+        <div className="filter-group">
+          <label>Status:</label>
+          <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
+            <option value="all">All Members</option>
+            <option value="active">Active</option>
+            <option value="completed">Completed</option>
+            <option value="inactive">Inactive</option>
+          </select>
         </div>
       </div>
 
       <div className="training-program-stats">
         <div className="stat-card">
-          <h4>Total Enrolled</h4>
-          <p className="stat-value">{enrolledMembers.length}</p>
+          <h4>Total Members</h4>
+          <p className="stat-value">{cohortMembers.length}</p>
         </div>
         <div className="stat-card">
-          <h4>Active Members</h4>
-          <p className="stat-value">{enrolledMembers.filter(m => m.status === 'active').length}</p>
+          <h4>Active</h4>
+          <p className="stat-value">{cohortMembers.filter(m => m.status === 'active').length}</p>
+        </div>
+        <div className="stat-card">
+          <h4>Completed</h4>
+          <p className="stat-value">{cohortMembers.filter(m => m.status === 'completed').length}</p>
+        </div>
+        <div className="stat-card">
+          <h4>Average Progress</h4>
+          <p className="stat-value">
+            {cohortMembers.length > 0 
+              ? Math.round(cohortMembers.reduce((sum, m) => sum + parseFloat(m.progress || 0), 0) / cohortMembers.length)
+              : 0}%
+          </p>
         </div>
       </div>
 
@@ -155,8 +155,9 @@ const TrainingProgramList = () => {
           <thead>
             <tr>
               <th>Member</th>
-              <th>Email</th>
+              <th>Progress</th>
               <th>Status</th>
+              <th>Enrolled Date</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -166,10 +167,10 @@ const TrainingProgramList = () => {
                 <tr key={member.id}>
                   <td>
                     <div className="member-info">
-                      {member.profile_picture ? (
+                      {member.organization_user_profile_picture ? (
                         <img 
-                          src={member.profile_picture} 
-                          alt={member.name}
+                          src={member.organization_user_profile_picture} 
+                          alt={member.organization_user_name}
                           className="member-avatar"
                         />
                       ) : (
@@ -181,39 +182,47 @@ const TrainingProgramList = () => {
                           color: 'white',
                           fontWeight: 'bold'
                         }}>
-                          {member.name?.charAt(0).toUpperCase()}
+                          {member.organization_user_name?.charAt(0).toUpperCase()}
                         </div>
                       )}
                       <div className="member-details">
-                        <h4>{member.name}</h4>
+                        <h4>{member.organization_user_name}</h4>
+                        <p>{member.organization_user_email}</p>
                       </div>
                     </div>
                   </td>
-                  <td>{member.email}</td>
                   <td>
-                    <span className={`status-badge ${member.status || 'active'}`}>
-                      {member.status || 'active'}
+                    <div className="progress-bar-container">
+                      <div className="progress-info">
+                        <span className="progress-label">Progress</span>
+                        <span className="progress-percentage">{parseFloat(member.progress || 0).toFixed(1)}%</span>
+                      </div>
+                      <div className="progress-bar">
+                        <div 
+                          className="progress-fill" 
+                          style={{ width: `${member.progress || 0}%` }}
+                        />
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span className={`status-badge ${member.status}`}>
+                      {member.status}
                     </span>
+                  </td>
+                  <td>
+                    {member.enrolled_at ? new Date(member.enrolled_at).toLocaleDateString() : 'N/A'}
                   </td>
                   <td>
                     <div className="action-buttons">
                       <Link 
-                        to={`/organization/trainings/member/${member.id}`} 
+                        to={`/organization/members/${member.organization_user_id}`} 
                         className="btn-action btn-view" 
-                        title="View Training Programs"
+                        title="View Member Profile"
                       >
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M1 8C1 8 3.5 3 8 3C12.5 3 15 8 15 8C15 8 12.5 13 8 13C3.5 13 1 8 1 8Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                           <path d="M8 10C9.10457 10 10 9.10457 10 8C10 6.89543 9.10457 6 8 6C6.89543 6 6 6.89543 6 8C6 9.10457 6.89543 10 8 10Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                      </Link>
-                      <Link 
-                        to={`/organization/trainings/assign/${member.id}`} 
-                        className="btn-action btn-assign" 
-                        title="Assign Course"
-                      >
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M8 3V13M3 8H13" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                         </svg>
                       </Link>
                     </div>
@@ -222,13 +231,13 @@ const TrainingProgramList = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="4" className="no-data">
+                <td colSpan="5" className="no-data">
                   <div className="no-data-content">
                     <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M32 42.6667V32M32 21.3333H32.0267M56 32C56 45.2548 45.2548 56 32 56C18.7452 56 8 45.2548 8 32C8 18.7452 18.7452 8 32 8C45.2548 8 56 18.7452 56 32Z" stroke="#D1D5DB" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                     <h3>No members found</h3>
-                    <p>Try adjusting your search criteria</p>
+                    <p>Try adjusting your search or filter criteria</p>
                   </div>
                 </td>
               </tr>
@@ -240,4 +249,4 @@ const TrainingProgramList = () => {
   );
 };
 
-export default TrainingProgramList;
+export default CohortMemberList;
