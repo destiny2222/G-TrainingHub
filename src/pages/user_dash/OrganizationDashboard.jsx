@@ -1,45 +1,49 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Add, DocumentDownload, CalendarEdit, Award } from 'iconsax-reactjs';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from 'chart.js';
+import { Line } from 'react-chartjs-2';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchOrganisationAnalytics } from '../../redux/slices/admin_organisation/analyticsSlice';
+import { Link } from 'react-router-dom';
 
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 function OrganizationDashboard() {
+    const dispatch = useDispatch();
+    const analytics = useSelector((state) => state.analytics.analyticsData);
+    const loading = useSelector((state) => state.analytics.loading);
+    const error = useSelector((state) => state.analytics.error);
+
+    useEffect(() => {
+        dispatch(fetchOrganisationAnalytics());
+    }, [dispatch]);
+    
+
+    const trainingProgress = analytics?.training_progress || [];
+
     const chartData = {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        labels: trainingProgress.map((item) => item.month),
         datasets: [
             {
+                fill: true,
                 label: 'Training Progress',
-                data: [65, 59, 80, 81, 56, 70],
-                backgroundColor: '#DAE7FF',
-                borderRadius: 5,
+                data: trainingProgress.map((item) => item.count),
+                borderColor: 'rgb(53, 162, 235)',
+                backgroundColor: 'rgba(53, 162, 235, 0.5)',
             },
         ],
     };
 
     const chartOptions = {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
             legend: {
                 display: false,
             },
             title: {
                 display: false,
-            },
-        },
-        scales: {
-            x: {
-                grid: {
-                    display: false,
-                },
-            },
-            y: {
-                display: false,
-                grid: {
-                    display: false,
-                },
             },
         },
     };
@@ -65,7 +69,7 @@ function OrganizationDashboard() {
                         <div className="card shadow-sm h-100">
                             <div className="card-body">
                                 <p className="text-muted mb-1">Total Learners</p>
-                                <h2 className="h3 fw-bold">1,234</h2>
+                                <h2 className="h3 fw-bold">{loading ? 'Loading...' : error ? 'Error' : analytics?.total_learners || '0'}</h2>
                             </div>
                         </div>
                     </div>
@@ -73,7 +77,7 @@ function OrganizationDashboard() {
                         <div className="card shadow-sm h-100">
                             <div className="card-body">
                                 <p className="text-muted mb-1">Active Training</p>
-                                <h2 className="h3 fw-bold">56</h2>
+                                <h2 className="h3 fw-bold">{loading ? 'Loading...' : error ? 'Error' : analytics?.active_training || '0'}</h2>
                             </div>
                         </div>
                     </div>
@@ -81,7 +85,7 @@ function OrganizationDashboard() {
                         <div className="card shadow-sm h-100">
                             <div className="card-body">
                                 <p className="text-muted mb-1">Completion Rate</p>
-                                <h2 className="h3 fw-bold">89%</h2>
+                                <h2 className="h3 fw-bold">{loading ? 'Loading...' : error ? 'Error' : analytics?.completion_rate || '0'}%</h2>
                             </div>
                         </div>
                     </div>
@@ -89,7 +93,7 @@ function OrganizationDashboard() {
                         <div className="card shadow-sm h-100">
                             <div className="card-body">
                                 <p className="text-muted mb-1">Pending Requests</p>
-                                <h2 className="h3 fw-bold">5</h2>
+                                <h2 className="h3 fw-bold">{loading ? 'Loading...' : error ? 'Error' : analytics?.pending_requests || '0'}</h2>
                             </div>
                         </div>
                     </div>
@@ -101,8 +105,8 @@ function OrganizationDashboard() {
                         <div className="card shadow-sm h-100">
                             <div className="card-body">
                                 <h2 className="h5 fw-semibold mb-3">Training Progress</h2>
-                                <div style={{ height: '200px' }}>
-                                    <Bar data={chartData} options={chartOptions} />
+                                <div style={{ height: '250px' }}>
+                                    <Line data={chartData} options={chartOptions} />
                                 </div>
                             </div>
                         </div>
@@ -186,9 +190,11 @@ function OrganizationDashboard() {
                                 <h2 className="h5 fw-semibold mb-3">Quick Actions</h2>
                                 <ul className="list-unstyled quick-actions-list">
                                     <li className="mb-3">
-                                        <button className="btn-quick-action w-100 d-flex align-items-center">
-                                            <Add size="20" className="me-2" /> Add New Learner
-                                        </button>
+                                        <Link to="/organization/members">
+                                            <button className="btn-quick-action w-100 d-flex align-items-center">
+                                                <Add size="20" className="me-2" /> Add New Member
+                                            </button>
+                                        </Link>
                                     </li>
                                     <li className="mb-3">
                                         <button className="btn-quick-action w-100 d-flex align-items-center">

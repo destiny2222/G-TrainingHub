@@ -85,7 +85,7 @@
 }
 
 /* Form Card */
-.form-card {
+.member-create-container .form-card {
   background: white;
   border-radius: 8px;
   border: 1px solid #e5e7eb;

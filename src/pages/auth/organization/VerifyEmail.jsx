@@ -30,7 +30,7 @@ const VerifyEmail = () => {
 
       try {
         const response = await axios.post(
-          `${process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000'}/api/organization/verify-email`,
+          `${process.env.REACT_APP_API_BASE_URL}/organization/verify-email`,
           { token, email },
           {
             headers: {

@@ -217,7 +217,7 @@ const Organizationregister = () => {
       );
 
       const response = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL || "http://localhost:8000"}/api/organization/register`,
+        `${process.env.REACT_APP_API_BASE_URL}/organization/register`,
         submitData,
         {
           headers: {

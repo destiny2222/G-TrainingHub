@@ -20,7 +20,7 @@ const VerificationPending = () => {
 
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000'}/api/organization/resend-verification`,
+        `${process.env.REACT_APP_API_BASE_URL}/organization/resend-verification`,
         { email }
       );
 
