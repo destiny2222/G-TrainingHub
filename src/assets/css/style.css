@@ -295,14 +295,15 @@ ul {
 .header {
     position: relative;
     padding-block: 0.6rem;
+    background-color: transparent;
     z-index: 2;
-    background-color: white;
+    backdrop-filter: blur(5px);
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 .header .header_section {
     display: flex;
     justify-content: center;
-
     align-items: center;
     gap: 6rem;
 }
@@ -315,14 +316,6 @@ ul {
 .header .header_section .logo img {
     width: 120px;
 }
-
-/*.header .header_section .header_menu {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10rem;
-    z-index: 2;
-}*/
 
 .header .header_section .header_menu ul {
     display: flex;
@@ -385,7 +378,7 @@ ul {
 /* Mobile Header Styles */
 .header-mobile {
     position: relative;
-    background-color: var(--secondary-color-50);
+    background-color: var(--white);
     padding: 20px 0;
     /* border-bottom: 1px solid #eee; */
 }
@@ -661,17 +654,8 @@ ul {
     margin: 0 auto;
 }
 
-#tsparticles {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    top: 0;
-    left: 0;
-}
-
+/* ======= Hero section ======== */
 .hero-section-wrapper {
-    /* background-color: var(--Primary-50); */
     padding-bottom: 0;
     position: relative;
 }
@@ -682,8 +666,8 @@ ul {
 }
 
 .hero-section-content h1 {
-    color: var(--white-color);
     font-size: 60px;
+    color: var(--black);
     line-height: 60px;
     font-family: var(--landing-font-family);
     font-weight: 700;
@@ -693,11 +677,11 @@ ul {
 
 .hero-section-content p {
     font-family: var(--landing-font-family);
+    color: var(--black);
     font-size: 18px;
     line-height: 30px;
     max-width: 750px;
     margin: 0 auto 20px;
-    color: var(--white-color);
 }
 
 .home-hero_visual {
@@ -710,7 +694,7 @@ ul {
     justify-content: space-evenly;
     width: 200%;
     animation: slide 20s linear infinite;
-    color: white;
+    color: black;
 }
 
 @keyframes slide {
@@ -759,34 +743,16 @@ ul {
     background: linear-gradient(135deg, #487efc 0%, #3b7ddd 100%);
 }
 
-/* .register-btn::before,
-.mentors-btn::before,
-.access-tutor-btn::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.2),
-        transparent
-    );
-    transition: left 0.5s;
-} */
-
-/* .register-btn:hover::before,
-.mentors-btn:hover::before,
-.access-tutor-btn:hover::before {
-    left: 100%;
-} */
+.register-btn:hover,
+.mentors-btn:hover,
+.access-tutor-btn:hover {
+    scale: 1.05;
+}
 
 .mentors-btn {
     background-color: transparent;
     border: 1px solid var(--primary-color);
-    color: var(--white-color);
+    color: var(--black);
 }
 
 .next-cohort-section {
@@ -837,9 +803,6 @@ ul {
 }
 
 .cohort-card {
-    /* flex: 1; */
-    /* min-width: 250px;
-    background-color: var(--Primary-50); */
     padding: 0;
 }
 
@@ -1400,10 +1363,10 @@ ul {
 /* ========= Testimonial section*/
 /* ========= */
 .testimonials {
-    /* background-color: var(--secondary-color); */
+    background-color: var(--white-color);
 }
 
-.testimonials-title {
+your-image.jpg .testimonials-title {
     font-family: var(--landing-font-family);
     font-weight: 600;
     font-size: 48px;
@@ -2176,12 +2139,8 @@ ul {
     }
 }
 
-/* Medium devices (tablets, less than 992px) */
-@media (min-width: 768px) and (max-width: 991.98px) {
-}
-
 /* Small devices (landscape phones, less than 768px) */
-@media (max-width: 767.98px) {
+@media (max-width: 768px) {
     .footer .footer-logo {
         width: 35%;
     }
@@ -2192,19 +2151,30 @@ ul {
     }
 
     .hero-section-content h1 {
-        font-size: 20px;
+        font-size: 30px;
         line-height: 37px;
     }
 
     .hero-section-content p {
         font-size: 14px;
-        line-height: 28px;
+        line-height: 20px;
+        margin-bottom: 40px;
+    }
+    .info-section {
+        font-size: 14px;
+        width: 700%;
+    }
+
+    .info {
+        display: flex;
+        justify-content: space-between;
+        gap: 2rem;
     }
 
     .register-btn,
     .mentors-btn,
     .access-tutor-btn {
-        font-size: 14px;
+        font-size: 10px;
         padding: 0.8rem 1rem;
     }
 
@@ -2234,17 +2204,6 @@ ul {
         right: 0;
         background-position: right top;
     }
-}
-
-/* X-Small devices (portrait phones, less than 576px) */
-@media (min-width: 575.98px) and (max-width: 768px) {
-}
-
-@media (min-width: 320px) and (max-width: 600px) {
-}
-
-/* Mobile Devices (480px and below) */
-@media (max-width: 480px) {
 }
 
 /* Admin Dashboard Specific Styles */
@@ -2871,14 +2830,14 @@ ul {
 .how-it-works-title {
     font-size: 3.5rem;
     font-weight: 700;
-    color: var(--white-color);
+    color: var(--black);
     margin-bottom: 1rem;
     font-family: var(--landing-font-family);
 }
 
 .how-it-works-subtitle {
     font-size: 1.2rem;
-    color: var(--white-color);
+    color: var(--black);
     margin-bottom: 3rem;
     max-width: 600px;
     margin-left: auto;
@@ -2977,7 +2936,7 @@ ul {
 .how-it-works-item h3 {
     font-size: 1.5rem;
     font-weight: 600;
-    color: var(--white-color);
+    color: var(--black);
     margin-bottom: 10px;
     line-height: 1.3;
     position: relative;
@@ -2987,7 +2946,7 @@ ul {
 
 .how-it-works-item p {
     font-size: 0.95rem;
-    color: var(--white-color);
+    color: var(--black);
     line-height: 1.6;
     margin-bottom: 15px;
     position: relative;
@@ -2996,7 +2955,7 @@ ul {
 
 .how-it-works-item i {
     font-size: 1.25rem;
-    color: var(--primary-color);
+    color: var(--black);
     transition: transform 0.3s ease;
     position: relative;
     z-index: 1;

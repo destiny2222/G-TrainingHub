@@ -1,0 +1,36 @@
+.hexagon-grid {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    overflow: hidden;
+    background-position: cover;
+    background: radial-gradient(
+        ellipse at center,
+        rgba(200, 200, 200, 0.5) 0%,
+        rgba(0, 0, 0, 0.4) 100%
+    );
+}
+
+.svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+}
+
+.hex-line {
+    stroke: rgba(255, 255, 255, 0.3);
+    stroke-width: 1;
+    fill: none;
+}
+
+.hex-node {
+    fill: #e0e0e0;
+    opacity: 0.5;
+}
+
+.tracer {
+    fill: white;
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 1))
+        drop-shadow(0 0 20px rgba(255, 255, 255, 0.9));
+}

@@ -7,6 +7,7 @@ import { IoClose } from "react-icons/io5";
 import { BiCategory } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCohorts } from "../../redux/slices/frontend/cohortSlice";
+import Pencil from "./Pencil";
 
 function Cohort() {
   const dispatch = useDispatch();
@@ -87,22 +88,23 @@ function Cohort() {
 
   return (
     <div>
-      <section className="breadcrumb-area cohort-hero-section pt-100 pb-100 background">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-12">
-              <div className="hero-content">
-                <h1>
-                  Training <span className="primary-color">Cohorts</span>
-                </h1>
-                <p>
+      <section className="cohort-hero-section">
+        <div className="hero-content">
+          <h1>
+            Training <span className="primary-color">Cohorts</span>
+          </h1>
+          {/* <p>
                   Explore our comprehensive training programs designed to
                   advance your career in technology and data science.
-                </p>
-              </div>
-            </div>
-          </div>
+                </p>*/}
+          <p>
+            Unlock high-impact career growth. Explore our intensive programs
+            designed to deliver immediate, in-demand technical authority in tech
+            and data science.
+          </p>
         </div>
+
+        <Pencil />
       </section>
 
       <section className="cohort-section">
@@ -203,7 +205,9 @@ function Cohort() {
                         </p>
 
                         <div className="course-actions">
-                          <Link to={`./${cohortObj.id}/register`}>
+                          <Link
+                            to={`./${cohortObj.id}/register/${cohort.title}`}
+                          >
                             <button className="enroll-btn primary-btn">
                               Enroll Now
                             </button>
@@ -303,9 +307,11 @@ function Cohort() {
               </div>
 
               <div className="modal-footer">
-                <button className="modal-enroll-btn" onClick={closeModal}>
-                  Enroll Now
-                </button>
+                <Link
+                  to={`./${selectedCourse.id}/register/${selectedCourse.course.title}`}
+                >
+                  <button className="enroll-btn primary-btn">Enroll Now</button>
+                </Link>
                 <button className="modal-close-btn" onClick={closeModal}>
                   Close
                 </button>

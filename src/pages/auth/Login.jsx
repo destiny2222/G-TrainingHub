@@ -5,7 +5,6 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./Login.css";
-import slideOne from "../../assets/image/auth/auth-register-illustration-light.png";
 import { useAuth } from "../../contexts/AuthContext";
 
 const Login = () => {
@@ -165,19 +164,16 @@ const Login = () => {
             title: "Welcome Back to Your Organization Hub",
             description:
               "Access your comprehensive training management dashboard and continue building your team's capabilities with data-driven insights.",
-            image: slideOne,
           },
           {
             title: "Manage Your Training Programs",
             description:
               "Oversee courses, track team progress, and analyze performance metrics all in one centralized platform designed for organizational efficiency.",
-            image: slideOne,
           },
           {
             title: "Scale Your Organization's Growth",
             description:
               "Resume managing your organization's learning initiatives with personalized training paths and comprehensive analytics.",
-            image: slideOne,
           },
         ]
       : [
@@ -185,19 +181,16 @@ const Login = () => {
             title: "Welcome Back to GritinAI",
             description:
               "Continue your personal learning journey and access cutting-edge training programs designed to enhance your professional skills.",
-            image: slideOne,
           },
           {
             title: "Access Your Learning Dashboard",
             description:
               "Track your progress, manage your courses, and continue building your skills with our personalized learning platform.",
-            image: slideOne,
           },
           {
             title: "Resume Your Training",
             description:
               "Pick up where you left off and continue developing your skills with our comprehensive learning paths and progress tracking.",
-            image: slideOne,
           },
         ];
 
@@ -213,7 +206,11 @@ const Login = () => {
                   ? "Welcome Back!"
                   : "Welcome Back!"}
               </h1>
-              {/* <h1>{loginType === 'organization' ? 'Organization Login' : 'Log In to Explore'}</h1> */}
+              <h1>
+                {loginType === "organization"
+                  ? "Organization Login"
+                  : "Log In to Explore"}
+              </h1>
               <p>
                 {
                   loginType === "organization"
@@ -427,7 +424,7 @@ const Login = () => {
             <div className="brand-section">
               <div className="brand-logo">
                 <span className="logo-icon">
-                  <img src="./login-logo.png" alt="Logo of GritinAI" />
+                  <img src="./login-logo.png" alt="" />
                 </span>
                 <span className="brand-name">GritinAI</span>
               </div>

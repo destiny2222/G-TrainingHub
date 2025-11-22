@@ -1,14 +1,15 @@
-import React, { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import "./Register.css";
 import api from "../../utils/api";
-import { useParams } from "react-router-dom";
-import Particles from "react-tsparticles";
+import { Link, useParams } from "react-router-dom";
+import Slider from "react-slick";
+import { FaArrowLeft } from "react-icons/fa";
 
 export default function RegistrationForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const { id } = useParams();
+  const { id, cohortName } = useParams();
   const [status, setStatus] = useState({
     status: false,
     class: "button",
@@ -103,178 +104,163 @@ export default function RegistrationForm() {
     }, 3000);
   };
 
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    fade: true,
+    arrows: false,
+    pauseOnHover: true,
+    appendDots: (dots) => (
+      <div className="slider-dots">
+        <ul style={{ margin: "0px" }}> {dots} </ul>
+      </div>
+    ),
+    customPaging: () => <div className="dot"></div>,
+  };
+
+  const slides = [
+    {
+      title: "Join the Next GritinAI Cohort",
+      description:
+        "Be part of an intensive, hands-on learning experience designed to accelerate your tech career and put you ahead of the curve.",
+    },
+    {
+      title: "Learn With a Community",
+      description:
+        "Collaborate with driven learners, attend live sessions, and get mentorship from industry experts throughout the cohort.",
+    },
+    {
+      title: "Start Your Transformation",
+      description:
+        "Register now and unlock structured learning, real-world projects, accountability, and support from a community that wants you to win.",
+    },
+  ];
+
   return (
     <>
       <div className="register-container">
-        <div className="form-card" aria-live="polite">
-          <h1 className="title">Register For A Cohort</h1>
-          <p className="subtitle">Join us today and get started</p>
-
-          <form ref={formRef} onSubmit={handleSubmit} className="form">
-            <div className="input-group">
-              <label className="label" htmlFor="name">
-                Full Name
-              </label>
-              <input
-                id="name"
-                className="input"
-                type="text"
-                name="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Enter your full name"
-                required
-              />
-            </div>
-
-            <div className="input-group">
-              <label className="label" htmlFor="email">
-                Email Address
-              </label>
-              <input
-                id="email"
-                className="input"
-                type="email"
-                name="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
-                required
-              />
-            </div>
-
-            <div className="input-group">
-              <label className="label" htmlFor="phone">
-                Phone Number
-              </label>
-              <input
-                id="phone"
-                className="input"
-                type="tel"
-                name="phone"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="+234 80 2293 1920"
-                required
-              />
-            </div>
-
-            {errorMessage && (
-              <div className="error-message" role="alert">
-                {errorMessage}
+        <div className="register-wrapper">
+          <div className="user-register-left-panel">
+            <div className="form-scroll-container" aria-live="polite">
+              <Link to="/cohort">
+                <button className="back-button">
+                  <FaArrowLeft size={25} />
+                </button>
+              </Link>
+              <div className="user-register-form-header">
+                <h1>Start Your Adventure 🚀</h1>
+                <p>Register for the cohort {cohortName}</p>
               </div>
-            )}
 
-            <button
-              type="submit"
-              className={submitted ? status.class : "button"}
-              disabled={submitted}
-              aria-disabled={submitted}
-            >
-              {submitted ? <>&nbsp;{status.message}</> : "Proceed to payment"}
-            </button>
-          </form>
+              <form
+                ref={formRef}
+                onSubmit={handleSubmit}
+                className="user-register-form"
+              >
+                <div className="input-group">
+                  <label className="label" htmlFor="name">
+                    Full Name
+                  </label>
+                  <input
+                    id="name"
+                    className="input"
+                    type="text"
+                    name="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Enter your full name"
+                    required
+                  />
+                </div>
+
+                <div className="input-group">
+                  <label className="label" htmlFor="email">
+                    Email Address
+                  </label>
+                  <input
+                    id="email"
+                    className="input"
+                    type="email"
+                    name="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@example.com"
+                    required
+                  />
+                </div>
+
+                <div className="input-group">
+                  <label className="label" htmlFor="phone">
+                    Phone Number
+                  </label>
+                  <input
+                    id="phone"
+                    className="input"
+                    type="tel"
+                    name="phone"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="+234 80 2293 1920"
+                    required
+                  />
+                </div>
+
+                {errorMessage && (
+                  <div className="error-message" role="alert">
+                    {errorMessage}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  className={submitted ? status.class : "btn-submit"}
+                  disabled={submitted}
+                  aria-disabled={submitted}
+                >
+                  {submitted ? (
+                    <>&nbsp;{status.message}</>
+                  ) : (
+                    "Proceed to payment"
+                  )}
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <div className="user-register-right-panel">
+            <div className="slider-overlay"></div>
+            <div className="slider-content">
+              <div className="brand-section">
+                <div className="brand-logo">
+                  <span className="logo-icon">
+                    <img src="/login-logo.png" alt="" />
+                  </span>
+                  <span className="brand-name">GritinAI</span>
+                </div>
+              </div>
+
+              <div className="slider-main">
+                <Slider {...sliderSettings}>
+                  {slides.map((slide, index) => (
+                    <div key={index} className="slide-item">
+                      <div className="slide-content">
+                        <div className="slide-text">
+                          <h2>{slide.title}</h2>
+                          <p>{slide.description}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </Slider>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div className="particles">
-        <Particles
-          options={{
-            fullScreen: {
-              enable: true,
-              zIndex: -3,
-            },
-            particles: {
-              number: {
-                value: 100,
-                density: {
-                  enable: true,
-                  value_area: 800,
-                },
-              },
-              color: {
-                value: "#ffffff",
-              },
-              shape: {
-                type: "circle",
-                stroke: {
-                  width: 0,
-                  color: "#000000",
-                },
-                polygon: {
-                  nb_sides: 5,
-                },
-                image: {
-                  src: "img/github.svg",
-                  width: 100,
-                  height: 100,
-                },
-              },
-              opacity: {
-                value: 0.5,
-                random: false,
-              },
-              size: {
-                value: 3,
-                random: true,
-                anim: {
-                  enable: false,
-                  speed: 40,
-                  size_min: 0.1,
-                  sync: false,
-                },
-              },
-              line_linked: {
-                enable: true,
-                distance: 150,
-                color: "#1d28fc",
-                opacity: 0.4,
-                width: 1,
-              },
-              move: {
-                enable: true,
-                speed: 1.2,
-                direction: "top",
-                random: true,
-                straight: false,
-                out_mode: "out",
-                bounce: false,
-                attract: {
-                  enable: false,
-                  rotateX: 600,
-                  rotateY: 1200,
-                },
-              },
-            },
-            modes: {
-              grab: {
-                distance: 400,
-                line_linked: {
-                  opacity: 1,
-                },
-              },
-              bubble: {
-                distance: 400,
-                size: 40,
-                duration: 2,
-                opacity: 8,
-                speed: 3,
-              },
-              repulse: {
-                distance: 200,
-                duration: 0.4,
-              },
-              push: {
-                particles_nb: 4,
-              },
-              remove: {
-                particles_nb: 2,
-              },
-            },
-
-            retina_detect: true,
-            fps_limit: 60,
-          }}
-        />
       </div>
     </>
   );

@@ -7,19 +7,34 @@
 }
 
 .cohort-hero-section {
-    background-color: #d3e4ff !important;
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: baseline;
+    align-items: center;
+    gap: 2.2rem;
+    padding-left: 4rem;
+    padding-top: 5rem;
 }
 
-.cohort-title {
-    margin-bottom: 2rem;
-    text-align: center;
+.hero-content h1 {
+    font-weight: 700;
+    font-size: 4rem;
+    margin-bottom: 1.2rem;
+}
+.hero-content p {
+    font-size: 1.3rem;
+}
+.hero-content {
+    width: 70%;
 }
 
 .cohort-title h2 {
-    font-size: 2.8rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
+    font-size: 1.8rem;
+    font-weight: 500;
+    text-align: left;
     color: #3b82f6;
+    margin-left: 1rem;
 }
 
 /* Combined Search and Filter Container - Horizontal Layout */
@@ -569,7 +584,12 @@
     .cohort-title h2 {
         font-size: 2rem;
     }
-
+    .cohort-hero-section {
+        padding-left: 2rem;
+    }
+    .hero-content p {
+        font-size: 16px;
+    }
     .search-filter-container {
         flex-direction: column;
         gap: 1rem;

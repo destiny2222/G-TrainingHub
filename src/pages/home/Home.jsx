@@ -3,21 +3,21 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useLayoutEffect, useRef, useCallback  } from 'react';
-import Particles from "react-tsparticles";
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import testimonialImg1 from '../../assets/image/testimony/testim-3.jpg'
-import testimonialImg2 from '../../assets/image/testimony/testim-3.jpg'
-import testimonialImg3 from '../../assets/image/testimony/testim-3.jpg'
-import featureImg1 from '../../assets/image/feature/feature-1.webp';
-import featureImg2 from '../../assets/image/feature/feature-2.webp';
-import featureImg3 from '../../assets/image/feature/feature-3.webp';
-import medialogo1 from '../../assets/image/background/ABA logo.png';
-import medialogo2 from '../../assets/image/background/AIPressRoom new.png';
-import medialogo3 from '../../assets/image/background/Bora Agribusiness Afrika light_new.png';
-import medialogo4 from '../../assets/image/background/africa cybersecurity Mag.png'
+import { useLayoutEffect, useRef } from "react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import testimonialImg1 from "../../assets/image/testimony/testim-3.jpg";
+import testimonialImg2 from "../../assets/image/testimony/testim-3.jpg";
+import testimonialImg3 from "../../assets/image/testimony/testim-3.jpg";
+import featureImg1 from "../../assets/image/feature/feature-1.webp";
+import featureImg2 from "../../assets/image/feature/feature-2.webp";
+import featureImg3 from "../../assets/image/feature/feature-3.webp";
+import medialogo1 from "../../assets/image/background/ABA logo.png";
+import medialogo2 from "../../assets/image/background/AIPressRoom new.png";
+import medialogo3 from "../../assets/image/background/Bora Agribusiness Afrika light_new.png";
+import medialogo4 from "../../assets/image/background/africa cybersecurity Mag.png";
+import HexGrid from "./HexGrid";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -26,198 +26,68 @@ const Home = () => {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        heroVideoVisual.current,
-        { scale: 0.7, borderRadius: "1.2rem", y: -100 },
-        {
-          scrollTrigger: {
-            trigger: heroVideoVisual.current,
-            scrub: true,
-            start: "-50% center",
-            end: "center center",
+      if (window.innerWidth >= 1024) {
+        gsap.fromTo(
+          heroVideoVisual.current,
+          { scale: 0.75, borderRadius: "1.2rem", y: -90 },
+          {
+            scrollTrigger: {
+              trigger: heroVideoVisual.current,
+              start: "-20% center",
+              end: "50% center",
+              toggleActions: "play none none reverse",
+            },
+            scale: 1,
+            borderRadius: 0,
+            y: 0,
+            ease: "power2.out",
           },
-          scale: 1,
-          borderRadius: 0,
-          y: 0,
-        },
-      );
-    });
+        );
+      }
+    }, heroVideoVisual);
+
     return () => ctx.revert();
   }, []);
 
-    return (
-        <>
-            <Particles
-                options={{
-                fullScreen: {
-                    enable: true,
-                    zIndex: 0
-                },
-                particles: {
-                    number: {
-                    value: 200,
-                    limit: 300,
-                    density: {
-                        enable: true,
-                        value_area: 800
-                    }
-                    },
-                    color: {
-                    value: "#ffffff"
-                    },
-                    shape: {
-                    type: "circle",
-                    stroke: {
-                        width: 0,
-                        color: "#000000"
-                    },
-                    polygon: {
-                        nb_sides: 5
-                    },
-                    image: {
-                        src: "images/github.svg",
-                        width: 100,
-                        height: 100
-                    }
-                    },
-                    opacity: {
-                    value: 0.5,
-                    random: true,
-                    anim: {
-                        enable: true,
-                        speed: 1,
-                        opacity_min: 0.5,
-                        sync: false
-                    }
-                    },
-                    size: {
-                    value: 6,
-                    random: true,
-                    anim: {
-                        enable: true,
-                        speed: 10,
-                        size_min: 2,
-                        sync: false
-                    }
-                    },
-                    line_linked: {
-                    enable: true,
-                    distance: 100,
-                    color: "#ffffff",
-                    opacity: 1,
-                    width: 1
-                    },
-                    move: {
-                    enable: true,
-                    speed: 3,
-                    direction: "none",
-                    random: false,
-                    straight: false,
-                    out_mode: "out",
-                    bounce: false,
-                    attract: {
-                        enable: false,
-                        rotateX: 600,
-                        rotateY: 1200
-                    }
-                    }
-                },
-                interactivity: {
-                    detect_on: "canvas",
-                    events: {
-                    onHover: {
-                        enable: true,
-                        mode: "bubble",
-                        parallax: {
-                        enable: false,
-                        force: 60,
-                        smooth: 10
-                        }
-                    },
-                    onClick: {
-                        enable: true,
-                        mode: "push"
-                    },
-                    resize: true
-                    },
-                    modes: {
-                    grab: {
-                        distance: 400,
-                        lineLinked: {
-                        opacity: 1
-                        }
-                    },
-                    bubble: {
-                        distance: 400,
-                        size: 10,
-                        duration: 2,
-                        opacity: 1,
-                        speed: 2
-                    },
-                    repulse: {
-                        distance: 200
-                    },
-                    push: {
-                        particles_nb: 4
-                    },
-                    remove: {
-                        particles_nb: 2
-                    }
-                    }
-                },
-                backgroundMask: {
-                    enable: true,
-                    cover: {
-                    color: {
-                        value: {
-                        r: 0,
-                        g: 0,
-                        b: 0
-                        }
-                    }
-                    }
-                },
-                retina_detect: true,
-                fps_limit: 60,
-                background: {
-                    image: "url('https://particles.js.org/images/background3.jpg')"
-                }
-                }}
-            />
-            <section className="hero-section-wrapper">
-        <div className="hero-section-content">
-          <h1 className="js-scroll fade-in">
-            Your Journey To Tech Confidence Starts Here
-          </h1>
-          <p>
-            Unlock your potential in AI and Machine Learning with our
-            comprehensive training program. Gain hands-on experience and
-            mentorship from industry experts.
-          </p>
-          <div className="hero-buttons">
-            <Link to="/cohort" className="register-btn">
-              Register for Cohort
-            </Link>
-            <Link to="/organization/register" className="mentors-btn">
-              Register as Organization
-            </Link>
+  return (
+    <div className="home">
+      <HexGrid />
+      <section className="hero-section-wrapper">
+        <div className="">
+          <div className="hero-section-content">
+            <h1 className="js-scroll fade-in">
+              Your Journey To Tech Confidence Starts Here
+            </h1>
+            <p>
+              Unlock your potential in AI and Machine Learning with our
+              comprehensive training program. Gain hands-on experience and
+              mentorship from industry experts.
+            </p>
+            <div className="hero-buttons">
+              <Link to="/cohort" className="register-btn">
+                Register for Cohort
+              </Link>
+              <Link to="/organization/register" className="mentors-btn">
+                Register as Organization
+              </Link>
+            </div>
           </div>
-        </div>
 
-        <section className="info-section">
-          <div className="info">
-            <p>Starting at 10am blah blah blah</p>
-            <p>Starting at 10am blah blah blah</p>
-            <p>Starting at 10am blah blah blah</p>
-            <p>Starting at 10am blah blah blah</p>
-          </div>
-          <div className="info">
-            <p>Starting at 10am blah blah blah</p>
-            <p>Starting at 10am blah blah blah</p>
-            <p>Starting at 10am blah blah blah</p>
-            <p>Starting at 10am blah blah blah</p>
-          </div>
-        </section>
+          <section className="info-section">
+            <div className="info">
+              <p>Starting at 10am blah blah blah</p>
+              <p>Starting at 10am blah blah blah</p>
+              <p>Starting at 10am blah blah blah</p>
+              <p>Starting at 10am blah blah blah</p>
+            </div>
+            <div className="info">
+              <p>Starting at 10am blah blah blah</p>
+              <p>Starting at 10am blah blah blah</p>
+              <p>Starting at 10am blah blah blah</p>
+              <p>Starting at 10am blah blah blah</p>
+            </div>
+          </section>
+        </div>
 
         <section className="home-hero-video-section">
           <div className="home-hero_visual">
@@ -602,8 +472,8 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="testimonials pt-50 pb-50 js-scroll fade-in-bottom">
-        <div className="container">
+      <section className="testimonials pt-50 pb-50 ">
+        <div className="container js-scroll fade-in-bottom">
           <div className="row">
             <div className="col-lg-12 my-3 justify-content-center">
               <h2 className="testimonials-title">Hear from Our Alumni</h2>
@@ -708,7 +578,7 @@ const Home = () => {
           </Swiper>
         </div>
       </section>
-    </>
+    </div>
   );
 };
 

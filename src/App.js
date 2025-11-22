@@ -75,12 +75,12 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/cohort" element={<Cohort />} />
                 <Route path="/cohort/:id" element={<CohortDetails />} />
-
-                <Route
-                  path="cohort/:id/register"
-                  element={<RegistrationForm />}
-                />
               </Route>
+
+              <Route
+                path="cohort/:id/register/:cohortName"
+                element={<RegistrationForm />}
+              />
 
               {/* Protected User Dashboard routes */}
               <Route element={<DashboardLayout />}>

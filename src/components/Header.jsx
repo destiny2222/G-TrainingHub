@@ -1,45 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import logo from "../assets/image/logo/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { DollarSquare, CardPos, ConvertCard } from "iconsax-reactjs";
 
 function Header() {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isProductDropdownOpen, setIsProductDropdownOpen] = useState(false);
-  const desktopDropdownRef = useRef(null);
-  const mobileDropdownRef = useRef(null);
-
-  const closeDropdown = () => {
-    setIsProductDropdownOpen(false);
-  };
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        desktopDropdownRef.current &&
-        !desktopDropdownRef.current.contains(event.target) &&
-        mobileDropdownRef.current &&
-        !mobileDropdownRef.current.contains(event.target)
-      ) {
-        setIsProductDropdownOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
-    setIsProductDropdownOpen(false);
-  };
-
-  const toggleProductDropdown = () => {
-    setIsProductDropdownOpen(!isProductDropdownOpen);
   };
 
   const handleLogoClick = () => {
@@ -61,43 +30,6 @@ function Header() {
           </div>
           <div className="header_menu">
             <ul>
-              <li className="nav-item dropdown" ref={desktopDropdownRef}>
-                <Link
-                  to="#"
-                  className="nav-link dropdown-toggle"
-                  onClick={toggleProductDropdown}
-                >
-                  Courses
-                </Link>
-                <div
-                  className={`header-dropdown-menu ${isProductDropdownOpen ? "show" : ""}`}
-                >
-                  <Link
-                    to="/dollar-account"
-                    className="header-dropdown-menu-item"
-                    onClick={closeDropdown}
-                  >
-                    <DollarSquare /> USD account
-                    <span>Get an individual or business USD account</span>
-                  </Link>
-                  <Link
-                    to="/virtual-card"
-                    className="header-dropdown-menu-item"
-                    onClick={closeDropdown}
-                  >
-                    <CardPos /> Virtual card
-                    <span>Get an individual or business USD account</span>
-                  </Link>
-                  <Link
-                    to="/send-money"
-                    className="header-dropdown-menu-item"
-                    onClick={closeDropdown}
-                  >
-                    <ConvertCard /> Send & Receive Money
-                    <span>Get an individual or business USD account</span>
-                  </Link>
-                </div>
-              </li>
               <li>
                 <Link to="/cohort">Cohort</Link>
               </li>
@@ -139,43 +71,6 @@ function Header() {
         </div>
         <div className={`mobile-menu ${isMenuOpen ? "open" : ""}`}>
           <ul>
-            <li className="nav-item dropdown" ref={mobileDropdownRef}>
-              <Link
-                to="#"
-                className="nav-link dropdown-toggle"
-                onClick={toggleProductDropdown}
-              >
-                Courses
-              </Link>
-              <div
-                className={`header-dropdown-menu ${isProductDropdownOpen ? "show" : ""}`}
-              >
-                <Link
-                  to="/dollar-account"
-                  className="header-dropdown-menu-item"
-                  onClick={toggleMenu}
-                >
-                  <DollarSquare /> USD account
-                  <span>Get an individual or business USD account</span>
-                </Link>
-                <Link
-                  to="/virtual-card"
-                  className="header-dropdown-menu-item"
-                  onClick={toggleMenu}
-                >
-                  <CardPos /> Virtual card
-                  <span>Get an individual or business USD account</span>
-                </Link>
-                <Link
-                  to="/send-money"
-                  className="header-dropdown-menu-item"
-                  onClick={toggleMenu}
-                >
-                  <ConvertCard /> Send & Receive Money
-                  <span>Get an individual or business USD account</span>
-                </Link>
-              </div>
-            </li>
             <li>
               <Link to="/cohort" onClick={toggleMenu}>
                 Cohort
