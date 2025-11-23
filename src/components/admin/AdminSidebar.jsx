@@ -25,11 +25,6 @@ const AdminSidebar = ({ isOpen, onClose }) => {
                 <Building4 size="20" variant="Outline" /> Organization Management
               </Link>
             </li>
-            <li>
-              <Link to="/admin/mentor-applications" onClick={onClose}>
-                <UserSquare size="20" variant="Outline" /> Mentor Applications <span className="badge">3</span>
-              </Link>
-            </li>
           </ul>
         </li>
         <li>
