@@ -68,7 +68,7 @@ export default function RegistrationForm() {
 
       setStatus({
         class: "button-success",
-        message: "Successful",
+        message: "Redirecting...",
         status: true,
       });
 
