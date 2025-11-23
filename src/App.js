@@ -47,6 +47,7 @@ import OrganizationCourseList from "./pages/user_dash/organization/traniningProg
 import PaymentCallback from "./pages/user_dash/organization/traniningProgram/PaymentCallback";
 import Login from "./pages/auth/Login";
 import RegistrationForm from "./pages/register/Register";
+import PaymentCallbackForm from "./pages/register/PaymentCallback";
 // import Part from "./pages/home/part.jsx";
 
 function App() {
@@ -76,12 +77,8 @@ function App() {
                 <Route path="/cohort" element={<Cohort />} />
                 <Route path="/cohort/:id" element={<CohortDetails />} />
               </Route>
-
-              <Route
-                path="cohort/:id/register/:cohortName"
-                element={<RegistrationForm />}
-              />
-
+              <Route  path="cohort/register"  element={<RegistrationForm />} />
+              <Route path="/payment/callback" element={<PaymentCallbackForm />} />
               {/* Protected User Dashboard routes */}
               <Route element={<DashboardLayout />}>
                 <Route

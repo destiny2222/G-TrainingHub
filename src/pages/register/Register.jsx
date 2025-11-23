@@ -1,20 +1,23 @@
 import { useRef, useState, useEffect } from "react";
 import "./Register.css";
 import api from "../../utils/api";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import Slider from "react-slick";
 import { FaArrowLeft } from "react-icons/fa";
 
 export default function RegistrationForm() {
+  const location = useLocation();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const { id, cohortName } = useParams();
+  const { id, cohortName} = useParams();
+  const { cohort_id } = location.state || {};
   const [status, setStatus] = useState({
     status: false,
     class: "button",
     message: "Loading...",
   });
+
   const [errorMessage, setErrorMessage] = useState("");
 
   // Submission state for button UI
@@ -49,13 +52,12 @@ export default function RegistrationForm() {
     // Prevent multiple submissions
     if (submitted) return;
 
-    const formData = { name, email, phone };
+    const formData = { name, email, phone, cohort_id: cohort_id };
 
     try {
       setSubmitted(true);
       setErrorMessage("");
-
-      await api.post(`/cohorts/${id}/register`, formData);
+       await api.post(`/cohorts/register`, formData);
 
       // Initialize payment and redirect
 
@@ -63,7 +65,7 @@ export default function RegistrationForm() {
         email,
         name,
         phone,
-        cohort_id: id,
+        cohort_id: cohort_id,
       });
 
       setStatus({
@@ -72,11 +74,14 @@ export default function RegistrationForm() {
         status: true,
       });
 
-      // Redirect to payment page if URL is provided
-      if (redirect) {
-        window.location.href = redirect.data.data.authorization_url;
-        return; // Don't reset form if redirecting
+      if (redirect.data.status === "success") {
+        const url = redirect.data.data.authorization_url;
+        if (url) {
+          window.location.href = url;
+          return;
+        }
       }
+      // 
     } catch (error) {
       setStatus({
         class: "button-error",
