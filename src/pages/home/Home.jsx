@@ -64,7 +64,7 @@ const Home = () => {
               mentorship from industry experts.
             </p>
             <div className="hero-buttons">
-              <Link to="/cohort" className="register-btn">
+              <Link to="/cohorts" className="register-btn">
                 Register for Cohort
               </Link>
               <Link to="/organization/register" className="mentors-btn">

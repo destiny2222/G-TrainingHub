@@ -9,7 +9,7 @@ export default function RegistrationForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const { id, cohortName } = useParams();
+  const { slug, cohortName } = useParams();
   const [status, setStatus] = useState({
     status: false,
     class: "button",
@@ -55,7 +55,7 @@ export default function RegistrationForm() {
       setSubmitted(true);
       setErrorMessage("");
 
-      await api.post(`/cohorts/${id}/register`, formData);
+      await api.post(`/cohorts/register`, { ...formData, cohort_id: slug });
 
       // Initialize payment and redirect
 
@@ -63,7 +63,7 @@ export default function RegistrationForm() {
         email,
         name,
         phone,
-        cohort_id: id,
+        cohort_id: slug,
       });
 
       setStatus({
@@ -147,7 +147,7 @@ export default function RegistrationForm() {
         <div className="register-wrapper">
           <div className="user-register-left-panel">
             <div className="form-scroll-container" aria-live="polite">
-              <Link to="/cohort">
+              <Link to="/cohorts">
                 <button className="back-button">
                   <FaArrowLeft size={25} />
                 </button>

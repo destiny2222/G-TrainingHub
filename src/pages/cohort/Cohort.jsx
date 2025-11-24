@@ -76,16 +76,6 @@ function Cohort() {
     }));
   };
 
-  const openModal = (course) => {
-    setSelectedCourse(course);
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedCourse(null);
-  };
-
   return (
     <div>
       <section className="cohort-hero-section">
@@ -173,10 +163,9 @@ function Cohort() {
           {!loading && !error && (
             <div className="courses-grid">
               {filteredCohorts.length > 0 ? (
-                filteredCohorts.map((cohortObj) => {
-                  const cohort = cohortObj.course;
+                filteredCohorts.map((cohort, i) => {
                   return (
-                    <article key={cohort.id} className="course-card">
+                    <article key={i} className="course-card">
                       <div className="course-card-header">
                         <div
                           className="course-image"
@@ -206,19 +195,18 @@ function Cohort() {
 
                         <div className="course-actions">
                           <Link
-                            to={`./${cohortObj.id}/register/${cohort.title}`}
+                            to={`./${cohort.cohorts[0].id}/register/${cohort.title}`}
                           >
                             <button className="enroll-btn primary-btn">
                               Enroll Now
                             </button>
                           </Link>
 
-                          <button
-                            className="details-btn secondary-btn"
-                            onClick={() => openModal(cohortObj)}
-                          >
-                            View Details
-                          </button>
+                          <Link to={`./${cohort.slug}/details`}>
+                            <button className="details-btn secondary-btn">
+                              View Details
+                            </button>
+                          </Link>
                         </div>
                       </div>
                     </article>
@@ -233,92 +221,6 @@ function Cohort() {
             </div>
           )}
         </div>
-
-        {/* Course Details Modal */}
-        {isModalOpen && selectedCourse && (
-          <div className="modal-overlay" onClick={closeModal}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              <div className="modal-header">
-                <h2 className="modal-title">{selectedCourse.course.title}</h2>
-                <button className="modal-close" onClick={closeModal}>
-                  <IoClose size={24} />
-                </button>
-              </div>
-
-              <div className="modal-body">
-                <div className="modal-image">
-                  <img
-                    src={
-                      selectedCourse.course.image ||
-                      "https://via.placeholder.com/400x200?text=Course+Image"
-                    }
-                    alt={selectedCourse.course.title}
-                    onError={(e) => {
-                      e.target.src =
-                        "https://via.placeholder.com/400x200?text=Course+Image";
-                    }}
-                  />
-                  <div className="modal-badges">
-                    <span className="category-badge">
-                      <BiCategory />
-                      {selectedCourse.course.category}
-                    </span>
-                    <span
-                      className={`status-badge ${selectedCourse.course.status}`}
-                    >
-                      {selectedCourse.course.status}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="modal-details">
-                  <div className="detail-section">
-                    <h3>Description</h3>
-                    <p>{selectedCourse.course.description}</p>
-                  </div>
-
-                  <div className="detail-section">
-                    <h3>Course Information</h3>
-                    <div className="course-info-grid">
-                      <div className="info-item">
-                        <FaCalendarAlt />
-                        <div>
-                          <strong>Created:</strong>
-                          <span>{formatDate(selectedCourse.created_at)}</span>
-                        </div>
-                      </div>
-                      <div className="info-item">
-                        <FaUsers />
-                        <div>
-                          <strong>Type:</strong>
-                          <span>Cohort Program</span>
-                        </div>
-                      </div>
-                      <div className="info-item">
-                        <BiCategory />
-                        <div>
-                          <strong>Category:</strong>
-                          <span>{selectedCourse.course.category}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="modal-footer">
-                <Link
-                  to={`./${selectedCourse.id}/register/${selectedCourse.course.title}`}
-                >
-                  <button className="enroll-btn primary-btn">Enroll Now</button>
-                </Link>
-                <button className="modal-close-btn" onClick={closeModal}>
-                  Close
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
       </section>
     </div>
   );

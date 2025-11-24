@@ -73,12 +73,15 @@ function App() {
             <Routes>
               <Route element={<MainLayout />}>
                 <Route path="/" element={<Home />} />
-                <Route path="/cohort" element={<Cohort />} />
-                <Route path="/cohort/:id" element={<CohortDetails />} />
+                <Route path="/cohorts" element={<Cohort />} />
+                <Route
+                  path="/cohorts/:slug/details"
+                  element={<CohortDetails />}
+                />
               </Route>
 
               <Route
-                path="cohort/:id/register/:cohortName"
+                path="cohorts/:slug/register/:cohortName"
                 element={<RegistrationForm />}
               />
 

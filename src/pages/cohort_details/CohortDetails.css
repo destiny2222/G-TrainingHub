@@ -1,5 +1,6 @@
-.container {
-    padding-block: 4rem;
+.details-container {
+    padding-block: 2rem;
+    padding-inline: 4rem;
 }
 
 .btn-primary {
@@ -57,20 +58,67 @@
     opacity: 0.95;
 }
 
-.content-grid {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: 2rem;
+.description {
+    margin-top: 2rem;
     padding: 2rem;
-    max-width: 1400px;
-    margin: 0 auto;
+}
+
+.content-grid {
+    padding-left: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s;
+}
+
+.details-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: 1.2rem;
+}
+
+.prerequisite {
+    margin-top: 1rem;
+}
+
+.prerequisite ul li {
+    margin-bottom: 0.7rem;
+    list-style-type: disc;
+}
+
+.prerequisite h4 {
+    font-size: 1.6rem;
+    margin-bottom: 0.7rem;
+    margin-top: 1rem;
+}
+
+.time {
+    display: flex;
+    gap: 1.4rem;
+}
+
+.starting,
+.ending,
+.duration {
+    border-radius: 20px;
+    border: 1px solid #e0e0e0;
+    padding-inline: 2rem;
+    padding-block: 1rem;
+}
+
+.curriculum-section {
+    margin-top: 2rem;
+    width: 40%;
 }
 
 .curriculum-section h2,
 .calendar-section h2,
 .instructors-section h2,
+.description h2,
+.pricing h2,
 .testimonials-section h2 {
-    font-size: 1.5rem;
+    font-size: 2.3rem;
     margin-bottom: 1.5rem;
     color: #1a1a2e;
 }
@@ -196,6 +244,16 @@
     background: #1d4ed8;
 }
 
+.pricing {
+    margin-top: 2rem;
+}
+.naira {
+    text-decoration: double line-through;
+}
+.pricing p {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
 .instructors-section,
 .testimonials-section {
     padding: 3rem 2rem;

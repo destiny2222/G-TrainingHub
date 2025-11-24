@@ -31,10 +31,10 @@ function Header() {
           <div className="header_menu">
             <ul>
               <li>
-                <Link to="/cohort">Cohort</Link>
+                <Link to="/cohorts">Cohorts</Link>
               </li>
               <li>
-                <Link to="/pricing">How it works</Link>
+                <Link to="/about">About</Link>
               </li>
               <li>
                 <Link to="/faqs">FAQs</Link>
