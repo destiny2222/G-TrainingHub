@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import courseReducer from './slices/courseSlice';
 import cohortReducer from './slices/cohortSlice';
 import organizationReducer from './slices/organisationSlice';
+import orgReducer from './slices/admin_organisation/organisationSlice';
 import organizationUserReducer from './slices/organisationUserSlice';
 import analyticsReducer from './slices/admin_organisation/analyticsSlice';
 import trainingProgramReducer from './slices/admin_organisation/trainingProgramSlice';
@@ -14,6 +15,7 @@ export const store = configureStore({
     organizationUser: organizationUserReducer,
     analytics: analyticsReducer,
     trainingProgram: trainingProgramReducer,
+    org: orgReducer,
   },
 });
 

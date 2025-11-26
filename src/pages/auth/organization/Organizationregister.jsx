@@ -203,7 +203,7 @@ const Organizationregister = () => {
       submitData.append("training_mode", formData.training_mode);
 
       if (formData.company_logo) {
-        submitData.append("company_logo_path_thumbnail", formData.company_logo);
+        submitData.append("company_logo", formData.company_logo);
       }
 
       // Add admin details - now required for both methods

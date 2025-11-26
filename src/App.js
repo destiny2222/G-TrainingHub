@@ -48,6 +48,7 @@ import PaymentCallback from "./pages/user_dash/organization/traniningProgram/Pay
 import Login from "./pages/auth/Login";
 import RegistrationForm from "./pages/register/Register";
 import PaymentCallbackForm from "./pages/register/PaymentCallback";
+import Settings from "./pages/user_dash/organization/settings/Settings.jsx";
 // import Part from "./pages/home/part.jsx";
 
 function App() {
@@ -193,6 +194,11 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
+                <Route path="/organization/settings" element={
+                  <ProtectedRoute requiredAccountType="organization">
+                    <Settings />
+                  </ProtectedRoute>
+                } />
               </Route>
 
               {/* Auth routes (login, register, etc.) */}

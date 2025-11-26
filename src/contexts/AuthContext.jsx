@@ -196,9 +196,12 @@ export const AuthProvider = ({ children }) => {
       console.error('Logout API call failed:', error);
     } finally {
       // Clear everything regardless of API call result
-      localStorage.removeItem('authToken');
-      localStorage.removeItem('adminToken');
-      localStorage.removeItem('accountType');
+      // localStorage.removeItem('authToken');
+      // localStorage.removeItem('adminToken');
+      // localStorage.removeItem('accountType');
+      // localStorage.removeItem('userData');
+      localStorage.clear();
+      sessionStorage.clear();
       delete api.defaults.headers.common['Authorization'];
       clearAuth();
     }
