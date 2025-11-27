@@ -16,18 +16,14 @@ function DashboardHeader() {
           className="search-input" 
         />
       </div>
-      <div className="header-actions">
+      <div className="header-actions d-flex align-items-center gap-4">
         <Award size="24" className="achievement-icon" />
         <Notification size="24" className="notification-icon" />
-        <div className="user-profile">
-          <img 
-            src={userProfile} 
-            alt="User Profile" 
-            className="profile-img" 
-          />
-          <div className="user-info">
+        <div className="user-profile d-flex align-items-center gap-3 pt-2">
+          <img  src={userProfile}   alt="User Profile"  className="profile-img" />
+          <div className="user-info pt-3">
             <span className="user-name">{user?.name || 'User'}</span>
-            <span className="user-role">Individual Learner</span>
+            <p className="user-role">Learner</p>
           </div>
         </div>
       </div>

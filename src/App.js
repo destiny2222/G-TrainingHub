@@ -49,7 +49,8 @@ import Login from "./pages/auth/Login";
 import RegistrationForm from "./pages/register/Register";
 import PaymentCallbackForm from "./pages/register/PaymentCallback";
 import Settings from "./pages/user_dash/organization/settings/Settings.jsx";
-// import Part from "./pages/home/part.jsx";
+import MyCourse from "./pages/user_dash/individual/myCourse/MyCourse.jsx";
+
 
 function App() {
   const location = useLocation();
@@ -80,26 +81,33 @@ function App() {
               </Route>
               <Route  path="cohort/register"  element={<RegistrationForm />} />
               <Route path="/payment/callback" element={<PaymentCallbackForm />} />
+              
+              
               {/* Protected User Dashboard routes */}
               <Route element={<DashboardLayout />}>
-                <Route
-                  path="/dashboard"
-                  element={
+                <Route path="/dashboard" element={
                     <ProtectedRoute requiredAccountType="individual">
                       <Dashboard />
                     </ProtectedRoute>
                   }
                 />
-                <Route
-                  path="/organization/dashboard"
-                  element={
+
+                <Route path="/my-courses" element={
+                    <ProtectedRoute requiredAccountType="individual">
+                      <MyCourse />
+                    </ProtectedRoute>
+                  }
+                />
+
+
+                <Route  path="/organization/dashboard"
+                  element={ 
                     <ProtectedRoute requiredAccountType="organization">
                       <OrganizationDashboard />
                     </ProtectedRoute>
                   }
                 />
-                <Route
-                  path="/organization/members"
+                <Route path="/organization/members"
                   element={
                     <ProtectedRoute requiredAccountType="organization">
                       <MemberList />

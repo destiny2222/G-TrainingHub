@@ -43,12 +43,6 @@ function Sidebar() {
             </Link>
           </li>
           <li>
-            <Link to="/browse-courses" className={isActive('/browse-courses')}>
-              <Category size="20" variant="Bulk" />
-              <span>Browse Courses</span>
-            </Link>
-          </li>
-          <li>
             <Link to="/library" className={isActive('/library')}>
               <FaBookOpenReader size="20" />
               <span>Library</span>
@@ -88,7 +82,7 @@ function Sidebar() {
       </nav>
       
       <div className="sidebar-bottom-links">
-        <div className="logout-section">
+        <div className="logout-section logout-container">
           <Logout size="20" variant="Bulk" className='logout'/>
           <LogoutButton className="sidebar-ul-link"/>
         </div>
