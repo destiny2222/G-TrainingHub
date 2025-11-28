@@ -1,24 +1,24 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import api from '../../utils/api';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import api from "../../utils/api";
 
 // Async thunks for API calls
 
 // Fetch all cohorts
 export const fetchCohorts = createAsyncThunk(
-  'cohorts/fetchCohorts',
+  "cohorts/fetchCohorts",
   async (params = {}, { rejectWithValue }) => {
     try {
-      const response = await api.get('/admin/cohorts', { params });
+      const response = await api.get("/admin/cohorts", { params });
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
-  }
+  },
 );
 
 // Fetch single cohort
 export const fetchCohortById = createAsyncThunk(
-  'cohorts/fetchCohortById',
+  "cohorts/fetchCohortById",
   async (slug, { rejectWithValue }) => {
     try {
       const response = await api.get(`/admin/cohorts/${slug}`);
@@ -26,38 +26,41 @@ export const fetchCohortById = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
-  }
+  },
 );
 
 // Create new cohort
 export const createCohort = createAsyncThunk(
-  'cohorts/createCohort',
+  "cohorts/createCohort",
   async (cohortData, { rejectWithValue }) => {
     try {
-      const response = await api.post('/admin/cohorts/create', cohortData);
+      const response = await api.post("/admin/cohorts/create", cohortData);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
-  }
+  },
 );
 
 // Update existing cohort
 export const updateCohort = createAsyncThunk(
-  'cohorts/updateCohort',
+  "cohorts/updateCohort",
   async ({ slug, cohortData }, { rejectWithValue }) => {
     try {
-      const response = await api.put(`/admin/cohorts/${slug}/update`, cohortData);
+      const response = await api.put(
+        `/admin/cohorts/${slug}/update`,
+        cohortData,
+      );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
-  }
+  },
 );
 
 // Delete cohort
 export const deleteCohort = createAsyncThunk(
-  'cohorts/deleteCohort',
+  "cohorts/deleteCohort",
   async (slug, { rejectWithValue }) => {
     try {
       const response = await api.delete(`/admin/cohorts/${slug}/delete`);
@@ -65,12 +68,12 @@ export const deleteCohort = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
-  }
+  },
 );
 
 // Get enrolled users for a cohort
 export const fetchCohortUsers = createAsyncThunk(
-  'cohorts/fetchCohortUsers',
+  "cohorts/fetchCohortUsers",
   async (id, { rejectWithValue }) => {
     try {
       const response = await api.get(`/admin/cohorts/${id}/users`);
@@ -78,7 +81,7 @@ export const fetchCohortUsers = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
-  }
+  },
 );
 
 // Initial state
@@ -99,7 +102,7 @@ const initialState = {
 
 // Cohort slice
 const cohortSlice = createSlice({
-  name: 'cohorts',
+  name: "cohorts",
   initialState,
   reducers: {
     clearCurrentCohort: (state) => {
@@ -136,7 +139,7 @@ const cohortSlice = createSlice({
       })
       .addCase(fetchCohorts.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Failed to fetch cohorts';
+        state.error = action.payload || "Failed to fetch cohorts";
       })
 
       // Fetch cohort by ID
@@ -150,7 +153,7 @@ const cohortSlice = createSlice({
       })
       .addCase(fetchCohortById.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Failed to fetch cohort';
+        state.error = action.payload || "Failed to fetch cohort";
       })
 
       // Create cohort
@@ -166,7 +169,7 @@ const cohortSlice = createSlice({
       })
       .addCase(createCohort.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Failed to create cohort';
+        state.error = action.payload || "Failed to create cohort";
         state.success = false;
       })
 
@@ -181,7 +184,7 @@ const cohortSlice = createSlice({
         state.success = true;
         const updatedCohort = action.payload.data || action.payload;
         const index = state.cohorts.findIndex(
-          (cohort) => cohort.id === updatedCohort.id
+          (cohort) => cohort.id === updatedCohort.id,
         );
         if (index !== -1) {
           state.cohorts[index] = updatedCohort;
@@ -190,7 +193,7 @@ const cohortSlice = createSlice({
       })
       .addCase(updateCohort.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Failed to update cohort';
+        state.error = action.payload || "Failed to update cohort";
         state.success = false;
       })
 
@@ -202,12 +205,12 @@ const cohortSlice = createSlice({
       .addCase(deleteCohort.fulfilled, (state, action) => {
         state.loading = false;
         state.cohorts = state.cohorts.filter(
-          (cohort) => (cohort.slug || cohort.id) !== action.payload.slug
+          (cohort) => (cohort.slug || cohort.id) !== action.payload.slug,
         );
       })
       .addCase(deleteCohort.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Failed to delete cohort';
+        state.error = action.payload || "Failed to delete cohort";
       })
 
       // Fetch cohort users
@@ -221,10 +224,15 @@ const cohortSlice = createSlice({
       })
       .addCase(fetchCohortUsers.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Failed to fetch enrolled users';
+        state.error = action.payload || "Failed to fetch enrolled users";
       });
   },
 });
 
-export const { clearCurrentCohort, clearEnrolledUsers, clearError, clearSuccess } = cohortSlice.actions;
+export const {
+  clearCurrentCohort,
+  clearEnrolledUsers,
+  clearError,
+  clearSuccess,
+} = cohortSlice.actions;
 export default cohortSlice.reducer;

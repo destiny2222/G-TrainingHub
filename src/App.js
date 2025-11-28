@@ -84,6 +84,7 @@ function App() {
                 path="cohorts/:slug/register/:cohortName"
                 element={<RegistrationForm />}
               />
+              <Route path="pay" element={<PaymentCallback />} />
 
               {/* Protected User Dashboard routes */}
               <Route element={<DashboardLayout />}>

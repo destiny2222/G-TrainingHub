@@ -2,8 +2,6 @@ import React, { useState, useMemo } from "react";
 import "./Cohort.css";
 import { IoIosSearch } from "react-icons/io";
 import { Link } from "react-router-dom";
-import { FaCalendarAlt, FaUsers } from "react-icons/fa";
-import { IoClose } from "react-icons/io5";
 import { BiCategory } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCohorts } from "../../redux/slices/frontend/cohortSlice";
@@ -17,8 +15,6 @@ function Cohort() {
     category: "",
     status: "",
   });
-  const [selectedCourse, setSelectedCourse] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   React.useEffect(() => {
     dispatch(fetchCohorts());
@@ -33,9 +29,6 @@ function Cohort() {
       const matchesSearch =
         searchTerm === "" ||
         course.course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        course.course.description
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase()) ||
         course.course.category.toLowerCase().includes(searchTerm.toLowerCase());
 
       // Category filter
@@ -47,21 +40,12 @@ function Cohort() {
       // Status filter
       const matchesStatus =
         !selectedFilters.status ||
-        course.course.status.toLowerCase() ===
-          selectedFilters.status.toLowerCase();
+        course.status.toLowerCase() === selectedFilters.status.toLowerCase();
 
       return matchesSearch && matchesCategory && matchesStatus;
     });
     return result;
   }, [cohorts, searchTerm, selectedFilters]);
-
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
 
   const truncateText = (text, maxLength = 150) => {
     return text.length > maxLength
@@ -83,10 +67,6 @@ function Cohort() {
           <h1>
             Training <span className="primary-color">Cohorts</span>
           </h1>
-          {/* <p>
-                  Explore our comprehensive training programs designed to
-                  advance your career in technology and data science.
-                </p>*/}
           <p>
             Unlock high-impact career growth. Explore our intensive programs
             designed to deliver immediate, in-demand technical authority in tech
@@ -127,6 +107,10 @@ function Cohort() {
                 <option value="Web Development">Web Development</option>
                 <option value="AI">AI</option>
                 <option value="Analytics">Analytics</option>
+                <option value="Mobile Development">Mobile Development</option>
+                <option value="Design">Design</option>
+                <option value="Business">Business</option>
+                <option value="Marketing">Marketing</option>
               </select>
             </div>
 
@@ -164,21 +148,22 @@ function Cohort() {
             <div className="courses-grid">
               {filteredCohorts.length > 0 ? (
                 filteredCohorts.map((cohort, i) => {
+                  let course = cohort.course;
                   return (
                     <article key={i} className="course-card">
                       <div className="course-card-header">
                         <div
                           className="course-image"
                           style={{
-                            backgroundImage: cohort.image
-                              ? `url(${cohort.image})`
+                            backgroundImage: course.image
+                              ? `url(${course.image})`
                               : "linear-gradient(135deg, #0a74da 0%, #487efc 100%)",
                           }}
                         >
                           <div className="course-overlay">
                             <span className="category-badge">
                               <BiCategory />
-                              {cohort.category}
+                              {course.category}
                             </span>
                             <span className={`status-badge ${cohort.status}`}>
                               {cohort.status}
@@ -188,15 +173,13 @@ function Cohort() {
                       </div>
 
                       <div className="course-card-body">
-                        <h3 className="course-title">{cohort.title}</h3>
+                        <h3 className="course-title">{course.title}</h3>
                         <p className="course-description">
-                          {truncateText(cohort.description, 120)}
+                          {truncateText(course.description, 120)}
                         </p>
 
                         <div className="course-actions">
-                          <Link
-                            to={`./${cohort.cohorts[0].id}/register/${cohort.title}`}
-                          >
+                          <Link to={`./${cohort.id}/register/${course.title}`}>
                             <button className="enroll-btn primary-btn">
                               Enroll Now
                             </button>

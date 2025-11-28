@@ -2,17 +2,17 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../../utils/api";
 
 const initialState = {
-  cohorts: [],
+  courses: [],
   loading: false,
   error: null,
 };
 
-// Fetch all cohorts (with pagination/filtering)
-export const fetchCohorts = createAsyncThunk(
-  "cohorts/fetchCohorts",
+// Fetch all courses (with pagination/filtering)
+export const fetchCourses = createAsyncThunk(
+  "courses/fetchCourses",
   async (params = {}, { rejectWithValue }) => {
     try {
-      const response = await api.get("/cohorts", { params });
+      const response = await api.get("/courses", { params });
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
@@ -20,19 +20,19 @@ export const fetchCohorts = createAsyncThunk(
   },
 );
 
-const cohortSlice = createSlice({
-  name: "cohorts",
+const courseSlice = createSlice({
+  name: "courses",
   initialState,
   extraReducers: (builder) => {
     builder
-      // Fetch cohorts
-      .addCase(fetchCohorts.pending, (state) => {
+      // Fetch courses
+      .addCase(fetchCourses.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchCohorts.fulfilled, (state, action) => {
+      .addCase(fetchCourses.fulfilled, (state, action) => {
         state.loading = false;
-        state.cohorts = action.payload.data || action.payload;
+        state.courses = action.payload.data || action.payload;
         if (action.payload.meta) {
           state.pagination = {
             total: action.payload.meta.total,
@@ -42,10 +42,10 @@ const cohortSlice = createSlice({
           };
         }
       })
-      .addCase(fetchCohorts.rejected, (state, action) => {
+      .addCase(fetchCourses.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || "Failed to fetch courses";
       });
   },
 });
-export default cohortSlice.reducer;
+export default courseSlice.reducer;

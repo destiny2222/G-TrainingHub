@@ -1,59 +1,52 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-// import { fetchCourses } from '../../../../redux/slices/frontend/courseSlice';
 import { fetchCohorts } from "../../../../redux/slices/frontend/cohortSlice";
-import { initializeCohortPayment } from "../../../../redux/slices/admin_organisation/trainingProgramSlice";
 import { toast } from "react-toastify";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import "./TrainingProgram.css";
+import api from "../../../../utils/api";
 
 const OrganizationCourseList = () => {
   const dispatch = useDispatch();
-  const { courses, loading: coursesLoading } = useSelector(
-    (state) => state.courses,
-  );
-  const { cohorts, loading: cohortsLoading } = useSelector(
-    (state) => state.cohorts,
-  );
-  // console.log('Cohorts:', cohorts);
-  // console.log('Courses:', courses);
+  const { cohorts, loading } = useSelector((state) => state.cohorts);
 
   const [searchTerm, setSearchTerm] = useState("");
+  const [Paymentloading, setPaymentLoading] = useState(false);
 
   useEffect(() => {
-    // dispatch(fetchCourses());
     dispatch(fetchCohorts());
   }, [dispatch]);
 
   const handleRegister = async (cohortId) => {
     try {
-      const resultAction = dispatch(initializeCohortPayment(cohortId));
-      if (initializeCohortPayment.fulfilled.match(resultAction)) {
-        const { authorization_url } = resultAction.payload.data;
-        if (authorization_url) {
-          window.location.href = authorization_url;
-        } else {
-          toast.error(
-            "Payment initialization failed: No authorization URL received",
-          );
-        }
+      setPaymentLoading(true);
+      const response = await api.post(
+        "/organization/trainings/cohort/initialize-payment",
+        { cohort_id: cohortId },
+      );
+      if (response.data.data.authorization_url) {
+        setPaymentLoading(false);
+        toast.success("Payment initialized successfully: Redirecting...");
+
+        setTimeout(() => {
+          window.location.href = response.data.data.authorization_url;
+        }, 2500);
       } else {
-        toast.error(resultAction.payload || "Payment initialization failed");
+        toast.error("No authorization URL received");
       }
     } catch (err) {
-      toast.error("An unexpected error occurred");
+      console.log(err);
+      toast.error("Payment initialization failed");
     }
   };
 
-  const filteredCourses = courses.filter(
-    (course) =>
-      course.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      course.description?.toLowerCase().includes(searchTerm.toLowerCase()),
+  const filteredCohorts = cohorts.filter(
+    (cohort) =>
+      cohort.course.title?.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      cohort.status === "active",
   );
-
-  const loading = coursesLoading || cohortsLoading;
 
   if (loading) {
     return (
@@ -128,15 +121,13 @@ const OrganizationCourseList = () => {
       </div>
 
       <div className="courses-list">
-        {filteredCourses.length > 0 ? (
-          filteredCourses.map((course) => {
-            const courseCohorts = cohorts.filter(
-              (c) => c.course_id === course.id,
-            );
+        {filteredCohorts.length > 0 ? (
+          filteredCohorts.map((cohort) => {
+            const courseCohorts = cohorts.filter((c) => c.id === cohort.id);
 
             return (
               <div
-                key={course.id}
+                key={cohort.id}
                 className="course-card"
                 style={{
                   background: "white",
@@ -154,10 +145,10 @@ const OrganizationCourseList = () => {
                       color: "#111827",
                     }}
                   >
-                    {course.title}
+                    {cohort.course.title}
                   </h2>
                   <p style={{ color: "#6b7280", marginTop: "0.5rem" }}>
-                    {course.description}
+                    {cohort.course.description}
                   </p>
                 </div>
 
@@ -242,9 +233,17 @@ const OrganizationCourseList = () => {
                           <button
                             onClick={() => handleRegister(cohort.id)}
                             className="btn-primary"
+                            disabled={Paymentloading}
                             style={{ width: "100%", justifyContent: "center" }}
                           >
-                            Register for Cohort
+                            {Paymentloading ? (
+                              <div
+                                className="spinner-border spinner-border-sm"
+                                role="status"
+                              ></div>
+                            ) : (
+                              "Register for Cohort"
+                            )}
                           </button>
                         </div>
                       ))}

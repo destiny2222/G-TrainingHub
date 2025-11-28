@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { verifyCohortPayment } from "../../../../redux/slices/admin_organisation/trainingProgramSlice";
 import { toast } from "react-toastify";
+import "./PaymentCallback.css";
 
 const PaymentCallback = () => {
   const location = useLocation();
@@ -49,7 +50,12 @@ const PaymentCallback = () => {
             </p>
           </>
         ) : (
-          <h3 className="payment-title">Processing...</h3>
+          <>
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+            <h3 className="payment-title">Redirecting...</h3>
+          </>
         )}
       </div>
     </div>
