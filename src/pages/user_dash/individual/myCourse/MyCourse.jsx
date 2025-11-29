@@ -2,7 +2,11 @@ import React from 'react'
 
 const MyCourse = () => {
   return (
-    <div>myCourse</div>
+    <>
+      <div className="container">
+        <h1>My Course Page</h1>
+      </div>
+    </>
   )
 }
 

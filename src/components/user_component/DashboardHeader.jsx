@@ -2,6 +2,7 @@ import { SearchNormal1, Notification, Award } from "iconsax-reactjs";
 import userProfile from "../../assets/image/testimony/testim-3.jpg";
 
 function DashboardHeader() {
+
   return (
     <header className="dashboard-header">
       <div className="search-bar-container">
@@ -18,7 +19,7 @@ function DashboardHeader() {
         <div className="user-profile d-flex align-items-center gap-3 pt-2">
           <img  src={userProfile}   alt="User Profile"  className="profile-img" />
           <div className="user-info pt-3">
-            <span className="user-name">{user?.name || 'User'}</span>
+            <span className="user-name">User</span>
             <p className="user-role">Learner</p>
           </div>
         </div>

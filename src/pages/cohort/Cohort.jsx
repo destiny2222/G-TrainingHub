@@ -72,15 +72,15 @@ function Cohort() {
     }, 1000);
   };
 
-  const openModal = (course) => {
-    setSelectedCourse(course);
-    setIsModalOpen(true);
-  };
+  // const openModal = (course) => {
+  //   setSelectedCourse(course);
+  //   setIsModalOpen(true);
+  // };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedCourse(null);
-  };
+  // const closeModal = () => {
+  //   setIsModalOpen(false);
+  //   setSelectedCourse(null);
+  // };
 
   return (
     <div>
@@ -209,7 +209,7 @@ function Cohort() {
 
                           <button
                             className="details-btn secondary-btn"
-                            onClick={() => openModal(course)}
+                            // onClick={() => openModal(course)}
                           >
                             View Details
                           </button>

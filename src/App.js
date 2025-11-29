@@ -50,6 +50,7 @@ import RegistrationForm from "./pages/register/Register";
 import PaymentCallbackForm from "./pages/register/PaymentCallback";
 import Settings from "./pages/user_dash/organization/settings/Settings.jsx";
 import MyCourse from "./pages/user_dash/individual/myCourse/MyCourse.jsx";
+import ClassRoom from "./pages/user_dash/individual/ClassRoom/ClassRoom.jsx";
 
 
 function App() {
@@ -98,6 +99,13 @@ function App() {
                 <Route path="/my-courses" element={
                     <ProtectedRoute requiredAccountType="individual">
                       <MyCourse />
+                    </ProtectedRoute>
+                  }
+                />
+
+                <Route path="/classroom/:cohortSlug" element={
+                    <ProtectedRoute requiredAccountType="individual">
+                      <ClassRoom />
                     </ProtectedRoute>
                   }
                 />

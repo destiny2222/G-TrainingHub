@@ -6,6 +6,8 @@ import orgReducer from './slices/admin_organisation/organisationSlice';
 import organizationUserReducer from './slices/organisationUserSlice';
 import analyticsReducer from './slices/admin_organisation/analyticsSlice';
 import trainingProgramReducer from './slices/admin_organisation/trainingProgramSlice';
+import classRoomReducer from './slices/classRoomSlice';
+import userEnrolledCohortReducer from './slices/userEnrolledCohortSlice';
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +18,8 @@ export const store = configureStore({
     analytics: analyticsReducer,
     trainingProgram: trainingProgramReducer,
     org: orgReducer,
+    classRooms: classRoomReducer,
+    userEnrolledCohorts: userEnrolledCohortReducer,
   },
 });
 

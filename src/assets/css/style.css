@@ -876,7 +876,7 @@ ul {
 
 .what-you-get {
     background-color: var(--white-color);
-    padding: 6rem 0;
+    padding: 10px 0 20px;
     position: relative;
 }
 
@@ -2911,7 +2911,7 @@ your-image.jpg .testimonials-title {
 /* What We Offer Section */
 .how-it-works {
     background-color: var(--white-color);
-    padding: 80px 0;
+    padding: 10px 0  20px;
     min-height: 100vh;
 }
 
@@ -3116,7 +3116,7 @@ your-image.jpg .testimonials-title {
 /* Media Partners Section */
 .media-partners-section {
     background-color: var(--white-color);
-    padding: 100px 0;
+    padding: 10px 0 20px;
     position: relative;
     overflow: hidden;
 }
