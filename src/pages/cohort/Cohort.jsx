@@ -1,51 +1,57 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import "./Cohort.css";
 import { IoIosSearch } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { FaCalendarAlt, FaUsers } from "react-icons/fa";
+import { IoClose } from "react-icons/io5";
 import { BiCategory } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCohorts } from "../../redux/slices/frontend/cohortSlice";
+import { fetchCourses } from "../../redux/slices/frontend/courseSlice";
 import Pencil from "./Pencil";
 
 function Cohort() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { cohorts, loading, error } = useSelector((state) => state.cohorts);
+  const { courses, loading, error } = useSelector((state) => state.courses);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFilters, setSelectedFilters] = useState({
     category: "",
     status: "",
   });
 
-  React.useEffect(() => {
-    dispatch(fetchCohorts());
+  useEffect(() => {
+    dispatch(fetchCourses());
   }, [dispatch]);
 
   // Filter cohorts based on search term and selected filters
-  const filteredCohorts = useMemo(() => {
-    if (!cohorts) return [];
+  const filteredCourse = useMemo(() => {
+    if (!courses) return [];
 
-    const result = cohorts.filter((course) => {
+    const result = courses.filter((course) => {
       // Search filter
       const matchesSearch =
         searchTerm === "" ||
-        course.course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        course.course.category.toLowerCase().includes(searchTerm.toLowerCase());
-
+        course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        course.description
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        course.category.toLowerCase().includes(searchTerm.toLowerCase());
       // Category filter
       const matchesCategory =
         !selectedFilters.category ||
-        course.course.category.toLowerCase() ===
+        course.category.toLowerCase() ===
           selectedFilters.category.toLowerCase();
 
       // Status filter
       const matchesStatus =
         !selectedFilters.status ||
-        course.status.toLowerCase() === selectedFilters.status.toLowerCase();
+        course.status.toLowerCase() ===
+          selectedFilters.status.toLowerCase();
 
       return matchesSearch && matchesCategory && matchesStatus;
     });
     return result;
-  }, [cohorts, searchTerm, selectedFilters]);
+  }, [courses, searchTerm, selectedFilters]);
 
   const truncateText = (text, maxLength = 150) => {
     return text.length > maxLength
@@ -58,6 +64,12 @@ function Cohort() {
       ...prev,
       [type]: value,
     }));
+  };
+
+    const handleRegisterCourse = (cohortId) => {
+    setTimeout(() => {
+      navigate('/cohort/register', { state: { cohort_id: cohortId } });
+    }, 1000);
   };
 
   return (
@@ -146,11 +158,10 @@ function Cohort() {
 
           {!loading && !error && (
             <div className="courses-grid">
-              {filteredCohorts.length > 0 ? (
-                filteredCohorts.map((cohort, i) => {
-                  let course = cohort.course;
+              {filteredCourse.length > 0 ? (
+                filteredCourse.map((course) => {
                   return (
-                    <article key={i} className="course-card">
+                    <article key={course.id} className="course-card">
                       <div className="course-card-header">
                         <div
                           className="course-image"
@@ -165,8 +176,8 @@ function Cohort() {
                               <BiCategory />
                               {course.category}
                             </span>
-                            <span className={`status-badge ${cohort.status}`}>
-                              {cohort.status}
+                            <span className={`status-badge ${course.status}`}>
+                              {course.status}
                             </span>
                           </div>
                         </div>
@@ -179,17 +190,19 @@ function Cohort() {
                         </p>
 
                         <div className="course-actions">
-                          <Link to={`./${cohort.id}/register/${course.title}`}>
-                            <button className="enroll-btn primary-btn">
-                              Enroll Now
-                            </button>
-                          </Link>
+                          <button
+                            onClick={() => handleRegisterCourse(course?.cohorts?.[0]?.id)}
+                            className="enroll-btn primary-btn"
+                          >
+                            Enroll Now
+                          </button>
 
-                          <Link to={`./${cohort.slug}/details`}>
-                            <button className="details-btn secondary-btn">
-                              View Details
-                            </button>
-                          </Link>
+                          <button
+                            className="details-btn secondary-btn"
+                            // onClick={() => openModal(course)}
+                          >
+                            View Details
+                          </button>
                         </div>
                       </div>
                     </article>

@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../utils/api";
 
-// Async thunks for API calls
+
 
 // Fetch all cohorts
 export const fetchCohorts = createAsyncThunk(
