@@ -21,11 +21,6 @@
     margin-bottom: 1rem;
 }
 
-.greeting-block p {
-    color: #718096;
-    font-size: 1rem;
-}
-
 .action-buttons {
     display: flex;
     gap: 1.2rem;
