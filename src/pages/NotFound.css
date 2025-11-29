@@ -1,169 +1,171 @@
 .not-found-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #0a0e27 0%, #1a1d35 50%, #0f1528 100%);
-  padding: 20px;
-  position: relative;
-  overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0a0e27 0%, #1a1d35 50%, #0f1528 100%);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
 }
 
 .not-found-container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(circle at 20% 50%, rgba(72, 126, 252, 0.1) 0%, transparent 50%),
-              radial-gradient(circle at 80% 50%, rgba(59, 125, 221, 0.1) 0%, transparent 50%);
-  pointer-events: none;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(
+            circle at 20% 50%,
+            rgba(72, 126, 252, 0.1) 0%,
+            transparent 50%
+        ),
+        radial-gradient(
+            circle at 80% 50%,
+            rgba(59, 125, 221, 0.1) 0%,
+            transparent 50%
+        );
+    pointer-events: none;
 }
 
 .not-found-content {
-  text-align: center;
-  color: white;
-  max-width: 600px;
-  position: relative;
-  z-index: 1;
-}
-
-.not-found-image {
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto 30px;
-  animation: float 3s ease-in-out infinite;
+    text-align: center;
+    color: white;
+    max-width: 600px;
+    position: relative;
+    z-index: 1;
 }
 
 .not-found-image svg {
-  width: 100%;
-  height: auto;
+    width: 100%;
+    height: auto;
 }
 
 .not-found-title {
-  font-size: 10rem;
-  font-weight: bold;
-  margin: 0;
-  line-height: 1;
-  background: linear-gradient(135deg, #487EFC 0%, #3b7ddd 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-shadow: 0 0 80px rgba(72, 126, 252, 0.5);
-  animation: fadeInScale 0.8s ease-out, glow 2s ease-in-out infinite alternate;
+    font-size: 10rem;
+    font-weight: bold;
+    margin: 0;
+    line-height: 1;
+    background: linear-gradient(135deg, #487efc 0%, #3b7ddd 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 80px rgba(72, 126, 252, 0.5);
+    animation:
+        fadeInScale 0.8s ease-out,
+        glow 2s ease-in-out infinite alternate;
 }
 
 .not-found-subtitle {
-  font-size: 2.5rem;
-  margin: 20px 0;
-  font-weight: 600;
-  animation: fadeInUp 0.8s ease-out 0.2s both;
+    font-size: 2.5rem;
+    margin: 20px 0;
+    font-weight: 600;
+    animation: fadeInUp 0.8s ease-out 0.2s both;
 }
 
 .not-found-text {
-  font-size: 1.2rem;
-  margin: 20px 0 40px;
-  opacity: 0.9;
-  animation: fadeInUp 0.8s ease-out 0.4s both;
+    font-size: 1.2rem;
+    margin: 20px 0 40px;
+    opacity: 0.9;
+    animation: fadeInUp 0.8s ease-out 0.4s both;
 }
 
 .not-found-btn {
-  display: inline-block;
-  padding: 15px 40px;
-  background: linear-gradient(135deg, #487EFC 0%, #3b7ddd 100%);
-  color: white;
-  text-decoration: none;
-  border-radius: 50px;
-  font-weight: 600;
-  font-size: 1.1rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 5px 20px rgba(72, 126, 252, 0.4);
-  animation: fadeInUp 0.8s ease-out 0.6s both;
-  position: relative;
-  overflow: hidden;
+    display: inline-block;
+    padding: 15px 40px;
+    background: linear-gradient(135deg, #487efc 0%, #3b7ddd 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.1s ease;
+    box-shadow: 0 5px 20px rgba(72, 126, 252, 0.4);
+    animation: fadeInUp 0.8s ease-out 0.6s both;
+    position: relative;
+    overflow: hidden;
+    border: none;
 }
 
 .not-found-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: left 0.5s;
 }
 
 .not-found-btn:hover::before {
-  left: 100%;
+    left: 100%;
 }
 
 .not-found-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 30px rgba(72, 126, 252, 0.6);
-  background: linear-gradient(135deg, #3b7ddd 0%, #487EFC 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(72, 126, 252, 0.6);
+    background: linear-gradient(135deg, #3b7ddd 0%, #487efc 100%);
 }
 
 @keyframes fadeInScale {
-  from {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes glow {
-  from {
-    filter: drop-shadow(0 0 20px rgba(72, 126, 252, 0.5));
-  }
-  to {
-    filter: drop-shadow(0 0 40px rgba(72, 126, 252, 0.8));
-  }
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
 }
 
 @media (max-width: 768px) {
-  .not-found-image {
-    max-width: 300px;
-  }
+    .not-found-image {
+        max-width: 300px;
+    }
 
-  .not-found-title {
-    font-size: 6rem;
-  }
+    .not-found-title {
+        font-size: 6rem;
+    }
 
-  .not-found-subtitle {
-    font-size: 1.8rem;
-  }
+    .not-found-subtitle {
+        font-size: 1.8rem;
+    }
 
-  .not-found-text {
-    font-size: 1rem;
-  }
+    .not-found-text {
+        font-size: 1rem;
+    }
 
-  .not-found-btn {
-    padding: 12px 30px;
-    font-size: 1rem;
-  }
+    .not-found-btn {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
 }
