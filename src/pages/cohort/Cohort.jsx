@@ -72,16 +72,6 @@ function Cohort() {
     }, 1000);
   };
 
-  // const openModal = (course) => {
-  //   setSelectedCourse(course);
-  //   setIsModalOpen(true);
-  // };
-
-  // const closeModal = () => {
-  //   setIsModalOpen(false);
-  //   setSelectedCourse(null);
-  // };
-
   return (
     <div>
       <section className="cohort-hero-section">
