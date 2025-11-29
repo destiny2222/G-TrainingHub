@@ -1,31 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import { 
-  Add, 
-  SearchNormal1, 
-  Edit2, 
-  Trash, 
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  Add,
+  SearchNormal1,
+  Edit2,
+  Trash,
   Eye,
   People,
   ArrowLeft2,
   ArrowRight2,
-  Sms
-} from 'iconsax-reactjs';
-import { toast } from 'react-toastify';
+  Sms,
+} from "iconsax-reactjs";
+import { toast } from "react-toastify";
 import {
   getOrganizationMembers,
-  deleteOrganizationMember
-} from '../../../../redux/slices/organisationUserSlice';
-import './member.css';
-
+  deleteOrganizationMember,
+} from "../../../../redux/slices/organisationUserSlice";
+import "./member.css";
 
 const MemberList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { members, loading, error } = useSelector(state => state.organizationUser);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [roleFilter, setRoleFilter] = useState('');
+  const { members, loading, error } = useSelector(
+    (state) => state.organizationUser,
+  );
+  const [searchTerm, setSearchTerm] = useState("");
+  const [roleFilter, setRoleFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
 
@@ -38,18 +39,22 @@ const MemberList = () => {
   const membersList = Array.isArray(members) ? members : [];
 
   // Filter members based on search and filters
-  const filteredMembers = membersList.filter(member => {
-    const matchesSearch = member.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         member.email?.toLowerCase().includes(searchTerm.toLowerCase());
+  const filteredMembers = membersList.filter((member) => {
+    const matchesSearch =
+      member.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      member.email?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesRole = !roleFilter || member.role === roleFilter;
-    
+
     return matchesSearch && matchesRole;
   });
 
   // Pagination
   const totalPages = Math.ceil(filteredMembers.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentMembers = filteredMembers.slice(startIndex, startIndex + itemsPerPage);
+  const currentMembers = filteredMembers.slice(
+    startIndex,
+    startIndex + itemsPerPage,
+  );
 
   // Handle page change
   const handlePageChange = (page) => {
@@ -60,7 +65,11 @@ const MemberList = () => {
 
   // Handle delete member
   const handleDeleteMember = (memberId, memberName) => {
-    if (window.confirm(`Are you sure you want to remove ${memberName} from the organization?`)) {
+    if (
+      window.confirm(
+        `Are you sure you want to remove ${memberName} from the organization?`,
+      )
+    ) {
       dispatch(deleteOrganizationMember(memberId));
       toast.success(`${memberName} has been removed from the organization.`);
     }
@@ -68,16 +77,16 @@ const MemberList = () => {
 
   const handleShowMember = (memberId) => {
     navigate(`/organization/members/${memberId}`);
-  }
+  };
 
   const handleEditMember = (memberId) => {
     navigate(`/organization/members/${memberId}/edit`);
-  }
+  };
 
   // Clear filters
   const clearFilters = () => {
-    setSearchTerm('');
-    setRoleFilter('');
+    setSearchTerm("");
+    setRoleFilter("");
     setCurrentPage(1);
   };
 
@@ -99,8 +108,8 @@ const MemberList = () => {
         <div className="alert alert-danger" role="alert">
           <h4>Error Loading Members</h4>
           <p>{error}</p>
-          <button 
-            className="btn btn-primary" 
+          <button
+            className="btn btn-primary"
             onClick={() => dispatch(getOrganizationMembers())}
           >
             Try Again
@@ -123,7 +132,7 @@ const MemberList = () => {
           Add Member
         </Link>
       </div>
-{/* Search and Filters */}
+      {/* Search and Filters */}
       <div className="search-filter-section fade-in-up">
         <div className="row align-items-center">
           <div className="col-md-8 mb-3 mb-md-0">
@@ -176,7 +185,11 @@ const MemberList = () => {
             <div className="stat-card active">
               <h6 className="stat-title">Active Members</h6>
               <div className="stat-number">
-                {membersList.filter(member => member.status?.toLowerCase() === 'active').length}
+                {
+                  membersList.filter(
+                    (member) => member.status?.toLowerCase() === "active",
+                  ).length
+                }
               </div>
             </div>
           </div>
@@ -184,7 +197,11 @@ const MemberList = () => {
             <div className="stat-card">
               <h6 className="stat-title">Inactive Members</h6>
               <div className="stat-number">
-                {membersList.filter(member => member.status?.toLowerCase() === 'inactive').length}
+                {
+                  membersList.filter(
+                    (member) => member.status?.toLowerCase() === "inactive",
+                  ).length
+                }
               </div>
             </div>
           </div>
@@ -192,7 +209,7 @@ const MemberList = () => {
             <div className="stat-card">
               <h6 className="stat-title">Roles</h6>
               <div className="stat-number">
-                {new Set(membersList.map(member => member.role)).size}
+                {new Set(membersList.map((member) => member.role)).size}
               </div>
             </div>
           </div>
@@ -211,7 +228,9 @@ const MemberList = () => {
                   <th scope="col">Phone</th>
                   <th scope="col">Status</th>
                   <th scope="col">Joined Date</th>
-                  <th scope="col" className="text-center">Actions</th>
+                  <th scope="col" className="text-center">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -220,37 +239,51 @@ const MemberList = () => {
                     <td>
                       <div className="d-flex align-items-center">
                         <div className="member-avatar">
-                          {member.name?.charAt(0)?.toUpperCase() || 'U'}
+                          {member.name?.charAt(0)?.toUpperCase() || "U"}
                         </div>
                         <div className="member-info">
-                          <h6>{member.name || 'N/A'}</h6>
+                          <h6>{member.name || "N/A"}</h6>
                           <div className="member-email">
                             <Sms size="14" />
-                            {member.email || 'N/A'}
+                            {member.email || "N/A"}
                           </div>
                         </div>
                       </div>
                     </td>
                     <td>
-                      <span className={`role-badge ${member.role?.toLowerCase() || 'member'}`}>
-                        {member.role || 'Member'}
+                      <span
+                        className={`role-badge ${member.role?.toLowerCase() || "member"}`}
+                      >
+                        {member.role || "Member"}
                       </span>
                     </td>
                     <td>
-                      <span className={`phone-badge ${member.phone ? 'has-phone' : 'no-phone'}`}>{member.phone || 'N/A'}</span>
+                      <span
+                        className={`phone-badge ${member.phone ? "has-phone" : "no-phone"}`}
+                      >
+                        {member.phone || "N/A"}
+                      </span>
                     </td>
                     <td>
-                      <span className={`status-badge ${member.status?.toLowerCase() || 'active'}`}>
-                        {member.status || 'Active'}
+                      <span
+                        className={`status-badge ${member.status?.toLowerCase() || "active"}`}
+                      >
+                        {member.status || "Active"}
                       </span>
                     </td>
                     <td className="text-muted">
-                      {member.created_at ? new Date(member.created_at).toLocaleDateString() : 'N/A'}
+                      {member.created_at
+                        ? new Date(member.created_at).toLocaleDateString()
+                        : "N/A"}
                     </td>
                     <td>
                       <div className="action-buttons">
-                        <button  className="action-btn view" onClick={() => handleShowMember(member.id)}
-                          title="View Details"  aria-label={`View details of ${member.name}`}  >
+                        <button
+                          className="action-btn view"
+                          onClick={() => handleShowMember(member.id)}
+                          title="View Details"
+                          aria-label={`View details of ${member.name}`}
+                        >
                           <Eye size="16" />
                         </button>
                         <button
@@ -261,14 +294,19 @@ const MemberList = () => {
                         >
                           <Edit2 size="16" />
                         </button>
-                        <button
-                          className="action-btn delete"
-                          onClick={() => handleDeleteMember(member.id, member.name)}
-                          title="Remove Member"
-                          aria-label={`Remove ${member.name} from organization`}
-                        >
-                          <Trash size="16" />
-                        </button>
+
+                        {member.role !== "admin" && (
+                          <button
+                            className="action-btn delete"
+                            onClick={() =>
+                              handleDeleteMember(member.id, member.name)
+                            }
+                            title="Remove Member"
+                            aria-label={`Remove ${member.name} from organization`}
+                          >
+                            <Trash size="16" />
+                          </button>
+                        )}
                       </div>
                     </td>
                   </tr>
@@ -283,13 +321,15 @@ const MemberList = () => {
             </div>
             <h5>No members found</h5>
             <p>
-              {searchTerm || roleFilter 
-                ? 'Try adjusting your search criteria or filters.'
-                : 'Start by adding your first organization member.'
-              }
+              {searchTerm || roleFilter
+                ? "Try adjusting your search criteria or filters."
+                : "Start by adding your first organization member."}
             </p>
             {!searchTerm && !roleFilter && (
-              <Link to="/organization/members/create" className="empty-state-btn">
+              <Link
+                to="/organization/members/create"
+                className="empty-state-btn"
+              >
                 <Add size="20" />
                 Add First Member
               </Link>
@@ -302,11 +342,15 @@ const MemberList = () => {
       {totalPages > 1 && (
         <div className="pagination-wrapper">
           <div className="pagination-info">
-            Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, filteredMembers.length)} of {filteredMembers.length} entries
+            Showing {startIndex + 1} to{" "}
+            {Math.min(startIndex + itemsPerPage, filteredMembers.length)} of{" "}
+            {filteredMembers.length} entries
           </div>
           <nav>
             <ul className="pagination">
-              <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+              <li
+                className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+              >
                 <button
                   className="page-link"
                   onClick={() => handlePageChange(currentPage - 1)}
@@ -321,7 +365,10 @@ const MemberList = () => {
                 const pageNum = i + Math.max(1, currentPage - 2);
                 if (pageNum > totalPages) return null;
                 return (
-                  <li key={pageNum} className={`page-item ${currentPage === pageNum ? 'active' : ''}`}>
+                  <li
+                    key={pageNum}
+                    className={`page-item ${currentPage === pageNum ? "active" : ""}`}
+                  >
                     <button
                       className="page-link"
                       onClick={() => handlePageChange(pageNum)}
@@ -332,7 +379,9 @@ const MemberList = () => {
                   </li>
                 );
               })}
-              <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+              <li
+                className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}
+              >
                 <button
                   className="page-link"
                   onClick={() => handlePageChange(currentPage + 1)}

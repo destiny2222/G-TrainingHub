@@ -70,7 +70,7 @@ export default function RegistrationForm() {
 
       setStatus({
         class: "button-success",
-        message: "Successful",
+        message: "Redirecting...",
         status: true,
       });
 
@@ -152,7 +152,7 @@ export default function RegistrationForm() {
         <div className="register-wrapper">
           <div className="user-register-left-panel">
             <div className="form-scroll-container" aria-live="polite">
-              <Link to="/cohort">
+              <Link to="/cohorts">
                 <button className="back-button">
                   <FaArrowLeft size={25} />
                 </button>

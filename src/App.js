@@ -76,8 +76,11 @@ function App() {
             <Routes>
               <Route element={<MainLayout />}>
                 <Route path="/" element={<Home />} />
-                <Route path="/cohort" element={<Cohort />} />
-                <Route path="/cohort/:id" element={<CohortDetails />} />
+                <Route path="/cohorts" element={<Cohort />} />
+                <Route
+                  path="/cohorts/:slug/details"
+                  element={<CohortDetails />}
+                />
               </Route>
               <Route  path="cohort/register"  element={<RegistrationForm />} />
               <Route path="/payment/callback" element={<PaymentCallbackForm />} />
@@ -139,7 +142,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/organization/trainings/payment/callback"
+                  path="organization/trainings/cohort/verify-payment/:reference"
                   element={
                     <ProtectedRoute requiredAccountType="organization">
                       <PaymentCallback />

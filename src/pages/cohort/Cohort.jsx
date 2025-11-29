@@ -18,8 +18,6 @@ function Cohort() {
     category: "",
     status: "",
   });
-  const [selectedCourse, setSelectedCourse] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     dispatch(fetchCourses());
@@ -54,14 +52,6 @@ function Cohort() {
     });
     return result;
   }, [courses, searchTerm, selectedFilters]);
-
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
 
   const truncateText = (text, maxLength = 150) => {
     return text.length > maxLength
@@ -99,10 +89,6 @@ function Cohort() {
           <h1>
             Training <span className="primary-color">Cohorts</span>
           </h1>
-          {/* <p>
-                  Explore our comprehensive training programs designed to
-                  advance your career in technology and data science.
-                </p>*/}
           <p>
             Unlock high-impact career growth. Explore our intensive programs
             designed to deliver immediate, in-demand technical authority in tech
@@ -143,6 +129,10 @@ function Cohort() {
                 <option value="Web Development">Web Development</option>
                 <option value="AI">AI</option>
                 <option value="Analytics">Analytics</option>
+                <option value="Mobile Development">Mobile Development</option>
+                <option value="Design">Design</option>
+                <option value="Business">Business</option>
+                <option value="Marketing">Marketing</option>
               </select>
             </div>
 
@@ -237,92 +227,6 @@ function Cohort() {
             </div>
           )}
         </div>
-
-        {/* Course Details Modal */}
-        {isModalOpen && selectedCourse && (
-          <div className="modal-overlay" onClick={closeModal}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              <div className="modal-header">
-                <h2 className="modal-title">{selectedCourse.course.title}</h2>
-                <button className="modal-close" onClick={closeModal}>
-                  <IoClose size={24} />
-                </button>
-              </div>
-
-              <div className="modal-body">
-                <div className="modal-image">
-                  <img
-                    src={
-                      selectedCourse.course.image ||
-                      "https://via.placeholder.com/400x200?text=Course+Image"
-                    }
-                    alt={selectedCourse.course.title}
-                    onError={(e) => {
-                      e.target.src =
-                        "https://via.placeholder.com/400x200?text=Course+Image";
-                    }}
-                  />
-                  <div className="modal-badges">
-                    <span className="category-badge">
-                      <BiCategory />
-                      {selectedCourse.course.category}
-                    </span>
-                    <span
-                      className={`status-badge ${selectedCourse.course.status}`}
-                    >
-                      {selectedCourse.course.status}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="modal-details">
-                  <div className="detail-section">
-                    <h3>Description</h3>
-                    <p>{selectedCourse.course.description}</p>
-                  </div>
-
-                  <div className="detail-section">
-                    <h3>Course Information</h3>
-                    <div className="course-info-grid">
-                      <div className="info-item">
-                        <FaCalendarAlt />
-                        <div>
-                          <strong>Created:</strong>
-                          <span>{formatDate(selectedCourse.created_at)}</span>
-                        </div>
-                      </div>
-                      <div className="info-item">
-                        <FaUsers />
-                        <div>
-                          <strong>Type:</strong>
-                          <span>Cohort Program</span>
-                        </div>
-                      </div>
-                      <div className="info-item">
-                        <BiCategory />
-                        <div>
-                          <strong>Category:</strong>
-                          <span>{selectedCourse.course.category}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="modal-footer">
-                <Link
-                  to={`./${selectedCourse.id}/register/${selectedCourse.course.title}`}
-                >
-                  <button className="enroll-btn primary-btn">Enroll Now</button>
-                </Link>
-                <button className="modal-close-btn" onClick={closeModal}>
-                  Close
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
       </section>
     </div>
   );

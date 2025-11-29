@@ -3,7 +3,6 @@ import api from "../../../utils/api";
 
 const initialState = {
   courses: [],
-  courseDetails: null,
   loading: false,
   error: null,
 };
@@ -21,27 +20,9 @@ export const fetchCourses = createAsyncThunk(
   },
 );
 
-// Fetch course details by ID
-export const fetchCourseDetails = createAsyncThunk(
-  "courses/fetchCourseDetails",
-  async (courseId, { rejectWithValue }) => {
-    try {
-      const response = await api.get(`/courses/${courseId}`);
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response?.data || error.message);
-    }
-  },
-);
-
 const courseSlice = createSlice({
   name: "courses",
   initialState,
-  reducers: {
-    clearCourseDetails: (state) => {
-      state.courseDetails = null;
-    },
-  },
   extraReducers: (builder) => {
     builder
       // Fetch courses
@@ -64,21 +45,7 @@ const courseSlice = createSlice({
       .addCase(fetchCourses.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || "Failed to fetch courses";
-      })
-      // Fetch course details
-      .addCase(fetchCourseDetails.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchCourseDetails.fulfilled, (state, action) => {
-        state.loading = false;
-        state.courseDetails = action.payload.data || action.payload;
-      })
-      .addCase(fetchCourseDetails.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload || "Failed to fetch course details";
       });
   },
 });
-export const { clearCourseDetails } = courseSlice.actions;
 export default courseSlice.reducer;

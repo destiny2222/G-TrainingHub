@@ -1,20 +1,20 @@
-import React from 'react';
-import { useAuth } from '../../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useAuth } from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
-const LogoutButton = ({ className = '', children = 'Logout' }) => {
+const LogoutButton = ({ className = "", children = "Logout" }) => {
   const { logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     await logout();
-    navigate('/');
+    navigate("/");
   };
 
   return (
     <button
       onClick={handleLogout}
-      className={`text-red hover:text-red-800 ${className}`}
+      style={{ backgroundColor: "transparent", color: "red", border: "none" }}
     >
       {children}
     </button>
