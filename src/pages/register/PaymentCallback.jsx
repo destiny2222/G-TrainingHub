@@ -1,45 +1,59 @@
-import React, { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { verifyCohortPayment } from "../../../../redux/slices/admin_organisation/trainingProgramSlice";
-import { toast } from "react-toastify";
+// src/pages/PaymentCallback.jsx
+import { useEffect, useState } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import api from "../../utils/api";
 import "./PaymentCallback.css";
 
-const PaymentCallback = () => {
-  const location = useLocation();
+export default function PaymentCallback() {
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { paymentLoading, paymentError, success, message } = useSelector(
-    (state) => state.trainingProgram,
-  );
+
+  const [status, setStatus] = useState("verifying"); // 'verifying' | 'success' | 'error'
+  const [message, setMessage] = useState("");
+
+  const reference = searchParams.get("reference");
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const reference = searchParams.get("reference");
+    if (!reference) {
+      setStatus("error");
+      setMessage("No payment reference provided.");
+      return;
+    }
 
-    if (reference) {
-      dispatch(verifyCohortPayment(reference));
-    } else {
-      toast.error("No payment reference found");
-      navigate("/organization/trainings/cohorts");
-    }
-  }, [dispatch, location, navigate]);
+    const verifyPayment = async () => {
+      try {
+        const res = await api.get(`/payment/verify/${reference}`);
 
-  useEffect(() => {
-    if (success && message) {
-      toast.success(message);
-      navigate("/organization/trainings/cohorts");
-    }
-    if (paymentError) {
-      toast.error(paymentError);
-      navigate("/organization/trainings/cohorts");
-    }
-  }, [success, message, paymentError, navigate]);
+        if (res.data.status === "success") {
+          setStatus("success");
+          setMessage("Payment verified! Your enrollment is complete ✅");
+
+          // Optionally redirect after a few seconds
+          // setTimeout(() => navigate("/dashboard"), 3000);
+        } else {
+          setStatus("error");
+          setMessage(
+            res.data.message ||
+              "Payment verification failed. Please contact support.",
+          );
+        }
+      } catch (err) {
+        console.error("Verification error:", err);
+        setStatus("error");
+        setMessage(
+          err.response?.data?.message ||
+            "Unable to verify payment. Please contact support.",
+        );
+      }
+    };
+
+    verifyPayment();
+  }, [reference, navigate]);
 
   return (
     <div className="payment-container">
       <div className="payment-content">
-        {paymentLoading ? (
+        {status === "verifying" && (
           <>
             <div className="spinner-border text-primary" role="status">
               <span className="visually-hidden">Loading...</span>
@@ -49,7 +63,8 @@ const PaymentCallback = () => {
               Please wait while we confirm your transaction.
             </p>
           </>
-        ) : (
+        )}
+        {status === "success" && (
           <>
             <div className="spinner-border text-primary" role="status">
               <span className="visually-hidden">Loading...</span>
@@ -57,9 +72,16 @@ const PaymentCallback = () => {
             <h3 className="payment-title">Redirecting...</h3>
           </>
         )}
+        {status === "error" && (
+          <>
+            <div className="spinner-border text-danger" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+            <h3 className="payment-title">Payment Failed</h3>
+            <p className="payment-subtitle">{message}</p>
+          </>
+        )}
       </div>
     </div>
   );
-};
-
-export default PaymentCallback;
+}

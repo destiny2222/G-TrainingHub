@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import "./Register.css";
 import api from "../../utils/api";
-import { Link, useParams, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Slider from "react-slick";
 import { FaArrowLeft } from "react-icons/fa";
 
@@ -10,8 +10,7 @@ export default function RegistrationForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const { id, cohortName} = useParams();
-  const { cohort_id } = location.state || {};
+  const { cohort_id, cohortName } = location.state || {};
   const [status, setStatus] = useState({
     status: false,
     class: "button",
@@ -57,7 +56,7 @@ export default function RegistrationForm() {
     try {
       setSubmitted(true);
       setErrorMessage("");
-       await api.post(`/cohorts/register`, formData);
+      await api.post(`/cohorts/register`, formData);
 
       // Initialize payment and redirect
 
@@ -81,7 +80,7 @@ export default function RegistrationForm() {
           return;
         }
       }
-      // 
+      //
     } catch (error) {
       setStatus({
         class: "button-error",
@@ -159,7 +158,12 @@ export default function RegistrationForm() {
               </Link>
               <div className="user-register-form-header">
                 <h1>Start Your Adventure 🚀</h1>
-                <p>Register for the cohort {cohortName}</p>
+                <p>
+                  Register for the cohort{" "}
+                  <span>
+                    <b>{cohortName}</b>
+                  </span>
+                </p>
               </div>
 
               <form

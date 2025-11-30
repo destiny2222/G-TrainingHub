@@ -1,18 +1,16 @@
 import React, { useState, useMemo, useEffect } from "react";
-import "./Cohort.css";
+import "./Cohorts.css";
 import { IoIosSearch } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
-import { FaCalendarAlt, FaUsers } from "react-icons/fa";
-import { IoClose } from "react-icons/io5";
 import { BiCategory } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCourses } from "../../redux/slices/frontend/courseSlice";
+import { fetchCohorts } from "../../redux/slices/frontend/cohortSlice";
 import Pencil from "./Pencil";
 
-function Cohort() {
+function Cohorts() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { courses, loading, error } = useSelector((state) => state.courses);
+  const { cohorts, loading, error } = useSelector((state) => state.cohorts);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFilters, setSelectedFilters] = useState({
     category: "",
@@ -20,21 +18,19 @@ function Cohort() {
   });
 
   useEffect(() => {
-    dispatch(fetchCourses());
+    dispatch(fetchCohorts());
   }, [dispatch]);
 
   // Filter cohorts based on search term and selected filters
-  const filteredCourse = useMemo(() => {
-    if (!courses) return [];
+  const filteredCohorts = useMemo(() => {
+    if (!cohorts) return [];
 
-    const result = courses.filter((course) => {
+    const result = cohorts.filter((course) => {
       // Search filter
       const matchesSearch =
         searchTerm === "" ||
         course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        course.description
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase()) ||
+        course.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
         course.category.toLowerCase().includes(searchTerm.toLowerCase());
       // Category filter
       const matchesCategory =
@@ -45,13 +41,12 @@ function Cohort() {
       // Status filter
       const matchesStatus =
         !selectedFilters.status ||
-        course.status.toLowerCase() ===
-          selectedFilters.status.toLowerCase();
+        course.status.toLowerCase() === selectedFilters.status.toLowerCase();
 
       return matchesSearch && matchesCategory && matchesStatus;
     });
     return result;
-  }, [courses, searchTerm, selectedFilters]);
+  }, [cohorts, searchTerm, selectedFilters]);
 
   const truncateText = (text, maxLength = 150) => {
     return text.length > maxLength
@@ -66,10 +61,17 @@ function Cohort() {
     }));
   };
 
-    const handleRegisterCourse = (cohortId) => {
+  const handleRegisterCourse = (cohortId) => {
+    const filteredCohorts = cohorts.find((cohort) => cohort.id === cohortId);
+
     setTimeout(() => {
-      navigate('/cohort/register', { state: { cohort_id: cohortId } });
-    }, 1000);
+      navigate("/cohort/register", {
+        state: {
+          cohort_id: cohortId,
+          cohortName: filteredCohorts.course?.title,
+        },
+      });
+    }, 250);
   };
 
   return (
@@ -158,51 +160,52 @@ function Cohort() {
 
           {!loading && !error && (
             <div className="courses-grid">
-              {filteredCourse.length > 0 ? (
-                filteredCourse.map((course) => {
+              {filteredCohorts.length > 0 ? (
+                filteredCohorts.map((cohort) => {
                   return (
-                    <article key={course.id} className="course-card">
+                    <article key={cohort.id} className="course-card">
                       <div className="course-card-header">
                         <div
                           className="course-image"
                           style={{
-                            backgroundImage: course.image
-                              ? `url(${course.image})`
+                            backgroundImage: cohort.course.image
+                              ? `url(${cohort.course.image})`
                               : "linear-gradient(135deg, #0a74da 0%, #487efc 100%)",
                           }}
                         >
                           <div className="course-overlay">
                             <span className="category-badge">
                               <BiCategory />
-                              {course.category}
+                              {cohort.category}
                             </span>
-                            <span className={`status-badge ${course.status}`}>
-                              {course.status}
+                            <span className={`status-badge ${cohort.status}`}>
+                              {cohort.status}
                             </span>
                           </div>
                         </div>
                       </div>
 
                       <div className="course-card-body">
-                        <h3 className="course-title">{course.title}</h3>
+                        <h3 className="course-title">{cohort.title}</h3>
                         <p className="course-description">
-                          {truncateText(course.description, 120)}
+                          {truncateText(cohort.course.description, 120)}
                         </p>
 
                         <div className="course-actions">
                           <button
-                            onClick={() => handleRegisterCourse(course?.cohorts?.[0]?.id)}
+                            onClick={() => handleRegisterCourse(cohort?.id)}
                             className="enroll-btn primary-btn"
                           >
                             Enroll Now
                           </button>
-
-                          <button
-                            className="details-btn secondary-btn"
-                            // onClick={() => openModal(course)}
-                          >
-                            View Details
-                          </button>
+                          <Link to={`/cohorts/${cohort.slug}/details`}>
+                            <button
+                              className="details-btn secondary-btn"
+                              // onClick={() => openModal(course)}
+                            >
+                              View Details
+                            </button>
+                          </Link>
                         </div>
                       </div>
                     </article>
@@ -222,4 +225,4 @@ function Cohort() {
   );
 }
 
-export default Cohort;
+export default Cohorts;
