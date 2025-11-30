@@ -21,13 +21,9 @@
     margin-bottom: 1rem;
 }
 
-.greeting-block p {
-    color: #718096;
-    font-size: 1rem;
-}
-
 .action-buttons {
     display: flex;
+    flex-wrap: wrap;
     gap: 1.2rem;
 }
 
@@ -38,7 +34,7 @@
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 0.8rem;
+    font-size: 1rem;
     display: flex;
     align-items: center;
     gap: 0.25rem;
@@ -75,12 +71,16 @@
     margin-bottom: 1rem;
 }
 
-.content-card {
+.card {
     background: white;
     border-radius: 12px;
-    padding: 1.5rem;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    margin-bottom: 1.5rem;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px !important;
+    margin-bottom: 2rem;
+    border: none !important;
+}
+
+.btn {
+    background-color: var(--primary-color) !important;
 }
 
 .course-item {

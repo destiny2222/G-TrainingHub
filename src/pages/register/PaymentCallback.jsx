@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import api from "../../utils/api";
+import "./PaymentCallback.css";
 
 export default function PaymentCallback() {
   const [searchParams] = useSearchParams();
@@ -32,7 +33,8 @@ export default function PaymentCallback() {
         } else {
           setStatus("error");
           setMessage(
-            res.data.message || "Payment verification failed. Please contact support."
+            res.data.message ||
+              "Payment verification failed. Please contact support.",
           );
         }
       } catch (err) {
@@ -40,7 +42,7 @@ export default function PaymentCallback() {
         setStatus("error");
         setMessage(
           err.response?.data?.message ||
-            "Unable to verify payment. Please contact support."
+            "Unable to verify payment. Please contact support.",
         );
       }
     };
@@ -49,33 +51,37 @@ export default function PaymentCallback() {
   }, [reference, navigate]);
 
   return (
-    <div className="payment-status-container">
-      {status === "verifying" && (
-        <div>
-          <h2>Verifying your payment...</h2>
-          <p>Please wait while we confirm your transaction.</p>
-        </div>
-      )}
-
-      {status === "success" && (
-        <div className="payment-success">
-          <h2>Payment Successful 🎉</h2>
-          <p>{message}</p>
-          <button onClick={() => navigate("/login")} className="btn-submit">
-            Login to Dashboard
-          </button>
-        </div>
-      )}
-
-      {status === "error" && (
-        <div className="payment-error">
-          <h2>Payment Issue 😔</h2>
-          <p>{message}</p>
-          <button onClick={() => navigate("/cohort")} className="btn-submit">
-            Back to Cohorts
-          </button>
-        </div>
-      )}
+    <div className="payment-container">
+      <div className="payment-content">
+        {status === "verifying" && (
+          <>
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+            <h3 className="payment-title">Verifying Payment...</h3>
+            <p className="payment-subtitle">
+              Please wait while we confirm your transaction.
+            </p>
+          </>
+        )}
+        {status === "success" && (
+          <>
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+            <h3 className="payment-title">Redirecting...</h3>
+          </>
+        )}
+        {status === "error" && (
+          <>
+            <div className="spinner-border text-danger" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+            <h3 className="payment-title">Payment Failed</h3>
+            <p className="payment-subtitle">{message}</p>
+          </>
+        )}
+      </div>
     </div>
   );
 }

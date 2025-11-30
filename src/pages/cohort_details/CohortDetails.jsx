@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { IoChevronDown } from "react-icons/io5";
 import "./CohortDetails.css";
 import { useMemo } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCourses } from "../../redux/slices/frontend/courseSlice";
+import { useNavigate } from "react-router-dom";
 
 const CohortDetails = () => {
   const { courses, loading, error } = useSelector((state) => state.courses);
@@ -13,32 +14,32 @@ const CohortDetails = () => {
 
   const dispatch = useDispatch();
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     dispatch(fetchCourses());
   }, [dispatch]);
 
   // Slug filter
-  const filteredCourses = useMemo(() => {
-    if (!courses) return [];
-
+  const filteredCourse = useMemo(() => {
     const result = courses.filter((course) => {
       const matchesSearch = course.cohorts[0].slug === slug;
       return matchesSearch;
     });
     return result[0];
   }, [courses, slug]);
-
+  console.log();
   const [expandedSections, setExpandedSections] = useState({});
 
   useEffect(() => {
-    if (filteredCourses?.curriculum) {
+    if (filteredCourse?.curriculum) {
       setExpandedSections(
         Object.fromEntries(
-          filteredCourses.curriculum.map((item) => [item.title, false]),
+          filteredCourse.curriculum.map((item) => [item.title, false]),
         ),
       );
     }
-  }, [filteredCourses]);
+  }, [filteredCourse]);
 
   const toggleSection = (section) => {
     setExpandedSections((prev) => ({
@@ -53,27 +54,32 @@ const CohortDetails = () => {
       day: "numeric",
     });
   };
-
+  const handleRegisterCourse = (cohortId) => {
+    setTimeout(() => {
+      navigate("/cohort/register", {
+        state: { cohort_id: cohortId, cohortName: filteredCourse?.title },
+      });
+    }, 250);
+  };
   return (
     <div className="details-container">
       <div className="hero">
-        {/* <button className="close-btn">
-          <IoClose size={24} />
-        </button>*/}
         <h1>August 2025 Live Cohort</h1>
         <p>
           Join our comprehensive program for master of start Machine Learning,
           curated by industry experts in a hands-on, collaborative environment.
         </p>
         <div className="buttons">
-          <Link
-            to={`/cohorts/${filteredCourses?.cohorts[0].id}/register/${filteredCourses?.title}`}
-          >
-            <div className="enroll">
-              <button className="btn-primary">Enroll Now</button>
-            </div>
-          </Link>
-
+          <div className="enroll">
+            <button
+              className="btn-primary"
+              onClick={() =>
+                handleRegisterCourse(filteredCourse?.cohorts[0]?.id)
+              }
+            >
+              Enroll Now
+            </button>
+          </div>
           <div className="brochure">
             <button className="btn-secondary">Download Brochure</button>
           </div>
@@ -81,15 +87,16 @@ const CohortDetails = () => {
       </div>
 
       <div className="description">
-        <h2>{filteredCourses?.title || ""}</h2>
+        <h2>{filteredCourse?.title || ""}</h2>
         <hr />
-        {loading && (
+        {loading ? (
           <div className="loading-container">
             <div className="loading-spinner"></div>
             <p>Loading Description...</p>
           </div>
+        ) : (
+          <p>{filteredCourse?.description || ""}</p>
         )}
-        <p>{filteredCourses?.description || ""}</p>
       </div>
 
       <div className="content-grid">
@@ -105,7 +112,7 @@ const CohortDetails = () => {
 
           {!loading && !error && (
             <>
-              {filteredCourses?.curriculum.map((item, index) => (
+              {filteredCourse?.curriculum.map((item, index) => (
                 <div className="curriculum-item" key={index}>
                   <div
                     className="curriculum-header"
@@ -136,8 +143,8 @@ const CohortDetails = () => {
             <ul>
               {!loading && !error && (
                 <>
-                  {filteredCourses?.prerequisite?.length > 0 ? (
-                    filteredCourses.prerequisite.map((prerequisite, index) => (
+                  {filteredCourse?.prerequisite?.length > 0 ? (
+                    filteredCourse.prerequisite.map((prerequisite, index) => (
                       <li key={index}>{prerequisite.title}</li>
                     ))
                   ) : (
@@ -151,72 +158,46 @@ const CohortDetails = () => {
             <div className="starting">
               <h6>Starting Date:</h6>
               {loading && <div className="loading-spinner"></div>}
-              {filteredCourses?.cohorts[0]?.start_date && (
-                <p>{formatDate(filteredCourses.cohorts[0].start_date)}</p>
+              {filteredCourse?.cohorts[0]?.start_date && (
+                <p>{formatDate(filteredCourse.cohorts[0].start_date)}</p>
               )}
             </div>
             <div className="ending">
               <h6>Ending Date:</h6>
               {loading && <div className="loading-spinner"></div>}
-              {filteredCourses?.cohorts[0]?.start_date && (
-                <p>{formatDate(filteredCourses.cohorts[0].end_date)}</p>
+              {filteredCourse?.cohorts[0]?.start_date && (
+                <p>{formatDate(filteredCourse.cohorts[0].end_date)}</p>
               )}
             </div>
             <div className="duration">
               <h6>Duration:</h6>
               {loading && <div className="loading-spinner"></div>}
-              {filteredCourses?.cohorts[0]?.start_date && (
-                <p>{filteredCourses.cohorts[0].duration}</p>
+              {filteredCourse?.cohorts[0]?.start_date && (
+                <p>{filteredCourse.cohorts[0].duration}</p>
               )}
             </div>
           </div>
         </div>
-
-        {/* <div className="calendar-section">
-          <h2>Live Sessions Calendar</h2>
-          <div className="calendar">
-            <div className="calendar-header">
-              <button onClick={() => navigateMonth("prev")}>
-                <IoChevronBack size={20} />
-              </button>
-              <span>
-                {monthNames[currentMonth]} {currentYear}
-              </span>
-              <button onClick={() => navigateMonth("next")}>
-                <IoChevronForward size={20} />
-              </button>
-            </div>
-            <div className="calendar-weekdays">
-              <div>S</div>
-              <div>M</div>
-              <div>T</div>
-              <div>W</div>
-              <div>T</div>
-              <div>F</div>
-              <div>S</div>
-            </div>
-            <div className="calendar-grid">{renderCalendar()}</div>
-          </div>
-        </div>*/}
       </div>
       <div className="pricing">
         <h2>Pricing</h2>
         <hr />
         <p>
           <span className="naira">N</span>
-          {filteredCourses?.cohorts[0]?.price && (
-            <>{parseFloat(filteredCourses.cohorts[0].price).toLocaleString()}</>
+          {filteredCourse?.cohorts[0]?.price && (
+            <>{parseFloat(filteredCourse.cohorts[0].price).toLocaleString()}</>
           )}
         </p>
       </div>
 
-      <Link
-        to={`/cohorts/${filteredCourses?.cohorts[0].id}/register/${filteredCourses?.title}`}
-      >
-        <div className="enroll">
-          <button className="btn-primary">Enroll Now</button>
-        </div>
-      </Link>
+      <div className="enroll">
+        <button
+          className="btn-primary"
+          onClick={() => handleRegisterCourse(filteredCourse?.cohorts[0]?.id)}
+        >
+          Enroll Now
+        </button>
+      </div>
 
       <div className="instructors-section">
         <h2>Instructors & Guest Speakers</h2>

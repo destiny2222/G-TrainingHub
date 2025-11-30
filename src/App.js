@@ -5,7 +5,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import Home from "./pages/home/Home";
-import Cohort from "./pages/cohort/Cohort";
+import Cohorts from "./pages/cohort/Cohorts";
 import Dashboard from "./pages/user_dash/Dashboard";
 import OrganizationDashboard from "./pages/user_dash/OrganizationDashboard";
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -52,7 +52,6 @@ import Settings from "./pages/user_dash/organization/settings/Settings.jsx";
 import MyCourse from "./pages/user_dash/individual/myCourse/MyCourse.jsx";
 import ClassRoom from "./pages/user_dash/individual/ClassRoom/ClassRoom.jsx";
 
-
 function App() {
   const location = useLocation();
   useScrollAnimation(location);
@@ -77,48 +76,57 @@ function App() {
             <Routes>
               <Route element={<MainLayout />}>
                 <Route path="/" element={<Home />} />
-                <Route path="/cohorts" element={<Cohort />} />
+                <Route path="/cohorts" element={<Cohorts />} />
                 <Route
                   path="/cohorts/:slug/details"
                   element={<CohortDetails />}
                 />
               </Route>
-              <Route  path="cohort/register"  element={<RegistrationForm />} />
-              <Route path="/payment/callback" element={<PaymentCallbackForm />} />
-              
-              
+              <Route path="cohort/register" element={<RegistrationForm />} />
+              <Route
+                path="/payment/callback"
+                element={<PaymentCallbackForm />}
+              />
+
               {/* Protected User Dashboard routes */}
               <Route element={<DashboardLayout />}>
-                <Route path="/dashboard" element={
+                <Route
+                  path="/dashboard"
+                  element={
                     <ProtectedRoute requiredAccountType="individual">
                       <Dashboard />
                     </ProtectedRoute>
                   }
                 />
 
-                <Route path="/my-courses" element={
+                <Route
+                  path="/my-courses"
+                  element={
                     <ProtectedRoute requiredAccountType="individual">
                       <MyCourse />
                     </ProtectedRoute>
                   }
                 />
 
-                <Route path="/classroom/:cohortSlug" element={
+                <Route
+                  path="/classroom/:cohortSlug"
+                  element={
                     <ProtectedRoute requiredAccountType="individual">
                       <ClassRoom />
                     </ProtectedRoute>
                   }
                 />
 
-
-                <Route  path="/organization/dashboard"
-                  element={ 
+                <Route
+                  path="/organization/dashboard"
+                  element={
                     <ProtectedRoute requiredAccountType="organization">
                       <OrganizationDashboard />
                     </ProtectedRoute>
                   }
                 />
-                <Route path="/organization/members"
+                <Route
+                  path="/organization/members"
                   element={
                     <ProtectedRoute requiredAccountType="organization">
                       <MemberList />
@@ -213,11 +221,14 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
-                <Route path="/organization/settings" element={
-                  <ProtectedRoute requiredAccountType="organization">
-                    <Settings />
-                  </ProtectedRoute>
-                } />
+                <Route
+                  path="/organization/settings"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      <Settings />
+                    </ProtectedRoute>
+                  }
+                />
               </Route>
 
               {/* Auth routes (login, register, etc.) */}

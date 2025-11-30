@@ -7,7 +7,6 @@ import {
   Award,
   MagicStar,
   Chart,
-  Category,
   Logout,
 } from "iconsax-reactjs";
 import { FaBookOpenReader } from "react-icons/fa6";
@@ -49,7 +48,7 @@ function Sidebar() {
             </Link>
           </li>
           <li>
-            <Link to="/library" className={isActive('/library')}>
+            <Link to="/library" className={isActive("/library")}>
               <FaBookOpenReader size="20" />
               <span>Library</span>
             </Link>
@@ -88,9 +87,9 @@ function Sidebar() {
       </nav>
 
       <div className="sidebar-bottom-links">
-        <div className="logout-section logout-container">
-          <Logout size="20" variant="Bulk" className='logout'/>
-          <LogoutButton className="sidebar-ul-link"/>
+        <div className="logout-section">
+          <Logout size="20" variant="Bulk" className="logout" />
+          <LogoutButton className="sidebar-ul-link" />
         </div>
       </div>
     </aside>
