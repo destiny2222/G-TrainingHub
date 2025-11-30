@@ -29,7 +29,7 @@ export default function PaymentCallback() {
           setMessage("Payment verified! Your enrollment is complete ✅");
 
           // Optionally redirect after a few seconds
-          // setTimeout(() => navigate("/dashboard"), 3000);
+          setTimeout(() => navigate("/login"), 3000);
         } else {
           setStatus("error");
           setMessage(
@@ -69,7 +69,7 @@ export default function PaymentCallback() {
             <div className="spinner-border text-primary" role="status">
               <span className="visually-hidden">Loading...</span>
             </div>
-            <h3 className="payment-title">Redirecting...</h3>
+            <h3 className="payment-title">{message} redirecting...</h3>
           </>
         )}
         {status === "error" && (
