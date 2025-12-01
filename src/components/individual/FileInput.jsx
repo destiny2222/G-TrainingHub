@@ -7,24 +7,32 @@ export default function FileInput({ isOpen, setIsOpen }) {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(null);
   const [dragOver, setDragOver] = useState(false);
-  // const [filePath, setFilePath] = useState("");
-  // const responses = await api('/user/assignments/submit',{
-
-  // })
   const [description, setDescription] = useState("");
+  const cloudName = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
+  const uploadPreset = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
 
   const handleUpload = async () => {
     if (!file) return;
+
     const formData = new FormData();
-    formData.append("file_paths", file);
-    formData.append("description", description || "");
+
+    formData.append("file", file);
+    formData.append("upload_preset", uploadPreset); // 👈 your preset name
+    formData.append("folder", "individual/assignments");
     for (const pair of formData.entries()) {
       console.log("formdata entry:", pair[0], pair[1]);
     }
 
     try {
       setLoading(true);
-      await api.post("/user/assignments/submit", formData);
+      const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
+      console.log(res);
     } catch (error) {
       setError(`Error: ${error}`);
     } finally {
