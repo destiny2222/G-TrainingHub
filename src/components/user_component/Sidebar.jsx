@@ -24,13 +24,7 @@ function Sidebar() {
   return (
     <aside className="sidebar-dashboard">
       <div className="sidebar-logo">
-        <img
-          src="./logo.png"
-          alt=""
-          className="logo-img"
-          style={{ width: "100px" }}
-        />
-        <h2 className="logo-text">TRAINING HUB</h2>
+        <img src="./logo.png" alt="GritinAI Logo" className="logo-img" style={{ width: "100px" }} />
       </div>
 
       <nav className="sidebar-navigation">

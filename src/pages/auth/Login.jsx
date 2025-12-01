@@ -126,14 +126,13 @@ const Login = () => {
         }
       }
     } catch (error) {
-      console.error("Login error:", error);
       toast.error("An unexpected error occurred. Please try again.");
     }
   };
 
   // Handle forgot password
   const handleForgotPassword = () => {
-    navigate("/forgot-password");
+    navigate("/forget-password");
   };
 
   // Slider settings
