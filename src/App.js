@@ -51,6 +51,8 @@ import PaymentCallbackForm from "./pages/register/PaymentCallback";
 import Settings from "./pages/user_dash/organization/settings/Settings.jsx";
 import MyCourse from "./pages/user_dash/individual/myCourse/MyCourse.jsx";
 import ClassRoom from "./pages/user_dash/individual/ClassRoom/ClassRoom.jsx";
+import ForgotPassword from "./pages/auth/ForgotPassword.jsx";
+import ResetPassword from "./pages/auth/ResetPassword.jsx";
 
 function App() {
   const location = useLocation();
@@ -77,16 +79,10 @@ function App() {
               <Route element={<MainLayout />}>
                 <Route path="/" element={<Home />} />
                 <Route path="/cohorts" element={<Cohorts />} />
-                <Route
-                  path="/cohorts/:slug/details"
-                  element={<CohortDetails />}
-                />
+                <Route  path="/cohorts/:slug/details" element={<CohortDetails />}  />
               </Route>
               <Route path="cohort/register" element={<RegistrationForm />} />
-              <Route
-                path="/payment/callback"
-                element={<PaymentCallbackForm />}
-              />
+              <Route path="/payment/callback"  element={<PaymentCallbackForm />} />
 
               {/* Protected User Dashboard routes */}
               <Route element={<DashboardLayout />}>
@@ -234,14 +230,13 @@ function App() {
               {/* Auth routes (login, register, etc.) */}
               <Route element={<AuthLayout />}>
                 <Route path="/admin/login" element={<AdminLogin />} />
-                <Route
-                  path="/organization/register"
-                  element={<Organizationregister />}
-                />
+                <Route  path="/organization/register" element={<Organizationregister />}  />
                 <Route path="/verification" element={<VerificationPending />} />
                 <Route path="/verify-organization" element={<VerifyEmail />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/organization/login" element={<Login />} />
+                <Route path="/forget-password" element={<ForgotPassword />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
               </Route>
 
               {/* Protected Admin routes */}
