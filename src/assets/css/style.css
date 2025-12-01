@@ -1952,12 +1952,12 @@ your-image.jpg .testimonials-title {
     color: var(--black-dark);
 }
 
-.custom-card{
+/*.custom-card{
     border-radius: 12px !important;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px !important;
     transition: box-shadow 0.3s ease !important;
     border: none !important;
-}
+}*/
 
 .organization-dashboard-main-section .card {
     border-left: 4px solid var(--primary-color);

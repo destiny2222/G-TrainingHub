@@ -51,11 +51,11 @@ function Dashboard() {
 
   return (
     <div className="dashboard-main-section">
-      <div className="container p-4 min-vh-100">
+      <div className="wrapper p-4 min-vh-100">
         {/* Welcome Section */}
-        <section className="mb-4 d-flex justify-content-between align-items-center">
-          <div className="welcome-head">
-            <h1 className="welcome-text-title animate-text-color">
+        <section className=" header-area">
+          <div className="greeting-block">
+            <h1 className="">
               {isLoading ? <Skeleton width={200} /> : "Welcome back, Alex!"}
             </h1>
           </div>
@@ -69,13 +69,13 @@ function Dashboard() {
               />
             ) : (
               <div className="action-buttons">
-                <button className="act-button custom-card">
+                <button className="act-button">
                   <Award /> Download Certificates
                 </button>
-                <button className="act-button custom-card">
+                <button className="act-button">
                   <Book /> Book a Mentor
                 </button>
-                <button className=" act-button custom-card">
+                <button className="act-button">
                   <Profile /> Access Career Guide
                 </button>
               </div>

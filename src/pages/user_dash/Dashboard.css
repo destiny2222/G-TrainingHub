@@ -1,6 +1,14 @@
 /* Vibrant animated gradient text effect for welcome text */
 .animate-text-color {
-    background: linear-gradient(270deg, #007bff, #28a745, #ffc107, #17a2b8, #e83e8c, #007bff);
+    background: linear-gradient(
+        270deg,
+        #007bff,
+        #28a745,
+        #ffc107,
+        #17a2b8,
+        #e83e8c,
+        #007bff
+    );
     background-size: 1200% 1200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -31,16 +39,15 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.5rem;
-    border-radius: 12px;
-    margin-bottom: 2rem;
+
+    margin-bottom: 5rem;
     gap: 1.4rem;
 }
 .dashboard-main-section {
     position: relative !important;
 }
 .greeting-block h1 {
-    font-size: 2rem;
+    font-size: 3.5rem;
     font-weight: 600;
     margin-bottom: 1rem;
 }
@@ -48,7 +55,7 @@
 .action-buttons {
     display: flex;
     flex-wrap: wrap;
-    gap: 1.2rem;
+    gap: 0.8rem !important;
 }
 
 .act-button {
@@ -58,6 +65,7 @@
     border: none;
     border-radius: 8px;
     cursor: pointer;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px !important;
     font-size: 1rem;
     display: flex;
     align-items: center;
@@ -95,21 +103,23 @@
     margin-bottom: 1rem;
 }
 
-/* .card {
+.card {
     background: white;
     border-radius: 12px;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px !important;
     margin-bottom: 2rem;
     border: none !important;
-} */
+}
 
-.custom-card{
+/*.custom-card {
     border-radius: 12px !important;
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px !important;
+    box-shadow:
+        rgba(0, 0, 0, 0.3) 0px 19px 38px,
+        rgba(0, 0, 0, 0.22) 0px 15px 12px !important;
     transition: box-shadow 0.3s ease !important;
     border: none !important;
-    /* margin-bottom: 2rem !important; */
-} 
+    /* margin-bottom: 2rem !important;
+}*/
 
 .btn {
     background-color: var(--primary-color) !important;
