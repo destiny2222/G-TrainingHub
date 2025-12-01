@@ -8,30 +8,27 @@ export default function FileInput({ isOpen, setIsOpen }) {
   const [loading, setLoading] = useState(null);
   const [dragOver, setDragOver] = useState(false);
   const [description, setDescription] = useState("");
-  const cloudName = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
-  const uploadPreset = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
 
   const handleUpload = async () => {
     if (!file) return;
 
     const formData = new FormData();
 
-    formData.append("file", file);
-    formData.append("upload_preset", uploadPreset); // 👈 your preset name
-    formData.append("folder", "individual/assignments");
+    formData.append("file_paths", file);
+    formData.append("description", description);
+
+    // Debug: Log formData entries
     for (const pair of formData.entries()) {
       console.log("formdata entry:", pair[0], pair[1]);
     }
 
     try {
       setLoading(true);
-      const res = await fetch(
-        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-        {
-          method: "POST",
-          body: formData,
+      const res = await api.post("user/assignments/submit", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
         },
-      );
+      }); 
       console.log(res);
     } catch (error) {
       setError(`Error: ${error}`);
@@ -47,43 +44,9 @@ export default function FileInput({ isOpen, setIsOpen }) {
   // validateFile returns boolean and sets state (file/error)
   const validateFile = (f) => {
     const MAX_SIZE = 10 * 1024 * 1024; // 10 MB
-    const validTypes = new Set([
-      "application/pdf", // .pdf
-      "application/msword", // .doc
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
-      "text/plain", // .txt
-      "text/csv", // .csv
-      "image/jpeg", // .jpg, .jpeg
-      "image/png", // .png
-    ]);
-    const validExtensions = new Set([
-      "pdf",
-      "doc",
-      "docx",
-      "txt",
-      "csv",
-      "jpg",
-      "jpeg",
-      "png",
-    ]);
     if (!f) {
       setFile(null);
       setError("No file selected.");
-      return false;
-    }
-
-    // MIME type check (may be empty or generic on some browsers)
-    const typeOk = f.type && validTypes.has(f.type);
-
-    // Extension fallback
-    const ext = (f.name || "").split(".").pop().toLowerCase();
-    const extOk = validExtensions.has(ext);
-
-    if (!typeOk && !extOk) {
-      setFile(null);
-      setError(
-        "Invalid file type. Allowed: PDF, DOC, DOCX, TXT, CSV, JPG, JPEG, PNG.",
-      );
       return false;
     }
 
@@ -93,7 +56,7 @@ export default function FileInput({ isOpen, setIsOpen }) {
       return false;
     }
 
-    // valid
+    // Accept any file type and extension
     setFile(f);
     setError(null);
     return true;

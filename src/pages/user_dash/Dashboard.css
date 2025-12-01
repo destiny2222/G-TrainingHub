@@ -46,11 +46,7 @@
 .dashboard-main-section {
     position: relative !important;
 }
-.greeting-block h1 {
-    font-size: 3.5rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-}
+
 
 .action-buttons {
     display: flex;
@@ -111,15 +107,14 @@
     border: none !important;
 }
 
-/*.custom-card {
+.custom-card {
     border-radius: 12px !important;
     box-shadow:
         rgba(0, 0, 0, 0.3) 0px 19px 38px,
         rgba(0, 0, 0, 0.22) 0px 15px 12px !important;
     transition: box-shadow 0.3s ease !important;
     border: none !important;
-    /* margin-bottom: 2rem !important;
-}*/
+}
 
 .btn {
     background-color: var(--primary-color) !important;
