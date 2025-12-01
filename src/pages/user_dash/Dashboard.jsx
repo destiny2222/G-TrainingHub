@@ -1,6 +1,6 @@
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import cohortImage from "../../assets/image/background/background.jpeg";
 import { Award, Profile, Book } from "iconsax-reactjs";
 import { fetchClassRooms } from "../../redux/slices/classRoomSlice";
@@ -8,6 +8,7 @@ import { fetchUserEnrolledCohorts } from "../../redux/slices/userEnrolledCohortS
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
+import FileInput from "../../components/individual/FileInput";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -25,6 +26,8 @@ function Dashboard() {
   const cohortSlug = cohort?.slug;
 
   const lastFetchedSlug = useRef();
+
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     dispatch(fetchUserEnrolledCohorts());
@@ -49,19 +52,11 @@ function Dashboard() {
   return (
     <div className="dashboard-main-section">
       <div className="container p-4 min-vh-100">
-        {/* Welcome Section */}
         <section className="p-4 mb-4 d-flex justify-content-between align-items-center">
           <div className="welcome-head">
             <h1 className="welcome-text-title">
               {isLoading ? <Skeleton width={200} /> : "Welcome back, Alex!"}
             </h1>
-            <p className="welcome-text-subtitle mb-3">
-              {isLoading ? (
-                <Skeleton width={250} />
-              ) : (
-                "You have 2 assignments due this week."
-              )}
-            </p>
           </div>
           <div className="d-flex flex-wrap justify-content-end">
             {isLoading ? (
@@ -87,7 +82,6 @@ function Dashboard() {
           </div>
         </section>
 
-        {/* Main Content Grid */}
         <div className="row">
           <div className="col-12 col-lg-8 d-flex flex-column">
             {/* Ongoing Courses */}
@@ -126,7 +120,7 @@ function Dashboard() {
                         <div
                           className="progress-fill"
                           role="progressbar"
-                          style={{ width: "80%" }}
+                          style={{ width: "30%" }}
                           aria-valuenow="60"
                           aria-valuemin="0"
                           aria-valuemax="100"
@@ -162,7 +156,6 @@ function Dashboard() {
             </div>
           </div>
 
-          {/* Class Recap*/}
           <div className="col-12 col-lg-4 d-flex flex-column">
             <h2 className="h5 fw-semibold mb-3">Class Recap Videos</h2>
             <div className="card shadow-sm mb-3">
@@ -243,7 +236,25 @@ function Dashboard() {
         <div className="row">
           <div className="col-12 col-lg-8">
             {/* Assignments & Scores */}
-            <h2 className="h5 fw-semibold mb-3">Assignments & Scores</h2>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginBottom: "1rem",
+                alignItems: "flex-end",
+                gap: "12rem",
+              }}
+            >
+              <h2 className="h5 fw-semibold mb-3">Assignments {"& Scores"}</h2>
+              <button
+                className="primary-btn"
+                onClick={() => {
+                  setIsOpen(true);
+                }}
+              >
+                {isLoading ? <Skeleton width={100} /> : "Submit Assignment"}
+              </button>
+            </div>
             <div className="card shadow-sm">
               <div className="card-body">
                 <div className="table-responsive">
@@ -340,6 +351,7 @@ function Dashboard() {
           </div>
         </div>
       </div>
+      <FileInput isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
 }
