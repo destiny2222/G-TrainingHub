@@ -53,6 +53,9 @@ import MyCourse from "./pages/user_dash/individual/myCourse/MyCourse.jsx";
 import ClassRoom from "./pages/user_dash/individual/ClassRoom/ClassRoom.jsx";
 import ForgotPassword from "./pages/auth/ForgotPassword.jsx";
 import ResetPassword from "./pages/auth/ResetPassword.jsx";
+import ClassRecapMaterials from "./pages/admin/RecapMaterial/List.jsx";
+import RecapMaterialCreate from "./pages/admin/RecapMaterial/Create.jsx";
+import RecapMaterialEdit from "./pages/admin/RecapMaterial/Edit.jsx";
 
 function App() {
   const location = useLocation();
@@ -264,6 +267,9 @@ function App() {
                 <Route path="cohorts/create" element={<CohortCreate />} />
                 <Route path="cohorts/edit/:slug" element={<CohortEdit />} />
                 <Route path="cohorts/:slug" element={<CohortsDetails />} />
+                <Route path="class-recap-materials" element={<ClassRecapMaterials />} />
+                <Route path="recap-material/create" element={<RecapMaterialCreate />} />
+                <Route path="recap-material/edit/:slug" element={<RecapMaterialEdit />} />
               </Route>
 
               {/* Unauthorized page */}

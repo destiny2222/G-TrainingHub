@@ -308,7 +308,15 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: 60%;
 }
+
+@media screen and (max-width:768px) {
+    .file-modal{
+        width: 100%;
+    }
+}
+
 .spinner-sm {
     width: 2rem !important;
     height: 2rem !important;

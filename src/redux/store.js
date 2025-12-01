@@ -8,6 +8,8 @@ import analyticsReducer from './slices/admin_organisation/analyticsSlice';
 import trainingProgramReducer from './slices/admin_organisation/trainingProgramSlice';
 import classRoomReducer from './slices/classRoomSlice';
 import userEnrolledCohortReducer from './slices/userEnrolledCohortSlice';
+import  recapMaterialReducer from './slices/super_admin/RecapMaterial';
+
 
 export const store = configureStore({
   reducer: {
@@ -20,6 +22,7 @@ export const store = configureStore({
     org: orgReducer,
     classRooms: classRoomReducer,
     userEnrolledCohorts: userEnrolledCohortReducer,
+    recapMaterials: recapMaterialReducer,
   },
 });
 

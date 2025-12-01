@@ -38,6 +38,11 @@ const AdminSidebar = ({ isOpen, onClose }) => {
           </Link>
         </li>
         <li>
+          <Link to="/admin/class-recap-materials" onClick={onClose}>
+            <ClipboardText size="20" variant="Outline" /> Recap Material
+          </Link>
+        </li>
+        <li>
           <Link to="/admin/certificate-issuance" onClick={onClose}>
             <Award size="20" variant="Outline" /> Certificate Issuance
           </Link>
