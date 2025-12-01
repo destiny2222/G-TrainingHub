@@ -50,9 +50,9 @@ function Dashboard() {
     <div className="dashboard-main-section">
       <div className="container p-4 min-vh-100">
         {/* Welcome Section */}
-        <section className="p-4 mb-4 d-flex justify-content-between align-items-center">
+        <section className="mb-4 d-flex justify-content-between align-items-center">
           <div className="welcome-head">
-            <h1 className="welcome-text-title">
+            <h1 className="welcome-text-title animate-text-color">
               {isLoading ? <Skeleton width={200} /> : "Welcome back, Alex!"}
             </h1>
             <p className="welcome-text-subtitle mb-3">
@@ -73,13 +73,13 @@ function Dashboard() {
               />
             ) : (
               <div className="action-buttons">
-                <button className="act-button">
+                <button className="act-button custom-card">
                   <Award /> Download Certificates
                 </button>
-                <button className="act-button">
+                <button className="act-button custom-card">
                   <Book /> Book a Mentor
                 </button>
-                <button className=" act-button">
+                <button className=" act-button custom-card">
                   <Profile /> Access Career Guide
                 </button>
               </div>
@@ -94,7 +94,7 @@ function Dashboard() {
             <h2 className="h5 fw-semibold mb-3">
               {canJoin ? "Continue Learning" : "Upcoming Class"}
             </h2>
-            <div className="card  mb-4">
+            <div className="card custom-card  mb-4">
               <div className="card-body">
                 <div className="d-flex align-items-center">
                   {isLoading ? (
@@ -165,7 +165,7 @@ function Dashboard() {
           {/* Class Recap*/}
           <div className="col-12 col-lg-4 d-flex flex-column">
             <h2 className="h5 fw-semibold mb-3">Class Recap Videos</h2>
-            <div className="card shadow-sm mb-3">
+            <div className="card custom-card mb-3">
               <div className="card-body">
                 <div className="d-flex align-items-center">
                   <div
@@ -202,7 +202,7 @@ function Dashboard() {
                 </div>
               </div>
             </div>
-            <div className="card shadow-sm mb-4">
+            <div className="card custom-card mb-4">
               <div className="card-body">
                 <div className="d-flex align-items-center">
                   {isLoading ? (
@@ -244,7 +244,7 @@ function Dashboard() {
           <div className="col-12 col-lg-8">
             {/* Assignments & Scores */}
             <h2 className="h5 fw-semibold mb-3">Assignments & Scores</h2>
-            <div className="card shadow-sm">
+            <div className="card custom-card">
               <div className="card-body">
                 <div className="table-responsive">
                   {isLoading ? (
@@ -303,7 +303,7 @@ function Dashboard() {
           </div>
           <div className="col-12 col-lg-4">
             <h2 className="h5 fw-semibold mb-3">Tech Library</h2>
-            <div className="card shadow-sm">
+            <div className="card custom-card">
               <div className="card-body">
                 {isLoading ? (
                   <Skeleton

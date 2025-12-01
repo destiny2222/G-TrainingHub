@@ -14,7 +14,6 @@ function DashboardHeader() {
         />
       </div>
       <div className="header-actions d-flex align-items-center gap-4">
-        <Award size="24" className="achievement-icon" />
         <Notification size="24" className="notification-icon" />
         <div className="user-profile d-flex align-items-center gap-3 pt-2">
           <img  src={userProfile}   alt="User Profile"  className="profile-img" />
