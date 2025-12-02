@@ -59,6 +59,7 @@ import RecapMaterialEdit from "./pages/admin/RecapMaterial/Edit.jsx";
 import Library from "./pages/admin/Library/List.jsx";
 import LibraryCreate from "./pages/admin/Library/Create.jsx";
 import LibraryEdit from "./pages/admin/Library/Edit.jsx";
+import AIAssistantPage from "./pages/user_dash/AIAssistantPage.jsx";
 
   
 
@@ -233,6 +234,12 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
+
+                <Route path="/ai-assistant" element={
+                  <ProtectedRoute>
+                    <AIAssistantPage />
+                  </ProtectedRoute>
+                } />
               </Route>
 
               {/* Auth routes (login, register, etc.) */}
