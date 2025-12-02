@@ -164,6 +164,7 @@ const ResetPassword = () => {
                     type="email"
                     id="email"
                     name="email"
+                    readOnly
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="Enter your email"

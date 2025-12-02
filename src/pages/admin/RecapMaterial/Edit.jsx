@@ -16,7 +16,7 @@ const RecapMaterialEdit = () => {
 	const { recapMaterials, loading } = useSelector((state) => state.recapMaterials);
 	const cloudName = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
 	const uploadPreset = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
-
+    
 	const [formData, setFormData] = useState({
 		cohort_id: '',
 		title: '',
@@ -121,6 +121,7 @@ const RecapMaterialEdit = () => {
 				newErrors.file_path = 'File must be a video (mp4, mov, avi, mkv, wmv)';
 			}
 		}
+
 		setErrors(newErrors);
 		return Object.keys(newErrors).length === 0;
 	};

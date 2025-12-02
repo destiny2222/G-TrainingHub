@@ -68,7 +68,7 @@ function Sidebar() {
           <li>
             <Link to="/ai-tutor" className={isActive("/ai-tutor")}>
               <MagicStar size="20" variant="Bulk" />
-              <span>AI Tutor</span>
+              <span>AI Assistant</span>
             </Link>
           </li>
           <li>
