@@ -2,11 +2,11 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useEffect, useRef, useState } from "react";
 import cohortImage from "../../assets/image/background/background.jpeg";
-import { Award, Profile, Book } from "iconsax-reactjs";
+import { Award, Profile, Book, AddCircle, AddSquare, Add } from "iconsax-reactjs";
 import { fetchClassRooms } from "../../redux/slices/classRoomSlice";
 import { fetchUserEnrolledCohorts } from "../../redux/slices/userEnrolledCohortSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 import FileInput from "../../components/individual/FileInput";
 
@@ -43,10 +43,9 @@ function Dashboard() {
   const isLoading = classRoomsLoading || userEnrolledLoading;
 
   const handleJoinClass = () => {
-    console.log("Join class clicked");
-    // if (canJoin) {
+    if (canJoin) {
     navigate(`/classroom/${cohort.slug}`);
-    // }
+    }
   };
 
   return (
@@ -54,11 +53,6 @@ function Dashboard() {
       <div className="wrapper p-4 min-vh-100">
         {/* Welcome Section */}
         <section className=" header-area">
-          <div className="greeting-block">
-            <h1 className="">
-              {isLoading ? <Skeleton width={200} /> : "Welcome back, Alex!"}
-            </h1>
-          </div>
           <div className="d-flex flex-wrap justify-content-end">
             {isLoading ? (
               <Skeleton
@@ -69,15 +63,15 @@ function Dashboard() {
               />
             ) : (
               <div className="action-buttons">
-                <button className="act-button">
+                <Link className="act-button">
                   <Award /> Download Certificates
-                </button>
-                <button className="act-button">
+                </Link>
+                <Link className="act-button">
                   <Book /> Book a Mentor
-                </button>
-                <button className="act-button">
+                </Link>
+                <Link className="act-button">
                   <Profile /> Access Career Guide
-                </button>
+                </Link>
               </div>
             )}
           </div>
@@ -139,7 +133,7 @@ function Dashboard() {
                       <button
                         type="button"
                         className="primary-btn"
-                        // disabled={isLoading || !canJoin}
+                        disabled={isLoading || !canJoin}
                         onClick={handleJoinClass}
                       >
                         {isLoading ? (
@@ -237,26 +231,14 @@ function Dashboard() {
         <div className="row">
           <div className="col-12 col-lg-8">
             {/* Assignments & Scores */}
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                marginBottom: "1rem",
-                alignItems: "flex-end",
-                gap: "12rem",
-              }}
-            >
-              <h2 className="h5 fw-semibold mb-3">Assignments {"& Scores"}</h2>
-              <button
-                className="primary-btn"
-                onClick={() => {
-                  setIsOpen(true);
-                }}
-              >
-                {isLoading ? <Skeleton width={100} /> : "Submit Assignment"}
-              </button>
-            </div>
             <div className="card shadow-sm">
+              <div className="d-flex justify-content-between align-items-end mb-3 px-3 pt-3 gap-3">
+                <h2 className="h5 fw-semibold mb-3">Assignments {"& Scores"}</h2>
+
+                <button className="primary-btn assignment-btn"  onClick={() => { setIsOpen(true); }} >
+                  <AddCircle size={24} /> {isLoading ? <Skeleton width={100} /> : "Submit Assignment"}
+                </button>
+              </div>
               <div className="card-body">
                 <div className="table-responsive">
                   {isLoading ? (

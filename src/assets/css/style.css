@@ -1634,8 +1634,9 @@ your-image.jpg .testimonials-title {
 .dashboard-content {
     flex: 1;
     display: flex;
-    margin-left: 20%;
+    margin-left: 17%;
     flex-direction: column;
+    background-color: #F3F5F6;
 }
 
 .dashboard-main {
@@ -1645,7 +1646,7 @@ your-image.jpg .testimonials-title {
 
 /* Sidebar Styles */
 .sidebar-dashboard {
-    width: 18%;
+    width: 17%;
     background-color: #ffff;
     border-right: 1px solid #e5e5e5;
     color: #1a1a1a;
@@ -1655,6 +1656,7 @@ your-image.jpg .testimonials-title {
     position: fixed;
     height: 100vh;
     overflow-y: auto;
+    /* box-shadow: ; */
 }
 
 .sidebar-dashboard::-webkit-scrollbar {
