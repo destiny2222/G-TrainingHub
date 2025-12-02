@@ -5,6 +5,7 @@ export default function FileInput({ isOpen, setIsOpen }) {
   const inputRef = useRef(null);
   const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
+  const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(null);
   const [dragOver, setDragOver] = useState(false);
   const [description, setDescription] = useState("");
@@ -17,19 +18,16 @@ export default function FileInput({ isOpen, setIsOpen }) {
     formData.append("file_paths", file);
     formData.append("description", description);
 
-    // Debug: Log formData entries
-    for (const pair of formData.entries()) {
-      console.log("formdata entry:", pair[0], pair[1]);
-    }
-
     try {
       setLoading(true);
       const res = await api.post("user/assignments/submit", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      }); 
-      console.log(res);
+      });
+      setFile(null);
+      setError(null);
+      setMessage("File uploaded successfully!");
     } catch (error) {
       setError(`Error: ${error}`);
     } finally {
@@ -96,6 +94,8 @@ export default function FileInput({ isOpen, setIsOpen }) {
   const handleRemove = () => {
     setFile(null);
     setError(null);
+    setMessage("");
+    setDescription("");
     if (inputRef.current) inputRef.current.value = "";
   };
 
@@ -203,6 +203,9 @@ export default function FileInput({ isOpen, setIsOpen }) {
             value={description}
           />
           {error && <p style={{ color: "red", marginTop: "8px" }}>{error}</p>}
+          {message && (
+            <p style={{ color: "green", marginTop: "8px" }}>{message}</p>
+          )}
         </div>
 
         <div className="modal-footer">
