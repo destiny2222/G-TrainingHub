@@ -1,19 +1,22 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; 
+import { Link, useLocation } from 'react-router-dom'; 
 import { Category, Building4, UserSquare, Book, Calendar, Award, Chart1, ClipboardText } from 'iconsax-reactjs';
 import '../../assets/css/style.css'; 
 import LogoutButton from '../auth/LogoutButton';
 
 const AdminSidebar = ({ isOpen, onClose }) => {
+  const location = useLocation();
+  const isActive = (path) => location.pathname === path;
   return (
     <div className={`sidebar ${isOpen ? 'open' : ''}`}>
       <div className="sidebar-header">
-        <h3>Admin</h3>
-        <p>GRITINAI</p>
+        <div className="sidebar-logo">
+          <img src="./logo.png" alt="GritinAI Logo" className="logo-img" style={{ width: "100px" }} />
+        </div>
       </div>
       <ul className="sidebar-menu">
         <li>
-          <Link to="/admin/dashboard" className="active" onClick={onClose}>
+          <Link to="/admin/dashboard" className={isActive('/admin/dashboard') ? 'active' : ''} onClick={onClose}>
             <Category size="20" variant="Outline" /> Dashboard
           </Link>
         </li>
@@ -21,39 +24,44 @@ const AdminSidebar = ({ isOpen, onClose }) => {
           <h4>User Management</h4>
           <ul>
             <li>
-              <Link to="/admin/organization-management" onClick={onClose}>
+              <Link to="/admin/organization-management" className={isActive('/admin/organization-management') ? 'active' : ''} onClick={onClose}>
                 <Building4 size="20" variant="Outline" /> Organization Management
               </Link>
             </li>
           </ul>
         </li>
         <li>
-          <Link to="/admin/courses" onClick={onClose}>
+          <Link to="/admin/courses" className={isActive('/admin/courses') ? 'active' : ''} onClick={onClose}>
             <Book size="20" variant="Outline" /> Course 
           </Link>
         </li>
         <li>
-          <Link to="/admin/cohorts" onClick={onClose}>
+          <Link to="/admin/cohorts" className={isActive('/admin/cohorts') ? 'active' : ''} onClick={onClose}>
             <Calendar size="20" variant="Outline" /> Cohorts
           </Link>
         </li>
         <li>
-          <Link to="/admin/class-recap-materials" onClick={onClose}>
+          <Link to="/admin/class-recap-materials" className={isActive('/admin/class-recap-materials') ? 'active' : ''} onClick={onClose}>
             <ClipboardText size="20" variant="Outline" /> Recap Material
           </Link>
         </li>
         <li>
-          <Link to="/admin/certificate-issuance" onClick={onClose}>
+          <Link to="/admin/library" className={isActive('/admin/library') ? 'active' : ''} onClick={onClose}>
+            <ClipboardText size="20" variant="Outline" /> Library
+          </Link>
+        </li>
+        <li>
+          <Link to="/admin/certificate-issuance" className={isActive('/admin/certificate-issuance') ? 'active' : ''} onClick={onClose}>
             <Award size="20" variant="Outline" /> Certificate Issuance
           </Link>
         </li>
         <li>
-          <Link to="/admin/ai-chat-analytics" onClick={onClose}>
+          <Link to="/admin/ai-chat-analytics" className={isActive('/admin/ai-chat-analytics') ? 'active' : ''} onClick={onClose}>
             <Chart1 size="20" variant="Outline" /> AI Chat Analytics
           </Link>
         </li>
         <li>
-          <Link to="/admin/organization-requests" onClick={onClose}>
+          <Link to="/admin/organization-requests" className={isActive('/admin/organization-requests') ? 'active' : ''} onClick={onClose}>
             <ClipboardText size="20" variant="Outline" /> Organization Requests <span className="badge">2</span>
           </Link>
         </li>

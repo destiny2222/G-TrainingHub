@@ -9,7 +9,7 @@ import trainingProgramReducer from './slices/admin_organisation/trainingProgramS
 import classRoomReducer from './slices/classRoomSlice';
 import userEnrolledCohortReducer from './slices/userEnrolledCohortSlice';
 import  recapMaterialReducer from './slices/super_admin/RecapMaterial';
-
+import libraryReducer from './slices/super_admin/LibrarySlice';
 
 export const store = configureStore({
   reducer: {
@@ -23,6 +23,7 @@ export const store = configureStore({
     classRooms: classRoomReducer,
     userEnrolledCohorts: userEnrolledCohortReducer,
     recapMaterials: recapMaterialReducer,
+    library: libraryReducer,
   },
 });
 

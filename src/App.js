@@ -56,6 +56,11 @@ import ResetPassword from "./pages/auth/ResetPassword.jsx";
 import ClassRecapMaterials from "./pages/admin/RecapMaterial/List.jsx";
 import RecapMaterialCreate from "./pages/admin/RecapMaterial/Create.jsx";
 import RecapMaterialEdit from "./pages/admin/RecapMaterial/Edit.jsx";
+import Library from "./pages/admin/Library/List.jsx";
+import LibraryCreate from "./pages/admin/Library/Create.jsx";
+import LibraryEdit from "./pages/admin/Library/Edit.jsx";
+
+
 
 function App() {
   const location = useLocation();
@@ -263,13 +268,19 @@ function App() {
                   path="courses/:courseSlug/cohorts/create"
                   element={<CohortCreate />}
                 />
+                {/* cohort route */}
                 <Route path="cohorts" element={<CohortList />} />
                 <Route path="cohorts/create" element={<CohortCreate />} />
                 <Route path="cohorts/edit/:slug" element={<CohortEdit />} />
                 <Route path="cohorts/:slug" element={<CohortsDetails />} />
+                {/* Recap materials route */}
                 <Route path="class-recap-materials" element={<ClassRecapMaterials />} />
                 <Route path="recap-material/create" element={<RecapMaterialCreate />} />
                 <Route path="recap-material/edit/:slug" element={<RecapMaterialEdit />} />
+                {/* Library route */}
+                <Route path="library" element={<Library />} />
+                <Route path="library/create" element={<LibraryCreate />} />
+                <Route path="library/edit/:slug" element={<LibraryEdit />} />
               </Route>
 
               {/* Unauthorized page */}
