@@ -1,0 +1,148 @@
+.library-container {
+    padding: 2rem;
+}
+
+.library-header h1 {
+    margin-bottom: 2%;
+}
+.library-header p {
+    color: #888;
+    margin-bottom: 5%;
+}
+
+.read-more {
+    border: none;
+    background-color: transparent;
+    color: var(--primary-color);
+    text-decoration: underline;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.library-card {
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    width: 60%;
+    gap: 50px;
+    align-items: center;
+    justify-content: center;
+}
+
+.library-image-wrapper {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.library-image-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.library-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 4%px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.library-content {
+    padding-block: 10px;
+}
+.library-author {
+    font-size: 18px;
+    margin-bottom: 5%;
+    color: #999;
+}
+
+.library-description {
+    font-size: 12px;
+    line-height: 1.5;
+    color: #333;
+}
+
+.library-modal {
+    position: absolute;
+    height: 93%;
+    overflow-y: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.library-modal-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 2%;
+}
+
+.close-button {
+    border: none;
+    background-color: transparent;
+    color: white;
+    background-color: #ff0038;
+    border-radius: 8px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.library-modal-image-wrapper {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+.library-modal-image-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+}
+
+.library-modal-content {
+    padding-block: 10px;
+}
+.library-modal-author {
+    font-size: 18px;
+    margin-bottom: 5%;
+    color: #999;
+}
+
+.library-modal-description {
+    line-height: 1.5;
+    color: #333;
+}
+
+.library-modal-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.library-modal-info-item {
+    font-size: 14px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    padding: 25px;
+    border-radius: 20px;
+}

@@ -2,9 +2,10 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useEffect, useRef, useState } from "react";
 import cohortImage from "../../assets/image/background/background.jpeg";
-import { Award, Profile, Book, AddCircle, AddSquare, Add } from "iconsax-reactjs";
+import { Award, Profile, Book, AddCircle } from "iconsax-reactjs";
 import { fetchClassRooms } from "../../redux/slices/classRoomSlice";
 import { fetchUserEnrolledCohorts } from "../../redux/slices/userEnrolledCohortSlice";
+import { fetchAssignments } from "../../redux/slices/assignmentSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import "./Dashboard.css";
@@ -21,6 +22,11 @@ function Dashboard() {
   const userEnrolledLoading = useSelector(
     (state) => state.userEnrolledCohorts.loading,
   );
+  const { assignments, loading, error } = useSelector(
+    (state) => state.userAssignments,
+  );
+  console.log(assignments);
+
   const cohort = userEnrolledCohorts[0]?.cohort || {};
   const canJoin = nextClassRooms?.next_class?.can_join;
   const cohortSlug = cohort?.slug;
@@ -31,6 +37,7 @@ function Dashboard() {
 
   useEffect(() => {
     dispatch(fetchUserEnrolledCohorts());
+    dispatch(fetchAssignments());
   }, [dispatch]);
 
   useEffect(() => {
@@ -44,7 +51,7 @@ function Dashboard() {
 
   const handleJoinClass = () => {
     if (canJoin) {
-    navigate(`/classroom/${cohort.slug}`);
+      navigate(`/classroom/${cohort.slug}`);
     }
   };
 
@@ -233,10 +240,18 @@ function Dashboard() {
             {/* Assignments & Scores */}
             <div className="card shadow-sm">
               <div className="d-flex justify-content-between align-items-end mb-3 px-3 pt-3 gap-3">
-                <h2 className="h5 fw-semibold mb-3">Assignments {"& Scores"}</h2>
+                <h2 className="h5 fw-semibold mb-3">
+                  Assignments {"& Scores"}
+                </h2>
 
-                <button className="primary-btn assignment-btn"  onClick={() => { setIsOpen(true); }} >
-                  <AddCircle size={24} /> {isLoading ? <Skeleton width={100} /> : "Submit Assignment"}
+                <button
+                  className="primary-btn assignment-btn"
+                  onClick={() => {
+                    setIsOpen(true);
+                  }}
+                >
+                  <AddCircle size={24} />{" "}
+                  {isLoading ? <Skeleton width={100} /> : "Submit Assignment"}
                 </button>
               </div>
               <div className="card-body">
@@ -267,26 +282,6 @@ function Dashboard() {
                             </span>
                           </td>
                           <td>95/100</td>
-                        </tr>
-                        <tr>
-                          <td>Project Proposal</td>
-                          <td>2024-11-02</td>
-                          <td>
-                            <span className="badge bg-warning-subtle text-warning">
-                              Pending
-                            </span>
-                          </td>
-                          <td>-</td>
-                        </tr>
-                        <tr>
-                          <td>Mid-term Exam</td>
-                          <td>2024-11-09</td>
-                          <td>
-                            <span className="badge bg-warning-subtle text-warning">
-                              Pending
-                            </span>
-                          </td>
-                          <td>-</td>
                         </tr>
                       </tbody>
                     </table>
