@@ -2,14 +2,14 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useEffect, useRef, useState } from "react";
 import cohortImage from "../../assets/image/background/background.jpeg";
-import { Award, Profile, Book, AddCircle, AddSquare, Add } from "iconsax-reactjs";
+import { Award, Profile, Book, AddCircle } from "iconsax-reactjs";
 import { fetchClassRooms } from "../../redux/slices/classRoomSlice";
 import { fetchUserEnrolledCohorts } from "../../redux/slices/userEnrolledCohortSlice";
+import { fetchAssignments } from "../../redux/slices/assignmentSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 import FileInput from "../../components/individual/FileInput";
-import { fetchAssignments } from "../../redux/slices/assignmentSlice";
 import { fetchRecapMaterials, fetchRecapMaterialByCohortSlug } from "../../redux/slices/classRecapMaterialSlice";
 import { useFetchUser } from "../../utils/useUserStore";
 
@@ -19,7 +19,7 @@ function Dashboard() {
   const user = useFetchUser();
   const nextClassRooms = useSelector((state) => state.classRooms.classRooms);
   const classRoomsLoading = useSelector((state) => state.classRooms.loading);
-  const assignments = useSelector((state) => state.assignments.assignments);
+  const userAssignments = useSelector((state) => state.userAssignments.assignments);
   const recapMaterials = useSelector((state) => state.classRecapMaterials.recapMaterials);
   const userEnrolledCohorts = useSelector(
     (state) => state.userEnrolledCohorts.enrollment,
@@ -27,6 +27,7 @@ function Dashboard() {
   const userEnrolledLoading = useSelector(
     (state) => state.userEnrolledCohorts.loading,
   );
+
   const cohort = userEnrolledCohorts[0]?.cohort || {};
   const canJoin = nextClassRooms?.next_class?.can_join;
   const cohortSlug = cohort?.slug;
@@ -65,6 +66,7 @@ function Dashboard() {
 
   const handleJoinClass = () => {
     if (canJoin) {
+      navigate(`/classroom/${cohort.slug}`);
       navigate(`/classroom/${cohort.slug}`);
     }
   };
@@ -258,7 +260,9 @@ function Dashboard() {
             {/* Assignments & Scores */}
             <div className="card shadow-sm">
               <div className="d-flex justify-content-between align-items-end mb-3 px-3 pt-3 gap-3">
-                <h2 className="h5 fw-semibold mb-3">Assignments {"& Scores"}</h2>
+                <h2 className="h5 fw-semibold mb-3">
+                  Assignments {"& Scores"}
+                </h2>
 
                 <button className="primary-btn assignment-btn" onClick={() => { setIsOpen(true); }} >
                   <AddCircle size={24} /> {isLoading ? <Skeleton width={100} /> : "Submit Assignment"}
@@ -283,7 +287,7 @@ function Dashboard() {
                         </tr>
                       </thead>
                       <tbody>
-                        {assignments.slice(0, 5).map((assignment) => (
+                        {userAssignments.slice(0, 5).map((assignment) => (
                           <tr key={assignment.id}>
                             <td>{assignment.description}</td>
                             <td>{formatDateDMY(assignment.created_at)}</td>

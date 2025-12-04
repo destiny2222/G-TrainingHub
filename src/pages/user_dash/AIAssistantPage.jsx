@@ -5,28 +5,26 @@ import { ArrowUp, Bot, User, LoaderCircle } from "lucide-react";
 import "../../components/AIAssistantPage.css";
 
 function cleanMarkdown(text) {
-  return (
-    text
-      .replace(/^#{1,6}\s+/gm, "")
-      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-      .replace(/\*(.*?)\*/g, "<em>$1</em>")
-      .replace(/__(.*?)__/g, "<strong>$1</strong>")
-      .replace(/_(.*?)_/g, "<em>$1</em>")
-      .replace(/~~(.*?)~~/g, "<del>$1</del>")
-      .replace(
-        /`([^`]+)`/g,
-        '<code style="background:#f3f4f6;padding:2px 4px;border-radius:4px;font-size:0.85em;font-family:monospace;">$1</code>'
-      )
-      .replace(/```[\s\S]*?```/g, "")
-      .replace(/!\[.*?\]\(.*?\)/g, "")
-      .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
-      .replace(/^\s*>\s?/gm, "")
-      .replace(/^\s*[-*+] ?/gm, "• ")
-      .replace(/^\s*\d+\.\s+/gm, "")
-      .replace(/^\s*[-=_]{3,}\s*$/gm, "")
-      .replace(/\n{3,}/g, "\n\n")
-      .trim()
-  );
+  return text
+    .replace(/^#{1,6}\s+/gm, "")
+    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\*(.*?)\*/g, "<em>$1</em>")
+    .replace(/__(.*?)__/g, "<strong>$1</strong>")
+    .replace(/_(.*?)_/g, "<em>$1</em>")
+    .replace(/~~(.*?)~~/g, "<del>$1</del>")
+    .replace(
+      /`([^`]+)`/g,
+      '<code style="background:#f3f4f6;padding:2px 4px;border-radius:4px;font-size:0.85em;font-family:monospace;">$1</code>',
+    )
+    .replace(/```[\s\S]*?```/g, "")
+    .replace(/!\[.*?\]\(.*?\)/g, "")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/^\s*>\s?/gm, "")
+    .replace(/^\s*[-*+] ?/gm, "• ")
+    .replace(/^\s*\d+\.\s+/gm, "")
+    .replace(/^\s*[-=_]{3,}\s*$/gm, "")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
 }
 
 async function fileToGenerativePart(file) {
@@ -86,14 +84,14 @@ function AIAssistantPage() {
   useEffect(() => {
     const apiKey = process.env.REACT_APP_GEMINI_API_KEY;
     if (!apiKey) {
-    //   console.error("Missing REACT_APP_GEMINI_API_KEY in .env");
+      //   console.error("Missing REACT_APP_GEMINI_API_KEY in .env");
       return;
     }
     try {
       const client = new GoogleGenAI({ apiKey });
       setGenAI(client);
     } catch (err) {
-    //   console.error("Failed to create GoogleGenAI client:", err);
+      //   console.error("Failed to create GoogleGenAI client:", err);
     }
   }, []);
 
@@ -145,90 +143,89 @@ function AIAssistantPage() {
     if (fileInputRef.current) fileInputRef.current.click();
   };
 
-const handleSend = async (e) => {
-  e.preventDefault();
-  if ((!prompt.trim() && !selectedFile) || !genAI || isLoading) return;
+  const handleSend = async (e) => {
+    e.preventDefault();
+    if ((!prompt.trim() && !selectedFile) || !genAI || isLoading) return;
 
-  const userText = prompt.trim();
-  const userMessage = {
-    text: userText || (selectedFile ? "[File attached]" : ""),
-    sender: "user",
-    file: selectedFile || undefined,
-  };
+    const userText = prompt.trim();
+    const userMessage = {
+      text: userText || (selectedFile ? "[File attached]" : ""),
+      sender: "user",
+      file: selectedFile || undefined,
+    };
 
-  setMessages((prev) => [...prev, userMessage]);
-  setPrompt("");
-  setIsLoading(true);
+    setMessages((prev) => [...prev, userMessage]);
+    setPrompt("");
+    setIsLoading(true);
 
-  try {
-    const historyContents = messages.map((m) => ({
-      role: m.sender === "user" ? "user" : "model",
-      parts: [{ text: m.text }],
-    }));
+    try {
+      const historyContents = messages.map((m) => ({
+        role: m.sender === "user" ? "user" : "model",
+        parts: [{ text: m.text }],
+      }));
 
-    const messageParts = [];
-    if (userText) {
-      messageParts.push({ text: userText });
-    }
-    if (selectedFile) {
-      const filePart = await fileToGenerativePart(selectedFile);
-      messageParts.push(filePart);
-    }
-
-    const result = await genAI.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: [
-        ...historyContents,
-        { role: "user", parts: messageParts },
-      ],
-      config: {
-        systemInstruction,
-      },
-    });
-
-    setSelectedFile(null);
-
-    // 👉 Robust reply extraction
-    let replyText = "";
-
-    if (result && result.response && typeof result.response.text === "function") {
-      try {
-        replyText = (result.response.text() || "").trim();
-      } catch (e) {
-        // ignore
+      const messageParts = [];
+      if (userText) {
+        messageParts.push({ text: userText });
       }
+      if (selectedFile) {
+        const filePart = await fileToGenerativePart(selectedFile);
+        messageParts.push(filePart);
+      }
+
+      const result = await genAI.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: [...historyContents, { role: "user", parts: messageParts }],
+        config: {
+          systemInstruction,
+        },
+      });
+
+      setSelectedFile(null);
+
+      // 👉 Robust reply extraction
+      let replyText = "";
+
+      if (
+        result &&
+        result.response &&
+        typeof result.response.text === "function"
+      ) {
+        try {
+          replyText = (result.response.text() || "").trim();
+        } catch (e) {
+          // ignore
+        }
+      }
+
+      if (!replyText) {
+        const responseObj = result.response || result;
+        const candidate = responseObj?.candidates?.[0];
+        const parts = candidate?.content?.parts || [];
+        replyText = parts
+          .map((p) => p.text || "")
+          .join("\n")
+          .trim();
+      }
+
+      if (!replyText) {
+        replyText = "Sorry, I couldn't generate a response.";
+      }
+
+      setMessages((prev) => [...prev, { text: replyText, sender: "ai" }]);
+    } catch (err) {
+      // console.error("Error talking to Gemini:", err);
+      setMessages((prev) => [
+        ...prev,
+        {
+          text: "Sorry, I encountered an error talking to the AI. Please check your API key and try again.",
+          sender: "ai",
+        },
+      ]);
+    } finally {
+      setIsLoading(false);
     }
-
-    if (!replyText) {
-      const responseObj = result.response || result;
-      const candidate = responseObj?.candidates?.[0];
-      const parts = candidate?.content?.parts || [];
-      replyText = parts
-        .map((p) => p.text || "")
-        .join("\n")
-        .trim();
-    }
-
-    if (!replyText) {
-      replyText = "Sorry, I couldn't generate a response.";
-    }
-
-    setMessages((prev) => [...prev, { text: replyText, sender: "ai" }]);
-  } catch (err) {
-    // console.error("Error talking to Gemini:", err);
-    setMessages((prev) => [
-      ...prev,
-      {
-        text:
-          "Sorry, I encountered an error talking to the AI. Please check your API key and try again.",
-        sender: "ai",
-      },
-    ]);
-  } finally {
-    setIsLoading(false);
-  }
-};
-
+  };
 
   const handleCopyMessage = async (text) => {
     try {
@@ -243,31 +240,45 @@ const handleSend = async (e) => {
       {/* Header */}
       <div className="ai-assistant-header">
         <Bot size={24} />
-        <span className="ai-assistant-title">Project Assistant – Ask about GritinAI Training Hub</span>
+        <span className="ai-assistant-title">
+          Project Assistant – Ask about GritinAI Training Hub
+        </span>
       </div>
 
       {/* Chat area */}
       <div ref={chatRef} className="ai-assistant-chat">
         {messages.length === 0 && (
           <div className="ai-assistant-empty">
-            <p style={{ fontSize: 20, fontWeight: 700 }}>Welcome to the GritinAI Training Hub Assistant!</p>
-            <p>Ask questions about the platform, features, usage, or get help with your training journey.</p>
+            <p style={{ fontSize: 20, fontWeight: 700 }}>
+              Welcome to the GritinAI Training Hub Assistant!
+            </p>
+            <p>
+              Ask questions about the platform, features, usage, or get help
+              with your training journey.
+            </p>
             <div className="ai-assistant-example-row">
               <button
                 className="ai-assistant-example-btn"
                 onClick={() => setPrompt(examplePrompts[0])}
-              >{examplePrompts[0]}</button>
+              >
+                {examplePrompts[0]}
+              </button>
               <button
                 className="ai-assistant-example-btn"
                 onClick={() => setPrompt(examplePrompts[1])}
-              >{examplePrompts[1]}</button>
+              >
+                {examplePrompts[1]}
+              </button>
               <button
                 className="ai-assistant-example-btn"
                 onClick={() => setPrompt(examplePrompts[2])}
-              >{examplePrompts[2]}</button>
+              >
+                {examplePrompts[2]}
+              </button>
             </div>
             <div style={{ marginTop: 18, color: "#6b7280", fontSize: 14 }}>
-              💡 You can also ask about features, troubleshooting, or platform tips.
+              💡 You can also ask about features, troubleshooting, or platform
+              tips.
             </div>
           </div>
         )}
@@ -283,14 +294,15 @@ const handleSend = async (e) => {
               </div>
             )}
 
-            <div className={`ai-assistant-message${m.sender === "user" ? " user" : ""}`}
+            <div
+              className={`ai-assistant-message${m.sender === "user" ? " user" : ""}`}
               dangerouslySetInnerHTML={{
                 __html: m.text
-                  .replace(/\n/g, '<br />')
-                  .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                  .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                  .replace(/__(.*?)__/g, '<strong>$1</strong>')
-                  .replace(/_(.*?)_/g, '<em>$1</em>')
+                  .replace(/\n/g, "<br />")
+                  .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+                  .replace(/\*(.*?)\*/g, "<em>$1</em>")
+                  .replace(/__(.*?)__/g, "<strong>$1</strong>")
+                  .replace(/_(.*?)_/g, "<em>$1</em>"),
               }}
             />
 
@@ -318,13 +330,20 @@ const handleSend = async (e) => {
           placeholder="Ask about GritinAI Training Hub..."
           rows={1}
           className="ai-assistant-textarea"
+          style={{
+            overflow: "hidden",
+          }}
         />
         <button
           type="submit"
           disabled={isLoading || !prompt.trim()}
           className="ai-assistant-send-btn"
         >
-          {isLoading ? <LoaderCircle size={20} className="animate-spin" /> : <ArrowUp size={20} />}
+          {isLoading ? (
+            <LoaderCircle size={20} className="animate-spin" />
+          ) : (
+            <ArrowUp size={20} />
+          )}
         </button>
       </form>
     </div>

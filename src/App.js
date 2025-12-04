@@ -63,6 +63,7 @@ import AIAssistantPage from "./pages/user_dash/AIAssistantPage.jsx";
 import Profile from "./pages/user_dash/Profile.jsx";
 import RecapMaterialList from "./pages/user_dash/recapVideos/List.jsx";
 import RecapMaterialDetails from "./pages/user_dash/recapVideos/Details.jsx";
+import IndividualLibrary from "./pages/user_dash/individual/Library.jsx";
 
 function App() {
   const location = useLocation();
@@ -89,10 +90,16 @@ function App() {
               <Route element={<MainLayout />}>
                 <Route path="/" element={<Home />} />
                 <Route path="/cohorts" element={<Cohorts />} />
-                <Route  path="/cohorts/:slug/details" element={<CohortDetails />}  />
+                <Route
+                  path="/cohorts/:slug/details"
+                  element={<CohortDetails />}
+                />
               </Route>
               <Route path="cohort/register" element={<RegistrationForm />} />
-              <Route path="/payment/callback"  element={<PaymentCallbackForm />} />
+              <Route
+                path="/payment/callback"
+                element={<PaymentCallbackForm />}
+              />
 
               {/* Protected User Dashboard routes */}
               <Route element={<DashboardLayout />}>
@@ -110,6 +117,15 @@ function App() {
                   element={
                     <ProtectedRoute requiredAccountType="individual">
                       <MyCourse />
+                    </ProtectedRoute>
+                  }
+                />
+
+                <Route
+                  path="/library"
+                  element={
+                    <ProtectedRoute requiredAccountType="individual">
+                      <IndividualLibrary />
                     </ProtectedRoute>
                   }
                 />
@@ -256,12 +272,31 @@ function App() {
                     <RecapMaterialDetails />
                   </ProtectedRoute>
                 } />
+                <Route
+                  path="/ai-assistant"
+                  element={
+                    <ProtectedRoute>
+                      <AIAssistantPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedRoute requiredAccountType="individual">
+                      <Profile />
+                    </ProtectedRoute>
+                  }
+                />
               </Route>
 
               {/* Auth routes (login, register, etc.) */}
               <Route element={<AuthLayout />}>
                 <Route path="/admin/login" element={<AdminLogin />} />
-                <Route  path="/organization/register" element={<Organizationregister />}  />
+                <Route
+                  path="/organization/register"
+                  element={<Organizationregister />}
+                />
                 <Route path="/verification" element={<VerificationPending />} />
                 <Route path="/verify-organization" element={<VerifyEmail />} />
                 <Route path="/login" element={<Login />} />
@@ -297,9 +332,18 @@ function App() {
                 <Route path="cohorts/edit/:slug" element={<CohortEdit />} />
                 <Route path="cohorts/:slug" element={<CohortsDetails />} />
                 {/* Recap materials route */}
-                <Route path="class-recap-materials" element={<ClassRecapMaterials />} />
-                <Route path="recap-material/create" element={<RecapMaterialCreate />} />
-                <Route path="recap-material/edit/:slug" element={<RecapMaterialEdit />} />
+                <Route
+                  path="class-recap-materials"
+                  element={<ClassRecapMaterials />}
+                />
+                <Route
+                  path="recap-material/create"
+                  element={<RecapMaterialCreate />}
+                />
+                <Route
+                  path="recap-material/edit/:slug"
+                  element={<RecapMaterialEdit />}
+                />
                 {/* Library route */}
                 <Route path="library" element={<Library />} />
                 <Route path="library/create" element={<LibraryCreate />} />

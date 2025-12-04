@@ -13,6 +13,8 @@ import libraryReducer from './slices/super_admin/LibrarySlice';
 import assignmentReducer from './slices/assignmentSlice';
 import classRecapMaterialReducer from './slices/classRecapMaterialSlice';
 
+
+
 export const store = configureStore({
   reducer: {
     courses: courseReducer,
@@ -26,7 +28,7 @@ export const store = configureStore({
     userEnrolledCohorts: userEnrolledCohortReducer,
     recapMaterials: recapMaterialReducer,
     library: libraryReducer,
-    assignments: assignmentReducer,
+    userAssignments: assignmentReducer,
     classRecapMaterials: classRecapMaterialReducer,
   },
 });
