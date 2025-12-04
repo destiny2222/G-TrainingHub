@@ -1869,7 +1869,7 @@ your-image.jpg .testimonials-title {
     padding: 15px 30px;
     display: flex;
     box-shadow: none !important;
-    justify-content: space-between;
+    justify-content:flex-end;
     align-items: center;
 }
 
@@ -2724,11 +2724,11 @@ your-image.jpg .testimonials-title {
 
 /* Admin Header Specific Styles */
 .dashboard-header {
-    background-color: var(--white-color);
+    /* background-color: var(--white-color); */
     padding: 15px 30px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     height: 70px;
     /* Fixed height for the header */

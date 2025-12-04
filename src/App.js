@@ -61,8 +61,8 @@ import LibraryCreate from "./pages/admin/Library/Create.jsx";
 import LibraryEdit from "./pages/admin/Library/Edit.jsx";
 import AIAssistantPage from "./pages/user_dash/AIAssistantPage.jsx";
 import Profile from "./pages/user_dash/Profile.jsx";
-
-  
+import RecapMaterialList from "./pages/user_dash/recapVideos/List.jsx";
+import RecapMaterialDetails from "./pages/user_dash/recapVideos/Details.jsx";
 
 function App() {
   const location = useLocation();
@@ -244,6 +244,16 @@ function App() {
                 <Route path="/profile" element={
                   <ProtectedRoute requiredAccountType="individual">
                     <Profile />
+                  </ProtectedRoute>
+                } />
+                <Route path="/recap-videos" element={
+                  <ProtectedRoute requiredAccountType="individual">
+                    <RecapMaterialList />
+                  </ProtectedRoute>
+                } />
+                <Route path="/recap-videos/:cohortSlug" element={
+                  <ProtectedRoute requiredAccountType="individual">
+                    <RecapMaterialDetails />
                   </ProtectedRoute>
                 } />
               </Route>

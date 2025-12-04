@@ -12,7 +12,7 @@ const RecapMaterialCreate = () => {
 	const { cohorts, loading } = useSelector((state) => state.cohorts);
     const cloudName =  process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
     const uploadPreset =  process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
-	// const { loading } = useSelector((state) => state.recapMaterials);
+	const [isLoading, setIsLoading] = useState(false);
 	// const loading = false;
 
 
@@ -27,8 +27,9 @@ const RecapMaterialCreate = () => {
 		description: '',
 		file_path: null,
 	});
-	const [errors, setErrors] = useState({});
-	const [filePreview, setFilePreview] = useState(null);
+    const [errors, setErrors] = useState({});
+    const [filePreview, setFilePreview] = useState(null);
+    const [isFileTooLarge, setIsFileTooLarge] = useState(false);
 
     const uploadVideoToCloudinary = async (file) => {
         const url = `https://api.cloudinary.com/v1_1/${cloudName}/video/upload`;
@@ -63,13 +64,16 @@ const RecapMaterialCreate = () => {
         if (file) {
             const MAX_SIZE_BYTES = 100 * 1024 * 1024;
             if (file.size > MAX_SIZE_BYTES) {
-            setErrors(prev => ({
-                ...prev,
-                file_path: 'File must be at most 100MB',
-            }));
-            setFormData(prev => ({ ...prev, file_path: null }));
-            setFilePreview(null);
-            return;
+                setErrors(prev => ({
+                    ...prev,
+                    file_path: 'File must be at most 100MB',
+                }));
+                setFormData(prev => ({ ...prev, file_path: null }));
+                setFilePreview(null);
+                setIsFileTooLarge(true);
+                return;
+            } else {
+                setIsFileTooLarge(false);
             }
 
             const allowedTypes = [
@@ -122,7 +126,7 @@ const RecapMaterialCreate = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!validateForm()) return;
-
+        setIsLoading(true);
         try {
             let cloudinaryResult = null;
 
@@ -141,10 +145,18 @@ const RecapMaterialCreate = () => {
             toast.success('Recap material created successfully!');
             setTimeout(() => {
                navigate('/admin/class-recap-materials');
-            }, 200);
+            }, 300);
         } catch (error) {
-            console.error(error);
-            toast.error(error?.data?.message || 'Failed to create recap material');
+            // console.error(error);
+            let errorMsg = error?.message;
+                  if (error?.response?.data?.message) {
+                    errorMsg = error.response.data.message;
+                  } else if (typeof error === 'string') {
+                    errorMsg = error;
+                  }
+                  toast.error(errorMsg || 'Failed to create recap material');
+        } finally {
+            setIsLoading(false);
         }
         };
 
@@ -217,8 +229,10 @@ const RecapMaterialCreate = () => {
                         </div>
                     </div>
                     <div className="form-actions">
-                        <button type="button" onClick={handleCancel} className="btn-secondary" disabled={loading}>Cancel</button>
-                        <button type="submit" className="btn-primary" disabled={loading}>{loading ? 'Creating...' : 'Create Recap Material'}</button>
+                        <button type="button" onClick={handleCancel} className="btn-secondary" disabled={isLoading}>Cancel</button>
+                        <button type="submit" className="btn-primary" disabled={isLoading || isFileTooLarge}>
+                            {isLoading ? 'Creating...' : 'Create Recap Material'}
+                        </button>
                     </div>
                 </form>
             </div>
