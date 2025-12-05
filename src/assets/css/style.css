@@ -1636,7 +1636,7 @@ your-image.jpg .testimonials-title {
     display: flex;
     margin-left: 17%;
     flex-direction: column;
-    background-color: #F3F5F6;
+    background-color: #f3f5f6;
 }
 
 .dashboard-main {
@@ -1869,7 +1869,8 @@ your-image.jpg .testimonials-title {
     padding: 15px 30px;
     display: flex;
     box-shadow: none !important;
-    justify-content:flex-end;
+    justify-content: flex-end;
+    background-color: #f5f7fb;
     align-items: center;
 }
 

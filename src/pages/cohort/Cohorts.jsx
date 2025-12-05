@@ -154,7 +154,7 @@ function Cohorts() {
 
           {error && (
             <div className="error-container">
-              <p className="error-message">Error: {error.message}</p>
+              <p className="error-message">Error: {error}</p>
             </div>
           )}
 
@@ -194,15 +194,12 @@ function Cohorts() {
                         <div className="course-actions">
                           <button
                             onClick={() => handleRegisterCourse(cohort?.id)}
-                            className="enroll-btn primary-btn"
+                            className="primary-btn"
                           >
                             Enroll Now
                           </button>
                           <Link to={`/cohorts/${cohort.slug}/details`}>
-                            <button
-                              className="details-btn secondary-btn"
-                              // onClick={() => openModal(course)}
-                            >
+                            <button className="details-btn secondary-btn">
                               View Details
                             </button>
                           </Link>

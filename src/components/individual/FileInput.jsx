@@ -28,6 +28,9 @@ export default function FileInput({ isOpen, setIsOpen }) {
       setFile(null);
       setError(null);
       setMessage("File uploaded successfully!");
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     } catch (error) {
       setError(`Error: ${error}`);
     } finally {

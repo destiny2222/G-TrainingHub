@@ -17,7 +17,6 @@ import classRecapMaterialReducer from './slices/classRecapMaterialSlice';
 
 export const store = configureStore({
   reducer: {
-    userAssignments: assignmentsReducer,
     courses: courseReducer,
     cohorts: cohortReducer,
     organization: organizationReducer,

@@ -10,7 +10,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 import FileInput from "../../components/individual/FileInput";
-import { fetchRecapMaterials, fetchRecapMaterialByCohortSlug } from "../../redux/slices/classRecapMaterialSlice";
+import {
+  fetchRecapMaterials,
+  fetchRecapMaterialByCohortSlug,
+} from "../../redux/slices/classRecapMaterialSlice";
 import { useFetchUser } from "../../utils/useUserStore";
 
 function Dashboard() {
@@ -19,18 +22,18 @@ function Dashboard() {
   const user = useFetchUser();
   const nextClassRooms = useSelector((state) => state.classRooms.classRooms);
   const classRoomsLoading = useSelector((state) => state.classRooms.loading);
-  const userAssignments = useSelector((state) => state.userAssignments.assignments);
-  const recapMaterials = useSelector((state) => state.classRecapMaterials.recapMaterials);
+  const userAssignments = useSelector(
+    (state) => state.userAssignments.assignments,
+  );
+  const recapMaterials = useSelector(
+    (state) => state.classRecapMaterials.recapMaterials,
+  );
   const userEnrolledCohorts = useSelector(
     (state) => state.userEnrolledCohorts.enrollment,
   );
   const userEnrolledLoading = useSelector(
     (state) => state.userEnrolledCohorts.loading,
   );
-  const { assignments, loading, error } = useSelector(
-    (state) => state.userAssignments,
-  );
-  console.log(assignments);
 
   const cohort = userEnrolledCohorts[0]?.cohort || {};
   const canJoin = nextClassRooms?.next_class?.can_join;
@@ -76,7 +79,6 @@ function Dashboard() {
     }
   };
 
-
   // Helper function to format date as d m y
   const formatDateDMY = (dateString) => {
     if (!dateString) return "";
@@ -95,7 +97,14 @@ function Dashboard() {
           {/* Welcome Section */}
           <div className="welcome-section">
             <h1 className="h4 fw-semibold mb-0">
-              {isLoading ? <Skeleton width={200} /> : `Welcome back, ${user?.name || "Learner"}!`}
+              {isLoading ? (
+                <Skeleton width={200} />
+              ) : (
+                <span>
+                  Welcome back,{" "}
+                  <span className="user">{user?.name || "Guest"}!</span>
+                </span>
+              )}
             </h1>
           </div>
           <div className="d-flex flex-wrap justify-content-end">
@@ -199,7 +208,10 @@ function Dashboard() {
           <div className="col-12 col-lg-4 d-flex flex-column">
             <div className="d-flex justify-content-between align-items-center mb-3">
               <h2 className="h5 fw-semibold mb-3">Class Recap Videos</h2>
-              <Link to="/user_dash/recapVideos/List" className=""> View All</Link>
+              <Link to="/user_dash/recapVideos/List" className="">
+                {" "}
+                View All
+              </Link>
             </div>
             {recapMaterials.length === 0 && !isLoading ? (
               <div className="card custom-card mb-3">
@@ -210,11 +222,10 @@ function Dashboard() {
                 </div>
               </div>
             ) : (
-              recapMaterials.slice(0, 3).map(material => (
+              recapMaterials.slice(0, 3).map((material) => (
                 <div className="card custom-card mb-3" key={material.id}>
                   <div className="card-body">
                     <div className="d-flex align-items-center">
-
                       {isLoading ? (
                         <Skeleton width={80} height={50} />
                       ) : (
@@ -252,7 +263,6 @@ function Dashboard() {
                           )}
                         </p>
                       </div>
-
                     </div>
                   </div>
                 </div>
@@ -303,7 +313,9 @@ function Dashboard() {
                             <td>{assignment.description}</td>
                             <td>{formatDateDMY(assignment.created_at)}</td>
                             <td>
-                              <span className={`badge ${assignment.status === "Submitted" ? "bg-success-subtle text-success" : "bg-warning-subtle text-warning"}`}>
+                              <span
+                                className={`badge ${assignment.status === "Submitted" ? "bg-success-subtle text-success" : "bg-warning-subtle text-warning"}`}
+                              >
                                 {assignment.status}
                               </span>
                             </td>
@@ -348,9 +360,11 @@ function Dashboard() {
                     "Access a wide range of books, articles, and resources to supplement your learning."
                   )}
                 </p>
-                <button className="btn btn-dark w-100" disabled={isLoading}>
-                  {isLoading ? <Skeleton width={120} /> : "Explore Library"}
-                </button>
+                <Link to="/library">
+                  <button className="btn btn-dark w-100" disabled={isLoading}>
+                    {isLoading ? <Skeleton width={120} /> : "Explore Library"}
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
