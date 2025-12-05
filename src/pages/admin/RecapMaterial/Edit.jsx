@@ -149,7 +149,7 @@ const RecapMaterialEdit = () => {
 			toast.success('Recap material updated successfully!');
 			setTimeout(() => {
 				navigate('/admin/class-recap-materials');
-			}, 200);
+			}, 300);
 		} catch (error) {
 			console.error(error);
 			toast.error(error?.data?.message || 'Failed to update recap material');

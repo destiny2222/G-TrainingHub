@@ -422,3 +422,64 @@ const createMockStore = (initialState = {}) => {
 ```
 
 This Redux slice provides a robust foundation for managing organization members with full CRUD capabilities, bulk operations, and comprehensive state management.
+
+
+
+
+i want the map to recapMaterials.slice(0, 3).map((material) , to start from the card instead
+<div className="card custom-card mb-3">
+              <div className="card-body">
+                {recapMaterials.length === 0 && !isLoading ? (
+                  // Show this when there is no recap and not loading
+                  <p className="text-muted small mb-0">
+                    No recap materials available.
+                  </p>
+                ) : (
+                  // Otherwise, show the latest recap (or skeleton while loading)
+                  recapMaterials.slice(0, 3).map((material) => (
+                    <div key={material.id}>
+                      <div className="d-flex align-items-center">
+                        {isLoading ? (
+                          <Skeleton width={80} height={50} />
+                        ) : (
+                          <video
+                            className="rounded me-3"
+                            style={{
+                              width: "80px",
+                              height: "50px",
+                              objectFit: "cover",
+                            }}
+                            muted
+                            loop
+                            playsInline
+                            controls
+                          >
+                            <source src={material.thumbnail_path} />
+                            Your browser does not support the video tag.
+                          </video>
+                        )}
+                        <div>
+                          <h4 className="h6 fw-medium mb-0">
+                            {isLoading ? (
+                              <Skeleton width={100} />
+                            ) : (
+                              // Use your actual title field here
+                              material.title || "Intro to Machine Learning"
+                            )}
+                          </h4>
+                          <p className="text-muted small mb-0">
+                            {isLoading ? (
+                              <Skeleton width={80} />
+                            ) : (
+                              // Use your actual date field here
+                              formatDateDMY(material.created_at) || "20 Oct 2024"
+                            )}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          </div>

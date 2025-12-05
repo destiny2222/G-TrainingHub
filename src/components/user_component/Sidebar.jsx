@@ -54,9 +54,9 @@ function Sidebar() {
             </Link>
           </li>
           <li>
-            <Link to="/progress" className={isActive("/progress")}>
+            <Link to="/recap-videos" className={isActive("/recap-videos")}>
               <Chart size="20" variant="Bulk" />
-              <span>My Progress</span>
+              <span>Recap Videos</span>
             </Link>
           </li>
           <li>
