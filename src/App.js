@@ -64,6 +64,14 @@ import Profile from "./pages/user_dash/Profile.jsx";
 import RecapMaterialList from "./pages/user_dash/recapVideos/List.jsx";
 import RecapMaterialDetails from "./pages/user_dash/recapVideos/Details.jsx";
 import IndividualLibrary from "./pages/user_dash/individual/Library.jsx";
+import UserManagementList from "./pages/admin/users/List.jsx";
+import UserManagementEdit from "./pages/admin/users/Edit.jsx";
+import UserManagementDetails from "./pages/admin/users/Details.jsx";
+import OrganizationList from "./pages/admin/organization/List.jsx";
+import OrganizationDetails from "./pages/admin/organization/Details.jsx";
+import OrganizationEdit from "./pages/admin/organization/Edit.jsx";
+import Certificate from "./pages/user_dash/Certificate.jsx";
+// import OrganizationRoutes from "./pages/admin/organization/OrganizationRoutes.jsx";
 
 function App() {
   const location = useLocation();
@@ -288,6 +296,14 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
+                <Route
+                  path="/certificates"
+                  element={
+                    <ProtectedRoute requiredAccountType="individual">
+                      <Certificate />
+                    </ProtectedRoute>
+                  }
+                />
               </Route>
 
               {/* Auth routes (login, register, etc.) */}
@@ -332,22 +348,22 @@ function App() {
                 <Route path="cohorts/edit/:slug" element={<CohortEdit />} />
                 <Route path="cohorts/:slug" element={<CohortsDetails />} />
                 {/* Recap materials route */}
-                <Route
-                  path="class-recap-materials"
-                  element={<ClassRecapMaterials />}
-                />
-                <Route
-                  path="recap-material/create"
-                  element={<RecapMaterialCreate />}
-                />
-                <Route
-                  path="recap-material/edit/:slug"
-                  element={<RecapMaterialEdit />}
-                />
+                <Route path="class-recap-materials" element={<ClassRecapMaterials />} />
+                <Route path="recap-material/create" element={<RecapMaterialCreate />} />
+                <Route path="recap-material/edit/:slug" element={<RecapMaterialEdit />} />
                 {/* Library route */}
                 <Route path="library" element={<Library />} />
                 <Route path="library/create" element={<LibraryCreate />} />
                 <Route path="library/edit/:slug" element={<LibraryEdit />} />
+                {/* User management route */}
+                <Route path="users" element={<UserManagementList />} />
+                <Route path="users/:Id/edit" element={<UserManagementEdit />} />
+                <Route path="users/:Id/show" element={<UserManagementDetails />} />
+                {/* Organization route */}
+                <Route path="organizations" element={<OrganizationList />} />
+                <Route path="organizations/:slug" element={<OrganizationDetails />} />
+                <Route path="organizations/:slug/edit" element={<OrganizationEdit />} />
+                
               </Route>
 
               {/* Unauthorized page */}

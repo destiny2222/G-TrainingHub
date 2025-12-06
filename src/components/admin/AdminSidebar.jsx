@@ -3,15 +3,16 @@ import { Link, useLocation } from 'react-router-dom';
 import { Category, Building4, UserSquare, Book, Calendar, Award, Chart1, ClipboardText } from 'iconsax-reactjs';
 import '../../assets/css/style.css'; 
 import LogoutButton from '../auth/LogoutButton';
+import Logo from '../../assets/image/logo/logo.png'
 
 const AdminSidebar = ({ isOpen, onClose }) => {
   const location = useLocation();
   const isActive = (path) => location.pathname === path;
   return (
-    <div className={`sidebar ${isOpen ? 'open' : ''}`}>
+    <div className={`sidebar admin_sidebar ${isOpen ? 'open' : ''}`}>
       <div className="sidebar-header">
         <div className="sidebar-logo">
-          <img src="./logo.png" alt="GritinAI Logo" className="logo-img" style={{ width: "100px" }} />
+          <img src={Logo} alt="GritinAI Logo" className="logo-img" style={{ width: "100px" }} />
         </div>
       </div>
       <ul className="sidebar-menu">
@@ -20,15 +21,16 @@ const AdminSidebar = ({ isOpen, onClose }) => {
             <Category size="20" variant="Outline" /> Dashboard
           </Link>
         </li>
+        <h4>User Management</h4>
         <li>
-          <h4>User Management</h4>
-          <ul>
-            <li>
-              <Link to="/admin/organization-management" className={isActive('/admin/organization-management') ? 'active' : ''} onClick={onClose}>
-                <Building4 size="20" variant="Outline" /> Organization Management
-              </Link>
-            </li>
-          </ul>
+          <Link to="/admin/organizations" className={isActive('/admin/organizations') ? 'active' : ''} onClick={onClose}>
+            <Building4 size="20" variant="Outline" /> Organization Management
+          </Link>
+        </li>
+        <li>
+          <Link to="/admin/users" className={isActive('/admin/users') ? 'active' : ''} onClick={onClose}>
+            <UserSquare size="20" variant="Outline" /> User Management
+          </Link>
         </li>
         <li>
           <Link to="/admin/courses" className={isActive('/admin/courses') ? 'active' : ''} onClick={onClose}>
@@ -68,7 +70,6 @@ const AdminSidebar = ({ isOpen, onClose }) => {
       </ul>
       <div className="sidebar-footer">
         <LogoutButton  className="logout-button"/>
-        {/* <button className="logout-button">Logout</button> */}
       </div>
     </div>
   );

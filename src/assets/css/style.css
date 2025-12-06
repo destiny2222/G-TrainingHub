@@ -2534,33 +2534,21 @@ your-image.jpg .testimonials-title {
 
 /* Admin Sidebar Specific Styles */
 .sidebar {
-    width: 280px;
-    background-color: #1a237e;
-    /* Darker blue from screenshot */
-    color: var(--white-color);
-    padding: 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    height: 100vh;
-    overflow-y: auto;
+    
+    /* overflow-y: auto; */
 }
+
 
 .sidebar-header {
     text-align: left;
-    /* Align to left as in screenshot */
     margin-bottom: 30px;
     padding-left: 15px;
-    /* Add padding to align with menu items */
 }
 
 .sidebar-header h3 {
     font-family: var(--font-family);
     font-size: 20px;
-    /* Adjusted font size */
     font-weight: 600;
-    /* Adjusted font weight */
     color: var(--white-color);
     margin: 0;
 }
@@ -2568,7 +2556,6 @@ your-image.jpg .testimonials-title {
 .sidebar-header p {
     font-family: var(--font-family);
     font-size: 14px;
-    /* Adjusted font size */
     color: #d3e6f2;
     margin: 5px 0 0;
 }
@@ -2582,7 +2569,6 @@ your-image.jpg .testimonials-title {
 
 .sidebar-menu > li {
     margin-bottom: 5px;
-    /* Reduced margin for tighter spacing */
 }
 
 .sidebar-menu > li > a,
@@ -2590,12 +2576,10 @@ your-image.jpg .testimonials-title {
     display: flex;
     align-items: center;
     padding: 10px 15px;
-    /* Adjusted padding */
     border-radius: 8px;
     color: #d3e6f2;
     font-family: var(--font-family);
     font-size: 15px;
-    /* Adjusted font size */
     font-weight: 500;
     transition:
         background-color 0.3s ease,
@@ -2607,25 +2591,19 @@ your-image.jpg .testimonials-title {
 .sidebar-menu h4 svg {
     margin-right: 10px;
     color: #dae7ff;
-    /* Light blue color for icons */
 }
 
 .sidebar-menu > li > a.active {
-    /* Active state for sidebar links */
     background-color: var(--primary-color);
-    /* Blue background */
     color: var(--white-color);
 }
 
 .sidebar-menu > li > a.active svg {
     color: var(--white-color);
-    /* White icon in active state */
 }
 
 .sidebar-menu > li > a:hover:not(.active) {
-    /* Hover state for non-active links */
     background-color: rgba(255, 255, 255, 0.1);
-    /* Subtle hover effect */
     color: var(--white-color);
 }
 
@@ -2636,11 +2614,9 @@ your-image.jpg .testimonials-title {
 .sidebar-menu h4 {
     color: #a0aec0;
     font-size: 13px;
-    /* Adjusted font size */
     font-weight: 600;
     margin-top: 20px;
     margin-bottom: 8px;
-    /* Adjusted margin */
     padding-left: 15px;
 }
 
@@ -2648,12 +2624,10 @@ your-image.jpg .testimonials-title {
     list-style: none;
     padding: 0;
     margin-left: 0;
-    /* Remove left margin for sub-menu */
 }
 
 .sidebar-menu ul li {
     margin-bottom: 5px;
-    /* Reduced margin for tighter spacing */
 }
 
 .sidebar-menu ul li a {
@@ -2664,7 +2638,6 @@ your-image.jpg .testimonials-title {
     color: #d3e6f2;
     font-family: var(--font-family);
     font-size: 14px;
-    /* Adjusted font size */
     font-weight: 400;
     transition:
         background-color 0.3s ease,
@@ -2724,32 +2697,27 @@ your-image.jpg .testimonials-title {
 
 /* Admin Header Specific Styles */
 .dashboard-header {
-    /* background-color: var(--white-color); */
     padding: 15px 30px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     display: flex;
     justify-content: flex-end;
     align-items: center;
     height: 70px;
-    /* Fixed height for the header */
 }
 
 .dashboard-header .search-bar {
     display: flex;
     align-items: center;
     background-color: #f0f2f5;
-    /* Light gray background */
     border-radius: 8px;
     padding: 8px 15px;
     flex-grow: 1;
     max-width: 500px;
     border: 1px solid #e0e0e0;
-    /* Subtle border */
 }
 
 .dashboard-header .search-bar svg {
     color: #6c757d;
-    /* Darker gray for icon */
     margin-right: 10px;
 }
 
@@ -2761,12 +2729,10 @@ your-image.jpg .testimonials-title {
     font-family: var(--font-family);
     font-size: 15px;
     color: var(--black-50);
-    /* Text color */
 }
 
 .dashboard-header .search-bar input::placeholder {
     color: #a0aec0;
-    /* Lighter gray for placeholder */
 }
 
 .dashboard-header .header-icons {
@@ -2777,9 +2743,7 @@ your-image.jpg .testimonials-title {
 
 .dashboard-header .header-icons svg {
     color: #6c757d;
-    /* Darker gray for icon */
     font-size: 22px;
-    /* Slightly larger icon size */
     cursor: pointer;
 }
 
@@ -2787,32 +2751,26 @@ your-image.jpg .testimonials-title {
 @media (max-width: 992px) {
     .admin-dashboard-container .main-content {
         margin-left: 0;
-        /* Sidebar will be hidden or toggled on smaller screens */
     }
 
     .sidebar {
         width: 250px;
-        /* Adjust sidebar width for smaller screens if needed */
         transform: translateX(-100%);
-        /* Hide sidebar by default */
         transition: transform 0.3s ease-in-out;
     }
 
     .sidebar.open {
         transform: translateX(0);
-        /* Show sidebar when open */
     }
 }
 
 @media (max-width: 768px) {
     .dashboard-cards {
         grid-template-columns: 1fr;
-        /* Stack cards on very small screens */
     }
 
     .ai-chat-analytics {
         grid-template-columns: 1fr;
-        /* Stack analytics cards */
     }
 
     .dashboard-header .search-bar {
