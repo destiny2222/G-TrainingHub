@@ -38,10 +38,10 @@ function ClassRoom() {
         <p>
           The live class session is hosted by your instructor, who will guide
           you through the topic in real time. By joining now, you’ll have the
-          opportunity to actively participate in the discussion, ask questions,
-          and engage with both the instructor and your classmates. This
-          interactive format is designed to enhance your learning experience and
-          help clarify any challenging concepts immediately
+          opportunity to actively participate in the discussion and ask
+          questions. This interactive format is designed to enhance your
+          learning experience and help clarify any challenging concepts
+          immediately.
         </p>
 
         <button

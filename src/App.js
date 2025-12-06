@@ -64,6 +64,7 @@ import Profile from "./pages/user_dash/Profile.jsx";
 import RecapMaterialList from "./pages/user_dash/recapVideos/List.jsx";
 import RecapMaterialDetails from "./pages/user_dash/recapVideos/Details.jsx";
 import IndividualLibrary from "./pages/user_dash/individual/Library.jsx";
+import About from "./pages/about/About";
 
 function App() {
   const location = useLocation();
@@ -89,6 +90,7 @@ function App() {
             <Routes>
               <Route element={<MainLayout />}>
                 <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
                 <Route path="/cohorts" element={<Cohorts />} />
                 <Route
                   path="/cohorts/:slug/details"
@@ -252,26 +254,38 @@ function App() {
                   }
                 />
 
-                <Route path="/ai-assistant" element={
-                  <ProtectedRoute>
-                    <AIAssistantPage />
-                  </ProtectedRoute>
-                } />
-                <Route path="/profile" element={
-                  <ProtectedRoute requiredAccountType="individual">
-                    <Profile />
-                  </ProtectedRoute>
-                } />
-                <Route path="/recap-videos" element={
-                  <ProtectedRoute requiredAccountType="individual">
-                    <RecapMaterialList />
-                  </ProtectedRoute>
-                } />
-                <Route path="/recap-videos/:cohortSlug" element={
-                  <ProtectedRoute requiredAccountType="individual">
-                    <RecapMaterialDetails />
-                  </ProtectedRoute>
-                } />
+                <Route
+                  path="/ai-assistant"
+                  element={
+                    <ProtectedRoute>
+                      <AIAssistantPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedRoute requiredAccountType="individual">
+                      <Profile />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/recap-videos"
+                  element={
+                    <ProtectedRoute requiredAccountType="individual">
+                      <RecapMaterialList />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/recap-videos/:cohortSlug"
+                  element={
+                    <ProtectedRoute requiredAccountType="individual">
+                      <RecapMaterialDetails />
+                    </ProtectedRoute>
+                  }
+                />
                 <Route
                   path="/ai-assistant"
                   element={
