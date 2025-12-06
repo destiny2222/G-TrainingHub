@@ -1,0 +1,204 @@
+.certificate-container {
+  position:relative;
+  min-height: 100vh;
+  padding: 40px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f6ff;
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.certificate.bg-image::before{
+    content: "";
+    position: absolute;
+    width: 80%;
+    height: 100%;
+    top: 0;
+    left: 10%;
+    opacity: 0.1;
+    background-image: url('../image/logo/favicon.png');
+    background-repeat: no-repeat;
+    background-size: 50%  50%;
+    background-position: center;
+}
+
+.certificate {
+  position: relative;
+  width: 100%;
+  max-width: 1120px;
+  aspect-ratio: 16 / 9;
+  background: #ffffff;
+  border-radius: 32px;
+  padding: 48px 72px;
+  box-shadow: 0 20px 45px rgba(9, 30, 66, 0.15);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Corner / side shapes (simplified from original design) */
+.certificate::before,
+.certificate::after {
+  content: "";
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  border-radius: 48px;
+  border: 10px solid #1c64f2;
+  opacity: 0.18;
+}
+
+.certificate::before {
+  top: -80px;
+  left: -40px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.certificate::after {
+  bottom: -80px;
+  right: -40px;
+  border-left: none;
+  border-top: none;
+}
+
+/* Header */
+
+.certificate-header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.certificate-logo {
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #1c64f2;
+}
+
+/* Title */
+
+.certificate-title {
+  text-align: center;
+  font-size: 48px;
+  font-weight: 600;
+  margin: 8px 0 4px;
+  color: #2563eb;
+  font-family: "Great Vibes", cursive;
+}
+
+.certificate-subtitle {
+  text-align: center;
+  font-size: 14px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin: 0;
+  color: #6b7280;
+}
+
+.certificate-small-text {
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-top: 32px;
+  margin-bottom: 8px;
+  color: #9ca3af;
+}
+
+/* Recipient */
+
+.certificate-recipient {
+  text-align: center;
+  font-size: 32px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1f2937;
+  margin: 0 0 24px;
+}
+
+/* Body text */
+
+.certificate-body {
+  max-width: 760px;
+  margin: 0 auto 48px;
+  text-align: center;
+  font-size: 15px;
+  line-height: 1.8;
+  color: #4b5563;
+}
+
+.certificate-program {
+  font-weight: 600;
+  color: #1c64f2;
+}
+
+/* Signatures */
+
+.certificate-signatures {
+  display: flex;
+  justify-content: space-between;
+  gap: 32px;
+  margin-top: 12px;
+}
+
+.certificate-signature-block {
+  flex: 1;
+  text-align: center;
+}
+
+.signature-line {
+  margin: 0 auto 12px;
+  width: 70%;
+  height: 2px;
+  background: #1c64f2;
+}
+
+.signature-name {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #111827;
+}
+
+.signature-title {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+/* Certificate ID */
+
+.certificate-id {
+  position: absolute;
+  right: 40px;
+  bottom: 28px;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+/* Basic responsiveness */
+
+@media (max-width: 900px) {
+  .certificate {
+    padding: 32px 24px;
+    border-radius: 24px;
+  }
+
+  .certificate-signatures {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .certificate-id {
+    right: 24px;
+    bottom: 20px;
+  }
+}

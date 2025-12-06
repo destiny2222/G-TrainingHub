@@ -47,8 +47,6 @@ const MyCourse = () => {
     return date.toLocaleDateString("en-US", options);
   };
 
-  console.log(enrollment);
-
   return (
     <>
       <div className="enrolled-courses-container">

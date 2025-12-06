@@ -3,6 +3,13 @@
     background-color: #f5f7fb;
 }
 
+.library-contents {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    gap: 10rem;
+}
+
 .library-header h1 {
     font-size: 3.1rem;
     transform: translateY(-30%);
@@ -12,6 +19,27 @@
     color: #888;
     margin-bottom: 5%;
     width: 60%;
+}
+
+.publications {
+    padding: 30px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.publications h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.publications ul {
+    padding-left: 20px;
+}
+
+.publications li {
+    margin-bottom: 10px;
 }
 
 .read-more {
@@ -28,9 +56,10 @@
     background-color: white;
     padding: 15px;
     border-radius: 8px;
+    margin-bottom: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: flex;
-    width: 60%;
+    /*width: 50%;*/
     gap: 50px;
     align-items: center;
     justify-content: center;
@@ -49,7 +78,7 @@
 }
 
 .library-title {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: bold;
     margin-bottom: 4%px;
     display: flex;
@@ -66,8 +95,8 @@
 }
 
 .library-description {
-    font-size: 12px;
-    line-height: 1.5;
+    font-size: 12px !important;
+    /*line-height: 1.5;*/
     color: #333;
 }
 

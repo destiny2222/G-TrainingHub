@@ -12,8 +12,9 @@ import  recapMaterialReducer from './slices/super_admin/RecapMaterial';
 import libraryReducer from './slices/super_admin/LibrarySlice';
 import assignmentReducer from './slices/assignmentSlice';
 import classRecapMaterialReducer from './slices/classRecapMaterialSlice';
-
-
+import adminAnalyticsReducer from './slices/super_admin/analyticsSlice';
+import userManagementReducer from './slices/super_admin/userManagementSlice';
+import orgAdminReducer from './slices/super_admin/organisationSlice';
 
 export const store = configureStore({
   reducer: {
@@ -30,6 +31,9 @@ export const store = configureStore({
     library: libraryReducer,
     userAssignments: assignmentReducer,
     classRecapMaterials: classRecapMaterialReducer,
+    adminAnalytics: adminAnalyticsReducer,
+    userManagement: userManagementReducer,
+    orgAdmin: orgAdminReducer,
   },
 });
 
