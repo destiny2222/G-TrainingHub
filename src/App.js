@@ -71,6 +71,7 @@ import OrganizationList from "./pages/admin/organization/List.jsx";
 import OrganizationDetails from "./pages/admin/organization/Details.jsx";
 import OrganizationEdit from "./pages/admin/organization/Edit.jsx";
 import Certificate from "./pages/user_dash/Certificate.jsx";
+import EnrollmentList from "./pages/admin/enrollment/List.jsx";
 // import OrganizationRoutes from "./pages/admin/organization/OrganizationRoutes.jsx";
 
 function App() {
@@ -363,7 +364,8 @@ function App() {
                 <Route path="organizations" element={<OrganizationList />} />
                 <Route path="organizations/:slug" element={<OrganizationDetails />} />
                 <Route path="organizations/:slug/edit" element={<OrganizationEdit />} />
-                
+                {/* enrollment route */}
+                <Route path="enrollments" element={<EnrollmentList />} />
               </Route>
 
               {/* Unauthorized page */}

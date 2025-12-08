@@ -15,6 +15,8 @@ import classRecapMaterialReducer from './slices/classRecapMaterialSlice';
 import adminAnalyticsReducer from './slices/super_admin/analyticsSlice';
 import userManagementReducer from './slices/super_admin/userManagementSlice';
 import orgAdminReducer from './slices/super_admin/organisationSlice';
+import enrollmentReducer from './slices/super_admin/EnrollmentSilce';
+
 
 export const store = configureStore({
   reducer: {
@@ -34,6 +36,7 @@ export const store = configureStore({
     adminAnalytics: adminAnalyticsReducer,
     userManagement: userManagementReducer,
     orgAdmin: orgAdminReducer,
+    enrollments: enrollmentReducer,
   },
 });
 
