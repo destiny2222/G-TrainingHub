@@ -1,19 +1,12 @@
 import { useState } from "react";
 import { FaChevronRight } from "react-icons/fa6";
 import { FaChevronLeft } from "react-icons/fa6";
-import { fetchUserEnrolledCohorts } from "../../../../redux/slices/userEnrolledCohortSlice";
-import { useSelector, useDispatch } from "react-redux";
 import "./Calendar.css";
 
-const Calendar = () => {
+const Calendar = ({ start, end }) => {
   // Calendar state
   const [currentMonth, setCurrentMonth] = useState(7); // August (0-indexed)
   const [currentYear, setCurrentYear] = useState(2025);
-
-  const dispatch = useDispatch();
-  const { enrollment, loading, error } = useSelector(
-    (state) => state.userEnrolledCohorts,
-  );
 
   function getDateIntervals(startDate, endDate, intervalDays = 3) {
     const start = new Date(startDate);
@@ -36,12 +29,7 @@ const Calendar = () => {
     return result;
   }
 
-  const highlightedDates = getDateIntervals(
-    "2025-12-01T00:00:00.000000Z",
-    "2026-02-02T00:00:00.000000Z",
-  );
-
-  // const highlightedDates = { 7: [6, 7, 8], 8: [12, 13], 9: [14, 15] };
+  const highlightedDates = getDateIntervals(start, end);
 
   const getDaysInMonth = (month, year) => {
     return new Date(year, month + 1, 0).getDate();
@@ -115,7 +103,7 @@ const Calendar = () => {
 
   return (
     <>
-      {/* <div
+      <div
         className="overlay"
         style={{
           position: "fixed",
@@ -152,7 +140,7 @@ const Calendar = () => {
           </div>
           <div className="calendar-grid">{renderCalendar()}</div>
         </div>
-      </div>*/}
+      </div>
     </>
   );
 };
