@@ -132,32 +132,23 @@ const MyCourse = () => {
           </div>
         )}
       </div>
-      <div
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          height: "100vh",
-          width: "100vw",
-          borderRadius: "10px",
-          display: calendar ? "block" : "none",
-          backgroundColor: "rgba(0, 0, 0, 0.1)",
-        }}
-      />
-      <div className="calendar-container" style={{}}>
-        <IoMdClose
-          onClick={handleCalendarClose}
-          style={{
-            zIndex: 1000,
-            position: "absolute",
-            top: "10px",
-            right: "10px",
-            cursor: "pointer",
-            color: "white",
-            fontSize: "24px",
-          }}
-        />
-        {calendar && <Calendar start={time.start} end={time.end} />}
+      <div className="">
+        {calendar && (
+          <>
+            <IoMdClose
+              onClick={handleCalendarClose}
+              style={{
+                position: "absolute",
+                top: "10px",
+                right: "10px",
+                color: "white",
+                fontSize: "34px",
+                zIndex: 1000,
+              }}
+            />
+            <Calendar start={time.start} end={time.end} />
+          </>
+        )}
       </div>
     </>
   );
