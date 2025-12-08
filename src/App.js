@@ -61,6 +61,7 @@ import LibraryCreate from "./pages/admin/Library/Create.jsx";
 import LibraryEdit from "./pages/admin/Library/Edit.jsx";
 import AIAssistantPage from "./pages/user_dash/AIAssistantPage.jsx";
 import Profile from "./pages/user_dash/Profile.jsx";
+import About from "./pages/about/About.jsx";
 import RecapMaterialList from "./pages/user_dash/recapVideos/List.jsx";
 import RecapMaterialDetails from "./pages/user_dash/recapVideos/Details.jsx";
 import IndividualLibrary from "./pages/user_dash/individual/Library.jsx";
@@ -71,6 +72,7 @@ import OrganizationList from "./pages/admin/organization/List.jsx";
 import OrganizationDetails from "./pages/admin/organization/Details.jsx";
 import OrganizationEdit from "./pages/admin/organization/Edit.jsx";
 import Certificate from "./pages/user_dash/Certificate.jsx";
+import Calender from "./pages/user_dash/individual/Calender/Calender";
 // import OrganizationRoutes from "./pages/admin/organization/OrganizationRoutes.jsx";
 
 function App() {
@@ -135,6 +137,15 @@ function App() {
                   element={
                     <ProtectedRoute requiredAccountType="individual">
                       <IndividualLibrary />
+                    </ProtectedRoute>
+                  }
+                />
+
+                <Route
+                  path="/calendar"
+                  element={
+                    <ProtectedRoute requiredAccountType="individual">
+                      <Calender />
                     </ProtectedRoute>
                   }
                 />
@@ -361,9 +372,18 @@ function App() {
                 <Route path="cohorts/edit/:slug" element={<CohortEdit />} />
                 <Route path="cohorts/:slug" element={<CohortsDetails />} />
                 {/* Recap materials route */}
-                <Route path="class-recap-materials" element={<ClassRecapMaterials />} />
-                <Route path="recap-material/create" element={<RecapMaterialCreate />} />
-                <Route path="recap-material/edit/:slug" element={<RecapMaterialEdit />} />
+                <Route
+                  path="class-recap-materials"
+                  element={<ClassRecapMaterials />}
+                />
+                <Route
+                  path="recap-material/create"
+                  element={<RecapMaterialCreate />}
+                />
+                <Route
+                  path="recap-material/edit/:slug"
+                  element={<RecapMaterialEdit />}
+                />
                 {/* Library route */}
                 <Route path="library" element={<Library />} />
                 <Route path="library/create" element={<LibraryCreate />} />
@@ -371,12 +391,20 @@ function App() {
                 {/* User management route */}
                 <Route path="users" element={<UserManagementList />} />
                 <Route path="users/:Id/edit" element={<UserManagementEdit />} />
-                <Route path="users/:Id/show" element={<UserManagementDetails />} />
+                <Route
+                  path="users/:Id/show"
+                  element={<UserManagementDetails />}
+                />
                 {/* Organization route */}
                 <Route path="organizations" element={<OrganizationList />} />
-                <Route path="organizations/:slug" element={<OrganizationDetails />} />
-                <Route path="organizations/:slug/edit" element={<OrganizationEdit />} />
-                
+                <Route
+                  path="organizations/:slug"
+                  element={<OrganizationDetails />}
+                />
+                <Route
+                  path="organizations/:slug/edit"
+                  element={<OrganizationEdit />}
+                />
               </Route>
 
               {/* Unauthorized page */}

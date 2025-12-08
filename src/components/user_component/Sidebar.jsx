@@ -23,9 +23,16 @@ function Sidebar() {
 
   return (
     <aside className="sidebar-dashboard">
-      <div className="sidebar-logo">
-        <img src="./logo.png" alt="GritinAI Logo" className="logo-img" style={{ width: "100px" }} />
-      </div>
+      <Link to="/">
+        <div className="sidebar-logo">
+          <img
+            src="./logo.png"
+            alt="GritinAI Logo"
+            className="logo-img"
+            style={{ width: "100px" }}
+          />
+        </div>
+      </Link>
 
       <nav className="sidebar-navigation">
         <ul className="sidebar-ul">

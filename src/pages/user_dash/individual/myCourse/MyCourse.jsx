@@ -1,9 +1,8 @@
 import "./MyCourse.css";
 import { useState, useEffect, useMemo } from "react";
 import { IoIosSearch } from "react-icons/io";
-import { useDispatch } from "react-redux";
 import { fetchUserEnrolledCohorts } from "../../../../redux/slices/userEnrolledCohortSlice";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 const MyCourse = () => {
