@@ -23,7 +23,7 @@ const Certificate = () => {
   }, [dispatch]);
 
   // Generate certificate ID based on cohort name
-  const generateCertificateId = (cohortName) => {
+  const generateCertificateId = (cohortName, enrollmentItem) => {
     const words = cohortName.split(' ').filter(word => word.length > 0);
     
     // Fixed prefix
@@ -38,13 +38,9 @@ const Certificate = () => {
     // Get first letter of second word (A from "Analysis")
     const secondLetter = words[1] ? words[1].charAt(0).toUpperCase() : 'O';
     
-    // Generate random 4-digit number starting from 6000
-    const randomNum = Math.floor(Math.random() * 4000) + 6000; // Range: 6000-9999
-    
-    return `${prefix}${year}${firstLetter}${secondLetter}${randomNum}`;
+    return `${prefix}${year}${firstLetter}${secondLetter}${enrollmentItem?.enrollment_id || ''}`;
   };
 
-  // console.log("Enrollment Data:", enrollment);
 
   const handleCohortChange = (e) => {
     setSelectedCohortId(e.target.value);
@@ -61,7 +57,6 @@ const Certificate = () => {
     }
 
     const enrollmentItem = enrollment.find((item) => item.cohort.id === selectedCohortId);
-    
     if (!enrollmentItem) {
       setErrorMessage("Selected cohort not found.");
       return;
@@ -310,7 +305,7 @@ const Certificate = () => {
 
           {/* Certificate ID */}
           <div className="certificate-id">
-            {selectedCohort.certificate_id || generateCertificateId(selectedCohort.cohort?.name || "Certificate Holder")}
+            {selectedCohort.certificate_id || generateCertificateId(selectedCohort.cohort?.name || "Certificate Holder", selectedCohort)}
           </div>
         </div>
           </>

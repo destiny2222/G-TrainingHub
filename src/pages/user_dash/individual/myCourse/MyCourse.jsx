@@ -5,7 +5,7 @@ import { IoIosSearch } from "react-icons/io";
 const MyCourse = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFilters, setSelectedFilters] = useState({});
-
+  
   const handleFilterChange = (filterType, value) => {
     setSelectedFilters({ ...selectedFilters, [filterType]: value });
   };
