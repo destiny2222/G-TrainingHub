@@ -126,6 +126,13 @@ export const AuthProvider = ({ children }) => {
       const response = await api.post('/user/login', credentials);
       const { user, access_token, organizations } = response.data;
 
+      // Validate account_type
+      if (user.account_type !== 'individual') {
+        const errorMessage = 'This account is not registered as an individual user. Please login using the correct account type.';
+        setError(errorMessage);
+        return { success: false, error: errorMessage };
+      }
+
       setAuth(user, access_token, 'individual', organizations);
 
       return { success: true, data: response.data };
@@ -147,6 +154,12 @@ export const AuthProvider = ({ children }) => {
       const response = await api.post('/organization/login', credentials);
       const { user, access_token, organizations } = response.data;
       
+      // Validate account_type
+      if (user.account_type !== 'organization_member') {
+        const errorMessage = 'This account is not registered as an organization member. Please login using the correct account type.';
+        setError(errorMessage);
+        return { success: false, error: errorMessage };
+      }
 
       setAuth(user, access_token, 'organization', organizations);
 

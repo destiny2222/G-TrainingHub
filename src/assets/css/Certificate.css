@@ -5,31 +5,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f3f6ff;
+  /* background: #ffffff; */
   box-sizing: border-box;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-.certificate.bg-image::before{
-    content: "";
-    position: absolute;
-    width: 80%;
-    height: 100%;
-    top: 0;
-    left: 10%;
-    opacity: 0.1;
-    background-image: url('../image/logo/favicon.png');
-    background-repeat: no-repeat;
-    background-size: 50%  50%;
-    background-position: center;
-}
+
 
 .certificate {
   position: relative;
   width: 100%;
   max-width: 1120px;
   aspect-ratio: 16 / 9;
-  background: #ffffff;
+  background: #f3f6ff;
   border-radius: 32px;
   padding: 48px 72px;
   box-shadow: 0 20px 45px rgba(9, 30, 66, 0.15);
@@ -46,7 +34,8 @@
   height: 260px;
   border-radius: 48px;
   border: 10px solid #1c64f2;
-  opacity: 0.18;
+  /* background: #1c64f2; */
+  /* opacity: 0.18; */
 }
 
 .certificate::before {
@@ -61,6 +50,20 @@
   right: -40px;
   border-left: none;
   border-top: none;
+}
+
+.certificate.bg-image{
+    background-image: url('../image/logo/backdrop.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+    /* background-blend-mode: overlay;
+    background-color: rgba(0, 0, 0, 0.5); */
+}
+
+.certificate.bg-image{
+    position: relative;
+    z-index: 1;
 }
 
 /* Header */
@@ -201,4 +204,105 @@
     right: 24px;
     bottom: 20px;
   }
+}
+
+/* Ensure certificate has relative positioning and hidden overflow */
+.certificate {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Chevron Decorations */
+.chevron-decoration {
+  position: absolute;
+  z-index: 1;
+}
+
+/* Remove the double chevron structure, use simple stripes */
+.double-chevron-right span,
+.double-chevron-left span {
+  position: absolute;
+  width: 50px;
+  height: 350px;
+  background: #0066FF;
+  border-radius: 8px;
+}
+
+/* TOP LEFT */
+.chevron-top-left {
+  top: -100px;
+  left: -100px;
+}
+
+.chevron-top-left .double-chevron-left span {
+  transform: rotate(45deg);
+}
+
+.chevron-top-left .double-chevron-left span:first-child {
+  left: 50px;
+}
+
+.chevron-top-left .double-chevron-left span:last-child {
+  left: 100px;
+}
+
+/* TOP RIGHT */
+.chevron-top-right {
+  top: -100px;
+  right: -100px;
+}
+
+.chevron-top-right .double-chevron-right span {
+  transform: rotate(-45deg);
+}
+
+.chevron-top-right .double-chevron-right span:first-child {
+  right: 50px;
+}
+
+.chevron-top-right .double-chevron-right span:last-child {
+  right: 100px;
+}
+
+/* BOTTOM LEFT */
+.chevron-bottom-left {
+  bottom: -100px;
+  left: -100px;
+}
+
+.chevron-bottom-left .double-chevron-left span {
+  transform: rotate(-45deg);
+}
+
+.chevron-bottom-left .double-chevron-left span:first-child {
+  left: 50px;
+}
+
+.chevron-bottom-left .double-chevron-left span:last-child {
+  left: 100px;
+}
+
+/* BOTTOM RIGHT */
+.chevron-bottom-right {
+  bottom: -100px;
+  right: -100px;
+}
+
+.chevron-bottom-right .double-chevron-right span {
+  transform: rotate(45deg);
+}
+
+.chevron-bottom-right .double-chevron-right span:first-child {
+  right: 50px;
+}
+
+.chevron-bottom-right .double-chevron-right span:last-child {
+  right: 100px;
+}
+
+.double-chevron-right,
+.double-chevron-left {
+  position: relative;
+  width: 300px;
+  height: 300px;
 }

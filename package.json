@@ -27,6 +27,7 @@
     "react-router-dom": "^7.9.4",
     "react-scripts": "^5.0.1",
     "react-slick": "^0.31.0",
+    "react-to-pdf": "^2.0.3",
     "react-toastify": "^11.0.5",
     "react-tsparticles": "^1.42.1",
     "slick-carousel": "^1.8.1",
