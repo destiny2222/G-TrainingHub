@@ -36,9 +36,6 @@ function Header() {
               <li>
                 <Link to="/about">About</Link>
               </li>
-              <li>
-                <Link to="/faqs">FAQs</Link>
-              </li>
             </ul>
           </div>
           <div className="header_buttons">
@@ -72,24 +69,19 @@ function Header() {
         <div className={`mobile-menu ${isMenuOpen ? "open" : ""}`}>
           <ul>
             <li>
-              <Link to="/cohort" onClick={toggleMenu}>
-                Cohort
+              <Link to="/cohorts" onClick={toggleMenu}>
+                Cohorts
               </Link>
             </li>
             <li>
-              <Link to="/pricing" onClick={toggleMenu}>
-                How It Works
-              </Link>
-            </li>
-            <li>
-              <Link to="/faqs" onClick={toggleMenu}>
-                FAQs
+              <Link to="/about" onClick={toggleMenu}>
+                About
               </Link>
             </li>
 
             <li>
               {" "}
-              <Link to="/login" className="btn-theme signup-btn">
+              <Link to="/login" className="btn-theme primary-btn signup-btn">
                 Get Started
               </Link>
             </li>
