@@ -216,7 +216,7 @@ const TrainingCohortList = () => {
                 >
                   View Members
                 </Link>
-                {cohort.payment_status !== 'paid' && cohort.price > 0 && (
+                {cohort.status !== 'paid' && cohort.price > 0 && (
                   <button 
                     onClick={() => handlePayment(cohort.id)}
                     className="btn-secondary"

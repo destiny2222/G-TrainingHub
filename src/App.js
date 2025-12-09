@@ -201,7 +201,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="organization/trainings/cohort/verify-payment/:reference"
+                  path="/organization/trainings/cohort/verify-payment/callback"
                   element={
                     <ProtectedRoute requiredAccountType="organization">
                       <PaymentCallback />

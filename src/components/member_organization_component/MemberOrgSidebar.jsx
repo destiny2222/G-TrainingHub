@@ -42,12 +42,12 @@ function MemberOrgSidebar() {
               <span>My Courses</span>
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link to="/organization/training-catalog" className={isActive('/organization/training-catalog')}>
               <Category size="20" variant="Bulk" />
               <span>Training Catalog</span>
             </Link>
-          </li>
+          </li> */}
           <li>
             <Link to="/organization/library" className={isActive('/organization/library')}>
               <FaBookOpenReader size="20" />
@@ -61,25 +61,13 @@ function MemberOrgSidebar() {
             </Link>
           </li>
           <li>
-            <Link to="/organization/progress" className={isActive('/organization/progress')}>
-              <Chart size="20" variant="Bulk" />
-              <span>My Progress</span>
-            </Link>
-          </li>
-          <li>
             <Link to="/organization/certificates" className={isActive('/organization/certificates')}>
               <Award size="20" variant="Bulk" />
               <span>My Certificates</span>
             </Link>
           </li>
           <li>
-            <Link to="/organization/bookmarks" className={isActive('/organization/bookmarks')}>
-              <Bookmark size="20" variant="Bulk" />
-              <span>Bookmarks</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/organization/ai-assistant" className={isActive('/organization/ai-assistant')}>
+            <Link to="/ai-assistant" className={isActive('/ai-assistant')}>
               <MagicStar size="20" variant="Bulk" />
               <span>AI Assistant</span>
             </Link>

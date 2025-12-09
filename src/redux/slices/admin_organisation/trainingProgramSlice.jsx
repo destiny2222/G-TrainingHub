@@ -9,7 +9,7 @@ export const initializeCohortPayment = createAsyncThunk(
   async (cohortId, { rejectWithValue }) => {
     try {
       const response = await api.post(
-        "/organization/trainings/cohort/initialize-payment",
+        "/organization/trainings/cohort/initialize-payment/",
         { cohort_id: cohortId },
       );
       console.log(response);
@@ -28,7 +28,7 @@ export const verifyCohortPayment = createAsyncThunk(
   async (reference, { rejectWithValue }) => {
     try {
       const response = await api.get(
-        `/organization/trainings/cohort/payment/verify/${reference}`,
+        `/organization/trainings/cohort/verify-payment/callback/${reference}`,
       );
       return response.data;
     } catch (error) {

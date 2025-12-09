@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Add, DocumentDownload, CalendarEdit, Award } from "iconsax-reactjs";
 import {
   Chart as ChartJS,
@@ -12,9 +12,11 @@ import {
   Filler,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";   
 import { fetchOrganisationAnalytics } from "../../redux/slices/admin_organisation/analyticsSlice";
 import { Link } from "react-router-dom";
+import { fetchOrg } from "../../redux/slices/admin_organisation/organisationSlice.js";
+import RequestCustom from "./RequestCustom";
 
 ChartJS.register(
   CategoryScale,
@@ -32,9 +34,13 @@ function OrganizationDashboard() {
   const analytics = useSelector((state) => state.analytics.analyticsData);
   const loading = useSelector((state) => state.analytics.loading);
   const error = useSelector((state) => state.analytics.error);
+  const organization = useSelector((state) => state.org.organization);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  // console.log("Organization Data:", organization);
 
   useEffect(() => {
     dispatch(fetchOrganisationAnalytics());
+    dispatch(fetchOrg());
   }, [dispatch]);
 
   const trainingProgress = analytics?.training_progress || [];
@@ -71,10 +77,13 @@ function OrganizationDashboard() {
         {/* Welcome Section */}
         <section className="p-4 mb-4 d-flex justify-content-between align-items-center">
           <div className="welcome-head">
-            <h1 className="welcome-text-title">Welcome, Acme Inc.</h1>
+            <h1 className="welcome-text-title">Welcome, {organization?.name || "Acme Inc."}</h1>
           </div>
           <div className="d-flex flex-wrap justify-content-end">
-            <button className="btn-request-training d-flex align-items-center mb-2">
+            <button 
+              className="btn-request-training d-flex align-items-center mb-2"
+              onClick={() => setIsModalOpen(true)}
+            >
               <Add size="20" className="me-2" /> Request Custom Training
             </button>
           </div>
@@ -287,6 +296,12 @@ function OrganizationDashboard() {
           </div>
         </div>
       </div>
+
+      {/* Request Custom Training Modal */}
+      <RequestCustom 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      />
     </div>
   );
 }
