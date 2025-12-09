@@ -20,32 +20,61 @@ const TrainingProgramList = () => {
         setLoading(true);
         // 1. Fetch all cohorts
         const cohortsAction = await dispatch(getOrganizationCohorts());
-        const cohorts = cohortsAction.payload?.data || [];
+        
+        // Handle the response structure - could be payload.data or just payload
+        let cohorts = [];
+        if (cohortsAction.payload) {
+          cohorts = Array.isArray(cohortsAction.payload) 
+            ? cohortsAction.payload 
+            : (cohortsAction.payload.data || []);
+        }
+
+        if (cohorts.length === 0) {
+          setEnrolledMembers([]);
+          setLoading(false);
+          return;
+        }
 
         // 2. Fetch members for each cohort
-        const membersPromises = cohorts.map(cohort => 
-          dispatch(getCohortMembers(cohort.id)).unwrap()
-        );
+        // Handle both old and new data structures (subscription.cohort.id vs cohort.id)
+        const membersPromises = cohorts.map(subscription => {
+          const cohortId = subscription.cohort?.id || subscription.id;
+          return dispatch(getCohortMembers(cohortId))
+            .then(action => action.payload)
+            .catch(error => {
+              return { data: [] };
+            });
+        });
         
         const membersResponses = await Promise.all(membersPromises);
         
-        // 3. Aggregate and deduplicate members
+        // 3. Aggregate and deduplicate members based on user information
         const allMembers = [];
         const memberIds = new Set();
 
         membersResponses.forEach(response => {
-          const members = response.data || [];
-          members.forEach(member => {
-            if (!memberIds.has(member.id)) {
-              memberIds.add(member.id);
-              allMembers.push(member);
+          const enrollments = Array.isArray(response) ? response : (response?.data || []);
+          enrollments.forEach(enrollment => {
+            // Extract user data from the enrollment
+            const user = enrollment.user;
+            if (user && user.id) {
+              const memberId = user.id;
+              if (!memberIds.has(memberId)) {
+                memberIds.add(memberId);
+                allMembers.push({
+                  id: memberId,
+                  name: user.name,
+                  email: user.email,
+                  profile_picture: user.profile_picture,
+                  status: enrollment.status || 'active'
+                });
+              }
             }
           });
         });
 
         setEnrolledMembers(allMembers);
       } catch (error) {
-        console.error("Failed to fetch enrolled members", error);
         toast.error("Failed to load enrolled members");
       } finally {
         setLoading(false);
@@ -120,7 +149,10 @@ const TrainingProgramList = () => {
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M3 8L10 3L17 8M4 9V16C4 16.5304 4.21071 17.0391 4.58579 17.4142C4.96086 17.7893 5.46957 18 6 18H14C14.5304 18 15.0391 17.7893 15.4142 17.4142C15.7893 17.0391 16 16.5304 16 16V9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            View Cohorts
+            View Enroll Cohorts
+          </Link>
+          <Link to='/organization/trainings/assign' className='btn-secondary'>
+            Assign Members
           </Link>
         </div>
       </div>

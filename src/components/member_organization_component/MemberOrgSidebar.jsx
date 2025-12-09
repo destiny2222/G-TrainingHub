@@ -14,6 +14,7 @@ import {
 import { FaBookOpenReader } from "react-icons/fa6";
 import LogoutButton from '../auth/LogoutButton';
 
+
 function MemberOrgSidebar() {
   const location = useLocation();
 
@@ -23,10 +24,16 @@ function MemberOrgSidebar() {
 
   return (
     <aside className="sidebar-dashboard">
-      <div className="sidebar-logo">
-        <h2 className='logo-text'>GRITINAI TRAINING HUB</h2>
-        <p className='logo-subtext'>Organization Member</p>
-      </div>
+      <Link to="/">
+        <div className="sidebar-logo">
+          <img
+            src="/logo.png"
+            alt="GritinAI Logo"
+            className="logo-img"
+            style={{ width: "100px" }}
+          />
+        </div>
+      </Link>
       
       <nav className="sidebar-navigation">
         <ul className="sidebar-ul">
@@ -52,6 +59,18 @@ function MemberOrgSidebar() {
             <Link to="/organization/library" className={isActive('/organization/library')}>
               <FaBookOpenReader size="20" />
               <span>Learning Library</span>
+            </Link>
+          </li>
+          {/* <li>
+            <Link to="/calendar" className={isActive("/calendar")}>
+              <Calendar size="20" variant="Bulk" />
+              <span>Calendar</span>
+            </Link>
+          </li> */}
+          <li>
+            <Link to="/organization/recap-videos" className={isActive("/organization/recap-videos")}>
+              <Chart size="20" variant="Bulk" />
+              <span>Recap Videos</span>
             </Link>
           </li>
           <li>

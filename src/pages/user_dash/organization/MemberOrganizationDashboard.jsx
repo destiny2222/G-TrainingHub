@@ -1,182 +1,144 @@
+import React, { useEffect, useState , useRef } from "react";
+import { Award, Profile, Book, AddCircle, TrendUp, Calendar } from "iconsax-reactjs";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../../contexts/AuthContext";
+import { fetchClassRooms } from "../../../redux/slices/classRoomSlice";
+import { fetchUserEnrolledCohorts } from "../../../redux/slices/userEnrolledCohortSlice";
+import { fetchAssignments } from "../../../redux/slices/assignmentSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchRecapMaterials, fetchRecapMaterialByCohortSlug,} from "../../../redux/slices/classRecapMaterialSlice";
+import { useFetchUser } from "../../../utils/useUserStore";
+import FileInput from "../../../components/individual/FileInput";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { useEffect, useRef, useState } from "react";
-import cohortImage from "../../assets/image/background/background.jpeg";
-import { Award, Profile, Book, AddCircle, TrendUp, Calendar } from "iconsax-reactjs";
-import { fetchClassRooms } from "../../redux/slices/classRoomSlice";
-import { fetchUserEnrolledCohorts } from "../../redux/slices/userEnrolledCohortSlice";
-import { fetchAssignments } from "../../redux/slices/assignmentSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import "./Dashboard.css";
-import FileInput from "../../components/individual/FileInput";
-import {
-  fetchRecapMaterials,
-  fetchRecapMaterialByCohortSlug,
-} from "../../redux/slices/classRecapMaterialSlice";
-import { useFetchUser } from "../../utils/useUserStore";
+import cohortImage from "../../../assets/image/background/background.jpeg";
 
-function Dashboard() {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const user = useFetchUser();
-  const nextClassRooms = useSelector((state) => state.classRooms.classRooms);
-  const classRoomsLoading = useSelector((state) => state.classRooms.loading);
-  const userAssignments = useSelector(
-    (state) => state.userAssignments.assignments,
-  );
-  const recapMaterials = useSelector(
-    (state) => state.classRecapMaterials.recapMaterials,
-  );
-  const userEnrolledCohorts = useSelector(
-    (state) => state.userEnrolledCohorts.enrollment,
-  );
-  const userEnrolledLoading = useSelector(
-    (state) => state.userEnrolledCohorts.loading,
-  );
-
-  const cohort = userEnrolledCohorts[0]?.cohort || {};
-  const canJoin = nextClassRooms?.next_class?.can_join;
-  const cohortSlug = cohort?.slug;
-
-  const lastFetchedSlug = useRef();
-
-  const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    dispatch(fetchAssignments());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(fetchUserEnrolledCohorts());
-    dispatch(fetchAssignments());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(fetchRecapMaterials());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (cohortSlug && lastFetchedSlug.current !== cohortSlug) {
-      dispatch(fetchRecapMaterialByCohortSlug(cohortSlug));
-      lastFetchedSlug.current = cohortSlug;
-    }
-  }, [dispatch, cohortSlug]);
-
-  useEffect(() => {
-    if (cohortSlug && lastFetchedSlug.current !== cohortSlug) {
-      dispatch(fetchClassRooms(cohortSlug));
-      lastFetchedSlug.current = cohortSlug;
-    }
-  }, [dispatch, cohortSlug]);
-
-  const isLoading = classRoomsLoading || userEnrolledLoading;
-
-  const handleJoinClass = () => {
-    if (canJoin) {
-      navigate(`/classroom/${cohort.slug}`);
-      navigate(`/classroom/${cohort.slug}`);
-    }
-  };
-
-  // Helper function to format date as d m y
-  const formatDateDMY = (dateString) => {
-    if (!dateString) return "";
-    const date = new Date(dateString);
-    if (isNaN(date)) return dateString;
-    const day = date.getDate();
-    const month = date.toLocaleString("default", { month: "short" });
-    const year = date.getFullYear();
-    return `${day} ${month} ${year}`;
-  };
+function MemberOrganizationDashboard() {
+    // const { user } = useAuth();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const user = useFetchUser();
+    const nextClassRooms = useSelector((state) => state.classRooms.classRooms);
+    const classRoomsLoading = useSelector((state) => state.classRooms.loading);
+    const userAssignments = useSelector( (state) => state.userAssignments.assignments);
+    const recapMaterials = useSelector( (state) => state.classRecapMaterials.recapMaterials);
+    const userEnrolledCohorts = useSelector( (state) => state.userEnrolledCohorts.enrollment);
+    const userEnrolledLoading = useSelector( (state) => state.userEnrolledCohorts.loading);  
+    const cohort = userEnrolledCohorts[0]?.cohort || {};
+    const canJoin = nextClassRooms?.next_class?.can_join;
+    const cohortSlug = cohort?.slug;
+    const lastFetchedSlug = useRef();
+    const [isOpen, setIsOpen] = useState(false);
+    
+      useEffect(() => {
+        dispatch(fetchAssignments());
+      }, [dispatch]);
+    
+      useEffect(() => {
+        dispatch(fetchUserEnrolledCohorts());
+        dispatch(fetchAssignments());
+      }, [dispatch]);
+    
+      useEffect(() => {
+        dispatch(fetchRecapMaterials());
+      }, [dispatch]);
+    
+      useEffect(() => {
+        if (cohortSlug && lastFetchedSlug.current !== cohortSlug) {
+          dispatch(fetchRecapMaterialByCohortSlug(cohortSlug));
+          lastFetchedSlug.current = cohortSlug;
+        }
+      }, [dispatch, cohortSlug]);
+    
+      useEffect(() => {
+        if (cohortSlug && lastFetchedSlug.current !== cohortSlug) {
+          dispatch(fetchClassRooms(cohortSlug));
+          lastFetchedSlug.current = cohortSlug;
+        }
+      }, [dispatch, cohortSlug]);
+    
+      const isLoading = classRoomsLoading || userEnrolledLoading;
+    
+      const handleJoinClass = () => {
+        if (canJoin) {
+          navigate(`/classroom/${cohort.slug}`);
+          navigate(`/classroom/${cohort.slug}`);
+        }
+      };
+    
+      // Helper function to format date as d m y
+      const formatDateDMY = (dateString) => {
+        if (!dateString) return "";
+        const date = new Date(dateString);
+        if (isNaN(date)) return dateString;
+        const day = date.getDate();
+        const month = date.toLocaleString("default", { month: "short" });
+        const year = date.getFullYear();
+        return `${day} ${month} ${year}`;
+      };
 
   return (
-    <div className="dashboard-main-section">
-      <div className="wrapper  min-vh-100">
-        <div className=" header-area">
-          {/* Welcome Section */}
-          <div className="welcome-section">
-            <h1 className="h4 fw-semibold mb-0">
-              {isLoading ? (
-                <Skeleton width={200} />
-              ) : (
-                <span>
-                  Welcome back,{" "}
-                  <span className="user">{user?.name || "Guest"}!</span>
-                </span>
-              )}
+    <div className="organization-dashboard-main-section">
+      <div className="container p-4 min-vh-100">
+        {/* Welcome Section */}
+        <section className=" mb-4">
+          <div className="welcome-head">
+            <h1 className="welcome-text-title">
+              Welcome back, {user?.name || "Learner"}!
             </h1>
             <p className="text-muted">Continue your learning journey</p>
           </div>
-          <div className="d-flex flex-wrap justify-content-end">
-            {isLoading ? (
-              <Skeleton
-                width={180}
-                height={40}
-                count={3}
-                style={{ marginRight: "12px", marginBottom: "8px" }}
-              />
-            ) : (
-              <div className="action-buttons">
-                <Link className="act-button">
-                  <Book /> Book a Mentor
-                </Link>
-                <Link className="act-button">
-                  <Profile /> Access Career Guide
-                </Link>
-              </div>
-            )}
-          </div>
-        </div>
+        </section>
+        
         <div className="row mb-4">
-          <div className="col-md-3 mb-3">
-            <div className="card shadow-sm h-100">
-              <div className="card-body">
-                <div className="d-flex align-items-center mb-2">
-                  <Book size="24" className="me-2" color="#2563eb" />
-                  <p className="text-muted mb-0">My Courses</p>
+            <div className="col-md-3 mb-3">
+                <div className="card shadow-sm h-100">
+                    <div className="card-body">
+                    <div className="d-flex align-items-center mb-2">
+                        <Book size="24" className="me-2" color="#2563eb" />
+                        <p className="text-muted mb-0">My Courses</p>
+                    </div>
+                    <h2 className="h3 fw-bold">3</h2>
+                    <p className="text-muted small mb-0">Active courses</p>
+                    </div>
                 </div>
-                <h2 className="h3 fw-bold">3</h2>
-                <p className="text-muted small mb-0">Active courses</p>
-              </div>
             </div>
-          </div>
-          <div className="col-md-3 mb-3">
-            <div className="card shadow-sm h-100">
-              <div className="card-body">
-                <div className="d-flex align-items-center mb-2">
-                  <TrendUp size="24" className="me-2" color="#10b981" />
-                  <p className="text-muted mb-0">Progress</p>
+            <div className="col-md-3 mb-3">
+                <div className="card shadow-sm h-100">
+                    <div className="card-body">
+                    <div className="d-flex align-items-center mb-2">
+                        <TrendUp size="24" className="me-2" color="#10b981" />
+                        <p className="text-muted mb-0">Progress</p>
+                    </div>
+                    <h2 className="h3 fw-bold">65%</h2>
+                    <p className="text-muted small mb-0">Overall completion</p>
+                    </div>
                 </div>
-                <h2 className="h3 fw-bold">65%</h2>
-                <p className="text-muted small mb-0">Overall completion</p>
-              </div>
             </div>
-          </div>
-          <div className="col-md-3 mb-3">
-            <div className="card shadow-sm h-100">
-              <div className="card-body">
-                <div className="d-flex align-items-center mb-2">
-                  <Calendar size="24" className="me-2" color="#f59e0b" />
-                  <p className="text-muted mb-0">Upcoming</p>
+            <div className="col-md-3 mb-3">
+                <div className="card shadow-sm h-100">
+                    <div className="card-body">
+                    <div className="d-flex align-items-center mb-2">
+                        <Calendar size="24" className="me-2" color="#f59e0b" />
+                        <p className="text-muted mb-0">Upcoming</p>
+                    </div>
+                    <h2 className="h3 fw-bold">2</h2>
+                    <p className="text-muted small mb-0">Sessions this week</p>
+                    </div>
                 </div>
-                <h2 className="h3 fw-bold">2</h2>
-                <p className="text-muted small mb-0">Sessions this week</p>
-              </div>
             </div>
-          </div>
-          <div className="col-md-3 mb-3">
-            <div className="card shadow-sm h-100">
-              <div className="card-body">
-                <div className="d-flex align-items-center mb-2">
-                  <Award size="24" className="me-2" color="#8b5cf6" />
-                  <p className="text-muted mb-0">Certificates</p>
+            <div className="col-md-3 mb-3">
+                <div className="card shadow-sm h-100">
+                    <div className="card-body">
+                    <div className="d-flex align-items-center mb-2">
+                        <Award size="24" className="me-2" color="#8b5cf6" />
+                        <p className="text-muted mb-0">Certificates</p>
+                    </div>
+                    <h2 className="h3 fw-bold">1</h2>
+                    <p className="text-muted small mb-0">Earned certificates</p>
+                    </div>
                 </div>
-                <h2 className="h3 fw-bold">1</h2>
-                <p className="text-muted small mb-0">Earned certificates</p>
-              </div>
             </div>
-          </div>
         </div>
         <div className="row mb-5">
           <div className="col-12 col-lg-8 d-flex flex-column">
@@ -255,7 +217,7 @@ function Dashboard() {
           <div className="col-12 col-lg-4 d-flex flex-column">
             <div className="d-flex justify-content-between align-items-center mb-3">
               <h2 className="h5 fw-semibold mb-3">Class Recap Videos</h2>
-              <Link to="/recap-videos" className="">
+              <Link to="/organization/recap-videos" className="">
                 {" "}
                 View All
               </Link>
@@ -416,10 +378,10 @@ function Dashboard() {
             </div>
           </div>
         </div>
+        <FileInput isOpen={isOpen} setIsOpen={setIsOpen} />
       </div>
-      <FileInput isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
 }
 
-export default Dashboard;
+export default MemberOrganizationDashboard;

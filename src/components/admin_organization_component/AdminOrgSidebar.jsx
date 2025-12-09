@@ -38,7 +38,6 @@ function AdminOrgSidebar({ isOpen, onClose }) {
               className="logo-img"
               style={{ width: "100px" }}
             />
-            <h2 className="logo-text">TRAINING HUB</h2>
           </div>
           <button
             className="sidebar-close-btn"
@@ -81,7 +80,7 @@ function AdminOrgSidebar({ isOpen, onClose }) {
                 <span>Training Programs</span>
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link
                 to="/organization/certificates"
                 className={isActive("/organization/certificates")}
@@ -90,7 +89,7 @@ function AdminOrgSidebar({ isOpen, onClose }) {
                 <Award size="20" variant="Bulk" />
                 <span>Certificates</span>
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link
                 to="/organization/settings"
