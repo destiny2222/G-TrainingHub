@@ -2,10 +2,13 @@ import { useState } from "react";
 import { FaChevronRight } from "react-icons/fa6";
 import { FaChevronLeft } from "react-icons/fa6";
 import "./Calendar.css";
+import { useParams } from "react-router-dom";
 
-const Calendar = ({ start, end }) => {
+const Calendar = () => {
   // Calendar state
-  const [currentMonth, setCurrentMonth] = useState(7); // August (0-indexed)
+  const { startDate, endDate } = useParams();
+  const startMonth = new Date(startDate).getMonth();
+  const [currentMonth, setCurrentMonth] = useState(startMonth);
   const [currentYear, setCurrentYear] = useState(2025);
 
   function getDateIntervals(startDate, endDate, intervalDays = 3) {
@@ -29,7 +32,7 @@ const Calendar = ({ start, end }) => {
     return result;
   }
 
-  const highlightedDates = getDateIntervals(start, end);
+  const highlightedDates = getDateIntervals(startDate, endDate);
 
   const getDaysInMonth = (month, year) => {
     return new Date(year, month + 1, 0).getDate();
@@ -103,31 +106,32 @@ const Calendar = ({ start, end }) => {
 
   return (
     <>
-      <div  className="overlay mt-5" />
-      <div className="calendar-section cal">
-        <h2>Live Sessions Calendar</h2>
-        <div className="calendar">
-          <div className="calendar-header">
-            <button onClick={() => navigateMonth("prev")}>
-              <FaChevronLeft size={20} />
-            </button>
-            <span>
-              {monthNames[currentMonth]} {currentYear}
-            </span>
-            <button onClick={() => navigateMonth("next")}>
-              <FaChevronRight size={20} />
-            </button>
+      <div className="cal-container">
+        <div className="calendar-section cal">
+          <h2>Live Sessions Calendar</h2>
+          <div className="calendar">
+            <div className="calendar-header">
+              <button onClick={() => navigateMonth("prev")}>
+                <FaChevronLeft size={20} />
+              </button>
+              <span>
+                {monthNames[currentMonth]} {currentYear}
+              </span>
+              <button onClick={() => navigateMonth("next")}>
+                <FaChevronRight size={20} />
+              </button>
+            </div>
+            <div className="calendar-weekdays">
+              <div>S</div>
+              <div>M</div>
+              <div>T</div>
+              <div>W</div>
+              <div>T</div>
+              <div>F</div>
+              <div>S</div>
+            </div>
+            <div className="calendar-grid">{renderCalendar()}</div>
           </div>
-          <div className="calendar-weekdays">
-            <div>S</div>
-            <div>M</div>
-            <div>T</div>
-            <div>W</div>
-            <div>T</div>
-            <div>F</div>
-            <div>S</div>
-          </div>
-          <div className="calendar-grid">{renderCalendar()}</div>
         </div>
       </div>
     </>
