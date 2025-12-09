@@ -96,6 +96,7 @@ function App() {
                 <Route path="/cohorts" element={<Cohorts />} />
                 <Route  path="/cohorts/:slug/details"  element={<CohortDetails />}  />
               </Route>
+
               <Route path="cohort/register" element={<RegistrationForm />} />
               <Route  path="/payment/callback" element={<PaymentCallbackForm />} />
 

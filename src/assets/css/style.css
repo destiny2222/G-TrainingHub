@@ -378,6 +378,7 @@ ul {
 /* Mobile Header Styles */
 .header-mobile {
     position: relative;
+    z-index: 999 !important;
     background-color: var(--white);
     padding: 20px 0;
     /* border-bottom: 1px solid #eee; */
@@ -483,7 +484,6 @@ ul {
 
     .header-mobile.d-block.d-lg-none {
         display: block !important;
-        z-index: 1;
     }
 }
 
