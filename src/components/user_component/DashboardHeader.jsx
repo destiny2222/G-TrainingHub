@@ -19,7 +19,7 @@ function DashboardHeader() {
       <div className="header-actions d-flex align-items-center gap-4">
         <Notification size="24" className="notification-icon" />
         <div className="user-profile d-flex align-items-center gap-3 pt-2">
-          <img  src={user?.profile_picture || "https://via.placeholder.com/150"}   alt="User Profile"  className="profile-img" />
+          <img  src={user?.profile_picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || "User")}`}   alt="User Profile"  className="profile-img" />
           <div className="user-info pt-3">
             <span className="user-name">{user?.name}</span>
             <p className="user-role">Learner</p>

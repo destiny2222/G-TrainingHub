@@ -53,15 +53,15 @@ const AdminSidebar = ({ isOpen, onClose }) => {
           </Link>
         </li>
         <li>
-          <Link to="/admin/certificate-issuance" className={isActive('/admin/certificate-issuance') ? 'active' : ''} onClick={onClose}>
-            <Award size="20" variant="Outline" /> Certificate Issuance
+          <Link to="/admin/enrollments" className={isActive('/admin/enrollments') ? 'active' : ''} onClick={onClose}>
+            <Award size="20" variant="Outline" /> Enroll User 
           </Link>
         </li>
-        <li>
+        {/* <li>
           <Link to="/admin/ai-chat-analytics" className={isActive('/admin/ai-chat-analytics') ? 'active' : ''} onClick={onClose}>
             <Chart1 size="20" variant="Outline" /> AI Chat Analytics
           </Link>
-        </li>
+        </li> */}
         <li>
           <Link to="/admin/organization-requests" className={isActive('/admin/organization-requests') ? 'active' : ''} onClick={onClose}>
             <ClipboardText size="20" variant="Outline" /> Organization Requests <span className="badge">2</span>

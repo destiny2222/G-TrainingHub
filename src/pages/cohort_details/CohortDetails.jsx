@@ -8,13 +8,12 @@ import { fetchCourses } from "../../redux/slices/frontend/courseSlice";
 import { useNavigate } from "react-router-dom";
 
 const CohortDetails = () => {
+  const navigate = useNavigate();
   const { courses, loading, error } = useSelector((state) => state.courses);
-
   const { slug } = useParams();
-
   const dispatch = useDispatch();
 
-  const navigate = useNavigate();
+  
 
   useEffect(() => {
     dispatch(fetchCourses());
@@ -23,7 +22,7 @@ const CohortDetails = () => {
   // Slug filter
   const filteredCourse = useMemo(() => {
     const result = courses.filter((course) => {
-      const matchesSearch = course.cohorts[0].slug === slug;
+      const matchesSearch = course?.cohorts?.[0]?.slug === slug;
       return matchesSearch;
     });
     return result[0];
@@ -197,48 +196,6 @@ const CohortDetails = () => {
         >
           Enroll Now
         </button>
-      </div>
-
-      <div className="instructors-section">
-        <h2>Instructors & Guest Speakers</h2>
-        <div className="instructors-grid">
-          <div className="instructor-card">
-            <img
-              src="https://api.dicebear.com/7.x/avataaars/svg?seed=evelyn"
-              alt="Dr. Evelyn Reed"
-            />
-            <h3>Dr. Evelyn Reed</h3>
-            <p className="role">Lead Instructor</p>
-            <p>
-              Expert in Natural Language Processing with 15 years of experience
-              in AI and ML research.
-            </p>
-          </div>
-          <div className="instructor-card">
-            <img
-              src="https://api.dicebear.com/7.x/avataaars/svg?seed=kevin"
-              alt="Kevin Tanaka"
-            />
-            <h3>Kevin Tanaka</h3>
-            <p className="role">AI Specialist</p>
-            <p>
-              Renowned deep learning specialist with 10 years of experience in
-              Computer Vision.
-            </p>
-          </div>
-          <div className="instructor-card">
-            <img
-              src="https://api.dicebear.com/7.x/avataaars/svg?seed=maria"
-              alt="Maria Rodriguez"
-            />
-            <h3>Maria Rodriguez</h3>
-            <p className="role">Industry Expert</p>
-            <p>
-              A lifelong participant for over two decades delivering
-              cutting-edge solutions.
-            </p>
-          </div>
-        </div>
       </div>
 
       <div className="testimonials-section">
