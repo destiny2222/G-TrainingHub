@@ -6,8 +6,10 @@ import {
   HamburgerMenu,
 } from "iconsax-reactjs";
 import userProfile from "../../assets/image/testimony/testim-3.jpg";
+import { useFetchUser } from "./../../utils/useUserStore";
 
 function AdminOrgHeader({ onMenuToggle }) {
+  
   return (
     <header className="dashboard-header py-4">
       <div className="header-left-section">

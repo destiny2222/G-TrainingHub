@@ -122,7 +122,7 @@
 }
 
 /* Card that holds the form */
-.form-card {
+/* .form-card {
     background: #ffffff;
     border-radius: 16px;
     opacity: 1 !important;
@@ -130,7 +130,7 @@
     width: 100%;
     max-width: 440px;
     box-shadow: 0 0px 30px rgba(0, 0, 0, 0.1);
-}
+} */
 
 /* Title and subtitle */
 .title {
@@ -156,7 +156,7 @@
 }
 
 /* Input group (label + input) */
-.input-group {
+.user-register-form .input-group {
     display: flex;
     flex-direction: column;
     gap: 8px;

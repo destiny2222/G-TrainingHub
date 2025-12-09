@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { assignCourseToMember, clearState } from '../../../../redux/slices/admin_organisation/trainingProgramSlice';
-import { fetchCourses } from '../../../../redux/slices/courseSlice';
-import { fetchCohorts } from '../../../../redux/slices/cohortSlice';
+import { assignCourseToMember, clearState, getOrganizationCohorts } from '../../../../redux/slices/admin_organisation/trainingProgramSlice';
 import { getOrganizationMember, getOrganizationMembers } from '../../../../redux/slices/organisationUserSlice';
 import { toast } from 'react-toastify';
 import Skeleton from 'react-loading-skeleton';
@@ -15,23 +13,19 @@ const AssignCourse = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   
-  const { loading, error, success, message } = useSelector((state) => state.trainingProgram);
-  const { courses } = useSelector((state) => state.courses);
-  const { cohorts } = useSelector((state) => state.cohorts);
-  const { member, members } = useSelector((state) => state.organizationUser);
+  const { loading, error, success, message, organizationCohorts } = useSelector((state) => state.trainingProgram);
+  const { member, members, loading: memberLoading } = useSelector((state) => state.organizationUser);
 
   const [formData, setFormData] = useState({
     organization_user_id: memberId || '',
-    course_id: '',
     cohort_id: ''
   });
 
-  const [selectedCourse, setSelectedCourse] = useState(null);
   const [availableCohorts, setAvailableCohorts] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchCourses());
-    dispatch(fetchCohorts());
+    dispatch(getOrganizationCohorts());
     if (memberId) {
       dispatch(getOrganizationMember(memberId));
     } else {
@@ -39,21 +33,29 @@ const AssignCourse = () => {
     }
   }, [dispatch, memberId]);
 
+  // Process organization cohorts to extract cohort data
+  useEffect(() => {
+    if (organizationCohorts && organizationCohorts.length > 0) {
+      const cohorts = organizationCohorts
+        .filter(subscription => subscription.status === 'paid' && subscription.cohort)
+        .map(subscription => ({
+          id: subscription.cohort.id,
+          name: subscription.cohort.name,
+          start_date: subscription.cohort.start_date,
+          end_date: subscription.cohort.end_date,
+          status: subscription.cohort.status,
+          course: subscription.cohort.course,
+          subscription_id: subscription.id
+        }));
+      setAvailableCohorts(cohorts);
+    }
+  }, [organizationCohorts]);
+
   useEffect(() => {
     if (memberId) {
       setFormData(prev => ({ ...prev, organization_user_id: memberId }));
     }
   }, [memberId]);
-
-  useEffect(() => {
-    if (selectedCourse) {
-      const courseCohorts = cohorts.filter(c => c.course_id === selectedCourse);
-      setAvailableCohorts(courseCohorts);
-    } else {
-      setAvailableCohorts([]);
-      setFormData(prev => ({ ...prev, cohort_id: '' }));
-    }
-  }, [selectedCourse, cohorts]);
 
   useEffect(() => {
     if (error) {
@@ -81,12 +83,6 @@ const AssignCourse = () => {
     setFormData(prev => ({ ...prev, organization_user_id: e.target.value }));
   };
 
-  const handleCourseChange = (e) => {
-    const courseId = e.target.value;
-    setFormData(prev => ({ ...prev, course_id: courseId, cohort_id: '' }));
-    setSelectedCourse(courseId);
-  };
-
   const handleCohortChange = (e) => {
     setFormData(prev => ({ ...prev, cohort_id: e.target.value }));
   };
@@ -94,36 +90,57 @@ const AssignCourse = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!formData.course_id) {
-      toast.error('Please select a course', {
+    if (!formData.cohort_id) {
+      toast.error('Please select a cohort', {
         position: "top-right",
         autoClose: 3000,
       });
       return;
     }
 
+    const selectedCohort = availableCohorts.find(c => c.id === formData.cohort_id);
+    
     const submitData = {
-      organization_user_id: formData.organization_user_id,
-      course_id: formData.course_id,
+      // orguser_id: formData.organization_user_id,
+      cohort_id: formData.cohort_id,
+      course_id: selectedCohort?.course?.id,
+      user_id: memberId || formData.organization_user_id,
     };
 
-    if (formData.cohort_id) {
-      submitData.cohort_id = formData.cohort_id;
-    }
-
     try {
+      setIsSubmitting(true);
       await dispatch(assignCourseToMember(submitData)).unwrap();
     } catch (err) {
       // Error is handled in useEffect
+      setIsSubmitting(false);
     }
   };
 
-  if (!member && memberId) {
+  const isLoading = (memberLoading || loading) && !isSubmitting;
+
+  if (isLoading && (!member && memberId)) {
     return (
       <div className="training-program-container">
-        <Skeleton height={40} width={300} />
-        <div style={{ marginTop: '2rem' }}>
-          <Skeleton height={400} />
+        <div className="training-program-header">
+          <div>
+            <Skeleton height={20} width={150} style={{ marginBottom: '1rem' }} />
+            <Skeleton height={40} width={300} />
+            <Skeleton height={20} width={200} style={{ marginTop: '0.5rem' }} />
+          </div>
+        </div>
+        <div className="training-program-table-container" style={{ maxWidth: '600px', padding: '2rem' }}>
+          <div className="form-group">
+            <Skeleton height={20} width={120} style={{ marginBottom: '0.5rem' }} />
+            <Skeleton height={45} />
+          </div>
+          <div className="form-group" style={{ marginTop: '1.5rem' }}>
+            <Skeleton height={20} width={120} style={{ marginBottom: '0.5rem' }} />
+            <Skeleton height={45} />
+          </div>
+          <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem' }}>
+            <Skeleton height={45} width={120} />
+            <Skeleton height={45} width={180} />
+          </div>
         </div>
       </div>
     );
@@ -142,7 +159,7 @@ const AssignCourse = () => {
               ← Back to Training Programs
             </Link>
           )}
-          <h1>Assign Course {member ? `to ${member.name}` : ''}</h1>
+          <h1>Assign Cohort {member ? `to ${member?.name}` : ''}</h1>
           {member && (
             <p style={{ color: '#6b7280', margin: '0.5rem 0 0 0' }}>
               {member.email}
@@ -151,88 +168,91 @@ const AssignCourse = () => {
         </div>
       </div>
 
-      <div className="training-program-table-container" style={{ maxWidth: '600px', padding: '2rem' }}>
+      <div className="training-program-table-container">
         <form onSubmit={handleSubmit}>
           {!memberId && (
             <div className="form-group">
               <label htmlFor="member">Select Member *</label>
-              <select
-                id="member"
-                value={formData.organization_user_id}
-                onChange={handleMemberChange}
-                disabled={loading}
-                required
-              >
-                <option value="">-- Select a Member --</option>
-                {members.map(m => (
-                  <option key={m.id} value={m.id}>
-                    {m.name} ({m.email})
-                  </option>
-                ))}
-              </select>
+              {isLoading ? (
+                <Skeleton height={45} />
+              ) : (
+                <select
+                  id="member"
+                  value={formData.organization_user_id}
+                  onChange={handleMemberChange}
+                  disabled={isSubmitting}
+                  required
+                >
+                  <option value="">-- Select a Member --</option>
+                  {members.map(m => (
+                    <option key={m.id} value={m.id}>
+                      {m.name} ({m.email})
+                    </option>
+                  ))}
+                </select>
+              )}
             </div>
           )}
 
           <div className="form-group">
-            <label htmlFor="course">Select Course *</label>
-            <select
-              id="course"
-              value={formData.course_id}
-              onChange={handleCourseChange}
-              disabled={loading}
-              required
-            >
-              <option value="">-- Select a Course --</option>
-              {courses
-                .filter(course => course.status === 'active')
-                .map((course) => (
-                  <option key={course.id} value={course.id}>
-                    {course.title}
-                  </option>
-                ))}
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="cohort">Select Cohort (Optional)</label>
-            <select
-              id="cohort"
-              value={formData.cohort_id}
-              onChange={handleCohortChange}
-              disabled={loading || !selectedCourse || availableCohorts.length === 0}
-            >
-              <option value="">-- No Cohort --</option>
-              {availableCohorts
-                .filter(cohort => cohort.status === 'active')
-                .map((cohort) => (
-                  <option key={cohort.id} value={cohort.id}>
-                    {cohort.name} ({new Date(cohort.start_date).toLocaleDateString()} - {new Date(cohort.end_date).toLocaleDateString()})
-                  </option>
-                ))}
-            </select>
-            {selectedCourse && availableCohorts.length === 0 && (
-              <p style={{ fontSize: '0.85rem', color: '#6b7280', marginTop: '0.5rem' }}>
-                No cohorts available for this course
-              </p>
+            <label htmlFor="cohort">Select Cohort *</label>
+            {isLoading ? (
+              <>
+                <Skeleton height={45} />
+                <Skeleton height={15} width={250} style={{ marginTop: '0.5rem' }} />
+              </>
+            ) : (
+              <>
+                <select
+                  id="cohort"
+                  value={formData.cohort_id}
+                  onChange={handleCohortChange}
+                  disabled={isSubmitting || availableCohorts.length === 0}
+                  required
+                >
+                  <option value="">-- Select a Cohort --</option>
+                  {availableCohorts
+                    .filter(cohort => cohort.status === 'active')
+                    .map((cohort) => (
+                      <option key={cohort.id} value={cohort.id}>
+                        {cohort.name} - {cohort.course?.title || 'N/A'} ({new Date(cohort.start_date).toLocaleDateString()} - {new Date(cohort.end_date).toLocaleDateString()})
+                      </option>
+                    ))}
+                </select>
+                {availableCohorts.length === 0 && (
+                  <p style={{ fontSize: '0.85rem', color: '#6b7280', marginTop: '0.5rem' }}>
+                    No paid cohorts available. Please register for a cohort first.
+                  </p>
+                )}
+              </>
             )}
           </div>
 
           <div className="modal-actions" style={{ marginTop: '2rem' }}>
-            <button
-              type="button"
-              className="btn-cancel"
-              onClick={() => navigate(`/organization/trainings/member/${memberId}`)}
-              disabled={loading}
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="btn-submit"
-              disabled={loading}
-            >
-              {loading ? 'Assigning...' : 'Assign Course'}
-            </button>
+            {isLoading ? (
+              <>
+                <Skeleton height={45} width={120} />
+                <Skeleton height={45} width={200} />
+              </>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  className="btn-cancel"
+                  onClick={() => navigate(`/organization/trainings/member/${memberId}`)}
+                  disabled={isSubmitting}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="btn-submit"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? 'Assigning...' : 'Assign Member to Cohort'}
+                </button>
+              </>
+            )}
           </div>
         </form>
       </div>

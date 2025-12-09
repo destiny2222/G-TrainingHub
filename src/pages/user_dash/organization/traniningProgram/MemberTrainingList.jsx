@@ -114,7 +114,7 @@ const MemberTrainingList = () => {
     <div className="training-program-container">
       <div className="training-program-header">
         <div>
-          <Link to="/organization/members" style={{ color: '#3b82f6', textDecoration: 'none', fontSize: '0.9rem' }}>
+          <Link to="/organization/training-programs" style={{ color: '#3b82f6', textDecoration: 'none', fontSize: '0.9rem' }}>
             ← Back to Members
           </Link>
           <h1>{member?.name || 'Member'}'s Training Programs</h1>
@@ -128,7 +128,7 @@ const MemberTrainingList = () => {
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M10 4V16M4 10H16" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
           </svg>
-          Assign Course
+          Assign Member
         </Link>
       </div>
 

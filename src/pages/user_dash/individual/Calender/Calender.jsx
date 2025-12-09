@@ -103,6 +103,7 @@ const Calendar = ({ start, end }) => {
 
   return (
     <>
+      <div  className="overlay mt-5" />
       <div className="calendar-section cal">
         <h2>Live Sessions Calendar</h2>
         <div className="calendar">
