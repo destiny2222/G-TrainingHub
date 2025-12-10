@@ -2,18 +2,25 @@ import { useEffect, useState } from "react";
 import { FiExternalLink } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import api from "../../../utils/api";
+import { fetchPublications } from "../../../redux/slices/publicationSilce";
+import { useDispatch, useSelector } from "react-redux";
 import "./Library.css";
+import Skeleton from "react-loading-skeleton";
+
 
 const Library = () => {
   const [data, setData] = useState([]);
   const [datum, setDatum] = useState({});
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const dispatch = useDispatch();
+  const { publications, loading: publicationsLoading, error: publicationsError } = useSelector((state) => state.publications);
   const [loading, setLoading] = useState(true);
-  const [publications, setPublications] = useState([]);
-  const [publicationsLoading, setPublicationsLoading] = useState(false);
-  const [publicationsError, setPublicationsError] = useState(null);
-  const [publicationLink, setPublicationLink] = useState("");
+
+  useEffect(() => {
+    dispatch(fetchPublications());
+    libraryData();
+  }, [dispatch]);
 
   const truncateText = (text, maxLength) => {
     if (text.length > maxLength) {
@@ -27,41 +34,21 @@ const Library = () => {
     return new Date(date).toLocaleDateString("en-US", options);
   };
 
-  useEffect(() => {
-    const libraryData = async () => {
-      try {
-        setLoading(true);
-        const response = await api.get("/user/libraries");
-        const data = response.data.data;
-        setData(data);
-      } catch (error) {
-        console.error(error);
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    const publicationsData = async () => {
-      try {
-        setPublicationsLoading(true);
-        const response = await fetch("https://gritinai.com/api/publications", {
-          method: "GET",
-        });
-        const data = response.data.title;
-        setPublications(data);
-        setPublicationLink(
-          `https://gritinai.com/details-page/${response.data.slug}`,
-        );
-      } catch (error) {
-        console.error(error);
-        setPublicationsError(error);
-      } finally {
-        setPublicationsLoading(false);
-      }
-    };
-    publicationsData();
-    libraryData();
-  }, []);
+  const libraryData = async () => {
+    try {
+      setLoading(true);
+      const response = await api.get("/user/libraries");
+      const data = response.data.data;
+      setData(data);
+    } catch (error) {
+      console.error(error);
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
 
   const handleLibraryClick = (library) => {
     setDatum(library);
@@ -131,7 +118,7 @@ const Library = () => {
           )}
         </div>
 
-        {/* <div className="publications">
+        <div className="publications">
           <h1>Publications</h1>
           <ul>
             <div
@@ -147,18 +134,18 @@ const Library = () => {
               {publicationsError}
             </div>
             {publicationsLoading ? (
-              <Skeleton height={30} count={4} width={"60%"} />
+              <Skeleton height={100} count={4} />
             ) : (
               publications.map((publication, i) => (
                 <li key={i}>
-                  <a href={publicationLink} rel="noreferrer" target="_blank">
-                    {publication}
+                  <a href={`https://gritinai.com/details-page/${publication.slug}`} rel="noreferrer" target="_blank">
+                    {publication.title}
                   </a>
                 </li>
               ))
             )}
           </ul>
-        </div>*/}
+        </div>
       </div>
 
       <div

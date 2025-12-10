@@ -39,7 +39,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 5rem;
+    /* margin-bottom: 5rem; */
 }
 .dashboard-main-section {
     position: relative !important;

@@ -108,7 +108,7 @@ function Dashboard() {
             </h1>
             <p className="text-muted">Continue your learning journey</p>
           </div>
-          <div className="d-flex flex-wrap justify-content-end">
+          {/* <div className="d-flex flex-wrap justify-content-end">
             {isLoading ? (
               <Skeleton
                 width={180}
@@ -126,7 +126,7 @@ function Dashboard() {
                 </Link>
               </div>
             )}
-          </div>
+          </div> */}
         </div>
         <div className="row mb-4">
           <div className="col-md-3 mb-3">

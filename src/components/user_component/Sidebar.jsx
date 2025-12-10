@@ -54,12 +54,12 @@ function Sidebar() {
               <span>Library</span>
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link to="/calendar" className={isActive("/calendar")}>
               <Calendar size="20" variant="Bulk" />
               <span>Calendar</span>
             </Link>
-          </li>
+          </li> */}
           <li>
             <Link to="/recap-videos" className={isActive("/recap-videos")}>
               <Chart size="20" variant="Bulk" />
