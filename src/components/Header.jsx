@@ -36,6 +36,9 @@ function Header() {
               <li>
                 <Link to="/about">About</Link>
               </li>
+              <li>
+                <Link to="/faq">FAQ</Link>
+              </li>
             </ul>
           </div>
           <div className="header_buttons">

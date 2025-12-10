@@ -1,0 +1,34 @@
+const Question = () => {
+  return (
+    <div
+      style={{
+        position: "absolute",
+        top: "14%",
+        left: "50%",
+        zIndex: -1,
+        transform: "translate(-50%, -20%)",
+        rotate: "45deg",
+        transformOrigin: "center",
+      }}
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="25rem"
+        height="25rem"
+        viewBox="0 0 24 24"
+      >
+        <path
+          fill="none"
+          stroke="currentColor"
+          d="M5 8.5v-1a7 7 0 0 1 14 0a4.83 4.83 0 0 1-1.414 3.414l-2.414 2.414A4 4 0 0 0 14 16.157v.343h-4v-1.172c0-1.81.72-3.547 2-4.828l1.293-1.293A2.4 2.4 0 0 0 14 7.5a2 2 0 1 0-4 0v1zm7 11a2 2 0 1 1 0 4a2 2 0 0 1 0-4Z"
+          stroke-width=".3"
+          style={{
+            stroke: "#017BFFb2",
+          }}
+        />
+      </svg>
+    </div>
+  );
+};
+
+export default Question;

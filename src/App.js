@@ -74,6 +74,7 @@ import OrganizationEdit from "./pages/admin/organization/Edit.jsx";
 import Certificate from "./pages/user_dash/Certificate.jsx";
 import Calender from "./pages/user_dash/individual/Calender/Calender";
 import EnrollmentList from "./pages/admin/enrollment/List.jsx";
+import Faq from "./pages/faqs/Faq";
 // import OrganizationRoutes from "./pages/admin/organization/OrganizationRoutes.jsx";
 
 function App() {
@@ -106,6 +107,7 @@ function App() {
                   path="/cohorts/:slug/details"
                   element={<CohortDetails />}
                 />
+                <Route path="/faq" element={<Faq />} />
               </Route>
 
               <Route path="cohort/register" element={<RegistrationForm />} />
