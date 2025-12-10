@@ -63,7 +63,7 @@ export default function HexGrid() {
         });
 
         // Collect segments
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < 3; i++) {
           allPoints.push({
             x1: hexPoints[i][0],
             y1: hexPoints[i][1],

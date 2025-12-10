@@ -72,21 +72,6 @@ const Home = () => {
               </Link>
             </div>
           </div>
-
-          <section className="info-section">
-            <div className="info">
-              <p>Starting at 10am blah blah blah</p>
-              <p>Starting at 10am blah blah blah</p>
-              <p>Starting at 10am blah blah blah</p>
-              <p>Starting at 10am blah blah blah</p>
-            </div>
-            <div className="info">
-              <p>Starting at 10am blah blah blah</p>
-              <p>Starting at 10am blah blah blah</p>
-              <p>Starting at 10am blah blah blah</p>
-              <p>Starting at 10am blah blah blah</p>
-            </div>
-          </section>
         </div>
 
         <section className="home-hero-video-section">
