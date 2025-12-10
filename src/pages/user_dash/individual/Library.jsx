@@ -73,15 +73,7 @@ const Library = () => {
       <div className="library-contents">
         <div>
           {error && (
-            <div
-              style={{
-                color: "red",
-                fontSize: "14px",
-                border: "1px solid red",
-                padding: "10px",
-                backgroundColor: "#ff9999",
-              }}
-            >
+            <div className="error-message">
               {error}
             </div>
           )}
@@ -121,24 +113,12 @@ const Library = () => {
         <div className="publications">
           <h1>Publications</h1>
           <ul>
-            <div
-              style={{
-                color: "red",
-                fontSize: "14px",
-                border: "1px solid red",
-                padding: "10px",
-                backgroundColor: "#ff9999",
-                display: `${publicationsError ? "block" : "none"}`,
-              }}
-            >
-              {publicationsError}
-            </div>
             {publicationsLoading ? (
               <Skeleton height={100} count={4} />
             ) : (
-              publications.map((publication, i) => (
+              publications.slice(0, 12).map((publication, i) => (
                 <li key={i}>
-                  <a href={`https://gritinai.com/details-page/${publication.slug}`} rel="noreferrer" target="_blank">
+                  <a className="text-decoration-underline" href={`https://gritinai.com/details-page/${publication.slug}`} rel="noreferrer" target="_blank">
                     {publication.title}
                   </a>
                 </li>

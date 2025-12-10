@@ -16,6 +16,7 @@
   position: fixed;
   overflow-y: auto;
   height: 100vh;
+  z-index: 1000;
 }
 
 .admin-content {
@@ -291,7 +292,7 @@
 
 @media (max-width: 1024px) {
   .admin-layout .sidebar {
-    width: 200px;
+    width: 250px;
   }
 
   .admin-content {

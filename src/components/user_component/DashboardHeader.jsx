@@ -1,13 +1,18 @@
 import { useState } from "react";
-import { Notification } from "iconsax-reactjs";
+import { Notification, HamburgerMenu } from "iconsax-reactjs";
 // import userProfile from "../../assets/image/testimony/testim-3.jpg";
 import { useFetchUser } from "./../../utils/useUserStore";
 
-function DashboardHeader() {
+function DashboardHeader({ onMenuToggle }) {
   const user = useFetchUser();
   // const [userProfile] = useState();
   return (
     <header className="dashboard-header">
+      <div className="header-left-section">
+        <button className="hamburger-menu-btn" onClick={onMenuToggle}>
+          <HamburgerMenu size="24" />
+        </button>
+      </div>
       {/* <div className="search-bar-container">
         <SearchNormal1 size="20" className="search-icon" />
         <input
