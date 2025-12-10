@@ -85,8 +85,16 @@ function App() {
       <div className="App">
         <AuthProvider>
           <div className="App">
-            <ToastContainer position="top-right"  autoClose={3000}
-              hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover
+            <ToastContainer
+              position="top-right"
+              autoClose={3000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
               theme="light"
             />
             <Routes>
@@ -94,126 +102,326 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/cohorts" element={<Cohorts />} />
-                <Route  path="/cohorts/:slug/details"  element={<CohortDetails />}  />
+                <Route
+                  path="/cohorts/:slug/details"
+                  element={<CohortDetails />}
+                />
               </Route>
 
               <Route path="cohort/register" element={<RegistrationForm />} />
-              <Route  path="/payment/callback" element={<PaymentCallbackForm />} />
+              <Route
+                path="/payment/callback"
+                element={<PaymentCallbackForm />}
+              />
 
               {/* Protected User Dashboard routes */}
               <Route element={<DashboardLayout />}>
-                <Route path="/dashboard" element={
-                  <ProtectedRoute requiredAccountType="individual"> <Dashboard /> </ProtectedRoute> }
+                <Route
+                  path="/dashboard"
+                  element={
+                    <ProtectedRoute requiredAccountType="individual">
+                      {" "}
+                      <Dashboard />{" "}
+                    </ProtectedRoute>
+                  }
                 />
 
-                <Route path="/my-courses" element={
-                  <ProtectedRoute requiredAccountType="individual"> <MyCourse /> </ProtectedRoute> }
+                <Route
+                  path="/my-courses"
+                  element={
+                    <ProtectedRoute requiredAccountType="individual">
+                      {" "}
+                      <MyCourse />{" "}
+                    </ProtectedRoute>
+                  }
                 />
 
-                <Route path="/library" element={
-                  <ProtectedRoute requiredAccountType="individual"> <IndividualLibrary /> </ProtectedRoute> }
+                <Route
+                  path="/library"
+                  element={
+                    <ProtectedRoute requiredAccountType="individual">
+                      {" "}
+                      <IndividualLibrary />{" "}
+                    </ProtectedRoute>
+                  }
                 />
 
-                <Route path="/calendar" element={
-                  <ProtectedRoute requiredAccountType="individual"> <Calender /> </ProtectedRoute> }
+                <Route
+                  path="/calendar/:startDate/:endDate"
+                  element={
+                    <ProtectedRoute requiredAccountType="individual">
+                      {" "}
+                      <Calender />{" "}
+                    </ProtectedRoute>
+                  }
                 />
 
-                <Route path="/classroom/:cohortSlug" element={
-                  <ProtectedRoute requiredAccountType="individual"> <ClassRoom /> </ProtectedRoute> }
+                <Route
+                  path="/classroom/:cohortSlug"
+                  element={
+                    <ProtectedRoute requiredAccountType="individual">
+                      {" "}
+                      <ClassRoom />{" "}
+                    </ProtectedRoute>
+                  }
                 />
-                <Route path="/ai-assistant" element={
-                  <ProtectedRoute requiredAccountType="individual"> <AIAssistantPage /> </ProtectedRoute> }
+                <Route
+                  path="/ai-assistant"
+                  element={
+                    <ProtectedRoute requiredAccountType="individual">
+                      {" "}
+                      <AIAssistantPage />{" "}
+                    </ProtectedRoute>
+                  }
                 />
-                <Route path="/profile" element={
-                  <ProtectedRoute requiredAccountType="individual"> <Profile /> </ProtectedRoute> }
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedRoute requiredAccountType="individual">
+                      {" "}
+                      <Profile />{" "}
+                    </ProtectedRoute>
+                  }
                 />
-                <Route path="/recap-videos" element={
-                  <ProtectedRoute requiredAccountType="individual"> <RecapMaterialList /> </ProtectedRoute> }
+                <Route
+                  path="/recap-videos"
+                  element={
+                    <ProtectedRoute requiredAccountType="individual">
+                      {" "}
+                      <RecapMaterialList />{" "}
+                    </ProtectedRoute>
+                  }
                 />
-                <Route path="/recap-videos/:cohortSlug" element={
-                  <ProtectedRoute requiredAccountType="individual"> <RecapMaterialDetails /> </ProtectedRoute> }
+                <Route
+                  path="/recap-videos/:cohortSlug"
+                  element={
+                    <ProtectedRoute requiredAccountType="individual">
+                      {" "}
+                      <RecapMaterialDetails />{" "}
+                    </ProtectedRoute>
+                  }
                 />
-                <Route path="/certificates" element={
-                  <ProtectedRoute requiredAccountType="individual"> <Certificate /> </ProtectedRoute> }
+                <Route
+                  path="/certificates"
+                  element={
+                    <ProtectedRoute requiredAccountType="individual">
+                      {" "}
+                      <Certificate />{" "}
+                    </ProtectedRoute>
+                  }
                 />
 
                 {/* organization route */}
-                <Route path="/organization/dashboard" element={
-                  <ProtectedRoute requiredAccountType="organization"> <OrganizationDashboard /> </ProtectedRoute> }
+                <Route
+                  path="/organization/dashboard"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      {" "}
+                      <OrganizationDashboard />{" "}
+                    </ProtectedRoute>
+                  }
                 />
-                <Route path="/organization/members" element={
-                  <ProtectedRoute requiredAccountType="organization"> <MemberList /> </ProtectedRoute> }
+                <Route
+                  path="/organization/members"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      {" "}
+                      <MemberList />{" "}
+                    </ProtectedRoute>
+                  }
                 />
-                <Route path="/organization/members/create" element={
-                  <ProtectedRoute requiredAccountType="organization"> <MemberCreate /> </ProtectedRoute> }
+                <Route
+                  path="/organization/members/create"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      {" "}
+                      <MemberCreate />{" "}
+                    </ProtectedRoute>
+                  }
                 />
-                <Route path="/organization/members/:id" element={
-                  <ProtectedRoute requiredAccountType="organization"> <MemberShow /> </ProtectedRoute> }
+                <Route
+                  path="/organization/members/:id"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      {" "}
+                      <MemberShow />{" "}
+                    </ProtectedRoute>
+                  }
                 />
-                <Route path="/organization/members/:memberId/edit" element={
-                  <ProtectedRoute requiredAccountType="organization"> <MemberEdit /> </ProtectedRoute> }
+                <Route
+                  path="/organization/members/:memberId/edit"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      {" "}
+                      <MemberEdit />{" "}
+                    </ProtectedRoute>
+                  }
                 />
-                <Route path="/organization/trainings/cohort/verify-payment/callback" element={
-                  <ProtectedRoute requiredAccountType="organization"> <PaymentCallback /> </ProtectedRoute> }
+                <Route
+                  path="/organization/trainings/cohort/verify-payment/callback"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      {" "}
+                      <PaymentCallback />{" "}
+                    </ProtectedRoute>
+                  }
                 />
-                <Route path="/organization/training-programs" element={
-                  <ProtectedRoute requiredAccountType="organization"> <TrainingProgramList /> </ProtectedRoute> }
+                <Route
+                  path="/organization/training-programs"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      {" "}
+                      <TrainingProgramList />{" "}
+                    </ProtectedRoute>
+                  }
                 />
-                <Route path="/organization/trainings/courses"
-                  element={ <ProtectedRoute requiredAccountType="organization"> <OrganizationCourseList /> </ProtectedRoute> } 
+                <Route
+                  path="/organization/trainings/courses"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      {" "}
+                      <OrganizationCourseList />{" "}
+                    </ProtectedRoute>
+                  }
                 />
-                <Route path="/organization/trainings/cohorts"  element={ 
-                  <ProtectedRoute requiredAccountType="organization"> <TrainingCohortList /> </ProtectedRoute> } 
+                <Route
+                  path="/organization/trainings/cohorts"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      {" "}
+                      <TrainingCohortList />{" "}
+                    </ProtectedRoute>
+                  }
                 />
-                <Route path="/organization/trainings/cohorts/:cohortId/members" element={ 
-                  <ProtectedRoute requiredAccountType="organization"> <CohortMemberList /> </ProtectedRoute>  }
+                <Route
+                  path="/organization/trainings/cohorts/:cohortId/members"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      {" "}
+                      <CohortMemberList />{" "}
+                    </ProtectedRoute>
+                  }
                 />
-                <Route path="/organization/trainings/member/:memberId" element={
-                  <ProtectedRoute requiredAccountType="organization"> <MemberTrainingList /> </ProtectedRoute> }
+                <Route
+                  path="/organization/trainings/member/:memberId"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      {" "}
+                      <MemberTrainingList />{" "}
+                    </ProtectedRoute>
+                  }
                 />
-                <Route  path="/organization/trainings/assign" element={  
-                  <ProtectedRoute requiredAccountType="organization">  <AssignCourse />  </ProtectedRoute> }
+                <Route
+                  path="/organization/trainings/assign"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      {" "}
+                      <AssignCourse />{" "}
+                    </ProtectedRoute>
+                  }
                 />
-                <Route path="/organization/trainings/assign/:memberId" element={
-                  <ProtectedRoute requiredAccountType="organization"> <AssignCourse /> </ProtectedRoute> }
+                <Route
+                  path="/organization/trainings/assign/:memberId"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      {" "}
+                      <AssignCourse />{" "}
+                    </ProtectedRoute>
+                  }
                 />
-                <Route path="/organization/settings" element={
-                  <ProtectedRoute requiredAccountType="organization"> <Settings /> </ProtectedRoute> }
+                <Route
+                  path="/organization/settings"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      {" "}
+                      <Settings />{" "}
+                    </ProtectedRoute>
+                  }
                 />
-                <Route path="/organization/recap-videos" element={
-                  <ProtectedRoute requiredAccountType="organization"> <RecapMaterialList /> </ProtectedRoute> }
+                <Route
+                  path="/organization/recap-videos"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      {" "}
+                      <RecapMaterialList />{" "}
+                    </ProtectedRoute>
+                  }
                 />
-                <Route path="/organization/recap-videos/:cohortSlug" element={
-                  <ProtectedRoute requiredAccountType="organization"> <RecapMaterialDetails /> </ProtectedRoute> }
+                <Route
+                  path="/organization/recap-videos/:cohortSlug"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      {" "}
+                      <RecapMaterialDetails />{" "}
+                    </ProtectedRoute>
+                  }
                 />
-                <Route path="/organization/certificates" element={
-                  <ProtectedRoute requiredAccountType="organization"> <Certificate /> </ProtectedRoute> }
+                <Route
+                  path="/organization/certificates"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      {" "}
+                      <Certificate />{" "}
+                    </ProtectedRoute>
+                  }
                 />
-                <Route path="/organization/ai-assistant" element={
-                  <ProtectedRoute requiredAccountType="organization"> <AIAssistantPage /> </ProtectedRoute> }
+                <Route
+                  path="/organization/ai-assistant"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      {" "}
+                      <AIAssistantPage />{" "}
+                    </ProtectedRoute>
+                  }
                 />
-                <Route path="/organization/my-courses" element={
-                  <ProtectedRoute requiredAccountType="organization"> <MyCourse /> </ProtectedRoute> }
+                <Route
+                  path="/organization/my-courses"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      {" "}
+                      <MyCourse />{" "}
+                    </ProtectedRoute>
+                  }
                 />
 
-                <Route path="/organization/library" element={
-                  <ProtectedRoute requiredAccountType="organization"> <IndividualLibrary /> </ProtectedRoute> }
+                <Route
+                  path="/organization/library"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      {" "}
+                      <IndividualLibrary />{" "}
+                    </ProtectedRoute>
+                  }
                 />
 
-                <Route path="/organization/schedule" element={
-                  <ProtectedRoute requiredAccountType="organization"> <Calender /> </ProtectedRoute> }
+                <Route
+                  path="/organization/schedule"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      {" "}
+                      <Calender />{" "}
+                    </ProtectedRoute>
+                  }
                 />
 
-                <Route path="/organization/classroom/:cohortSlug" element={
-                  <ProtectedRoute requiredAccountType="organization"> <ClassRoom /> </ProtectedRoute> }
+                <Route
+                  path="/organization/classroom/:cohortSlug"
+                  element={
+                    <ProtectedRoute requiredAccountType="organization">
+                      {" "}
+                      <ClassRoom />{" "}
+                    </ProtectedRoute>
+                  }
                 />
-                
               </Route>
 
               {/* Auth routes (login, register, etc.) */}
               <Route element={<AuthLayout />}>
                 <Route path="/admin/login" element={<AdminLogin />} />
-                <Route path="/organization/register" element={<Organizationregister />} />
+                <Route
+                  path="/organization/register"
+                  element={<Organizationregister />}
+                />
                 <Route path="/verification" element={<VerificationPending />} />
                 <Route path="/verify-organization" element={<VerifyEmail />} />
                 <Route path="/login" element={<Login />} />
@@ -223,9 +431,13 @@ function App() {
               </Route>
 
               {/* Protected Admin routes */}
-              <Route path="/admin"
+              <Route
+                path="/admin"
                 element={
-                  <ProtectedRoute  requiredAccountType="admin"  redirectTo="/admin/login" >
+                  <ProtectedRoute
+                    requiredAccountType="admin"
+                    redirectTo="/admin/login"
+                  >
                     <AdminLayout />
                   </ProtectedRoute>
                 }
@@ -235,16 +447,28 @@ function App() {
                 <Route path="courses/create" element={<CourseCreate />} />
                 <Route path="courses/edit/:slug" element={<CourseEdit />} />
                 <Route path="courses/:slug" element={<CourseDetails />} />
-                <Route   path="courses/:courseSlug/cohorts/create"  element={<CohortCreate />} />
+                <Route
+                  path="courses/:courseSlug/cohorts/create"
+                  element={<CohortCreate />}
+                />
                 {/* cohort route */}
                 <Route path="cohorts" element={<CohortList />} />
                 <Route path="cohorts/create" element={<CohortCreate />} />
                 <Route path="cohorts/edit/:slug" element={<CohortEdit />} />
                 <Route path="cohorts/:slug" element={<CohortsDetails />} />
                 {/* Recap materials route */}
-                <Route  path="class-recap-materials"  element={<ClassRecapMaterials />} />
-                <Route path="recap-material/create" element={<RecapMaterialCreate />} />
-                <Route  path="recap-material/edit/:slug" element={<RecapMaterialEdit />} />
+                <Route
+                  path="class-recap-materials"
+                  element={<ClassRecapMaterials />}
+                />
+                <Route
+                  path="recap-material/create"
+                  element={<RecapMaterialCreate />}
+                />
+                <Route
+                  path="recap-material/edit/:slug"
+                  element={<RecapMaterialEdit />}
+                />
                 {/* Library route */}
                 <Route path="library" element={<Library />} />
                 <Route path="library/create" element={<LibraryCreate />} />
@@ -252,11 +476,20 @@ function App() {
                 {/* User management route */}
                 <Route path="users" element={<UserManagementList />} />
                 <Route path="users/:Id/edit" element={<UserManagementEdit />} />
-                <Route  path="users/:Id/show"  element={<UserManagementDetails />} />
+                <Route
+                  path="users/:Id/show"
+                  element={<UserManagementDetails />}
+                />
                 {/* Organization route */}
                 <Route path="organizations" element={<OrganizationList />} />
-                <Route path="organizations/:slug" element={<OrganizationDetails />} />
-                <Route path="organizations/:slug/edit" element={<OrganizationEdit />} />
+                <Route
+                  path="organizations/:slug"
+                  element={<OrganizationDetails />}
+                />
+                <Route
+                  path="organizations/:slug/edit"
+                  element={<OrganizationEdit />}
+                />
                 {/* enrollment route */}
                 <Route path="enrollments" element={<EnrollmentList />} />
               </Route>

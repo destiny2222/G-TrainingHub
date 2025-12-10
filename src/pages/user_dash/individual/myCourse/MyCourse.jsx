@@ -1,18 +1,13 @@
 import "./MyCourse.css";
 import { useState, useEffect, useMemo } from "react";
-import { IoIosSearch, IoMdClose } from "react-icons/io";
+import { IoIosSearch } from "react-icons/io";
 import { fetchUserEnrolledCohorts } from "../../../../redux/slices/userEnrolledCohortSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import Calendar from "../Calender/Calender";
 
 const MyCourse = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [calendar, setCalendar] = useState(false);
-  const [time, setTime] = useState({
-    start: "",
-    end: "",
-  });
+
   const dispatch = useDispatch();
   const { enrollment, loading, error } = useSelector(
     (state) => state.userEnrolledCohorts,
@@ -50,18 +45,6 @@ const MyCourse = () => {
     const date = new Date(dateString);
     const options = { year: "numeric", month: "long", day: "numeric" };
     return date.toLocaleDateString("en-US", options);
-  };
-
-  const handleCalendarClick = (start, end) => {
-    setCalendar(true);
-    setTime({
-      start: start,
-      end: end,
-    });
-  };
-
-  const handleCalendarClose = () => {
-    setCalendar(false);
   };
 
   return (
@@ -109,18 +92,13 @@ const MyCourse = () => {
                       View Details
                     </button>
                   </Link>
-
-                  <button
-                    className="details-btn primary-btn calendar-btn"
-                    onClick={() =>
-                      handleCalendarClick(
-                        cohort.cohort.start_date,
-                        cohort.cohort.end_date,
-                      )
-                    }
+                  <Link
+                    to={`/calendar/${cohort.cohort.start_date}/${cohort.cohort.end_date}`}
                   >
-                    View Calendar
-                  </button>
+                    <button className="details-btn primary-btn calendar-btn">
+                      View Calendar
+                    </button>
+                  </Link>
                 </div>
               </div>
             ))}
@@ -130,37 +108,6 @@ const MyCourse = () => {
               </div>
             )}
           </div>
-        )}
-      </div>
-      <div
-        className="overlay"
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
-          display: calendar ? "block" : "none",
-          zIndex: 99,
-        }}
-      />
-      <div className="">
-        {calendar && (
-          <>
-            <IoMdClose
-              onClick={handleCalendarClose}
-              style={{
-                position: "absolute",
-                top: "10px",
-                right: "10px",
-                color: "white",
-                fontSize: "34px",
-                zIndex: 1000,
-              }}
-            />
-            <Calendar start={time.start} end={time.end} />
-          </>
         )}
       </div>
     </>

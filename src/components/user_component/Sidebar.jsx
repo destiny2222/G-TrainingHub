@@ -26,7 +26,7 @@ function Sidebar() {
       <Link to="/">
         <div className="sidebar-logo">
           <img
-            src="./logo.png"
+            src="/logo.png"
             alt="GritinAI Logo"
             className="logo-img"
             style={{ width: "100px" }}
