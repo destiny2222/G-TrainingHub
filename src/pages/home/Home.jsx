@@ -13,10 +13,10 @@ import testimonialImg3 from "../../assets/image/testimony/testim-3.jpg";
 import featureImg1 from "../../assets/image/feature/feature-1.webp";
 import featureImg2 from "../../assets/image/feature/feature-2.webp";
 import featureImg3 from "../../assets/image/feature/feature-3.webp";
-import medialogo1 from "../../assets/image/background/ABA logo.png";
-import medialogo2 from "../../assets/image/background/AIPressRoom new.png";
-import medialogo3 from "../../assets/image/background/Bora Agribusiness Afrika light_new.png";
-import medialogo4 from "../../assets/image/background/africa cybersecurity Mag.png";
+import medialogo1 from "../../assets/image/logo/logo.png";
+import medialogo2 from "../../assets/image/logo/logo.png";
+import medialogo3 from "../../assets/image/logo/logo.png";
+import medialogo4 from "../../assets/image/logo/logo.png";
 import HexGrid from "./HexGrid";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -457,7 +457,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="testimonials pt-50 pb-50 ">
+      {/* <section className="testimonials pt-50 pb-50 ">
         <div className="container js-scroll fade-in-bottom">
           <div className="row">
             <div className="col-lg-12 my-3 justify-content-center">
@@ -562,7 +562,7 @@ const Home = () => {
             </SwiperSlide>
           </Swiper>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 };

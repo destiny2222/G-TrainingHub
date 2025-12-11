@@ -37,7 +37,7 @@ function Header() {
                 <Link to="/about">About</Link>
               </li>
               <li>
-                <Link to="/faq">FAQ</Link>
+                <Link to="/faqs">FAQ</Link>
               </li>
             </ul>
           </div>

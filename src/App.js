@@ -107,7 +107,7 @@ function App() {
                   path="/cohorts/:slug/details"
                   element={<CohortDetails />}
                 />
-                <Route path="/faq" element={<Faq />} />
+                <Route path="/faqs" element={<Faq />} />
               </Route>
 
               <Route path="cohort/register" element={<RegistrationForm />} />

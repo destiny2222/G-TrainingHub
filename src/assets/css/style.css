@@ -1492,7 +1492,21 @@ your-image.jpg .testimonials-title {
 }
 
 .footer .footer-logo {
-    width: 70%;
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+.footer-description{
+    color:#fff;
+    font-family: var(--landing-font-family);
+    font-weight: 400;
+    max-width:600px;
+}
+
+@media screen and (max-width:768px){
+    .footer-description{
+        max-width:100%;
+    }
 }
 
 .footer .footer-widget .footer-widget-title {
