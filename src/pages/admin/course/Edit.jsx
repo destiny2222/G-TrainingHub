@@ -25,6 +25,8 @@ const CourseEdit = () => {
 
   const [errors, setErrors] = useState({});
   const [imagePreview, setImagePreview] = useState(null);
+  const [imageKey, setImageKey] = useState(Date.now());
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Fetch course data
   useEffect(() => {
@@ -63,7 +65,12 @@ const CourseEdit = () => {
         status: currentCourse.status || 'active',
       });
       if (currentCourse.image) {
-        setImagePreview(currentCourse.image);
+        // Add cache-busting parameter to image URL
+        const imageUrl = currentCourse.image.includes('?') 
+          ? `${currentCourse.image}&t=${Date.now()}` 
+          : `${currentCourse.image}?t=${Date.now()}`;
+        setImagePreview(imageUrl);
+        setImageKey(Date.now());
       }
     }
   }, [currentCourse]);
@@ -193,9 +200,14 @@ const CourseEdit = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    if (isSubmitting) return;
+    
     if (validateForm()) {
+      setIsSubmitting(true);
+      
       // Prepare FormData for multipart/form-data submission
       const submitData = new FormData();
+      submitData.append('_method', 'PUT'); // Laravel method spoofing for PUT with FormData
       submitData.append('title', formData.title);
       submitData.append('description', formData.description);
       submitData.append('category', formData.category);
@@ -238,7 +250,23 @@ const CourseEdit = () => {
 
       try {
         
-        await dispatch(updateCourse({ slug, formData: submitData })).unwrap();
+        const result = await dispatch(updateCourse({ slug, formData: submitData })).unwrap();
+        
+        // Backend returns { message: ..., course: ... }
+        const updatedCourse = result.course || result.data || result;
+        
+        // Update image preview with new image URL if image was uploaded
+        if (formData.image && updatedCourse?.image) {
+          const newImageUrl = updatedCourse.image.includes('?') 
+            ? `${updatedCourse.image}&t=${Date.now()}` 
+            : `${updatedCourse.image}?t=${Date.now()}`;
+          setImagePreview(newImageUrl);
+          setImageKey(Date.now());
+          // Clear the file input after successful upload
+          const fileInput = document.getElementById('image');
+          if (fileInput) fileInput.value = '';
+        }
+        
         toast.success('Course updated successfully!', {
           position: "top-right",
           autoClose: 3000,
@@ -252,6 +280,8 @@ const CourseEdit = () => {
           position: "top-right",
           autoClose: 5000,
         });
+      } finally {
+        setIsSubmitting(false);
       }
     }
   };
@@ -262,7 +292,7 @@ const CourseEdit = () => {
     }
   };
 
-  if (loading) {
+  if (loading && !isSubmitting) {
     return (
       <div className="course-form-container">
         <div className="loading-state">
@@ -362,12 +392,16 @@ const CourseEdit = () => {
             <div className="file-upload-area">
               {imagePreview ? (
                 <div className="thumbnail-preview">
-                  <img src={imagePreview} alt="Course preview" />
+                  <img src={imagePreview} alt="Course preview" key={imageKey} />
                   <button 
                     type="button" 
                     onClick={() => {
                       setImagePreview(null);
                       setFormData(prev => ({ ...prev, image: null }));
+                      setImageKey(Date.now());
+                      // Clear the file input
+                      const fileInput = document.getElementById('image');
+                      if (fileInput) fileInput.value = '';
                     }}
                     className="remove-thumbnail"
                   >
@@ -513,11 +547,11 @@ const CourseEdit = () => {
         </div>
 
         <div className="form-actions">
-          <button type="button" onClick={handleCancel} className="btn-secondary" disabled={loading}>
+          <button type="button" onClick={handleCancel} className="btn-secondary" disabled={isSubmitting}>
             Cancel
           </button>
-          <button type="submit" className="btn-primary" disabled={loading}>
-            {loading ? 'Updating...' : 'Update Course'}
+          <button type="submit" className="btn-primary" disabled={isSubmitting}>
+            {isSubmitting ? 'Updating...' : 'Update Course'}
           </button>
         </div>
       </form>

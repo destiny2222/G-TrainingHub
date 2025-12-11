@@ -51,7 +51,12 @@ export const updateCourse = createAsyncThunk(
   'courses/updateCourse',
   async ({ slug, formData }, { rejectWithValue }) => {
     try {
-        const response = await api.put(`/admin/courses/${slug}/update`, formData);
+        // Use POST with _method=PUT for FormData with Laravel
+        const response = await api.post(`/admin/courses/${slug}/update`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
         return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
@@ -166,7 +171,8 @@ const courseSlice = createSlice({
       .addCase(updateCourse.fulfilled, (state, action) => {
         state.loading = false;
         state.success = true;
-        const updatedCourse = action.payload.data || action.payload;
+        // Backend returns { message: ..., course: ... }
+        const updatedCourse = action.payload.course || action.payload.data || action.payload;
         const index = state.courses.findIndex(
           (course) => course.id === updatedCourse.id
         );
