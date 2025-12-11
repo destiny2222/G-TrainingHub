@@ -50,7 +50,7 @@ function Footer() {
           <div className="footer-bottom">
             <div className="row">
               <div className="col-12 col-lg-6 order-lg-first order-last">
-                <p className='footer-copyright'>Copyrights © {new Date().getFullYear()} .com</p>
+                <p className='footer-copyright'>©Copyrights  {new Date().getFullYear()} GritinAI. All rights reserved.</p>
               </div>
               <div className="col-12 col-lg-6  order-lg-last order-first">
                 <div className="footer-social-icon justify-content-start justify-content-lg-end">
