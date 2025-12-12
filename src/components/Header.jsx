@@ -37,7 +37,7 @@ function Header() {
                 <Link to="/about">About</Link>
               </li>
               <li>
-                <Link to="/faqs">FAQ</Link>
+                <Link to="/faqs">FAQs</Link>
               </li>
             </ul>
           </div>
@@ -80,6 +80,9 @@ function Header() {
               <Link to="/about" onClick={toggleMenu}>
                 About
               </Link>
+            </li>
+            <li>
+              <Link to="/faqs">FAQs</Link>
             </li>
 
             <li>
