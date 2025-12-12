@@ -70,17 +70,19 @@ const Faq = () => {
         size={"25rem"}
       />
 
-      <Question
-        size={"15rem"}
-        style={{
-          position: "absolute",
-          top: "14%",
-          left: "60%",
-          transform: "translate(-50%, -20%)",
-          rotate: "45deg",
-          transformOrigin: "center",
-        }}
-      />
+      {!mobile && (
+        <Question
+          size={"15rem"}
+          style={{
+            position: "absolute",
+            top: "14%",
+            left: "60%",
+            transform: "translate(-50%, -20%)",
+            rotate: "45deg",
+            transformOrigin: "center",
+          }}
+        />
+      )}
 
       <div className="faq-header">
         <h1>Frequently Asked Questions</h1>
