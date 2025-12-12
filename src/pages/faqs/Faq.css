@@ -1,13 +1,12 @@
 .faq-container {
-    padding: 2rem 1rem;
-    padding-inline: 6rem;
+    padding: clamp(1rem, 3vw, 2rem) clamp(1rem, 4vw, 6rem);
     min-height: 100vh;
     position: relative;
 }
 
 .faq-header {
     background-color: var(--primary-color);
-    padding-inline: 4rem;
+    padding-inline: clamp(1.5rem, 5vw, 4rem);
     padding-block: 0.7rem;
     border-radius: 10px;
     margin-bottom: 5%;
@@ -15,32 +14,33 @@
 }
 
 .faq-container h1 {
-    font-size: clamp(2rem, 5vw, 3rem);
+    font-size: clamp(1.75rem, 5vw, 3rem);
     font-weight: bold;
     margin-bottom: 1rem;
-    margin-top: clamp(50px, 15vh, 100px);
+    margin-top: clamp(30px, 10vh, 100px);
 }
 
 .faq-container li h3 {
-    font-size: clamp(1.2rem, 3vw, 1.5rem);
-    margin-top: 20px;
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    margin-top: clamp(15px, 3vh, 20px);
+    line-height: 1.4;
 }
 
 .faq-container .sub {
-    font-size: clamp(1rem, 2.5vw, 1.2rem);
-    margin-bottom: clamp(50px, 20vh, 150px);
+    font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+    margin-bottom: clamp(30px, 15vh, 150px);
 }
 
 .faq-container ul {
     list-style-type: none;
+    padding: 0;
 }
 
 .faq-container li {
     width: 100%;
-    margin-bottom: 2rem;
+    margin-bottom: clamp(1rem, 3vh, 2rem);
     border: 1px solid #eee;
-    padding-inline: 1.2rem;
-    width: 100%;
+    padding: clamp(1rem, 2.5vw, 1.2rem);
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -61,6 +61,7 @@
         opacity 0.3s ease-in-out,
         transform 0.3s ease-in-out,
         height 0.3s ease-in-out;
+    font-size: clamp(0.9rem, 2vw, 1rem);
 }
 
 .faq-container li p.down {
@@ -69,25 +70,16 @@
     transform: translateY(0);
 }
 
-.svg-rotate {
-    font-size: clamp(1.2rem, 3vw, 1.5rem);
-    transform: rotate(180deg);
+.svg-rotate,
+.svg-normal {
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
     transition: transform 0.3s ease-in-out;
+}
+
+.svg-rotate {
+    transform: rotate(180deg);
 }
 
 .svg-normal {
-    font-size: clamp(1.2rem, 3vw, 1.5rem);
     transform: rotate(0deg);
-    transition: transform 0.3s ease-in-out;
-}
-
-/* Mobile adjustments */
-@media (max-width: 768px) {
-    .faq-container {
-        padding: 1.5rem 0.75rem;
-    }
-
-    .faq-container li {
-        padding: 1.2rem 1rem;
-    }
 }

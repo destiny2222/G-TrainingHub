@@ -1,6 +1,6 @@
 import "./Faq.css";
 import { FaChevronDown } from "react-icons/fa";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useState } from "react";
 import Question from "./question";
 
@@ -40,7 +40,7 @@ const Faq = () => {
 
   const ref = useRef([]);
   const [open, setOpen] = useState([]);
-
+  const [mobile, setMobile] = useState(false);
   const handleToggle = (i) => {
     setOpen((prevOpen) => {
       const newOpen = [...prevOpen];
@@ -49,6 +49,12 @@ const Faq = () => {
     });
     ref.current[i].classList.toggle("down");
   };
+
+  useEffect(() => {
+    if (window.innerWidth <= 768) {
+      setMobile(true);
+    }
+  }, []);
 
   return (
     <div className="faq-container">
@@ -85,7 +91,7 @@ const Faq = () => {
 
       <ul>
         {faq.map((item, i) => (
-          <li key={i}>
+          <li key={i} onClick={() => handleToggle(i)}>
             <h3>
               {item.question}{" "}
               <span onClick={() => handleToggle(i)}>
