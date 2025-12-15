@@ -1,25 +1,19 @@
 // AdminOrganizationDashboard.jsx - For organization admins
 import React, { useEffect, useState } from "react";
 import { Add, DocumentDownload, CalendarEdit, Award, Stickynote } from "iconsax-reactjs";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler,
-} from "chart.js";
+import {  Chart as ChartJS, CategoryScale,LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler,} from "chart.js";
 import { Line } from "react-chartjs-2";
 import { useDispatch, useSelector } from "react-redux";   
 import { fetchOrganisationAnalytics } from "../../../redux/slices/admin_organisation/analyticsSlice";
 import { Link } from "react-router-dom";
 import { fetchOrg } from "../../../redux/slices/admin_organisation/organisationSlice.js";
-import RequestCustom from "../organization/RequestCustomTraining/RequestCustom.jsx";
+import RequestCustom from "../RequestCustom.jsx";
 import ScheduleSession from "../organization/ScheduleSession/ScheduleSession.jsx";
 import { File } from "lucide-react";
+import { fetchActivities } from "../../../redux/slices/activities/org/activitiesSlice.js";
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+
 
 ChartJS.register(
   CategoryScale,
@@ -40,6 +34,14 @@ function AdminOrganizationDashboard() {
   const organization = useSelector((state) => state.org.organization);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
+  const activities = useSelector((state) => state.activities.activities);
+  const activitiesLoading = useSelector((state) => state.activities.loading);
+
+  useEffect(() => {
+    dispatch(fetchActivities());
+  }, [dispatch]);
+
+  // console.log('Activities:', activities);
 
   useEffect(() => {
     dispatch(fetchOrganisationAnalytics());
@@ -78,11 +80,11 @@ function AdminOrganizationDashboard() {
     <div className="organization-dashboard-main-section">
       <div className="container p-4 min-vh-100">
         {/* Welcome Section */}
-        <section className=" mb-4 d-flex justify-content-between align-items-center">
-          <div className="welcome-head">
+        <section className=" mb-4 d-lg-flex  justify-content-between align-items-center ">
+          <div className="welcome-head mb-4 mb-lg-0">
             <h1 className="welcome-text-title">Welcome, {organization?.name || "Acme Inc."}</h1>
           </div>
-          <div className="d-flex flex-wrap justify-content-end">
+          <div className="d-flex flex-wrap justify-content-lg-end ">
             <button 
               className="btn-request-training d-flex align-items-center mb-2"
               onClick={() => setIsModalOpen(true)}
@@ -162,7 +164,7 @@ function AdminOrganizationDashboard() {
 
         {/* Training Progress and Upcoming Sessions */}
         <div className="row mb-4">
-          <div className="col-12 col-lg-8 d-flex flex-column">
+          <div className="col-12 col-lg-12 d-flex flex-column">
             <div className="card shadow-sm h-100">
               <div className="card-body">
                 <h2 className="h5 fw-semibold mb-3">Training Progress</h2>
@@ -172,7 +174,7 @@ function AdminOrganizationDashboard() {
               </div>
             </div>
           </div>
-          <div className="col-12 col-lg-4 d-flex flex-column">
+          {/* <div className="col-12 col-lg-4 d-flex flex-column">
             <div className="card shadow-sm h-100">
               <div className="card-body">
                 <h2 className="h5 fw-semibold mb-3">Upcoming Sessions</h2>
@@ -222,7 +224,7 @@ function AdminOrganizationDashboard() {
                 </ul>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Recent Activity and Quick Actions */}
@@ -232,39 +234,60 @@ function AdminOrganizationDashboard() {
               <div className="card-body">
                 <h2 className="h5 fw-semibold mb-3">Recent Activity</h2>
                 <ul className="list-unstyled activity-list">
-                  <li className="d-flex align-items-center mb-3">
-                    <Add size="20" className="activity-icon me-3" />
-                    <div>
-                      <p className="mb-0">
-                        New Learner Added:{" "}
-                        <span className="fw-medium">John Doe</span>
-                      </p>
-                      <span className="text-muted small">2 hours ago</span>
-                    </div>
-                  </li>
-                  <li className="d-flex align-items-center mb-3">
-                    <Award size="20" className="activity-icon me-3" />
-                    <div>
-                      <p className="mb-0">
-                        Certificate Issued for '
-                        <span className="fw-medium">
-                          Advanced Data Analysis
-                        </span>
-                        '
-                      </p>
-                      <span className="text-muted small">1 day ago</span>
-                    </div>
-                  </li>
-                  <li className="d-flex align-items-center mb-3">
-                    <CalendarEdit size="20" className="activity-icon me-3" />
-                    <div>
-                      <p className="mb-0">
-                        Session Scheduled: '
-                        <span className="fw-medium">Cybersecurity Basics</span>'
-                      </p>
-                      <span className="text-muted small">3 days ago</span>
-                    </div>
-                  </li>
+                  {activitiesLoading ? (
+                    // Skeleton loading state
+                    [...Array(3)].map((_, index) => (
+                      <li key={index} className="d-flex align-items-center mb-3">
+                        <Skeleton circle width={20} height={20} className="me-3" />
+                        <div style={{ flex: 1 }}>
+                          <p className="mb-1">
+                            <Skeleton width="80%" />
+                          </p>
+                          <Skeleton width="30%" height={12} />
+                        </div>
+                      </li>
+                    ))
+                  ) : activities.length > 0 ? (
+                    activities.map((activity) => (
+                      <li key={activity.id} className="d-flex align-items-center mb-3">
+                        {activity.event === 'created' && activity.subject?.type === 'User' && (
+                          <Add size="20" className="activity-icon me-3" />
+                        )}
+                        {activity.event === 'created' && activity.subject?.type === 'Organization' && (
+                          <Add size="20" className="activity-icon me-3" />
+                        )}
+                        {activity.event === 'created' && activity.subject?.type === 'ScheduleSession' && (
+                          <Add size="20" className="activity-icon me-3" />
+                        )}
+                        {activity.event === 'created' && activity.subject?.type === 'CustomTraining' && (
+                          <Add size="20" className="activity-icon me-3" />
+                        )}
+                        {activity.event === 'created' && activity.subject?.type === 'Enrollment' && (
+                          <Add size="20" className="activity-icon me-3" />
+                        )}
+
+                        {activity.event === 'updated' && (
+                          <CalendarEdit size="20" className="activity-icon me-3" />
+                        )}
+                        {activity.event === 'completed' && (
+                          <Award size="20" className="activity-icon me-3" />
+                        )}
+                        <div>
+                          <p className="mb-0">
+                            {activity.description}:{" "}
+                            <span className="fw-medium">{activity.subject?.name}</span>
+                          </p>
+                          <span className="text-muted small">{activity.time_ago}</span>
+                        </div>
+                      </li>
+                    ))
+                  ) : (
+                    <li className="d-flex align-items-center mb-3">
+                      <div>
+                        <p className="text-muted mb-0">No recent activities</p>
+                      </div>
+                    </li>
+                  )}
                 </ul>
               </div>
             </div>

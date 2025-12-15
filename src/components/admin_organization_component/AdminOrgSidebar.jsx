@@ -29,7 +29,8 @@ function AdminOrgSidebar({ isOpen, onClose }) {
 
   return (
     <>
-      <aside className="sidebar-dashboard">
+      {isOpen && <div className="sidebar-overlay" onClick={onClose}></div>}
+      <aside className={`sidebar-dashboard ${isOpen ? 'sidebar-open' : ''}`}>
         <div className="sidebar-header">
           <div className="sidebar-logo">
             <img

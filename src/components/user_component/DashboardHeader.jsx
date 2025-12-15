@@ -25,10 +25,10 @@ function DashboardHeader({ onMenuToggle }) {
         {/* <Notification size="24" className="notification-icon" /> */}
         <div className="user-profile d-flex align-items-center gap-3 pt-2">
           <img  src={user?.profile_picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || "User")}`}   alt="User Profile"  className="profile-img" />
-          <div className="user-info pt-3">
+          {/* <div className="user-info pt-3">
             <span className="user-name">{user?.name}</span>
             <p className="user-role">Learner</p>
-          </div>
+          </div> */}
         </div>
       </div>
     </header>

@@ -15,6 +15,7 @@ import {
   fetchRecapMaterialByCohortSlug,
 } from "../../redux/slices/classRecapMaterialSlice";
 import { useFetchUser } from "../../utils/useUserStore";
+import { fetchAnalyticsData } from "../../redux/slices/analyticsSlice";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ function Dashboard() {
   const user = useFetchUser();
   const nextClassRooms = useSelector((state) => state.classRooms.classRooms);
   const classRoomsLoading = useSelector((state) => state.classRooms.loading);
+  const userAnalytics = useSelector((state) => state.userAnalytics.analyticsData);
   const userAssignments = useSelector(
     (state) => state.userAssignments.assignments,
   );
@@ -45,6 +47,7 @@ function Dashboard() {
 
   useEffect(() => {
     dispatch(fetchAssignments());
+    dispatch(fetchAnalyticsData());
   }, [dispatch]);
 
   useEffect(() => {
@@ -129,64 +132,64 @@ function Dashboard() {
           </div> */}
         </div>
         <div className="row mb-4">
-          <div className="col-md-3 mb-3">
+          <div className="col-md-4 mb-3">
             <div className="card shadow-sm h-100">
-              <div className="card-body">
+                <div className="card-body">
                 <div className="d-flex align-items-center mb-2">
-                  <Book size="24" className="me-2" color="#2563eb" />
-                  <p className="text-muted mb-0">My Courses</p>
+                    <Book size="24" className="me-2" color="#2563eb" />
+                    <p className="text-muted mb-0">My Courses</p>
                 </div>
-                <h2 className="h3 fw-bold">3</h2>
+                <h2 className="h3 fw-bold">{userAnalytics?.active_courses_count || 0}</h2>
                 <p className="text-muted small mb-0">Active courses</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-3 mb-3">
-            <div className="card shadow-sm h-100">
-              <div className="card-body">
-                <div className="d-flex align-items-center mb-2">
-                  <TrendUp size="24" className="me-2" color="#10b981" />
-                  <p className="text-muted mb-0">Progress</p>
                 </div>
-                <h2 className="h3 fw-bold">65%</h2>
-                <p className="text-muted small mb-0">Overall completion</p>
-              </div>
             </div>
           </div>
-          <div className="col-md-3 mb-3">
+          <div className="col-md-4 mb-3">
             <div className="card shadow-sm h-100">
-              <div className="card-body">
+                <div className="card-body">
                 <div className="d-flex align-items-center mb-2">
-                  <Calendar size="24" className="me-2" color="#f59e0b" />
-                  <p className="text-muted mb-0">Upcoming</p>
+                    <TrendUp size="24" className="me-2" color="#10b981" />
+                    <p className="text-muted mb-0">Progress</p>
+                </div>
+                <h2 className="h3 fw-bold">{userAnalytics?.overall_completion || 0}%</h2>
+                <p className="text-muted small mb-0">Overall completion</p>
+                </div>
+            </div>
+          </div>
+        {/* <div className="col-md-3 mb-3">
+            <div className="card shadow-sm h-100">
+                <div className="card-body">
+                <div className="d-flex align-items-center mb-2">
+                    <Calendar size="24" className="me-2" color="#f59e0b" />
+                    <p className="text-muted mb-0">Upcoming</p>
                 </div>
                 <h2 className="h3 fw-bold">2</h2>
                 <p className="text-muted small mb-0">Sessions this week</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-3 mb-3">
-            <div className="card shadow-sm h-100">
-              <div className="card-body">
-                <div className="d-flex align-items-center mb-2">
-                  <Award size="24" className="me-2" color="#8b5cf6" />
-                  <p className="text-muted mb-0">Certificates</p>
                 </div>
-                <h2 className="h3 fw-bold">1</h2>
-                <p className="text-muted small mb-0">Earned certificates</p>
-              </div>
             </div>
-          </div>
+            </div> */}
+            <div className="col-md-4 mb-3">
+                <div className="card shadow-sm h-100">
+                    <div className="card-body">
+                    <div className="d-flex align-items-center mb-2">
+                        <Award size="24" className="me-2" color="#8b5cf6" />
+                        <p className="text-muted mb-0">Certificates</p>
+                    </div>
+                    <h2 className="h3 fw-bold">{userAnalytics?.certificates_count || 0}</h2>
+                    <p className="text-muted small mb-0">Earned certificates</p>
+                    </div>
+                </div>
+            </div>
         </div>
         <div className="row mb-5">
-          <div className="col-12 col-lg-8 d-flex flex-column">
+          <div className="col-12 col-lg-8 d-flex flex-column mb-4">
             {/* Ongoing Courses */}
             <h2 className="h5 fw-semibold mb-3">
               {canJoin ? "Continue Learning" : "Upcoming Class"}
             </h2>
             <div className="card custom-card  mb-4">
               <div className="card-body">
-                <div className="d-flex align-items-center">
+                <div className="d-lg-flex flex-row align-items-center">
                   {isLoading ? (
                     <Skeleton
                       width={100}
@@ -197,12 +200,7 @@ function Dashboard() {
                     <img
                       src={cohort?.course?.thumbnail_path}
                       alt="Course thumbnail"
-                      className="rounded img-fluid me-3"
-                      style={{
-                        width: "100px",
-                        height: "100px",
-                        objectFit: "cover",
-                      }}
+                      className="rounded img-fluid me-3 join-class-img"
                     />
                   )}
                   <div className="flex-grow-1">
@@ -233,7 +231,7 @@ function Dashboard() {
                       </span>
                       <button
                         type="button"
-                        className="primary-btn"
+                        className="primary-btn join-class-btn"
                         disabled={isLoading || !canJoin}
                         onClick={handleJoinClass}
                       >
@@ -252,7 +250,7 @@ function Dashboard() {
             </div>
           </div>
 
-          <div className="col-12 col-lg-4 d-flex flex-column">
+          <div className="col-12 col-lg-4 d-flex flex-column mb-4">
             <div className="d-flex justify-content-between align-items-center mb-3">
               <h2 className="h5 fw-semibold mb-3">Class Recap Videos</h2>
               <Link to="/recap-videos" className="">
@@ -317,8 +315,8 @@ function Dashboard() {
             )}
           </div>
         </div>
-        <div className="row">
-          <div className="col-12 col-lg-8">
+        <div className="row mb-4">
+          <div className="col-12 col-lg-8 mb-4">
             {/* Assignments & Scores */}
             <div className="card shadow-sm">
               <div className="d-flex justify-content-between align-items-end mb-3 px-3 pt-3 gap-3">
@@ -376,7 +374,7 @@ function Dashboard() {
               </div>
             </div>
           </div>
-          <div className="col-12 col-lg-4">
+          <div className="col-12 col-lg-4 mb-4">
             <h2 className="h5 fw-semibold mb-3">Tech Library</h2>
             <div className="card custom-card">
               <div className="card-body">

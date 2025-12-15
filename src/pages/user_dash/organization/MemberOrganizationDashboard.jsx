@@ -12,6 +12,7 @@ import FileInput from "../../../components/individual/FileInput";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import cohortImage from "../../../assets/image/background/background.jpeg";
+import { fetchAnalyticsData } from "../../../redux/slices/analyticsSlice";
 
 function MemberOrganizationDashboard() {
     // const { user } = useAuth();
@@ -23,7 +24,8 @@ function MemberOrganizationDashboard() {
     const userAssignments = useSelector( (state) => state.userAssignments.assignments);
     const recapMaterials = useSelector( (state) => state.classRecapMaterials.recapMaterials);
     const userEnrolledCohorts = useSelector( (state) => state.userEnrolledCohorts.enrollment);
-    const userEnrolledLoading = useSelector( (state) => state.userEnrolledCohorts.loading);  
+    const userEnrolledLoading = useSelector( (state) => state.userEnrolledCohorts.loading);
+    const userAnalytics = useSelector((state) => state.userAnalytics.analyticsData);
     const cohort = userEnrolledCohorts[0]?.cohort || {};
     const canJoin = nextClassRooms?.next_class?.can_join;
     const cohortSlug = cohort?.slug;
@@ -32,6 +34,7 @@ function MemberOrganizationDashboard() {
     
       useEffect(() => {
         dispatch(fetchAssignments());
+        dispatch(fetchAnalyticsData());
       }, [dispatch]);
     
       useEffect(() => {
@@ -89,56 +92,55 @@ function MemberOrganizationDashboard() {
             <p className="text-muted">Continue your learning journey</p>
           </div>
         </section>
-        
         <div className="row mb-4">
-            <div className="col-md-3 mb-3">
-                <div className="card shadow-sm h-100">
-                    <div className="card-body">
-                    <div className="d-flex align-items-center mb-2">
-                        <Book size="24" className="me-2" color="#2563eb" />
-                        <p className="text-muted mb-0">My Courses</p>
-                    </div>
-                    <h2 className="h3 fw-bold">3</h2>
-                    <p className="text-muted small mb-0">Active courses</p>
-                    </div>
-                </div>
-            </div>
-            <div className="col-md-3 mb-3">
-                <div className="card shadow-sm h-100">
-                    <div className="card-body">
-                    <div className="d-flex align-items-center mb-2">
-                        <TrendUp size="24" className="me-2" color="#10b981" />
-                        <p className="text-muted mb-0">Progress</p>
-                    </div>
-                    <h2 className="h3 fw-bold">65%</h2>
-                    <p className="text-muted small mb-0">Overall completion</p>
-                    </div>
-                </div>
-            </div>
-            <div className="col-md-3 mb-3">
-                <div className="card shadow-sm h-100">
-                    <div className="card-body">
-                    <div className="d-flex align-items-center mb-2">
-                        <Calendar size="24" className="me-2" color="#f59e0b" />
-                        <p className="text-muted mb-0">Upcoming</p>
-                    </div>
-                    <h2 className="h3 fw-bold">2</h2>
-                    <p className="text-muted small mb-0">Sessions this week</p>
-                    </div>
-                </div>
-            </div>
-            <div className="col-md-3 mb-3">
-                <div className="card shadow-sm h-100">
-                    <div className="card-body">
-                    <div className="d-flex align-items-center mb-2">
-                        <Award size="24" className="me-2" color="#8b5cf6" />
-                        <p className="text-muted mb-0">Certificates</p>
-                    </div>
-                    <h2 className="h3 fw-bold">1</h2>
-                    <p className="text-muted small mb-0">Earned certificates</p>
-                    </div>
-                </div>
-            </div>
+          <div className="col-md-4 mb-3">
+              <div className="card shadow-sm h-100">
+                  <div className="card-body">
+                  <div className="d-flex align-items-center mb-2">
+                      <Book size="24" className="me-2" color="#2563eb" />
+                      <p className="text-muted mb-0">My Courses</p>
+                  </div>
+                  <h2 className="h3 fw-bold">{userAnalytics?.active_courses_count || 0}</h2>
+                  <p className="text-muted small mb-0">Active courses</p>
+                  </div>
+              </div>
+          </div>
+          <div className="col-md-4 mb-3">
+              <div className="card shadow-sm h-100">
+                  <div className="card-body">
+                  <div className="d-flex align-items-center mb-2">
+                      <TrendUp size="24" className="me-2" color="#10b981" />
+                      <p className="text-muted mb-0">Progress</p>
+                  </div>
+                  <h2 className="h3 fw-bold">{userAnalytics?.overall_completion || 0}%</h2>
+                  <p className="text-muted small mb-0">Overall completion</p>
+                  </div>
+              </div>
+          </div>
+          {/* <div className="col-md-3 mb-3">
+              <div className="card shadow-sm h-100">
+                  <div className="card-body">
+                  <div className="d-flex align-items-center mb-2">
+                      <Calendar size="24" className="me-2" color="#f59e0b" />
+                      <p className="text-muted mb-0">Upcoming</p>
+                  </div>
+                  <h2 className="h3 fw-bold">2</h2>
+                  <p className="text-muted small mb-0">Sessions this week</p>
+                  </div>
+              </div>
+          </div> */}
+          <div className="col-md-4 mb-3">
+              <div className="card shadow-sm h-100">
+                  <div className="card-body">
+                  <div className="d-flex align-items-center mb-2">
+                      <Award size="24" className="me-2" color="#8b5cf6" />
+                      <p className="text-muted mb-0">Certificates</p>
+                  </div>
+                  <h2 className="h3 fw-bold">{userAnalytics?.certificates_count || 0}</h2>
+                  <p className="text-muted small mb-0">Earned certificates</p>
+                  </div>
+              </div>
+          </div>
         </div>
         <div className="row mb-5">
           <div className="col-12 col-lg-8 d-flex flex-column">
@@ -148,7 +150,7 @@ function MemberOrganizationDashboard() {
             </h2>
             <div className="card custom-card  mb-4">
               <div className="card-body">
-                <div className="d-flex align-items-center">
+                <div className="d-lg-flex flex-row align-items-center">
                   {isLoading ? (
                     <Skeleton
                       width={100}
@@ -159,12 +161,7 @@ function MemberOrganizationDashboard() {
                     <img
                       src={cohort?.course?.thumbnail_path}
                       alt="Course thumbnail"
-                      className="rounded img-fluid me-3"
-                      style={{
-                        width: "100px",
-                        height: "100px",
-                        objectFit: "cover",
-                      }}
+                      className="rounded img-fluid me-3 join-class-img"
                     />
                   )}
                   <div className="flex-grow-1">

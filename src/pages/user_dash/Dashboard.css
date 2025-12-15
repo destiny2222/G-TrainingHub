@@ -188,6 +188,25 @@
     transform: translate(0) !important ;
 }
 
+.primary-btn.join-class-btn{
+    font-size: 14px;
+}
+
+.join-class-img{
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+@media screen and (max-width: 768px) {
+    .primary-btn.join-class-btn{
+        font-size: 12px;
+    }
+    .join-class-img{
+        width: 100%;
+    }
+}
+
 .primary-btn:active {
     background: #2e4566;
 }
@@ -485,11 +504,15 @@
         width: 100%;
         justify-content: flex-start;
     }
+
+    .welcome-section{
+        padding-top: 30px;
+    }
 }
 
 @media (max-width: 640px) {
     .wrapper {
-        padding: 1rem;
+        padding: 0px;
     }
 
     .course-item {
@@ -500,4 +523,6 @@
     .data-table {
         font-size: 0.8125rem;
     }
+
+
 }

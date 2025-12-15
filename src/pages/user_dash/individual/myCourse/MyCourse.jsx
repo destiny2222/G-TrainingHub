@@ -87,18 +87,16 @@ const MyCourse = () => {
                   <p>Progress: {cohort.progress}</p>
                   <p>Enrolled: {formatDate(cohort.enrolled_at)}</p>
 
-                  <Link to={`/cohorts/${cohort.cohort.slug}/details`}>
-                    <button className="details-btn primary-btn enrolled-btn">
-                      View Details
-                    </button>
-                  </Link>
-                  <Link
-                    to={`/calendar/${cohort.cohort.start_date}/${cohort.cohort.end_date}`}
-                  >
-                    <button className="details-btn primary-btn calendar-btn">
+                  <div className="d-flex flex-wrap gap-3">
+                    <Link to={`/cohorts/${cohort.cohort.slug}/details`} className="mb-3 mb-lg-0 details-btn primary-btn enrolled-btn">
+                        View Details
+                    </Link>
+                    <Link className="mb-3 mb-lg-0 details-btn primary-btn enrolled-btn"
+                      to={`/calendar/${cohort.cohort.start_date}/${cohort.cohort.end_date}`}
+                    >
                       View Calendar
-                    </button>
-                  </Link>
+                    </Link>
+                  </div>
                 </div>
               </div>
             ))}

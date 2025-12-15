@@ -17,6 +17,8 @@ import userManagementReducer from './slices/super_admin/userManagementSlice';
 import orgAdminReducer from './slices/super_admin/organisationSlice';
 import enrollmentReducer from './slices/super_admin/EnrollmentSilce';
 import publicationReducer from './slices/publicationSilce';
+import activitiesReducer from './slices/activities/org/activitiesSlice';
+import userAnalyticsReducer from './slices/analyticsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -38,6 +40,8 @@ export const store = configureStore({
     orgAdmin: orgAdminReducer,
     enrollments: enrollmentReducer,
     publications: publicationReducer,
+    activities: activitiesReducer,
+    userAnalytics: userAnalyticsReducer,
   },
 });
 

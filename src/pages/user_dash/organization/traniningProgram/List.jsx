@@ -138,20 +138,20 @@ const TrainingProgramList = () => {
     <div className="training-program-container">
       <div className="training-program-header">
         <h1>Enrolled Members</h1>
-        <div style={{ display: 'flex', gap: '1rem' }}>
-          <Link to="/organization/trainings/courses" className="btn-primary">
+        <div className="d-flex flex-wrap gap-2">
+          <Link to="/organization/trainings/courses" className="btn-primary mb-2 mb-lg-0">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M10 4V16M4 10H16" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
             </svg>
             Register Cohort
           </Link>
-          <Link to="/organization/trainings/cohorts" className="btn-secondary">
+          <Link to="/organization/trainings/cohorts" className="btn-secondary mb-2 mb-lg-0">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M3 8L10 3L17 8M4 9V16C4 16.5304 4.21071 17.0391 4.58579 17.4142C4.96086 17.7893 5.46957 18 6 18H14C14.5304 18 15.0391 17.7893 15.4142 17.4142C15.7893 17.0391 16 16.5304 16 16V9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
             View Enroll Cohorts
           </Link>
-          <Link to='/organization/trainings/assign' className='btn-secondary'>
+          <Link to='/organization/trainings/assign' className='btn-secondary mb-2 mb-lg-0'>
             Assign Members
           </Link>
         </div>

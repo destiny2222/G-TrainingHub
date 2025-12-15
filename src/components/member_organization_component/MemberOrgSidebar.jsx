@@ -9,13 +9,14 @@ import {
   Award, 
   Bookmark, 
   MagicStar,
-  Logout
+  Logout,
+  CloseSquare
 } from 'iconsax-reactjs';
 import { FaBookOpenReader } from "react-icons/fa6";
 import LogoutButton from '../auth/LogoutButton';
 
 
-function MemberOrgSidebar() {
+function MemberOrgSidebar({ isOpen, onClose }) {
   const location = useLocation();
 
   const isActive = (path) => {
@@ -23,17 +24,24 @@ function MemberOrgSidebar() {
   };
 
   return (
-    <aside className="sidebar-dashboard">
-      <Link to="/">
-        <div className="sidebar-logo">
-          <img
-            src="/logo.png"
-            alt="GritinAI Logo"
-            className="logo-img"
-            style={{ width: "100px" }}
-          />
+    <>
+      {isOpen && <div className="sidebar-overlay" onClick={onClose}></div>}
+      <aside className={`sidebar-dashboard ${isOpen ? 'sidebar-open' : ''}`}>
+        <div className="sidebar-header">
+          <Link to="/">
+            <div className="sidebar-logo">
+              <img
+                src="/logo.png"
+                alt="GritinAI Logo"
+                className="logo-img"
+                style={{ width: "100px" }}
+              />
+            </div>
+          </Link>
+          <button className="sidebar-close-btn" onClick={onClose}>
+            <CloseSquare size="24" />
+          </button>
         </div>
-      </Link>
       
       <nav className="sidebar-navigation">
         <ul className="sidebar-ul">
@@ -101,6 +109,7 @@ function MemberOrgSidebar() {
         </div>
       </div>
     </aside>
+    </>
   );
 }
 

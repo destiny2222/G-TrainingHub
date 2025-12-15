@@ -122,12 +122,12 @@ const MemberList = () => {
   return (
     <div className="member-list-container">
       {/* Header Section */}
-      <div className="member-header d-flex justify-content-between align-items-center mb-4 fade-in-up">
-        <div>
+      <div className="member-header d-lg-flex  justify-content-between align-items-center mb-4 fade-in-up pb-4 pt-3 pb-lg-0 pt-lg-0">
+        <div className="member-header-text mb-3 mb-lg-0">
           <h1>Organization Members</h1>
           <p>Manage and monitor your organization's team members</p>
         </div>
-        <Link to="/organization/members/create" className="add-member-btn">
+        <Link to="/organization/members/create" className="add-member-btn mb-3 mb-lg-0">
           <Add size="20" />
           Add Member
         </Link>
