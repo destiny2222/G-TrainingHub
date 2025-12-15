@@ -116,7 +116,7 @@ const MemberCreate = () => {
     } catch (error) {
       // Error is already handled by Redux slice, just show it
       toast.error(error || 'An error occurred while creating members.');
-      console.error('Member creation error:', error);
+      // console.error('Member creation error:', error);
     } finally {
       setIsSubmitting(false);
     }
@@ -162,15 +162,15 @@ const MemberCreate = () => {
   return (
     <div className="member-create-container">
       {/* Header */}
-      <div className="member-create-header d-flex justify-content-between align-items-center mb-4 fade-in-up">
+      <div className="member-create-header d-flex flex-wrap justify-content-between align-items-center mb-4 fade-in-up">
         <Link 
           to="/organization/members" 
-          className="back-btn me-3"
+          className="back-btn me-3 mb-4 mb-md-0"
         >
           <ArrowLeft size="20" />
           Back to Members
         </Link>
-        <div>
+        <div className="mb-4 mb-md-0">
           <h1>Add New Members</h1>
           <p>Invite new team members to your organization</p>
         </div>

@@ -37,7 +37,7 @@ const OrganizationCourseList = () => {
         toast.error("No authorization URL received");
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       toast.error("Payment initialization failed");
     }
   };

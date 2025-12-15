@@ -99,7 +99,7 @@ function RequestCustom({ isOpen, onClose }) {
       });
       onClose();
     } catch (err) {
-      console.error("Error submitting form:", err);
+      // console.error("Error submitting form:", err);
       
       // Show error toast
       const errorMessage = err.response?.data?.message || 

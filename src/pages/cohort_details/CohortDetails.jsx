@@ -27,7 +27,7 @@ const CohortDetails = () => {
     });
     return result[0];
   }, [courses, slug]);
-  console.log();
+  // console.log();
   const [expandedSections, setExpandedSections] = useState({});
 
   useEffect(() => {

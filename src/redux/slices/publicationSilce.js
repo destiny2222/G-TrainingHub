@@ -16,7 +16,7 @@ export const fetchPublications = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await axios.get('https://gritinai.com/api/publications');
-            console.log(response.data);
+            // console.log(response.data);
             return response.data.data;
         } catch (error) {
             return rejectWithValue(error.message);

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 // Create axios instance with base configuration 
 const api = axios.create({
@@ -51,22 +52,27 @@ api.interceptors.response.use(
           break;
         case 403:
           // Forbidden
-          console.error('Access forbidden');
+          // console.error('Access forbidden');
+          toast.error('You do not have permission to perform this action.');
           break;
         case 404:
           // Not found
-          console.error('Resource not found');
+          // console.error('Resource not found');
+          toast.error('Requested resource not found.');
           break;
         case 422:
           // Validation error
-          console.error('Validation error:', error.response.data);
+          // console.error('Validation error:', error.response.data);
+          toast.error('Validation error occurred.');
           break;
         case 500:
           // Server error
-          console.error('Server error');
+          toast.error('A server error occurred. Please try again later.');
+          // console.error('Server error');
           break;
         default:
-          console.error('An error occurred:', error.response.data);
+          // console.error('An error occurred:', error.response.data);
+          toast.error('An error occurred. Please try again later.');
       }
     }
     return Promise.reject(error);

@@ -91,11 +91,11 @@ function Settings() {
 
                 toast.success('Logo uploaded successfully');
             } else {
-                console.error(json);
+                // console.error(json);
                 toast.error('Failed to upload logo');
             }
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             toast.error('An error occurred while uploading logo');
         } finally {
             setIsUploadingLogo(false);

@@ -29,6 +29,7 @@ import MainLayout from "./layouts/MainLayout";
 import AuthLayout from "./layouts/AuthLayout";
 import AdminLayout from "./layouts/AdminLayout";
 import DashboardLayout from "./layouts/DashboardLayout";
+import OrganizationLayout from "./layouts/OrganizationLayout";
 // import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -212,8 +213,10 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
+              </Route>
 
-                {/* organization route */}
+                {/* Organization routes with OrganizationLayout */}
+              <Route element={<OrganizationLayout />}>
                 <Route
                   path="/organization/dashboard"
                   element={

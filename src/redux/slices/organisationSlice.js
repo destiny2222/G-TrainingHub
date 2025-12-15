@@ -17,7 +17,7 @@ export const getOrganization = createAsyncThunk(
   async (slug, { rejectWithValue }) => {
     try {
       const response = await api.get(`/organization/${slug}`);
-      console.log('Fetched organization details:', response.data);
+      // console.log('Fetched organization details:', response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(

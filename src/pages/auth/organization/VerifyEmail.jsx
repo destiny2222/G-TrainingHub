@@ -20,11 +20,11 @@ const VerifyEmail = () => {
       const token = searchParams.get("token");
       const email = searchParams.get("email");
 
-      console.log("Verification attempt:", {
-        token,
-        email,
-        hasVerified: hasVerifiedRef.current,
-      });
+      // console.log("Verification attempt:", {
+      //   token,
+      //   email,
+      //   hasVerified: hasVerifiedRef.current,
+      // });
 
       if (!token || !email) {
         setStatus("error");
@@ -45,7 +45,7 @@ const VerifyEmail = () => {
           },
         );
 
-        console.log("Verification response:", response.data);
+        // console.log("Verification response:", response.data);
 
         if (response.data) {
           setStatus("success");
@@ -65,8 +65,8 @@ const VerifyEmail = () => {
           }, 5000);
         }
       } catch (error) {
-        console.error("Verification error:", error);
-        console.error("Error response:", error.response?.data);
+        // console.error("Verification error:", error);
+        // console.error("Error response:", error.response?.data);
 
         // Check if it's already verified
         if (

@@ -37,8 +37,8 @@ export const AuthProvider = ({ children }) => {
 
 
       //TODO: remove this after u solve api user profile issue
-      const userData = localStorage.getItem('userData');
-      const userDetails = userData ? JSON.parse(userData) : null;
+      // const userData = localStorage.getItem('userData');
+      // const userDetails = userData ? JSON.parse(userData) : null;
       
       if (!savedToken || !savedAccountType) {
         setIsLoading(false);
@@ -49,29 +49,29 @@ export const AuthProvider = ({ children }) => {
       // api.defaults.headers.common['Authorization'] = `Bearer ${savedToken}`;
 
       // Fetch user profile based on account type
-      // let profileEndpoint;
-      // if (savedAccountType === 'individual') {
-      //   profileEndpoint = '/api/user/profile';
-      // } else if (savedAccountType === 'organization') {
-      //   profileEndpoint = '/api/organization/profile';
+      let profileEndpoint;
+      if (savedAccountType === 'individual') {
+        profileEndpoint = '/user/profile';
+      } else if (savedAccountType === 'organization') {
+        profileEndpoint = '/organization/profile';
       // } else if (savedAccountType === 'admin') {
       //   profileEndpoint = '/api/admin/profile';
-      // } else {
-      //   throw new Error('Invalid account type');
-      // }
+      } else {
+        throw new Error('Invalid account type');
+      }
 
-      // const response = await api.get(profileEndpoint);
+      const response = await api.get(profileEndpoint);
       
-      setUser(userDetails);
+      // setUser(userDetails);
 
-      // setUser(response.data.user);
-      // setOrganizations(response.data.organizations || []);
+      setUser(response.data.user);
+      setOrganizations(response.data.organizations || []);
       setToken(savedToken);
       setAccountType(savedAccountType);
       setIsAuthenticated(true);
       setError(null);
     } catch (error) {
-      console.error('Auth check failed:', error);
+      // console.error('Auth check failed:', error);
       // Clear invalid tokens
       
       localStorage.removeItem('authToken');
@@ -106,7 +106,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('authToken', token);
     localStorage.setItem('accountType', accountType);
 
-    localStorage.setItem('userData', JSON.stringify(userData)); //TODO: remove this after u solve api user profile issue
+    // localStorage.setItem('userData', JSON.stringify(userData)); //TODO: remove this after u solve api user profile issue
     
     // For backward compatibility with admin routes
     if (accountType === 'admin') {
@@ -206,7 +206,7 @@ export const AuthProvider = ({ children }) => {
         await api.post('/admin/logout');
       }
     } catch (error) {
-      console.error('Logout API call failed:', error);
+      // console.error('Logout API call failed:', error);
     } finally {
       // Clear everything regardless of API call result
       // localStorage.removeItem('authToken');

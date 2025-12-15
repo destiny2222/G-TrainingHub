@@ -38,7 +38,7 @@ export default function PaymentCallback() {
           );
         }
       } catch (err) {
-        console.error("Verification error:", err);
+        // console.error("Verification error:", err);
         setStatus("error");
         setMessage(
           err.response?.data?.message ||

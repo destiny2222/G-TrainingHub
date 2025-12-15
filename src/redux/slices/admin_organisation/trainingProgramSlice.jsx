@@ -12,7 +12,7 @@ export const initializeCohortPayment = createAsyncThunk(
         "/organization/trainings/cohort/initialize-payment/",
         { cohort_id: cohortId },
       );
-      console.log(response);
+      // console.log(response);
       return response.data;
     } catch (error) {
       return rejectWithValue(
