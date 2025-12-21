@@ -12,3 +12,12 @@
 .cal-container {
     background-color: #f5f7fb;
 }
+
+@media (max-width: 768px) {
+    .calendar-section.cal {
+        width: 100%;
+        padding-inline: 2rem;
+        margin-top: 2rem;
+        height: auto;
+    }
+}
