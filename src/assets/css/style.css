@@ -1496,16 +1496,16 @@ your-image.jpg .testimonials-title {
     margin-bottom: 20px;
 }
 
-.footer-description{
-    color:#fff;
+.footer-description {
+    color: #fff;
     font-family: var(--landing-font-family);
     font-weight: 400;
-    max-width:600px;
+    max-width: 600px;
 }
 
-@media screen and (max-width:768px){
-    .footer-description{
-        max-width:100%;
+@media screen and (max-width: 768px) {
+    .footer-description {
+        max-width: 100%;
     }
 }
 
@@ -1649,9 +1649,10 @@ your-image.jpg .testimonials-title {
 .dashboard-content {
     flex: 1;
     display: flex;
+    background-color: #f5f7fb !important;
+
     margin-left: 17%;
     flex-direction: column;
-    background-color: #f3f5f6;
     width: 100%;
     transition: margin-left 0.3s ease;
 }
@@ -1678,7 +1679,9 @@ your-image.jpg .testimonials-title {
     height: 100vh;
     overflow-y: auto;
     z-index: 1000;
-    transition: transform 0.3s ease, left 0.3s ease;
+    transition:
+        transform 0.3s ease,
+        left 0.3s ease;
 }
 
 .sidebar-dashboard::-webkit-scrollbar {
@@ -1900,7 +1903,7 @@ your-image.jpg .testimonials-title {
     display: flex;
     box-shadow: none !important;
     justify-content: space-between;
-    background-color: #f5f7fb;
+    /*background-color: #f5f7fb;*/
     align-items: center;
     min-height: 70px;
 }
@@ -1999,9 +2002,6 @@ your-image.jpg .testimonials-title {
     border-bottom: none;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2) !important;
 }
-
-
-
 
 .card-body {
     border: none;
@@ -2205,8 +2205,8 @@ your-image.jpg .testimonials-title {
         padding: 0rem;
     }
 
-    .organization-dashboard-main-section{
-        padding:0px;
+    .organization-dashboard-main-section {
+        padding: 0px;
     }
 }
 
@@ -2386,8 +2386,8 @@ your-image.jpg .testimonials-title {
         background-position: right top;
     }
 
-    .organization-dashboard-main-section{
-        padding:0px;
+    .organization-dashboard-main-section {
+        padding: 0px;
     }
 }
 
@@ -2871,7 +2871,7 @@ your-image.jpg .testimonials-title {
         max-width: 100%;
     }
 
-    .btn-request-training{
+    .btn-request-training {
         font-size: 14px;
     }
 }

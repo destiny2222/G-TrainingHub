@@ -1,216 +1,365 @@
+/* G-TrainingHub/src/pages/user_dash/Profile.css
+   Refactor: CSS variables, simplified button system, improved accessibility & responsiveness
+*/
+
+/* Box sizing and sensible defaults */
+.profile {
+    /* Colors */
+    --bg: #ffffff;
+    --surface: #ffffff;
+    --muted: #f5f7fa;
+    --border: #e3e7ee;
+    --text: #111827;
+    --muted-text: #6b7280;
+    --primary: #027bff; /* brand primary */
+    --primary-strong: #025fd6;
+    --success: #16a34a;
+    --shadow: 0 8px 20px rgba(43, 108, 176, 0.08);
+
+    /* Spacing / sizing */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2.5rem;
+
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 24px;
+
+    --card-width: 550px;
+    --image-size: 110px;
+
+    /* Typography */
+    --font-sans:
+        system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    --font-size-md: 1rem;
+    --font-size-lg: 1.1rem;
+
+    /* Motion */
+    --motion-fast: 150ms;
+    --motion-medium: 250ms;
+}
+
+/* Container */
 .edit-profile-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 90vh;
-   gap: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xl);
+    padding: var(--space-lg);
+    width: 100%;
 }
 
-
+/* Card */
 .edit-profile-card {
-  background: #fff;
-  border-radius: 24px;
-  box-shadow: 0 8px 20px rgba(43,108,176,0.10);
-  padding: 2.5rem 3rem 2rem 3rem;
-  width: 550px;
-  height: 500px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
- 
-}
-.edit-profile-image-wrapper {
-  position: relative;
-  margin-bottom: 1.5rem;
-}
-.edit-profile-image {
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid #e0e0e0;
-  background: #fafbfc;
-}
-.edit-profile-image-edit {
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
-  background: #027bff;
-  color: #fff;
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 8px rgba(43,108,176,0.12);
-  cursor: pointer;
-  border: none;
-  font-size: 1.2rem;
-}
-.edit-profile-form {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-}
-.edit-profile-label {
-  font-weight: 500;
-  margin-bottom: 0.3rem;
-  color: #222;
-}
-.edit-profile-input-row {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-}
-.edit-profile-input {
-  flex: 1;
-  padding: 0.7rem 1rem;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0;
-  font-size: 1rem;
-  background: #fafbfc;
-  transition: border-color 0.2s;
-}
-.edit-profile-input:focus {
-  outline: none;
-  border-color: #027bff;
-  box-shadow: 0 0 0 2px rgba(2,123,255,0.15);
-}
-.edit-profile-check {
-  color: #43e97b;
-  font-size: 1.3rem;
-}
-.edit-profile-actions {
-  display: flex;
-  justify-content:center;
-  gap: 1rem;
-  margin-top: 0.79rem;
-}
-.edit-profile-btn {
-  background: #027bff;
-  color: #fff;
-  border: none;
-  border-radius: 16px;
-  padding: 0.8rem 2.5rem;
-  font-weight: 600;
-  font-size: 1.1rem;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(108,99,255,0.12);
-  transition: background 0.2s;
-}
-.edit-profile-btn:hover {
-  background: #027bff;
-}
-.edit-profile-btn-secondary {
-  background: #f7f7fa;
-  color: #027bff;
-  border: 1px solid #027bff;
-  border-radius: 16px;
-  padding: 0.8rem 2.5rem;
-  font-weight: 600;
-  font-size: 1.1rem;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(108,99,255,0.08);
-  transition: background 0.2s;
-}
-.edit-profile-btn-secondary:hover {
-  background: #eaeafc;
-}
-.profile-file-upload {
-  display: inline-block;
-  padding: 0.7rem 1.2rem;
-  border-radius: 8px;
-  background: linear-gradient(90deg, #027bff 0%, #027bff 100%);
-  color: #fff;
-  font-weight: 500;
-  font-size: 1rem;
-  border: none;
-  cursor: pointer;
-  margin-bottom: 1rem;
-  box-shadow: 0 2px 8px rgba(43,108,176,0.12);
-  transition: background 0.2s;
-}
-.profile-file-upload:hover {
-  background: linear-gradient(90deg, #027bff 0%, #027bff 100%);
-}
-.profile-file-upload::-webkit-file-upload-button {
-  visibility: hidden;
-}
-.profile-file-upload::before {
-  content: 'Upload Photo';
-  display: inline-block;
-  background: linear-gradient(90deg, #027bff 0%, #027bff 100%);
-  color: #fff;
-  border-radius: 8px;
-  padding: 0.7rem 1.2rem;
-  font-weight: 500;
-  font-size: 1rem;
-  cursor: pointer;
-}
-.profile-file-upload:active::before {
-  background: linear-gradient(90deg, #027bff 0%, #027bff 100%);
-}
-.profile-input {
-  width: 100%;
-  padding: 0.7rem 1rem;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0;
-  font-size: 1rem;
-  margin-top: 0.3rem;
-  margin-bottom: 1.1rem;
-  background: #fafbfc;
-  transition: border-color 0.2s;
-}
-.profile-input:focus {
-  outline: none;
-  border-color: #2b6cb0;
-  box-shadow: 0 0 0 2px rgba(43,108,176,0.15);
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    padding: var(--space-xl) var(--space-lg);
+    width: min(96%, var(--card-width));
+    max-width: calc(var(--card-width) + 2rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-lg);
+    border: 1px solid var(--border);
 }
 
+/* Avatar */
+.edit-profile-image-wrapper {
+    position: relative;
+    margin-bottom: 0.25rem;
+    width: var(--image-size);
+    height: var(--image-size);
+    display: block;
+    flex: 0 0 auto;
+}
+
+.edit-profile-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--border);
+    background: var(--muted);
+    display: block;
+}
+
+/* Small circular edit button over avatar */
+.edit-profile-image-edit {
+    position: absolute;
+    right: 0.2rem;
+    bottom: 0.2rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(2, 123, 255, 0.18);
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    transition:
+        transform var(--motion-fast),
+        background var(--motion-fast);
+}
+
+/* Provide keyboard focus visibility and accessible hit area */
+.edit-profile-image-edit:focus,
+.edit-profile-image-edit:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--primary) 30%, transparent);
+    outline-offset: 2px;
+}
+
+.edit-profile-image-edit:hover {
+    transform: translateY(-1px);
+    background: var(--primary-strong);
+}
+
+/* Form */
+.edit-profile-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+/* Labels and inputs */
+.edit-profile-label {
+    display: inline-block;
+    font-weight: 600;
+    margin-bottom: var(--space-xs);
+    color: var(--text);
+    font-size: var(--font-size-md);
+}
+
+.edit-profile-input-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+/* Shared input styles used across inputs */
+.edit-profile-input,
+.profile-input {
+    width: 100%;
+    padding: 0.65rem 0.9rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    font-size: var(--font-size-md);
+    background: var(--muted);
+    color: var(--text);
+    transition:
+        border-color var(--motion-fast),
+        box-shadow var(--motion-fast),
+        background var(--motion-fast);
+}
+
+/* Focus management: prefer focus-visible for keyboard users */
+.edit-profile-input:focus,
+.edit-profile-input:focus-visible,
+.profile-input:focus,
+.profile-input:focus-visible {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 10%, transparent);
+}
+
+/* Disabled / readonly */
+.edit-profile-input:disabled,
+.profile-input:disabled {
+    background: #f7f8fa;
+    cursor: not-allowed;
+    opacity: 0.9;
+}
+
+/* Icon/check indicator */
+.edit-profile-check {
+    color: var(--success);
+    font-size: 1.2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Button system: single .btn with modifiers */
+.edit-profile-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: none;
+    border-radius: 999px;
+    padding: 0.6rem 1.4rem;
+    font-weight: 600;
+    font-size: var(--font-size-md);
+    cursor: pointer;
+    transition:
+        transform var(--motion-fast),
+        box-shadow var(--motion-fast),
+        background var(--motion-fast);
+    text-decoration: none;
+    line-height: 1;
+    min-height: 40px;
+}
+
+/* Primary */
+.edit-profile-btn {
+    background: linear-gradient(90deg, var(--primary), var(--primary-strong));
+    color: #fff;
+    box-shadow: 0 6px 18px rgba(2, 123, 255, 0.12);
+}
+
+.edit-profile-btn:hover {
+    transform: translateY(-1px);
+    background: linear-gradient(90deg, var(--primary-strong), var(--primary));
+}
+
+/* Secondary */
+.edit-profile-btn-secondary {
+    background: transparent;
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    box-shadow: 0 4px 12px rgba(2, 123, 255, 0.06);
+}
+
+.edit-profile-btn-secondary:hover {
+    background: color-mix(in srgb, var(--primary) 8%, transparent);
+    transform: translateY(-1px);
+}
+
+/* Actions container */
+.edit-profile-actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-md);
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* File input: styled and accessible */
+.profile-file-upload {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    border-radius: var(--radius-sm);
+    background: linear-gradient(90deg, var(--primary), var(--primary-strong));
+    color: #fff;
+    font-weight: 600;
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(2, 123, 255, 0.12);
+    font-size: var(--font-size-md);
+}
+
+/* Hide the real file input while keeping it accessible */
+.profile-file-upload input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+/* Ensure keyboard focus for the wrapper triggers visible focus */
+.profile-file-upload:focus-within {
+    outline: 3px solid color-mix(in srgb, var(--primary) 30%, transparent);
+    outline-offset: 2px;
+}
+
+/* Password input wrapper and toggle */
 .password-input-wrapper {
-  position: relative;
-  width: 100%;
+    position: relative;
+    width: 100%;
 }
 
 .password-input-wrapper .edit-profile-input {
-  padding-right: 3rem;
+    padding-right: 3.25rem;
 }
 
+/* Toggle button sitting over the input */
 .password-toggle-btn {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  color: #666;
-  cursor: pointer;
-  padding: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.2s;
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    padding: 0.25rem;
+    color: var(--muted-text);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    border-radius: 6px;
 }
 
 .password-toggle-btn:hover {
-  color: #027bff;
+    color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 6%, transparent);
 }
 
-.password-toggle-btn:focus {
-  outline: none;
+.password-toggle-btn:focus,
+.password-toggle-btn:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--primary) 30%, transparent);
+    outline-offset: 2px;
 }
 
+/* Small helper text */
+.edit-profile-help {
+    font-size: 0.9rem;
+    color: var(--muted-text);
+}
 
-@media screen and (max-width:768px) {
-  .edit-profile-container{
-    flex-wrap: wrap;
-  }
+/* Responsive behavior */
+@media (max-width: 900px) {
+    .profile {
+        --card-width: 520px;
+    }
 
-  .edit-profile-card{
-    width: 100%;
-    max-width: 550px;
-    margin: 40px auto 35px;
-  }
+    .edit-profile-card {
+        padding: var(--space-lg);
+        gap: var(--space-md);
+    }
+}
+
+@media (max-width: 600px) {
+    .profile {
+        --image-size: 92px;
+        --card-width: 100%;
+    }
+
+    .edit-profile-container {
+        padding: var(--space-md);
+    }
+
+    .edit-profile-card {
+        width: 100%;
+        padding: 1rem;
+        border-radius: 16px;
+    }
+
+    .edit-profile-actions {
+        gap: var(--space-sm);
+    }
+
+    .edit-profile-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    .edit-profile-image-edit,
+    .profile-file-upload,
+    .edit-profile-input {
+        transition: none !important;
+    }
 }

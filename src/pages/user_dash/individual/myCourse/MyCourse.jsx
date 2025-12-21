@@ -4,6 +4,7 @@ import { IoIosSearch } from "react-icons/io";
 import { fetchUserEnrolledCohorts } from "../../../../redux/slices/userEnrolledCohortSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import CourseSVG from "../../../cohort/Pencil";
 
 const MyCourse = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -49,64 +50,77 @@ const MyCourse = () => {
 
   return (
     <>
-      <div className="enrolled-courses-container">
-        <h1 className="fw-bold">My Enrolled Courses</h1>
-        <div>
-          <p>
-            This page provides a detailed overview of all the courses you have
-            enrolled in, allowing you to easily track and manage your learning
-            progress in one convenient place.
-          </p>
+      <div>
+        <div className="cohort-hero-section">
+          <div className="hero-content">
+            <h1 className="fw-bold">My Enrolled Courses</h1>
+            <div>
+              <p>
+                This page provides a detailed overview of all the courses you
+                have enrolled in, allowing you to easily track and manage your
+                learning progress in one convenient place.
+              </p>
+            </div>
+          </div>
+          <CourseSVG />
         </div>
 
-        <div className="search-section">
-          <IoIosSearch className="search-icon" />
-          <input
-            className="cohort-search-input"
-            placeholder="Search by title or category.."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
+        <div className="enrolled-courses-container">
+          <div className="search-section">
+            <IoIosSearch className="search-icon" />
+            <input
+              className="cohort-search-input"
+              placeholder="Search by title or category.."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
 
-        {loading ? (
-          <div className="spinner" role="status"></div>
-        ) : error ? (
-          <div className="error-message">{error}</div>
-        ) : (
-          <div className="enrollment-list">
-            {filteredEnrollment.map((cohort) => (
-              <div key={cohort.id} className="enrollment-item">
-                <img
-                  src={cohort.cohort.course.thumbnail_path}
-                  alt={cohort.title}
-                />
-                <div className="enrollment-info">
-                  <h3>{cohort.cohort.course.title}</h3>
-                  <p>{truncateString(cohort.cohort.course.description, 100)}</p>
-                  <p>Progress: {cohort.progress}</p>
-                  <p>Enrolled: {formatDate(cohort.enrolled_at)}</p>
+          {loading ? (
+            <div className="spinner" role="status"></div>
+          ) : error ? (
+            <div className="error-message">{error}</div>
+          ) : (
+            <div className="enrollment-list">
+              {filteredEnrollment.map((cohort) => (
+                <div key={cohort.id} className="enrollment-item">
+                  <img
+                    src={cohort.cohort.course.thumbnail_path}
+                    alt={cohort.title}
+                  />
+                  <div className="enrollment-info">
+                    <h3>{cohort.cohort.course.title}</h3>
+                    <p>
+                      {truncateString(cohort.cohort.course.description, 100)}
+                    </p>
+                    <p>Progress: {cohort.progress}</p>
+                    <p>Enrolled: {formatDate(cohort.enrolled_at)}</p>
 
-                  <div className="d-flex flex-wrap gap-3">
-                    <Link to={`/cohorts/${cohort.cohort.slug}/details`} className="mb-3 mb-lg-0 details-btn primary-btn enrolled-btn">
+                    <div className="d-flex flex-wrap gap-3">
+                      <Link
+                        to={`/cohorts/${cohort.cohort.slug}/details`}
+                        className="mb-3 mb-lg-0 details-btn primary-btn enrolled-btn"
+                      >
                         View Details
-                    </Link>
-                    <Link className="mb-3 mb-lg-0 details-btn primary-btn enrolled-btn"
-                      to={`/calendar/${cohort.cohort.start_date}/${cohort.cohort.end_date}`}
-                    >
-                      View Calendar
-                    </Link>
+                      </Link>
+                      <Link
+                        className="mb-3 mb-lg-0 details-btn primary-btn enrolled-btn"
+                        to={`/calendar/${cohort.cohort.start_date}/${cohort.cohort.end_date}`}
+                      >
+                        View Calendar
+                      </Link>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-            {filteredEnrollment.length === 0 && (
-              <div className="no-enrollment-message">
-                Enrolled courses not found.
-              </div>
-            )}
-          </div>
-        )}
+              ))}
+              {filteredEnrollment.length === 0 && (
+                <div className="no-enrollment-message">
+                  Enrolled courses not found.
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </>
   );

@@ -43,7 +43,6 @@
 }
 .dashboard-main-section {
     position: relative !important;
-    background-color: #f5f7fb;
 }
 
 .action-buttons {
@@ -188,21 +187,21 @@
     transform: translate(0) !important ;
 }
 
-.primary-btn.join-class-btn{
+.primary-btn.join-class-btn {
     font-size: 14px;
 }
 
-.join-class-img{
+.join-class-img {
     width: 100px;
     height: 100px;
     object-fit: cover;
 }
 
 @media screen and (max-width: 768px) {
-    .primary-btn.join-class-btn{
+    .primary-btn.join-class-btn {
         font-size: 12px;
     }
-    .join-class-img{
+    .join-class-img {
         width: 100%;
     }
 }
@@ -505,7 +504,7 @@
         justify-content: flex-start;
     }
 
-    .welcome-section{
+    .welcome-section {
         padding-top: 30px;
     }
 }
@@ -523,6 +522,4 @@
     .data-table {
         font-size: 0.8125rem;
     }
-
-
 }

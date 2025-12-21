@@ -1,28 +1,4 @@
-import React, { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-
-const Pencil = () => {
-  const svgRef = useRef(null);
-
-  useEffect(() => {
-    gsap.fromTo(
-      svgRef.current,
-      {
-        opacity: 0,
-        rotation: 90,
-        scale: 0.5,
-      },
-      {
-        opacity: 1,
-        rotation: 0,
-        scale: 1,
-        duration: 1.2,
-        delay: 0.5,
-        ease: "back.out(1.7)",
-      },
-    );
-  }, []);
-
+const CourseSVG = () => {
   return (
     <div
       style={{
@@ -33,49 +9,24 @@ const Pencil = () => {
       }}
     >
       <svg
-        ref={svgRef}
-        width="200px"
-        height="200px"
-        viewBox="0 0 192 192"
         xmlns="http://www.w3.org/2000/svg"
-        xmlSpace="preserve"
-        fill="none"
+        width="20rem"
+        height="20rem"
+        viewBox="0 0 24 24"
       >
-        <path
-          d="m104.175 90.97-4.252 38.384 38.383-4.252L247.923 15.427V2.497L226.78-18.646h-12.93zm98.164-96.96 31.671 31.67"
-          className="cls-1"
-          style={{
-            fill: "none",
-            fillOpacity: 1,
-            fillRule: "nonzero",
-            stroke: "#e0e0e0",
-            strokeWidth: 12,
-            strokeLinecap: "round",
-            strokeLinejoin: "round",
-            strokeDasharray: "none",
-            strokeOpacity: 1,
-          }}
-          transform="translate(-77.923 40.646)"
-        />
-        <path
-          d="m195.656 33.271-52.882 52.882"
-          style={{
-            fill: "none",
-            fillOpacity: 1,
-            fillRule: "nonzero",
-            stroke: "#e0e0e0",
-            strokeWidth: 12,
-            strokeLinecap: "round",
-            strokeLinejoin: "round",
-            strokeMiterlimit: 5,
-            strokeDasharray: "none",
-            strokeOpacity: 1,
-          }}
-          transform="translate(-77.923 40.646)"
-        />
+        <g
+          fill="none"
+          stroke="#1f65ff"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.5"
+        >
+          <path d="M20 15c0 1.864 0 2.796-.304 3.53a4 4 0 0 1-2.165 2.165C16.796 21 15.864 21 14 21h-3c-3.772 0-5.658 0-6.83-1.172C3 18.657 3 16.771 3 13V7a4 4 0 0 1 4-4" />
+          <path d="m10 8.5l.434 3.969a.94.94 0 0 0 .552.753c.686.295 1.971.778 3.014.778s2.328-.483 3.014-.778a.94.94 0 0 0 .553-.753L18 8.5m2.5-1v3.77M14 4L7 7l7 3l7-3z" />
+        </g>
       </svg>
     </div>
   );
 };
 
-export default Pencil;
+export default CourseSVG;

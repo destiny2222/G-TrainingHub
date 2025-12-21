@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { BiCategory } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCohorts } from "../../redux/slices/frontend/cohortSlice";
-import Pencil from "./Pencil";
+import CourseSVG from "./Pencil";
 
 function Cohorts() {
   const navigate = useNavigate();
@@ -88,7 +88,7 @@ function Cohorts() {
           </p>
         </div>
 
-        <Pencil />
+        <CourseSVG />
       </section>
 
       <section className="cohort-section">

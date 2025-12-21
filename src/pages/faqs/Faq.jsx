@@ -1,5 +1,5 @@
 import "./Faq.css";
-import { FaChevronDown } from "react-icons/fa";
+import { IoChevronDown } from "react-icons/io5";
 import { useEffect, useRef } from "react";
 import { useState } from "react";
 import Question from "./question";
@@ -97,7 +97,7 @@ const Faq = () => {
             <h3>
               {item.question}{" "}
               <span onClick={() => handleToggle(i)}>
-                <FaChevronDown
+                <IoChevronDown
                   className={open[i] ? "svg-rotate" : "svg-normal"}
                 />
               </span>
