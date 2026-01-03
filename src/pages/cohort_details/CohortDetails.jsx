@@ -198,7 +198,7 @@ const CohortDetails = () => {
         </button>
       </div>
 
-      <div className="testimonials-section">
+      {/* <div className="testimonials-section">
         <h2>What Our Alumni Say</h2>
         <div className="testimonials-grid">
           <div className="testimonial-card">
@@ -236,7 +236,7 @@ const CohortDetails = () => {
             </p>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

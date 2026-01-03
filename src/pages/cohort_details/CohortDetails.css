@@ -1,6 +1,8 @@
 .details-container {
     padding-block: 2rem;
     padding-inline: 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .btn-primary {
@@ -45,11 +47,14 @@
     color: white;
     border-radius: 0.8rem;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
 }
 
 .hero h1 {
     font-size: 2.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.25rem;
 }
 
 .hero p {
@@ -65,9 +70,10 @@
 
 .content-grid {
     padding-left: 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 2rem;
+    align-items: start;
     transition: all 0.3s;
 }
 
@@ -96,6 +102,7 @@
 .time {
     display: flex;
     gap: 1.4rem;
+    flex-wrap: wrap;
 }
 
 .starting,
@@ -103,13 +110,15 @@
 .duration {
     border-radius: 20px;
     border: 1px solid #e0e0e0;
-    padding-inline: 2rem;
+    padding-inline: 1.2rem;
     padding-block: 1rem;
+    flex: 1 1 150px;
+    min-width: 140px;
 }
 
 .curriculum-section {
     margin-top: 2rem;
-    width: 40%;
+    width: auto;
 }
 
 .curriculum-section h2,
@@ -246,6 +255,9 @@
 
 .pricing {
     margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 .naira {
     text-decoration: double line-through;
@@ -311,7 +323,7 @@
 
 .testimonials-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2rem;
 }
 
@@ -360,9 +372,26 @@
     font-style: italic;
 }
 
+/* Responsive tweaks */
+@media (max-width: 1200px) {
+    .content-grid {
+        grid-template-columns: 1fr 320px;
+        padding-left: 1rem;
+    }
+}
+
 @media (max-width: 1024px) {
     .content-grid {
         grid-template-columns: 1fr;
+        padding-left: 0;
+    }
+
+    .curriculum-section {
+        width: 100%;
+    }
+
+    .details-section {
+        margin-top: 1.2rem;
     }
 }
 
@@ -379,8 +408,53 @@
         font-size: 1rem;
     }
 
+    .buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .buttons .btn-primary,
+    .buttons .btn-secondary {
+        width: 100%;
+        text-align: center;
+    }
+
     .instructors-grid,
     .testimonials-grid {
         grid-template-columns: 1fr;
     }
+
+    .pricing {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }
+
+@media (max-width: 480px) {
+    .details-container {
+        padding-inline: 1rem;
+    }
+
+    .hero {
+        padding: 2rem 1rem;
+    }
+
+    .hero h1 {
+        font-size: 1.4rem;
+    }
+
+    .curriculum-header {
+        padding: 0.9rem;
+    }
+
+    .curriculum-content {
+        padding: 0.9rem;
+    }
+
+    .starting,
+    .ending,
+    .duration {
+        padding-inline: 0.8rem;
+    }
+}
+
