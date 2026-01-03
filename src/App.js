@@ -76,6 +76,10 @@ import Certificate from "./pages/user_dash/Certificate.jsx";
 import Calender from "./pages/user_dash/individual/Calender/Calender";
 import EnrollmentList from "./pages/admin/enrollment/List.jsx";
 import Faq from "./pages/faqs/Faq";
+import CustomTrainingRequests from "./pages/admin/customTraining/List.jsx";
+import OrganizationRequestShow from "./pages/admin/customTraining/OrganizationRequestShow.jsx";
+import ScheduleSessionShow from "./pages/admin/scheduleSession/ScheduleSessionShow.jsx";
+import ScheduleSessionList from "./pages/admin/scheduleSession/List.jsx";
 // import OrganizationRoutes from "./pages/admin/organization/OrganizationRoutes.jsx";
 
 function App() {
@@ -452,28 +456,16 @@ function App() {
                 <Route path="courses/create" element={<CourseCreate />} />
                 <Route path="courses/edit/:slug" element={<CourseEdit />} />
                 <Route path="courses/:slug" element={<CourseDetails />} />
-                <Route
-                  path="courses/:courseSlug/cohorts/create"
-                  element={<CohortCreate />}
-                />
+                <Route  path="courses/:courseSlug/cohorts/create"  element={<CohortCreate />} />
                 {/* cohort route */}
                 <Route path="cohorts" element={<CohortList />} />
                 <Route path="cohorts/create" element={<CohortCreate />} />
                 <Route path="cohorts/edit/:slug" element={<CohortEdit />} />
                 <Route path="cohorts/:slug" element={<CohortsDetails />} />
                 {/* Recap materials route */}
-                <Route
-                  path="class-recap-materials"
-                  element={<ClassRecapMaterials />}
-                />
-                <Route
-                  path="recap-material/create"
-                  element={<RecapMaterialCreate />}
-                />
-                <Route
-                  path="recap-material/edit/:slug"
-                  element={<RecapMaterialEdit />}
-                />
+                <Route  path="class-recap-materials"  element={<ClassRecapMaterials />} />
+                <Route path="recap-material/create"  element={<RecapMaterialCreate />} />
+                <Route   path="recap-material/edit/:slug" element={<RecapMaterialEdit />} />
                 {/* Library route */}
                 <Route path="library" element={<Library />} />
                 <Route path="library/create" element={<LibraryCreate />} />
@@ -481,22 +473,19 @@ function App() {
                 {/* User management route */}
                 <Route path="users" element={<UserManagementList />} />
                 <Route path="users/:Id/edit" element={<UserManagementEdit />} />
-                <Route
-                  path="users/:Id/show"
-                  element={<UserManagementDetails />}
-                />
+                <Route  path="users/:Id/show" element={<UserManagementDetails />} />
                 {/* Organization route */}
                 <Route path="organizations" element={<OrganizationList />} />
-                <Route
-                  path="organizations/:slug"
-                  element={<OrganizationDetails />}
-                />
-                <Route
-                  path="organizations/:slug/edit"
-                  element={<OrganizationEdit />}
-                />
+                <Route path="organizations/:slug"  element={<OrganizationDetails />} />
+                <Route  path="organizations/:slug/edit" element={<OrganizationEdit />} />
                 {/* enrollment route */}
                 <Route path="enrollments" element={<EnrollmentList />} />
+                <Route path="organization-requests" element={<CustomTrainingRequests />} />
+                <Route path="organization-requests/create" element={<div style={{ padding: '2rem' }}><h1>Create Request</h1></div>} />
+                <Route path="organization-requests/:id" element={<OrganizationRequestShow />} />
+                <Route path="schedule-sessions" element={<ScheduleSessionList />} />
+                <Route path="schedule-sessions/create" element={<div style={{ padding: '2rem' }}><h1>Create Session</h1></div>} />
+                <Route path="schedule-sessions/:id" element={<ScheduleSessionShow />} />
               </Route>
 
               {/* Unauthorized page */}

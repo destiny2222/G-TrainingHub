@@ -220,8 +220,7 @@ const CohortDetails = () => {
           </div>
           <div className="testimonial-card">
             <div className="testimonial-header">
-              <img
-                src="https://api.dicebear.com/7.x/avataaars/svg?seed=sammi"
+              <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=sammi"
                 alt="Sammi Jones"
               />
               <div>

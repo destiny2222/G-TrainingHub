@@ -19,6 +19,8 @@ import enrollmentReducer from './slices/super_admin/EnrollmentSilce';
 import publicationReducer from './slices/publicationSilce';
 import activitiesReducer from './slices/activities/org/activitiesSlice';
 import userAnalyticsReducer from './slices/analyticsSlice';
+import organizationCustomRequestSliceReducer from './slices/super_admin/organisationCustomRequestSilce';
+import scheduleSessionReducer from './slices/super_admin/scheduleSessionSlice';
 
 export const store = configureStore({
   reducer: {
@@ -42,6 +44,8 @@ export const store = configureStore({
     publications: publicationReducer,
     activities: activitiesReducer,
     userAnalytics: userAnalyticsReducer,
+    customTraining: organizationCustomRequestSliceReducer,
+    scheduleSessions: scheduleSessionReducer,
   },
 });
 

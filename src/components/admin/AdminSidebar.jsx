@@ -57,14 +57,14 @@ const AdminSidebar = ({ isOpen, onClose }) => {
             <Award size="20" variant="Outline" /> Enroll User 
           </Link>
         </li>
-        {/* <li>
-          <Link to="/admin/ai-chat-analytics" className={isActive('/admin/ai-chat-analytics') ? 'active' : ''} onClick={onClose}>
-            <Chart1 size="20" variant="Outline" /> AI Chat Analytics
+        <li>
+          <Link to="/admin/schedule-sessions" className={isActive('/admin/schedule-sessions') ? 'active' : ''} onClick={onClose}>
+            <Chart1 size="20" variant="Outline" /> Schedule Sessions
           </Link>
-        </li> */}
+        </li>
         <li>
           <Link to="/admin/organization-requests" className={isActive('/admin/organization-requests') ? 'active' : ''} onClick={onClose}>
-            <ClipboardText size="20" variant="Outline" /> Organization Requests <span className="badge">2</span>
+            <ClipboardText size="20" variant="Outline" /> Organization Requests
           </Link>
         </li>
       </ul>

@@ -3,6 +3,7 @@
 /* ============================================
    COURSE LIST STYLES
    ============================================ */
+   
 
 .course-list-container {
   width: 100%;
@@ -175,12 +176,50 @@
   background: white;
   border-radius: 12px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  /* allow horizontal scrolling inside the table container to avoid body overflow */
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .course-table {
   width: 100%;
   border-collapse: collapse;
+  /* On larger screens, allow the table to size columns based on content so headers can show in full */
+  table-layout: auto;
+  min-width: 0; /* allow table to shrink within the scrolling container */
+}
+
+/* On small / medium screens (<=1024px), use fixed layout and truncate cells to prevent overflow */
+@media (max-width: 1024px) {
+  .course-table {
+    table-layout: fixed; /* prevents cells from expanding beyond container on smaller screens */
+  }
+
+  .course-table td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 1px; /* works with table-layout: fixed to enable ellipsis */
+  }
+}
+
+/* Ensure headers wrap at all sizes */
+.course-table th {
+  /* allow header labels to wrap and show full words */
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  max-width: none;
+}
+
+/* Allow certain columns to wrap / show full content */
+.course-table td.email-cell,
+.course-table td.organization-cell {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  max-width: 240px;
+  word-break: break-word;
 }
 
 .course-table thead {
@@ -196,7 +235,10 @@
   color: #6b7280;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  white-space: nowrap;
+  /* allow header labels to wrap so full words show instead of truncating */
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.2;
 }
 
 .course-table tbody tr {
@@ -854,6 +896,72 @@
   .form-section {
     padding: 1rem;
   }
+
+  /* Small-screen table tweaks: allow horizontal scroll and stacked row cards */
+  .course-table-container {
+    overflow-x: auto;
+  }
+
+  /* Make table narrower for mobile while still scrollable */
+  .course-table {
+    min-width: 700px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  /* Hide the header on very small screens and turn rows into card-like blocks */
+  .course-table thead {
+    display: none;
+  }
+
+  .course-table tbody tr {
+    display: block;
+    margin-bottom: 0.75rem;
+    background: white;
+    border-radius: 8px;
+    padding: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    border: 1px solid #f3f4f6;
+  }
+
+  .course-table tbody td {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px dashed #f3f4f6;
+    vertical-align: middle;
+  }
+
+  .course-table tbody td:last-child {
+    border-bottom: none;
+  }
+
+  /* Add inline labels for each cell using the `data-label` attribute so different tables can use the same rule */
+  .course-table tbody td::before {
+    content: attr(data-label);
+    color: #6b7280;
+    font-weight: 600;
+    margin-right: 0.5rem;
+    min-width: 110px;
+    display: inline-block;
+  }
+
+  /* Ensure long text wraps within card layout */
+  .course-description p {
+    -webkit-line-clamp: unset;
+    display: block;
+    overflow: visible;
+    max-width: 100%;
+  }
+}
+
+/* Tablet: hide less important columns to reduce horizontal space */
+@media (max-width: 768px) {
+  .course-table {
+    min-width: 900px;
+  }
+
+  /* on tablet, allow horizontal scroll; use mobile stacking for very small screens */
 }
 
 /* ============================================

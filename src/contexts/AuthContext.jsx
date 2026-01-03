@@ -54,8 +54,8 @@ export const AuthProvider = ({ children }) => {
         profileEndpoint = '/user/profile';
       } else if (savedAccountType === 'organization') {
         profileEndpoint = '/organization/profile';
-      // } else if (savedAccountType === 'admin') {
-      //   profileEndpoint = '/api/admin/profile';
+      } else if (savedAccountType === 'admin') {
+        profileEndpoint = '/admin/profile';
       } else {
         throw new Error('Invalid account type');
       }
