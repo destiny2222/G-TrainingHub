@@ -200,7 +200,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/recap-videos/:cohortSlug"
+                  path="/recap-videos/:slug"
                   element={
                     <ProtectedRoute requiredAccountType="individual">
                       {" "}
