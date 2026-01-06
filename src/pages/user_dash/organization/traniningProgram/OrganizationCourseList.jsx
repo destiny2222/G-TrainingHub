@@ -2,45 +2,22 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCohorts } from "../../../../redux/slices/frontend/cohortSlice";
-import { toast } from "react-toastify";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import "./TrainingProgram.css";
-import api from "../../../../utils/api";
+import Modal from "../../../../components/Modal";
 
 const OrganizationCourseList = () => {
   const dispatch = useDispatch();
   const { cohorts, loading } = useSelector((state) => state.cohorts);
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [Paymentloading, setPaymentLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [cohortName, setCohortName] = useState("");
 
   useEffect(() => {
     dispatch(fetchCohorts());
   }, [dispatch]);
-
-  const handleRegister = async (cohortId) => {
-    try {
-      setPaymentLoading(true);
-      const response = await api.post(
-        "/organization/trainings/cohort/initialize-payment",
-        { cohort_id: cohortId },
-      );
-      if (response.data.data.authorization_url) {
-        setPaymentLoading(false);
-        toast.success("Payment initialized successfully: Redirecting...");
-
-        setTimeout(() => {
-          window.location.href = response.data.data.authorization_url;
-        }, 2500);
-      } else {
-        toast.error("No authorization URL received");
-      }
-    } catch (err) {
-      // console.log(err);
-      toast.error("Payment initialization failed");
-    }
-  };
 
   const filteredCohorts = cohorts.filter(
     (cohort) =>
@@ -120,49 +97,22 @@ const OrganizationCourseList = () => {
         </div>
       </div>
 
-      <div className="courses-list">
+      <div
+        className="courses-list"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "2rem",
+          flexWrap: "wrap",
+        }}
+      >
         {filteredCohorts.length > 0 ? (
           filteredCohorts.map((cohort) => {
             const courseCohorts = cohorts.filter((c) => c.id === cohort.id);
 
             return (
-              <div
-                key={cohort.id}
-                className="course-card"
-                style={{
-                  background: "white",
-                  borderRadius: "8px",
-                  padding: "1.5rem",
-                  marginBottom: "1.5rem",
-                  boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-                }}
-              >
-                <div className="course-header" style={{ marginBottom: "1rem" }}>
-                  <h2
-                    style={{
-                      fontSize: "1.25rem",
-                      fontWeight: "600",
-                      color: "#111827",
-                    }}
-                  >
-                    {cohort.course.title}
-                  </h2>
-                  <p style={{ color: "#6b7280", marginTop: "0.5rem" }}>
-                    {cohort.course.description}
-                  </p>
-                </div>
-
+              <div key={cohort.id} style={{ backgroundColor: "white" }}>
                 <div className="cohorts-section">
-                  <h3
-                    style={{
-                      fontSize: "1rem",
-                      fontWeight: "500",
-                      color: "#374151",
-                      marginBottom: "1rem",
-                    }}
-                  >
-                    Available Cohorts
-                  </h3>
                   {courseCohorts.length > 0 ? (
                     <div
                       className="cohorts-grid"
@@ -230,20 +180,26 @@ const OrganizationCourseList = () => {
                               </p>
                             </div>
                           </div>
-                          <button
-                            onClick={() => handleRegister(cohort.id)}
-                            className="btn-primary"
-                            disabled={Paymentloading}
-                            style={{ width: "100%", justifyContent: "center" }}
+                          <Link
+                            to={`/cohorts/${cohort.slug}/details`}
+                            className=" mb-lg-0 details-btn enrolled-btn"
+                            target="_blank"
                           >
-                            {Paymentloading ? (
-                              <div
-                                className="spinner-border spinner-border-sm"
-                                role="status"
-                              ></div>
-                            ) : (
-                              "Register for Cohort"
-                            )}
+                            View Details
+                          </Link>
+                          <button
+                            className="btn-primary"
+                            style={{
+                              width: "100%",
+                              justifyContent: "center",
+                              marginTop: "1rem",
+                            }}
+                            onClick={() => {
+                              setIsModalOpen(true);
+                              setCohortName(cohort.name);
+                            }}
+                          >
+                            Register for Cohort
                           </button>
                         </div>
                       ))}
@@ -266,6 +222,11 @@ const OrganizationCourseList = () => {
           </div>
         )}
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        cohortName={cohortName}
+      />
     </div>
   );
 };
