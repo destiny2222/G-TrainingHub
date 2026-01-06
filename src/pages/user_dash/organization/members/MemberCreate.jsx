@@ -357,6 +357,20 @@ const MemberCreate = () => {
                     )}
                   </div>
                   <div className="form-group">
+                    <label className="form-label">Phone Number</label>
+                    <input
+                      type="text"
+                      className={`form-control ${errors[`bulk_phone_${index}`] ? 'is-invalid' : ''}`}
+                      placeholder="Enter phone number"
+                      value={member.phone}
+                      onChange={(e) => handleBulkMemberChange(index, 'phone', e.target.value)}
+                      aria-label={`Bulk Member ${index + 1} Phone Number`}
+                    />
+                    {errors[`bulk_phone_${index}`] && (
+                      <div className="invalid-feedback">{errors[`bulk_phone_${index}`]}</div>
+                    )}
+                  </div>
+                  <div className="form-group">
                     <label className="form-label">Role</label>
                     <select
                       className="form-select"
@@ -368,6 +382,7 @@ const MemberCreate = () => {
                       <option value="admin">Admin</option>
                     </select>
                   </div>
+                  
                   {bulkMembers.length > 1 && (
                     <button
                       type="button"
@@ -380,6 +395,7 @@ const MemberCreate = () => {
                   )}
                 </div>
               ))}
+              
 
               <div className="alert alert-info">
                 <InfoCircle size="20" />

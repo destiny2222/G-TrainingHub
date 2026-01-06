@@ -47,7 +47,7 @@ function Header() {
               to="/login"
               className="btn-process-button--primary signup-btn"
             >
-              Get Started
+              Login
             </Link>
           </div>
         </div>
@@ -88,7 +88,7 @@ function Header() {
             <li>
               {" "}
               <Link to="/login" className="btn-theme primary-btn signup-btn">
-                Get Started
+                Login
               </Link>
             </li>
           </ul>

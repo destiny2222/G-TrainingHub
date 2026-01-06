@@ -2,23 +2,29 @@ import React, { useEffect, useMemo } from "react";
 import "./RecapVideos.css";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchRecapMaterialByCohortSlug } from "../../../redux/slices/classRecapMaterialSlice";
+import { fetchRecapMaterials } from "../../../redux/slices/classRecapMaterialSlice";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 function Details() {
-  const { cohortSlug } = useParams();
+  const { slug } = useParams(); // ✅ material slug from /recap-videos/:slug
   const dispatch = useDispatch();
-  const recapMaterials = useSelector((state) => state.classRecapMaterials.recapMaterials);
+
+  const recapMaterials = useSelector(
+    (state) => state.classRecapMaterials.recapMaterials
+  );
   const loading = useSelector((state) => state.classRecapMaterials.loading);
 
-//  console.log("cohortSlug:", cohortSlug);
-//  console.log("materialId:", recapMaterials);
-
-  // Fetch recap materials for this cohort if we don't have the one we need
   useEffect(() => {
-    if (cohortSlug) {
-      dispatch(fetchRecapMaterialByCohortSlug(cohortSlug));
+    // fetch list if not already loaded
+    if (!recapMaterials || recapMaterials.length === 0) {
+      dispatch(fetchRecapMaterials());
     }
-  }, [dispatch, cohortSlug]);
+  }, [dispatch]);
+
+  const material = useMemo(() => {
+    return (recapMaterials || []).find((m) => m.slug === slug);
+  }, [recapMaterials, slug]);
 
   const formatDateDMY = (dateString) => {
     if (!dateString) return "";
@@ -30,55 +36,58 @@ function Details() {
     return `${day} ${month} ${year}`;
   };
 
-  if (loading && recapMaterials.length === 0) {
+  if (loading && !material) {
     return (
       <div className="details-container p-4">
-        <p>Loading recap material...</p>
+        <Skeleton height={30} width={250} />
+        <Skeleton height={15} width={120} style={{ marginTop: 10 }} />
+        <Skeleton count={4} style={{ marginTop: 10 }} />
       </div>
     );
   }
 
-  if (recapMaterials.length === 0) {
+  if (!material) {
     return (
       <div className="details-container p-4">
-        <p className="text-muted">No recap material found.</p>
+        <p className="text-muted">Recap material not found.</p>
       </div>
     );
   }
 
   return (
-    <>
-    </>
-    // <div className="details-container p-4">
-    //   <div className="details-card">
-    //     <video
-    //       className="details-video rounded mb-3"
-    //       controls
-    //       muted
-    //       loop
-    //       playsInline
-    //     >
-    //       <source src={material.thumbnail_path} />
-    //       Your browser does not support the video tag.
-    //     </video>
+    <div className="details-container p-4">
+      <div className="details-card">
+        <h2 className="details-title mb-2">{material.title || "Untitled Recap"}</h2>
 
-    //     <h2 className="details-title mb-2">{material.title}</h2>
+        <span className="details-date mb-2">
+          {formatDateDMY(material.created_at)}
+        </span>
 
-    //     <span className="details-date mb-2">
-    //       {formatDateDMY(material.created_at)}
-    //     </span>
+        <p className="details-description mb-3">
+          {material.description || "No description provided."}
+        </p>
 
-    //     <p className="details-description mb-3">
-    //       {material.description}
-    //     </p>
+        {/* ✅ Zoom link (stored in file_path) */}
+        {material.file_path ? (
+          <a
+            href={material.file_path}
+            target="_blank"
+            rel="noreferrer"
+            className="btn btn-primary"
+          >
+            Join Zoom
+          </a>
+        ) : (
+          <p className="text-muted small">No Zoom link available.</p>
+        )}
 
-    //     {material.cohort && (
-    //       <div className="details-meta">
-    //         <span>Cohort: {material.cohort.name}</span>
-    //       </div>
-    //     )}
-    //   </div>
-    // </div>
+        {material.cohort && (
+          <div className="details-meta mt-3">
+            <span>Cohort: {material.cohort.name}</span>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
 

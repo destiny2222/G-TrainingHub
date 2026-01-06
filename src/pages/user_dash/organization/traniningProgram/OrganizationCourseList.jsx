@@ -87,7 +87,7 @@ const OrganizationCourseList = () => {
           >
             ← Back to Training Programs
           </Link>
-          <h1>Available Courses</h1>
+          <h1>Available Cohort</h1>
           <p style={{ color: "#6b7280", marginTop: "0.5rem" }}>
             Register for a cohort to start assigning members.
           </p>

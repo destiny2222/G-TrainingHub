@@ -16,11 +16,15 @@ import {
 } from "../../redux/slices/classRecapMaterialSlice";
 import { useFetchUser } from "../../utils/useUserStore";
 import { fetchAnalyticsData } from "../../redux/slices/analyticsSlice";
+import api from "../../utils/api";
 
 function Dashboard() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useFetchUser();
+  const [loading, setLoading] = useState(true);
+  const [libraryData, setLibraryData] = useState([]);
+  const [error, setError] = useState(null);
   const nextClassRooms = useSelector((state) => state.classRooms.classRooms);
   const classRoomsLoading = useSelector((state) => state.classRooms.loading);
   const userAnalytics = useSelector((state) => state.userAnalytics.analyticsData);
@@ -45,9 +49,12 @@ function Dashboard() {
 
   const [isOpen, setIsOpen] = useState(false);
 
+  // console.log("Libaray :", Data);
+
   useEffect(() => {
     dispatch(fetchAssignments());
     dispatch(fetchAnalyticsData());
+    handleLibrary();
   }, [dispatch]);
 
   useEffect(() => {
@@ -81,6 +88,21 @@ function Dashboard() {
       navigate(`/classroom/${cohort.slug}`);
     }
   };
+
+  const handleLibrary = async () => {
+    try {
+      setLoading(true);
+      const response = await api.get("/user/libraries");
+      const data = response.data.data;
+      setLibraryData(data);
+    } catch (error) {
+      // console.error(error);
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
 
   // Helper function to format date as d m y
   const formatDateDMY = (dateString) => {
@@ -214,11 +236,12 @@ function Dashboard() {
                         <div
                           className="progress-fill"
                           role="progressbar"
-                          style={{ width: "30%" }}
-                          aria-valuenow="60"
+                          style={{ width: `${userEnrolledCohorts.progress ? userEnrolledCohorts.progress : 0}%` }}
+                          aria-valuenow={userEnrolledCohorts.progress ? userEnrolledCohorts.progress : 0}
                           aria-valuemin="0"
                           aria-valuemax="100"
-                        ></div>
+                        >
+                        </div>
                       )}
                     </div>
                     <div className="progress-info">
@@ -231,7 +254,8 @@ function Dashboard() {
                       </span>
                       <button
                         type="button"
-                        className="primary-btn join-class-btn"
+                        // className= "btn-button primary-btn join-class-btn"
+                        className={`btn-button join-class-btn ${!canJoin || isLoading ? 'btn-disabled' : 'primary-btn'}`}
                         disabled={isLoading || !canJoin}
                         onClick={handleJoinClass}
                       >
@@ -272,24 +296,24 @@ function Dashboard() {
                   <div className="card-body">
                     <div className="d-flex align-items-center">
                       {isLoading ? (
-                        <Skeleton width={80} height={50} />
-                      ) : (
-                        <video
-                          className="rounded me-3"
-                          style={{
-                            width: "80px",
-                            height: "50px",
-                            objectFit: "cover",
-                          }}
-                          muted
-                          loop
-                          playsInline
-                          controls
+  <Skeleton width={80} height={50} />
+                        ) : (
+                        <div
+                        className="rounded me-3 d-flex align-items-center justify-content-center"
+                        style={{ width: "80px", height: "50px", background: "#f5f6f7" }}
                         >
-                          <source src={material.thumbnail_path} />
-                          Your browser does not support the video tag.
-                        </video>
+                        <a
+                          href={material.file_path}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-decoration-none fw-semibold"
+                          style={{ fontSize: "12px" }}
+                        >
+                          Zoom
+                        </a>
+                        </div>
                       )}
+
 
                       <div>
                         <h4 className="h6 fw-medium mb-0">
@@ -376,7 +400,63 @@ function Dashboard() {
           </div>
           <div className="col-12 col-lg-4 mb-4">
             <h2 className="h5 fw-semibold mb-3">Tech Library</h2>
-            <div className="card custom-card">
+            {libraryData.length === 0 && !loading ? (
+              <div className="card custom-card">
+                <div className="card-body">
+                  <img
+                    src={cohortImage}
+                    alt="Tech library"
+                    className="img-fluid rounded mb-3"
+                  />
+                  <h3 className="h6 fw-medium mb-2">
+                    {isLoading ? (
+                      <Skeleton width={180} />
+                    ) : (
+                      "Explore the Tech Library"
+                    )}
+                  </h3>
+                  <p className="text-muted small mb-3">
+                    {isLoading ? (
+                      <Skeleton width={220} />
+                    ) : (
+                      "Access a wide range of books, articles, and resources to supplement your learning."
+                    )}
+                  </p>
+                  <Link to="/library">
+                    <button className="btn btn-dark w-100" disabled={isLoading}>
+                      {isLoading ? <Skeleton width={120} /> : "Explore Library"}
+                    </button>
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              //  recapMaterials.slice(0, 3).map((material) => (
+              libraryData.slice(0, 1).map((library) => (
+              <div className="card custom-card">
+                <div className="card-body">
+                  <img  src={library.image_url} alt="Tech library"  className="img-fluid rounded mb-3"/>
+                  <h3 className="h6 fw-medium mb-2">
+                    {isLoading ? (  <Skeleton width={180} /> ) : ( 
+                      library.title
+                    )}
+                  </h3>
+                  <p className="text-muted small mb-3">
+                    {isLoading ? (
+                      <Skeleton width={220} />
+                    ) : (
+                      library.description.slice(0, 100) + "..."
+                    )}
+                  </p>
+                  <Link to="/library">
+                    <button className="btn btn-dark w-100" disabled={isLoading}>
+                      {isLoading ? <Skeleton width={120} /> : "Explore Library"}
+                    </button>
+                  </Link>
+                </div>
+              </div>
+              ))
+            )}
+            {/* <div className="card custom-card">
               <div className="card-body">
                 {isLoading ? (
                   <Skeleton
@@ -411,7 +491,7 @@ function Dashboard() {
                   </button>
                 </Link>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

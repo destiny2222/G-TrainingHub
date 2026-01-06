@@ -66,45 +66,66 @@ function List() {
                 <div
                   className="recap-video-card"
                   onClick={() => navigate(`/recap-videos/${material.slug}`)}
+                  role="button"
+                  tabIndex={0}
                 >
                   {loading ? (
                     <Skeleton width={80} height={50} />
                   ) : (
-                    <video className="rounded me-3" controls>
-                      <source src={material.thumbnail_path} type="video/mp4" />
-                      Your browser does not support the video tag.
-                    </video>
+                    <div
+                      className="rounded me-3 d-flex align-items-center justify-content-center"
+                      style={{ width: "80px", height: "50px", background: "#f5f6f7" }}
+                    >
+                      {material.file_path ? (
+                        <a
+                          href={material.file_path}
+                          target="_blank"
+                          rel="noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="text-decoration-none fw-semibold"
+                          style={{ fontSize: "12px" }}
+                        >
+                          Zoom
+                        </a>
+                      ) : (
+                        <span className="text-muted" style={{ fontSize: "12px" }}>
+                          No link
+                        </span>
+                      )}
+                    </div>
                   )}
+
                   <div>
                     <h4 className="recap-video-head mb-0">
                       {loading ? (
                         <Skeleton width={100} />
                       ) : (
-                        // Use your actual title field here
-                        material.title.slice(0, 25) ||
-                        "Intro to Machine Learning"
+                        (material.title ? material.title.slice(0, 25) : "Untitled Recap")
                       )}
                     </h4>
-                    <span className="recap-video-span   mb-0">
+
+                    <span className="recap-video-span mb-0">
                       {loading ? (
                         <Skeleton width={80} />
                       ) : (
-                        // Use your actual date field here
-                        formatDateDMY(material.created_at) || "20 Oct 2024"
+                        formatDateDMY(material.created_at)
                       )}
                     </span>
+
                     <p className="recap-video-description">
                       {loading ? (
                         <Skeleton count={2} />
                       ) : (
-                        material.description.slice(0, 100) ||
-                        "A brief overview of machine learning concepts and applications."
+                        (material.description
+                          ? material.description.slice(0, 100)
+                          : "No description provided.")
                       )}
                     </p>
                   </div>
                 </div>
               </div>
             ))
+
           )}
         </div>
       </div>

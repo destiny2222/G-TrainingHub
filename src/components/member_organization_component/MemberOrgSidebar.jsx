@@ -94,7 +94,7 @@ function MemberOrgSidebar({ isOpen, onClose }) {
             </Link>
           </li>
           <li>
-            <Link to="/ai-assistant" className={isActive('/ai-assistant')}>
+            <Link to="/organization/ai-assistant" className={isActive('/organization/ai-assistant')}>
               <MagicStar size="20" variant="Bulk" />
               <span>AI Assistant</span>
             </Link>

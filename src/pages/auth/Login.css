@@ -237,16 +237,17 @@
 }
 
 .user-login-form-header h1 {
-    font-size: 36px;
+    font-size: 30px;
     font-weight: 700;
-    color: #1e293b;
+    color: #000;
     margin: 0 0 12px 0;
     line-height: 1.2;
 }
 
+
 .user-login-form-header p {
-    font-size: 16px;
-    color: #64748b;
+    font-size: 14px;
+    color: #000;
     margin: 0;
     line-height: 1.5;
     max-width: 400px;

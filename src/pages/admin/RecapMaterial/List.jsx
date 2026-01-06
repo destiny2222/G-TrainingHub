@@ -158,7 +158,7 @@ function List() {
             <tr>
               <th>Recap Title</th>
               <th>Description</th>
-              <th>Material ( Video )</th>
+              <th>Material ( Zoom link )</th>
               <th>Created</th>
               <th>Actions</th>
             </tr>
@@ -178,14 +178,9 @@ function List() {
                     </div>
                   </td>
                   <td>
-                    {recapmaterial.file_path ? (
-                      <video width="180" height="100" controls>
-                        <source src={recapmaterial.file_path} type="video/mp4" />
-                        Your browser does not support the video tag.
-                      </video>
-                    ) : (
-                      <span style={{ color: '#888' }}>No video</span>
-                    )}
+                    <Link to={recapmaterial.file_path} target="_blank" rel="noopener noreferrer">
+                      {recapmaterial.file_path}
+                    </Link>
                   </td>
                   <td>{recapmaterial.created_at ? new Date(recapmaterial.created_at).toLocaleDateString() : 'N/A'}</td>
                   <td>

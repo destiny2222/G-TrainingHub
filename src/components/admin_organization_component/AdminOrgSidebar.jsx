@@ -103,8 +103,8 @@ function AdminOrgSidebar({ isOpen, onClose }) {
             </li>
             <li>
               <Link
-                to="/ai-assistant"
-                className={isActive("/ai-assistant")}
+                to="/organization/ai-assistant"
+                className={isActive("/organization/ai-assistant")}
                 onClick={handleLinkClick}
               >
                 <MagicStar size="20" variant="Bulk" />

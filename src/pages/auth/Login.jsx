@@ -205,18 +205,16 @@ const Login = () => {
                   ? "Welcome Back!"
                   : "Welcome Back!"}
               </h1>
-              <h1>
-                {loginType === "organization"
-                  ? "Organization Login"
-                  : "Log In to Explore"}
-              </h1>
-              <p>
+              <p className="text-sm">
                 {
                   loginType === "organization"
-                    ? "Please login to your account."
-                    : // ? 'Access your organization\'s training management dashboard and oversee your team\'s learning journey'
-                      "Please login to your account"
-                  // : 'Navigate your learning journey with comprehensive training programs and skill development'
+                    ? "Log in to manage your organization's training and dashboard."
+                    : (
+                        <>
+                          Please log in to your account. You must be registered for a cohort to access your dashboard.{' '}
+                          <Link to="/cohorts">Register here.</Link>
+                        </>
+                      )
                 }
               </p>
 

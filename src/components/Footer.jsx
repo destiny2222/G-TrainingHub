@@ -35,10 +35,10 @@ function Footer() {
                 </ul>
               </div>
             </div>
-            <div className="col-6 col-sm-12 col-md-12 col-lg-3 mb-4 mb-lg-0">
+            <div className="col-6 col-sm-12 col-md-12 col-lg-3 mb-4 mb-lg-0 text-end">
               <div className="footer-widget">
-                <h3 className="footer-widget-title">Contact Us</h3>
-                <ul className="footer-widget-menu">
+                <h3 className="footer-widget-title text-start">Contact Us</h3>
+                <ul className="footer-widget-menu text-start">
                   <li><Link to="mailto:info@gritinai.com"> <Message className='footer-icon' variant="Bold"/> training@gritinai.com</Link></li>
                   <li><Link to="mailto:info@gritinai.com"> <MessageText1 className='footer-icon' variant="Bold"/> info@gritinai.com</Link></li>
                   <li><p><CallAdd className='footer-icon' variant="Bold"/> 07060974359 or 08164280619 </p></li>
@@ -54,10 +54,10 @@ function Footer() {
               </div>
               <div className="col-12 col-lg-6  order-lg-last order-first">
                 <div className="footer-social-icon justify-content-start justify-content-lg-end">
-                  <Link to='https://www.facebook.com/GritinAI' className='footer-bottom-icon'><FaFacebookF /></Link>
-                  <Link to='https://twitter.com/GritinAI?t=MExR6i1aZAuyPwV0XRQ2_g&s=09' className='footer-bottom-icon'><IoLogoTwitter /></Link>
-                  <Link to='https://instagram.com/gritinai?igshid=YmMyMTA2M2Y=' className='footer-bottom-icon'><IoLogoInstagram /></Link>
-                  <Link to='https://www.linkedin.com/company/gritinai/' className='footer-bottom-icon'><FaLinkedinIn  /></Link>
+                  <Link to='https://www.facebook.com/GritinAI' target="_blank" className='footer-bottom-icon'><FaFacebookF /></Link>
+                  <Link to='https://twitter.com/GritinAI?t=MExR6i1aZAuyPwV0XRQ2_g&s=09' target="_blank" className='footer-bottom-icon'><IoLogoTwitter /></Link>
+                  <Link to='https://instagram.com/gritinai?igshid=YmMyMTA2M2Y=' target="_blank" className='footer-bottom-icon'><IoLogoInstagram /></Link>
+                  <Link to='https://www.linkedin.com/company/gritinai/' target="_blank" className='footer-bottom-icon'><FaLinkedinIn  /></Link>
                 </div>
               </div>
             </div>

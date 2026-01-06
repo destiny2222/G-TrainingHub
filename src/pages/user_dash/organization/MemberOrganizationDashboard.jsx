@@ -13,12 +13,17 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import cohortImage from "../../../assets/image/background/background.jpeg";
 import { fetchAnalyticsData } from "../../../redux/slices/analyticsSlice";
+import api from "../../../utils/api.js";
+
 
 function MemberOrganizationDashboard() {
     // const { user } = useAuth();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useFetchUser();
+    const [loading, setLoading] = useState(true);
+    const [libraryData, setLibraryData] = useState([]);
+    const [error, setError] = useState(null);
     const nextClassRooms = useSelector((state) => state.classRooms.classRooms);
     const classRoomsLoading = useSelector((state) => state.classRooms.loading);
     const userAssignments = useSelector( (state) => state.userAssignments.assignments);
@@ -35,6 +40,7 @@ function MemberOrganizationDashboard() {
       useEffect(() => {
         dispatch(fetchAssignments());
         dispatch(fetchAnalyticsData());
+        handleLibrary();
       }, [dispatch]);
     
       useEffect(() => {
@@ -79,6 +85,20 @@ function MemberOrganizationDashboard() {
         const year = date.getFullYear();
         return `${day} ${month} ${year}`;
       };
+
+      const handleLibrary = async () => {
+      try {
+        setLoading(true);
+        const response = await api.get("/user/libraries");
+        const data = response.data.data;
+        setLibraryData(data);
+      } catch (error) {
+        // console.error(error);
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
   return (
     <div className="organization-dashboard-main-section">
@@ -175,11 +195,12 @@ function MemberOrganizationDashboard() {
                         <div
                           className="progress-fill"
                           role="progressbar"
-                          style={{ width: "30%" }}
-                          aria-valuenow="60"
+                          style={{ width: `${userEnrolledCohorts.progress ? userEnrolledCohorts.progress : 0}%` }}
+                          aria-valuenow={userEnrolledCohorts.progress ? userEnrolledCohorts.progress : 0}
                           aria-valuemin="0"
                           aria-valuemax="100"
-                        ></div>
+                        >
+                        </div>
                       )}
                     </div>
                     <div className="progress-info">
@@ -192,7 +213,7 @@ function MemberOrganizationDashboard() {
                       </span>
                       <button
                         type="button"
-                        className="primary-btn"
+                        className={`btn-button join-class-btn ${!canJoin || isLoading ? 'btn-disabled' : 'primary-btn'}`}
                         disabled={isLoading || !canJoin}
                         onClick={handleJoinClass}
                       >
@@ -335,9 +356,65 @@ function MemberOrganizationDashboard() {
               </div>
             </div>
           </div>
-          <div className="col-12 col-lg-4">
+          <div className="col-12 col-lg-4 mb-4">
             <h2 className="h5 fw-semibold mb-3">Tech Library</h2>
-            <div className="card custom-card">
+            {libraryData.length === 0 && !loading ? (
+              <div className="card custom-card">
+                <div className="card-body">
+                  <img
+                    src={cohortImage}
+                    alt="Tech library"
+                    className="img-fluid rounded mb-3"
+                  />
+                  <h3 className="h6 fw-medium mb-2">
+                    {isLoading ? (
+                      <Skeleton width={180} />
+                    ) : (
+                      "Explore the Tech Library"
+                    )}
+                  </h3>
+                  <p className="text-muted small mb-3">
+                    {isLoading ? (
+                      <Skeleton width={220} />
+                    ) : (
+                      "Access a wide range of books, articles, and resources to supplement your learning."
+                    )}
+                  </p>
+                  <Link to="/library">
+                    <button className="btn btn-dark w-100" disabled={isLoading}>
+                      {isLoading ? <Skeleton width={120} /> : "Explore Library"}
+                    </button>
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              //  recapMaterials.slice(0, 3).map((material) => (
+              libraryData.slice(0, 1).map((library) => (
+              <div className="card custom-card">
+                <div className="card-body">
+                  <img  src={library.image_url} alt="Tech library"  className="img-fluid rounded mb-3"/>
+                  <h3 className="h6 fw-medium mb-2">
+                    {isLoading ? (  <Skeleton width={180} /> ) : ( 
+                      library.title
+                    )}
+                  </h3>
+                  <p className="text-muted small mb-3">
+                    {isLoading ? (
+                      <Skeleton width={220} />
+                    ) : (
+                      library.description.slice(0, 100) + "..."
+                    )}
+                  </p>
+                  <Link to="/organization/library">
+                    <button className="btn btn-dark w-100" disabled={isLoading}>
+                      {isLoading ? <Skeleton width={120} /> : "Explore Library"}
+                    </button>
+                  </Link>
+                </div>
+              </div>
+              ))
+            )}
+            {/* <div className="card custom-card">
               <div className="card-body">
                 {isLoading ? (
                   <Skeleton
@@ -372,7 +449,7 @@ function MemberOrganizationDashboard() {
                   </button>
                 </Link>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
         <FileInput isOpen={isOpen} setIsOpen={setIsOpen} />

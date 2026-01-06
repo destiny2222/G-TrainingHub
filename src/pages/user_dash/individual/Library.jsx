@@ -80,8 +80,13 @@ const Library = () => {
           {loading ? (
             <div className="spinner" />
           ) : (
-            <div>
-              {data.map((library, i) => (
+            <>
+              {data.length === 0 ? (
+                <div className="library-card">
+                  No library items available.
+                </div>
+              ) : (
+               data.map((library, i) => (
                 <div className="library-card" key={i}>
                   <div className="library-image-wrapper">
                     <img src={library.image_url} alt="Library" />
@@ -105,8 +110,10 @@ const Library = () => {
                     </button>
                   </div>
                 </div>
-              ))}
-            </div>
+              ))
+              )}
+              
+            </>
           )}
         </div>
 

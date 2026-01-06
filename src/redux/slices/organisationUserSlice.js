@@ -78,9 +78,9 @@ export const createOrganizationMember = createAsyncThunk(
 // POST /organization/{organization}/members/bulk - Bulk create members
 export const bulkCreateOrganizationMembers = createAsyncThunk(
   'organizationUser/bulkCreateOrganizationMembers',
-  async ({ organization, membersData }, { rejectWithValue }) => {
+  async ({ membersData }, { rejectWithValue }) => {
     try {
-      const response = await api.post(`/organization/${organization}/members/bulk`, membersData);
+      const response = await api.post(`/organization/members/bulk`, membersData);
       return response.data;
     } catch (error) {
       return rejectWithValue(
