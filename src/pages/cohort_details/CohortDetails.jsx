@@ -62,12 +62,17 @@ const CohortDetails = () => {
   };
   return (
     <div className="details-container">
-      <div className="hero">
-        <h1>August 2025 Live Cohort</h1>
-        <p>
-          Join our comprehensive program for master of start Machine Learning,
-          curated by industry experts in a hands-on, collaborative environment.
-        </p>
+      <div className="hero mb-5">
+        <h1>{filteredCourse?.title || ""}</h1>
+          <hr />
+          {loading ? (
+            <div className="loading-container">
+              <div className="loading-spinner"></div>
+              <p>Loading Description...</p>
+            </div>
+          ) : (
+            <p>{filteredCourse?.description || ""}</p>
+          )}
         <div className="buttons">
           <div className="enroll">
             <button
@@ -85,7 +90,7 @@ const CohortDetails = () => {
         </div>
       </div>
 
-      <div className="description">
+      {/* <div className="description">
         <h2>{filteredCourse?.title || ""}</h2>
         <hr />
         {loading ? (
@@ -96,7 +101,7 @@ const CohortDetails = () => {
         ) : (
           <p>{filteredCourse?.description || ""}</p>
         )}
-      </div>
+      </div> */}
 
       <div className="content-grid">
         <div className="curriculum-section">
