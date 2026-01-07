@@ -13,8 +13,6 @@ const CohortDetails = () => {
   const { slug } = useParams();
   const dispatch = useDispatch();
 
-  
-
   useEffect(() => {
     dispatch(fetchCourses());
   }, [dispatch]);
@@ -202,45 +200,6 @@ const CohortDetails = () => {
           Enroll Now
         </button>
       </div>
-
-      {/* <div className="testimonials-section">
-        <h2>What Our Alumni Say</h2>
-        <div className="testimonials-grid">
-          <div className="testimonial-card">
-            <div className="testimonial-header">
-              <img
-                src="https://api.dicebear.com/7.x/avataaars/svg?seed=alex"
-                alt="Alex Chen"
-              />
-              <div>
-                <h4>Alex Chen</h4>
-                <p>Data Scientist at Amazon Inc.</p>
-              </div>
-            </div>
-            <p>
-              "The cohort was a game-changer for my career. The hands-on
-              projects and personalized feedback from instructors helped me land
-              my dream job at Amazon!"
-            </p>
-          </div>
-          <div className="testimonial-card">
-            <div className="testimonial-header">
-              <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=sammi"
-                alt="Sammi Jones"
-              />
-              <div>
-                <h4>Sammi Jones</h4>
-                <p>ML Engineer at Facebook</p>
-              </div>
-            </div>
-            <p>
-              "The curriculum is incredibly well-structured, and the
-              peer-to-peer learning atmosphere here, I went from zero to highly
-              recommended for deployment models!"
-            </p>
-          </div>
-        </div>
-      </div> */}
     </div>
   );
 };
