@@ -60,7 +60,7 @@ const CohortDetails = () => {
   };
   return (
     <div className="details-container">
-      <div className="hero mb-5">
+      <div className="hero mb-3">
         <h1>{filteredCourse?.title || ""}</h1>
           {/* <hr />
           {loading ? (
@@ -212,7 +212,7 @@ const CohortDetails = () => {
             </button>
           </div>
           <div className="brochure">
-            <button className="btn-secondary">Download Brochure</button>
+            <button className="btn-primary">Download Brochure</button>
           </div>
         </div>
     </div>
