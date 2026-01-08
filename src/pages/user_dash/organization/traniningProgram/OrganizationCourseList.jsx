@@ -13,8 +13,8 @@ const OrganizationCourseList = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [cohortName, setCohortName] = useState("");
-
+  const [cohortData, setCohortData] = useState("");
+  
   useEffect(() => {
     dispatch(fetchCohorts());
   }, [dispatch]);
@@ -196,7 +196,8 @@ const OrganizationCourseList = () => {
                             }}
                             onClick={() => {
                               setIsModalOpen(true);
-                              setCohortName(cohort.name);
+                              setCohortData(cohort);
+
                             }}
                           >
                             Register for Cohort
@@ -225,7 +226,7 @@ const OrganizationCourseList = () => {
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        cohortName={cohortName}
+        Data={cohortData}
       />
     </div>
   );

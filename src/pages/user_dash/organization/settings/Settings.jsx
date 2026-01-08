@@ -308,9 +308,6 @@ function Settings() {
                     </div>
                 </div>
             </form>
-
-            ---
-
             {/* Subscription & Billing Section - Read-Only Data */}
             <div className="bg-white rounded-4 shadow-lg p-4 mb-5" style={{ maxWidth: '1000px', margin: '0 auto', border: '1px solid #e3e6ef' }}>
                 <div className="mb-3 border-bottom pb-2">
