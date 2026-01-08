@@ -21,6 +21,7 @@ import activitiesReducer from './slices/activities/org/activitiesSlice';
 import userAnalyticsReducer from './slices/analyticsSlice';
 import organizationCustomRequestSliceReducer from './slices/super_admin/organisationCustomRequestSilce';
 import scheduleSessionReducer from './slices/super_admin/scheduleSessionSlice';
+import registerOrgReducer from "./slices/super_admin/RegisterCohortOrg";
 
 export const store = configureStore({
   reducer: {
@@ -46,6 +47,7 @@ export const store = configureStore({
     userAnalytics: userAnalyticsReducer,
     customTraining: organizationCustomRequestSliceReducer,
     scheduleSessions: scheduleSessionReducer,
+    registerOrg: registerOrgReducer
   },
 });
 

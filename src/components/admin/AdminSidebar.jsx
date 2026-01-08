@@ -54,7 +54,12 @@ const AdminSidebar = ({ isOpen, onClose }) => {
         </li>
         <li>
           <Link to="/admin/enrollments" className={isActive('/admin/enrollments') ? 'active' : ''} onClick={onClose}>
-            <Award size="20" variant="Outline" /> Enroll User 
+            <Award size="20" variant="Outline" /> Approve Certificate
+          </Link>
+        </li>
+        <li>
+          <Link to="/admin/enrollment/organization" className={isActive('/admin/enrollment/organization') ? 'active' : ''} onClick={onClose}>
+            <Award size="20" variant="Outline" /> Enroll Organization
           </Link>
         </li>
         <li>

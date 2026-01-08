@@ -20,6 +20,7 @@ export const fetchEnrollments = createAsyncThunk(
     },
 );
 
+
 // Approve certificate for an enrollment
 export const approveCertificate = createAsyncThunk(
   "enrollments/approveCertificate",
@@ -46,6 +47,9 @@ export const unAssignCertificate = createAsyncThunk(
     },
 );
 
+
+
+
 const enrollmentSlice = createSlice({
   name: "enrollments",
   initialState,
@@ -64,6 +68,7 @@ const enrollmentSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+      
         .addCase(approveCertificate.pending, (state) => {
             state.loading = true;
             state.error = null;

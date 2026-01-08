@@ -75,6 +75,7 @@ import OrganizationEdit from "./pages/admin/organization/Edit.jsx";
 import Certificate from "./pages/user_dash/Certificate.jsx";
 import Calender from "./pages/user_dash/individual/Calender/Calender";
 import EnrollmentList from "./pages/admin/enrollment/List.jsx";
+import EnrollmentOrgList from "./pages/admin/enrollment/OrgList.jsx";
 import Faq from "./pages/faqs/Faq";
 import CustomTrainingRequests from "./pages/admin/customTraining/List.jsx";
 import OrganizationRequestShow from "./pages/admin/customTraining/OrganizationRequestShow.jsx";
@@ -480,6 +481,7 @@ function App() {
                 <Route  path="organizations/:slug/edit" element={<OrganizationEdit />} />
                 {/* enrollment route */}
                 <Route path="enrollments" element={<EnrollmentList />} />
+                <Route path="enrollment/organization" element={<EnrollmentOrgList />} />
                 <Route path="organization-requests" element={<CustomTrainingRequests />} />
                 <Route path="organization-requests/create" element={<div style={{ padding: '2rem' }}><h1>Create Request</h1></div>} />
                 <Route path="organization-requests/:id" element={<OrganizationRequestShow />} />

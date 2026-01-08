@@ -159,12 +159,12 @@ const AssignCourse = () => {
               ← Back to Training Programs
             </Link>
           )}
-          <h1>Assign Cohort {member ? `to ${member?.name}` : ''}</h1>
-          {member && (
+          <h1>Assign Cohort </h1>
+          {/* {member && (
             <p style={{ color: '#6b7280', margin: '0.5rem 0 0 0' }}>
               {member.email}
             </p>
-          )}
+          )} */}
         </div>
       </div>
 
