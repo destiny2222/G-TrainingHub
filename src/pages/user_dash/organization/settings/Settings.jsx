@@ -1,44 +1,152 @@
-import React, { useState, useEffect } from 'react';
-import './Settings.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchOrg, updateOrg } from '../../../../redux/slices/admin_organisation/organisationSlice';
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
-import { toast } from 'react-toastify';
-
-
+import React, { useState, useEffect } from "react";
+import "./Settings.css";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchOrg,
+  updateOrg,
+} from "../../../../redux/slices/admin_organisation/organisationSlice";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import { toast } from "react-toastify";
 
 function Settings() {
-    const dispatch = useDispatch();
-    const organization = useSelector((state) => state.org.organization);
-    const orgStatus = useSelector((state) => state.org.status);
-    const isLoading = orgStatus === 'loading';
-    const [isSaving, setIsSaving ] = useState(false);
-    const cloudName = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
-    const uploadPreset = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
+  const dispatch = useDispatch();
+  const organization = useSelector((state) => state.org.organization);
+  const orgStatus = useSelector((state) => state.org.status);
+  const isLoading = orgStatus === "loading";
+  const [isSaving, setIsSaving] = useState(false);
+  const cloudName = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
+  const uploadPreset = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
 
-    const [formData, setFormData] = useState({
-        name: organization?.name || '',
-        subscription_plan: organization?.subscription_plan || '',
-        subscription_status: organization?.subscription_status || '',
-        id: organization?.id || '',
+  const [formData, setFormData] = useState({
+    name: organization?.name || "",
+    subscription_plan: organization?.subscription_plan || "",
+    subscription_status: organization?.subscription_status || "",
+    id: organization?.id || "",
+    // contact_email: organization?.users?.[0]?.email || '',
+    rc_number: organization?.rc_number || "",
+    sector: organization?.sector || "",
+    employee_count: organization?.employee_count || "",
+    training_focus_area: organization?.training_focus_area || "",
+    contact_person_name: organization?.contact_person_name || "",
+    official_email: organization?.official_email || "",
+    company_logo_path_thumbnail:
+      organization?.company_logo_path_thumbnail || "",
+    address: organization?.address || "",
+    training_mode: organization?.training_mode || "",
+  });
+
+  const [logo, setLogo] = useState(formData.company_logo_path_thumbnail);
+  const [logoUrl, setLogoUrl] = useState(
+    formData.company_logo_path_thumbnail || "",
+  );
+  const [isUploadingLogo, setIsUploadingLogo] = useState(false);
+
+  useEffect(() => {
+    dispatch(fetchOrg());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (organization) {
+      setFormData({
+        name: organization?.name || "",
+        subscription_plan: organization?.subscription_plan || "",
+        subscription_status: organization?.subscription_status || "",
+        id: organization?.id || "",
         // contact_email: organization?.users?.[0]?.email || '',
-        rc_number: organization?.rc_number || '',
-        sector: organization?.sector || '',
-        employee_count: organization?.employee_count || '',
-        training_focus_area: organization?.training_focus_area || '',
-        contact_person_name: organization?.contact_person_name || '',
-        official_email: organization?.official_email || '',
-        company_logo_path_thumbnail: organization?.company_logo_path_thumbnail || '',
-        address: organization?.address || '',
-        training_mode: organization?.training_mode || '',
-    });
+        rc_number: organization?.rc_number || "",
+        sector: organization?.sector || "",
+        employee_count: organization?.employee_count || "",
+        training_focus_area: organization?.training_focus_area || "",
+        contact_person_name: organization?.contact_person_name || "",
+        official_email: organization?.official_email || "",
+        company_logo_path_thumbnail:
+          organization?.company_logo_path_thumbnail || "",
+        address: organization?.address || "",
+        training_mode: organization?.training_mode || "",
+      });
+      setLogo(organization?.company_logo_path_thumbnail || null);
+      setLogoUrl(organization?.company_logo_path_thumbnail || "");
+    }
+  }, [organization]);
 
-    const [logo, setLogo] = useState(formData.company_logo_path_thumbnail);
-    const [logoUrl, setLogoUrl] = useState(formData.company_logo_path_thumbnail || '');
-    const [isUploadingLogo, setIsUploadingLogo] = useState(false);
+  const uploadLogoToCloudinary = async (file) => {
+    try {
+      setIsUploadingLogo(true);
 
-    useEffect(() => {
+      const data = new FormData();
+      data.append("file", file);
+      data.append("upload_preset", uploadPreset); // 👈 your preset name
+      data.append("folder", "organizations/logos");
+
+      const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+        {
+          method: "POST",
+          body: data,
+        },
+      );
+
+      const json = await res.json();
+
+      if (json.secure_url) {
+        setLogoUrl(json.secure_url);
+
+        setFormData((prev) => ({
+          ...prev,
+          company_logo_path_thumbnail: json.secure_url, // save URL in formData
+        }));
+
+        toast.success("Logo uploaded successfully");
+      } else {
+        // console.error(json);
+        toast.error("Failed to upload logo");
+      }
+    } catch (err) {
+      // console.error(err);
+      toast.error("An error occurred while uploading logo");
+    } finally {
+      setIsUploadingLogo(false);
+    }
+  };
+
+  const handleLogoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // local preview
+      setLogo(URL.createObjectURL(file));
+      // upload to Cloudinary
+      uploadLogoToCloudinary(file);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleCompanySave = async (e) => {
+    e.preventDefault();
+    setIsSaving(true);
+
+    try {
+      const payload = {
+        ...formData,
+        company_logo_path_thumbnail:
+          logoUrl || formData.company_logo_path_thumbnail || "",
+      };
+
+      const response = await dispatch(
+        updateOrg({
+          orgSlug: formData.id,
+          updatedData: payload, // plain JSON
+        }),
+      ).unwrap();
+
+      if (response.status === "success") {
+        toast.success(
+          response.message || "Organization updated successfully..",
+        );
         dispatch(fetchOrg());
     }, [dispatch]);
 
@@ -340,8 +448,48 @@ function Settings() {
                     <button type="button" className="btn btn-outline-success btn-lg rounded-3">Update Payment Method</button>
                 </div>
             </div>
+          </div>
+          <div className="col-md-4">
+            <span className="fw-semibold mb-1 d-block">
+              Subscription Status
+            </span>
+            {isLoading ? (
+              <Skeleton width={100} />
+            ) : (
+              <div>{formData.subscription_status || "N/A"}</div>
+            )}
+          </div>
+          <div className="col-md-4">
+            <span className="fw-semibold mb-1 d-block">Billing Cycle</span>
+            {isLoading ? (
+              <Skeleton width={200} />
+            ) : (
+              <div>Next payment on Dec 25, 2024</div>
+            )}
+          </div>
+          <div className="col-md-4">
+            <span className="fw-semibold mb-1 d-block">Payment Method</span>
+            {isLoading ? (
+              <Skeleton width={100} />
+            ) : (
+              <div>Visa ending in 1234</div>
+            )}
+          </div>
         </div>
-    );
+        <div className="d-flex justify-content-end mt-4 gap-2">
+          <button type="button" className="btn-setting">
+            Upgrade Plan
+          </button>
+          <button type="button" className="btn-setting">
+            View Billing History
+          </button>
+          <button type="button" className="btn-setting">
+            Update Payment Method
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default Settings;
