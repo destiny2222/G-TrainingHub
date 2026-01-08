@@ -8,11 +8,8 @@ const Modal = ({ isOpen, onClose, Data }) => {
   const [serverAmount, setServerAmount] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
   const pricePerMember = Number(Data?.price ?? 0);
   const totalAmount = members * pricePerMember;
-
-  // ✅ correct useState usage
   const [formData, setFormData] = useState({
     cohort_id: "",
     members: 1,
@@ -50,15 +47,9 @@ const Modal = ({ isOpen, onClose, Data }) => {
       // ✅ axios returns JSON here
       const json = res.data;
 
-      // if your backend returns { status: "success" | "error", ... }
-      if (json?.status !== "success") {
-        throw new Error(json?.message || "Failed to initiate payment");
-      }
-
       setServerAmount(json.data.amount);
       setStage(2);
     } catch (e) {
-      // ✅ axios error message extraction
       const msg =
         e?.response?.data?.message ||
         e?.response?.data?.error ||
@@ -119,17 +110,18 @@ const Modal = ({ isOpen, onClose, Data }) => {
 
             <div className="payment-info">
               <p>
-                <strong>Account Number:</strong> 1234567890
+                <strong>Account Number:</strong> 1863865414
               </p>
               <p>
-                <strong>Bank:</strong> Example Bank
+                <strong>Bank:</strong> Access bank
               </p>
-
+              <p>
+                <strong>Bank Name:</strong> GritinAI
+              </p>
               <p>
                 <strong>Amount to Pay:</strong>{" "}
                 ₦{Number(serverAmount ?? totalAmount).toLocaleString()}
               </p>
-              <p className="muted">Use this reference as your transfer narration.</p>
             </div>
 
             <div className="modal-buttons">
@@ -149,7 +141,7 @@ const Modal = ({ isOpen, onClose, Data }) => {
             <h2>Verification Pending</h2>
             <p>
               Your payment will be verified within 5 working days. When it is,
-              your cohorts will be updated.
+              your cohorts will be updated and you will notify via email
             </p>
             <button onClick={handleClose} className="modal-button">
               Finish
