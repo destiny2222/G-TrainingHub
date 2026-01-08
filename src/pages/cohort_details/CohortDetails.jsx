@@ -62,7 +62,7 @@ const CohortDetails = () => {
     <div className="details-container">
       <div className="hero mb-5">
         <h1>{filteredCourse?.title || ""}</h1>
-          <hr />
+          {/* <hr />
           {loading ? (
             <div className="loading-container">
               <div className="loading-spinner"></div>
@@ -70,8 +70,8 @@ const CohortDetails = () => {
             </div>
           ) : (
             <p>{filteredCourse?.description || ""}</p>
-          )}
-        <div className="buttons">
+          )} */}
+        {/* <div className="buttons">
           <div className="enroll">
             <button
               className="btn-primary"
@@ -85,12 +85,12 @@ const CohortDetails = () => {
           <div className="brochure">
             <button className="btn-secondary">Download Brochure</button>
           </div>
-        </div>
+        </div> */}
       </div>
 
-      {/* <div className="description">
-        <h2>{filteredCourse?.title || ""}</h2>
-        <hr />
+      <div className="description">
+        {/* <h2>{filteredCourse?.title || ""}</h2>
+        <hr /> */}
         {loading ? (
           <div className="loading-container">
             <div className="loading-spinner"></div>
@@ -99,7 +99,7 @@ const CohortDetails = () => {
         ) : (
           <p>{filteredCourse?.description || ""}</p>
         )}
-      </div> */}
+      </div>
 
       <div className="content-grid">
         <div className="curriculum-section">
@@ -191,7 +191,7 @@ const CohortDetails = () => {
           )}
         </p>
       </div>
-
+{/* 
       <div className="enroll">
         <button
           className="btn-primary"
@@ -199,7 +199,22 @@ const CohortDetails = () => {
         >
           Enroll Now
         </button>
-      </div>
+      </div> */}
+      <div className="buttons">
+          <div className="enroll">
+            <button
+              className="btn-primary"
+              onClick={() =>
+                handleRegisterCourse(filteredCourse?.cohorts[0]?.id)
+              }
+            >
+              Enroll Now
+            </button>
+          </div>
+          <div className="brochure">
+            <button className="btn-secondary">Download Brochure</button>
+          </div>
+        </div>
     </div>
   );
 };
