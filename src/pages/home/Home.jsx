@@ -7,16 +7,17 @@ import { useLayoutEffect, useRef } from "react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import testimonialImg1 from "../../assets/image/testimony/testim-3.jpg";
-import testimonialImg2 from "../../assets/image/testimony/testim-3.jpg";
-import testimonialImg3 from "../../assets/image/testimony/testim-3.jpg";
+// import testimonialImg1 from "../../assets/image/testimony/testim-3.jpg";
+// import testimonialImg2 from "../../assets/image/testimony/testim-3.jpg";
+// import testimonialImg3 from "../../assets/image/testimony/testim-3.jpg";
 import featureImg1 from "../../assets/image/feature/feature-1.webp";
 import featureImg2 from "../../assets/image/feature/feature-2.webp";
 import featureImg3 from "../../assets/image/feature/feature-3.webp";
-import medialogo1 from "../../assets/image/logo/logo.png";
-import medialogo2 from "../../assets/image/logo/logo.png";
-import medialogo3 from "../../assets/image/logo/logo.png";
-import medialogo4 from "../../assets/image/logo/logo.png";
+import medialogo1 from "../../assets/image/edo.png";
+import medialogo2 from "../../assets/image/edo_ministry.png";
+import medialogo3 from "../../assets/image/esosa.png";
+import medialogo4 from "../../assets/image/google.png";
+import medialogo5 from "../../assets/image/pic.png";
 import HexGrid from "./HexGrid";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -392,9 +393,7 @@ const Home = () => {
         <div className="container">
           <div className="row">
             <div className="col-12 text-center mb-5">
-              <h2 className="media-partners-title js-scroll fade-in-bottom">
-                Where Our Alumni Work
-              </h2>
+              <h2 className="media-partners-title">Where Our Alumni Work</h2>
               <p className="media-partners-subtitle js-scroll fade-in">
                 Graduates from our programs now contribute to leading
                 organizations, shaping the future of technology and innovation
@@ -405,52 +404,27 @@ const Home = () => {
           <div className="media-partners-grid js-scroll fade-in-bottom">
             <div className="media-partner-item">
               <div className="media-partner-logo">
-                <img src={medialogo1} alt="Tech Africa" />
+                <img src={medialogo1} alt="" />
               </div>
             </div>
             <div className="media-partner-item">
               <div className="media-partner-logo">
-                <img src={medialogo2} alt="AI Weekly" />
+                <img src={medialogo2} alt="" />
               </div>
             </div>
             <div className="media-partner-item">
               <div className="media-partner-logo">
-                <img src={medialogo3} alt="TechCrunch" />
+                <img src={medialogo3} alt="" />
               </div>
             </div>
             <div className="media-partner-item">
               <div className="media-partner-logo">
-                <img src={medialogo4} alt="Forbes Africa" />
+                <img src={medialogo4} alt="" />
               </div>
             </div>
             <div className="media-partner-item">
               <div className="media-partner-logo">
-                <img src={medialogo2} alt="Disrupt Africa" />
-              </div>
-            </div>
-            <div className="media-partner-item">
-              <div className="media-partner-logo">
-                <img src={medialogo1} alt="VentureBeat" />
-              </div>
-            </div>
-            <div className="media-partner-item">
-              <div className="media-partner-logo">
-                <img src={medialogo3} alt="Innovation Hub" />
-              </div>
-            </div>
-            <div className="media-partner-item">
-              <div className="media-partner-logo">
-                <img src={medialogo4} alt="Tech Times" />
-              </div>
-            </div>
-            <div className="media-partner-item">
-              <div className="media-partner-logo">
-                <img src={medialogo1} alt="Digital Africa" />
-              </div>
-            </div>
-            <div className="media-partner-item">
-              <div className="media-partner-logo">
-                <img src={medialogo2} alt="AI News" />
+                <img src={medialogo5} alt="" />
               </div>
             </div>
           </div>

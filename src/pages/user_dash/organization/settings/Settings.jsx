@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./Settings.css";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchOrg, updateOrg } from "../../../../redux/slices/admin_organisation/organisationSlice";
+import {
+  fetchOrg,
+  updateOrg,
+} from "../../../../redux/slices/admin_organisation/organisationSlice";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { toast } from "react-toastify";
@@ -57,7 +60,8 @@ function Settings() {
       training_focus_area: organization?.training_focus_area || "",
       contact_person_name: organization?.contact_person_name || "",
       official_email: organization?.official_email || "",
-      company_logo_path_thumbnail: organization?.company_logo_path_thumbnail || "",
+      company_logo_path_thumbnail:
+        organization?.company_logo_path_thumbnail || "",
       address: organization?.address || "",
       training_mode: organization?.training_mode || "",
     };
@@ -69,7 +73,9 @@ function Settings() {
 
   const uploadLogoToCloudinary = async (file) => {
     if (!cloudName || !uploadPreset) {
-      toast.error("Cloudinary env variables are missing (cloud name / upload preset).");
+      toast.error(
+        "Cloudinary env variables are missing (cloud name / upload preset).",
+      );
       return;
     }
 
@@ -81,10 +87,13 @@ function Settings() {
       data.append("upload_preset", uploadPreset);
       data.append("folder", "organizations/logos");
 
-      const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-        method: "POST",
-        body: data,
-      });
+      const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+        {
+          method: "POST",
+          body: data,
+        },
+      );
 
       const json = await res.json();
 
@@ -127,24 +136,29 @@ function Settings() {
     try {
       const payload = {
         ...formData,
-        company_logo_path_thumbnail: logoUrl || formData.company_logo_path_thumbnail || "",
+        company_logo_path_thumbnail:
+          logoUrl || formData.company_logo_path_thumbnail || "",
       };
 
       const response = await dispatch(
         updateOrg({
           orgSlug: formData.id, // keep this as your backend expects
           updatedData: payload,
-        })
+        }),
       ).unwrap();
 
       if (response?.status === "success") {
-        toast.success(response?.message || "Organization updated successfully.");
+        toast.success(
+          response?.message || "Organization updated successfully.",
+        );
         dispatch(fetchOrg());
       } else {
         toast.error(response?.message || "Failed to update organization.");
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || error?.message || "An error occurred");
+      toast.error(
+        error?.response?.data?.message || error?.message || "An error occurred",
+      );
     } finally {
       setIsSaving(false);
     }
@@ -156,13 +170,19 @@ function Settings() {
       <form
         className="bg-white rounded-4 shadow-lg p-4 mb-5"
         onSubmit={handleCompanySave}
-        style={{ maxWidth: "1100px", margin: "0 auto", border: "1px solid #e3e6ef" }}
+        style={{
+          maxWidth: "1100px",
+          margin: "0 auto",
+          border: "1px solid #e3e6ef",
+        }}
       >
         <div className="mb-3 border-bottom pb-2">
           <h2 className="fw-bold" style={{ fontSize: "2rem" }}>
             Company Information
           </h2>
-          <p className="text-secondary mb-0">Update your company's information</p>
+          <p className="text-secondary mb-0">
+            Update your company's information
+          </p>
         </div>
 
         <div className="row g-4">
@@ -180,9 +200,15 @@ function Settings() {
                   src={logo}
                   alt="Company Logo"
                   className="rounded-circle border mb-2"
-                  style={{ width: "120px", height: "120px", objectFit: "cover" }}
+                  style={{
+                    width: "120px",
+                    height: "120px",
+                    objectFit: "cover",
+                  }}
                 />
-                {isUploadingLogo && <small className="text-muted">Uploading logo...</small>}
+                {isUploadingLogo && (
+                  <small className="text-muted">Uploading logo...</small>
+                )}
               </>
             ) : (
               <div
@@ -196,9 +222,14 @@ function Settings() {
             {isLoading ? (
               <Skeleton width={100} height={20} />
             ) : (
-              <label className="btn btn-link p-0" style={{ fontWeight: 500, color: "#2563eb" }}>
+              <label className=" btn-setting" style={{ fontWeight: 500 }}>
                 Upload Logo
-                <input type="file" accept="image/*" style={{ display: "none" }} onChange={handleLogoChange} />
+                <input
+                  type="file"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  onChange={handleLogoChange}
+                />
               </label>
             )}
           </div>
@@ -298,7 +329,9 @@ function Settings() {
               </div>
 
               <div className="col-md-6">
-                <span className="fw-semibold mb-1 d-block">Training Focus Area</span>
+                <span className="fw-semibold mb-1 d-block">
+                  Training Focus Area
+                </span>
                 {isLoading ? (
                   <Skeleton height={48} className="rounded-3" />
                 ) : (
@@ -318,10 +351,18 @@ function Settings() {
         {/* Save */}
         <div className="row mt-4">
           <div className="col-lg-12 text-lg-end">
-            <button type="submit" className="btn-sm btn-setting rounded-3" disabled={isSaving || isUploadingLogo}>
+            <button
+              type="submit"
+              className="btn-sm btn-setting rounded-3"
+              disabled={isSaving || isUploadingLogo}
+            >
               {isSaving ? (
                 <>
-                  <span className="spinner-border text-white spinner-border-sm me-2" role="status" aria-hidden="true" />
+                  <span
+                    className="spinner-border text-white spinner-border-sm me-2"
+                    role="status"
+                    aria-hidden="true"
+                  />
                   Saving...
                 </>
               ) : (
@@ -336,7 +377,11 @@ function Settings() {
       <form
         className="bg-white rounded-4 shadow-lg p-4 mb-5"
         onSubmit={handleCompanySave}
-        style={{ maxWidth: "1000px", margin: "0 auto", border: "1px solid #e3e6ef" }}
+        style={{
+          maxWidth: "1000px",
+          margin: "0 auto",
+          border: "1px solid #e3e6ef",
+        }}
       >
         <div className="mb-3 border-bottom pb-2">
           <h2 className="fw-bold" style={{ fontSize: "2rem" }}>
@@ -347,7 +392,9 @@ function Settings() {
 
         <div className="row g-4">
           <div className="col-md-6">
-            <span className="fw-semibold mb-1 d-block">Primary Contact Person</span>
+            <span className="fw-semibold mb-1 d-block">
+              Primary Contact Person
+            </span>
             {isLoading ? (
               <Skeleton height={48} className="rounded-3" />
             ) : (
@@ -379,7 +426,11 @@ function Settings() {
 
         <div className="row mt-4">
           <div className="col-lg-12 text-lg-end">
-            <button type="submit" className="btn-sm btn-setting rounded-3" disabled={isSaving || isUploadingLogo}>
+            <button
+              type="submit"
+              className="btn-sm btn-setting rounded-3"
+              disabled={isSaving || isUploadingLogo}
+            >
               {isSaving ? "Saving..." : "Save Changes"}
             </button>
           </div>
@@ -389,36 +440,60 @@ function Settings() {
       {/* Subscription & Billing (Read Only) */}
       <div
         className="bg-white rounded-4 shadow-lg p-4 mb-5"
-        style={{ maxWidth: "1000px", margin: "0 auto", border: "1px solid #e3e6ef" }}
+        style={{
+          maxWidth: "1000px",
+          margin: "0 auto",
+          border: "1px solid #e3e6ef",
+        }}
       >
         <div className="mb-3 border-bottom pb-2">
           <h2 className="fw-bold" style={{ fontSize: "2rem" }}>
             Subscription & Billing
           </h2>
-          <p className="text-secondary mb-0">Manage your plan and payment details.</p>
+          <p className="text-secondary mb-0">
+            Manage your plan and payment details.
+          </p>
         </div>
 
         <div className="row g-4">
           <div className="col-md-4">
             <span className="fw-semibold mb-1 d-block">Current Plan</span>
             <div className="fw-bold">
-              {isLoading ? <Skeleton width={150} /> : formData.subscription_plan || "N/A"}
+              {isLoading ? (
+                <Skeleton width={150} />
+              ) : (
+                formData.subscription_plan || "N/A"
+              )}
             </div>
           </div>
 
           <div className="col-md-4">
-            <span className="fw-semibold mb-1 d-block">Subscription Status</span>
-            {isLoading ? <Skeleton width={100} /> : <div>{formData.subscription_status || "N/A"}</div>}
+            <span className="fw-semibold mb-1 d-block">
+              Subscription Status
+            </span>
+            {isLoading ? (
+              <Skeleton width={100} />
+            ) : (
+              <div>{formData.subscription_status || "N/A"}</div>
+            )}
           </div>
 
           <div className="col-md-4">
             <span className="fw-semibold mb-1 d-block">Billing Cycle</span>
-            {isLoading ? <Skeleton width={200} /> : <div>Next payment on Dec 25, 2024</div>}
+            {isLoading ? (
+              <Skeleton width={200} />
+            ) : (
+              <div>Next payment on Dec 25, 2024</div>
+            )}
           </div>
 
           <div className="col-md-4">
             <span className="fw-semibold mb-1 d-block">Payment Method</span>
-            {isLoading ? <Skeleton width={100} /> : <div>Visa ending in 1234</div>}
+            {isLoading ? (
+              <Skeleton width={100} />
+            ) : (
+              <div>Visa ending in 1234</div>
+            )}
           </div>
         </div>
 
