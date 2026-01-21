@@ -427,6 +427,11 @@ const Home = () => {
                 <img src={medialogo5} alt="" />
               </div>
             </div>
+            <div className="media-partner-item">
+              <div className="media-partner-logo">
+                <img src="/logo.png" alt="" />
+              </div>
+            </div>
           </div>
         </div>
       </section>
