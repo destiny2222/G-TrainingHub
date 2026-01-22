@@ -9,7 +9,6 @@ const api = axios.create({
   },
 //   withCredentials: true,
 });
-// Request interceptor to add auth token
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('authToken') || localStorage.getItem('adminToken');
@@ -31,7 +30,6 @@ api.interceptors.response.use(
     if (error.response) {  
       switch (error.response.status) {
         case 401:
-          // Clear all possible auth tokens
           localStorage.removeItem('authToken');
           localStorage.removeItem('adminToken');
           localStorage.removeItem('accountType');
