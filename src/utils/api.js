@@ -9,11 +9,9 @@ const api = axios.create({
   },
 //   withCredentials: true,
 });
-
 // Request interceptor to add auth token
 api.interceptors.request.use(
   (config) => {
-    // Try different token keys for backward compatibility
     const token = localStorage.getItem('authToken') || localStorage.getItem('adminToken');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -25,14 +23,12 @@ api.interceptors.request.use(
   }
 );
 
-// Response interceptor to handle errors globally
 api.interceptors.response.use(
   (response) => {
     return response;
   },
   (error) => {
     if (error.response) {  
-      // Handle specific error status codes
       switch (error.response.status) {
         case 401:
           // Clear all possible auth tokens
